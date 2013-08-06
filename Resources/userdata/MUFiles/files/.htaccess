@@ -1,0 +1,8 @@
+# generated at Tue Aug 06 08:44:10 CEST 2013 by ModuleStudio 0.6.0 (http://modulestudio.de)
+# ----------------------------------------------------------------------
+# Purpose of file: give access to upload files treated in this directory
+# ----------------------------------------------------------------------
+
+<Files "*.*">
+Deny from all
+</Files>
