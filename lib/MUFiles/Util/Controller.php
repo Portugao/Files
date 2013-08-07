@@ -16,5 +16,35 @@
  */
 class MUFiles_Util_Controller extends MUFiles_Util_Base_Controller
 {
-    // feel free to add your own convenience methods here
+    /**
+     * Retrieve the base path for given object type and upload field combination.
+     *
+     * @param string $objectType Name of treated entity type.
+     * @param string $fieldName  Name of upload field.
+     *
+     * @return mixed Output.
+     * @throws Exception if invalid object type is given.
+     */
+    public function getFileBaseFolder($objectType, $fieldName)
+    {
+        if (!in_array($objectType, $this->getObjectTypes())) {
+            throw new Exception('Error! Invalid object type received.');
+        }
+
+        $basePath = FileUtil::getDataDirectory() . '/MUFiles/';
+
+        switch ($objectType) {
+            case 'file':
+                $basePath .= 'files/uploadfile/';
+                break;
+        }
+
+        $result = DataUtil::formatForOS($basePath);
+        if (substr($result, -1, 1) != '/') {
+            // reappend the removed slash
+            $result .= '/';
+        }
+
+        return $result;
+    }
 }
