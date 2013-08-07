@@ -22,18 +22,13 @@ class MUFiles_Controller_User extends MUFiles_Controller_Base_User
             return LogUtil::registerPermissionError();
         }
 
-        LogUtil::registerError($id);
-
         $repository = MUFiles_Util_Model::getFilesRepository();
         $file = $repository->selectById($id);
 
-        if (!SecurityUtil::checkPermission($this->name . ':' . 'File' . ':','File ' . $id . '::', ACCESS_READ)) {
+        if (!SecurityUtil::checkPermission($this->name . ':' . 'File' . ':', $id . '::', ACCESS_COMMENT) || !SecurityUtil::checkPermission($this->name. ':' . 'Collection'. ':', $file['aliascollection']['id'] . '::', ACCESS_COMMENT)) {
             $url = ModUtil::url($this->name, 'user', 'view');
-            return System::redirect($url);
+            return LogUtil::registerPermissionError($url);
         } else {
-
-            $repository = MUFiles_Util_Model::getFilesRepository();
-            $file = $repository->selectById($id);
              
             header('Content-Description: File Transfer');
             header('Content-Type: application/pdf');

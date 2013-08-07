@@ -9,7 +9,7 @@
 
 {if !isset($smarty.get.theme) || $smarty.get.theme ne 'Printer'}
     <div class="z-frontendbox">
-        <h2>{gt text='M u files' comment='This is the title of the header template'}</h2>
+        <h2>{gt text='MUFiles' comment='This is the title of the header template'}</h2>
         {modulelinks modname='MUFiles' type='user'}
     </div>
     {nocache}
