@@ -11,35 +11,27 @@
 <dl>
     <dt>{gt text='Description'}</dt>
     <dd>{$file.description}</dd>
-    <dt>{gt text='Upload file'}</dt>
-    <dd>  <a href="{$file.uploadFileFullPathURL}" title="{$file.title|replace:"\"":""}"{if $file.uploadFileMeta.isImage} rel="imageviewer[file]"{/if}>
-      {if $file.uploadFileMeta.isImage}
-          {thumb image=$file.uploadFileFullPath objectid="file-`$file.id`" manager=$fileThumbManagerUploadFile tag=true img_alt=$file.title}
-      {else}
-          {gt text='Download'} ({$file.uploadFileMeta.size|mufilesGetFileSize:$file.uploadFileFullPath:false:false})
-      {/if}
-      </a>
-   </dd>
-   <dd>
-         <a href="{modurl modname='MUFiles' type='user' func='giveFile' id=$file.id}">{gt text='Download'} ({$file.uploadFileMeta.size|mufilesGetFileSize:$file.uploadFileFullPath:false:false})</a>
-   </dd>
+    <dt>{gt text='Download file'}</dt>
+    <dd>
+        <a href="{modurl modname='MUFiles' type='user' func='giveFile' id=$file.id}">{gt text='Download'} ({$file.uploadFileMeta.size|mufilesGetFileSize:$file.uploadFileFullPath:false:false})</a>
+    </dd>
     <dt>{gt text='Collection'}</dt>
     <dd>
-    {if isset($file.Aliascolletion) && $file.Aliascolletion ne null}
+    {if isset($file.Aliascollection) && $file.Aliascollection ne null}
       {if !isset($smarty.get.theme) || $smarty.get.theme ne 'Printer'}
-      <a href="{modurl modname='MUFiles' type='user' func='display' ot='collection' id=$file.Aliascolletion.id}">{strip}
-        {$file.Aliascolletion.name|default:""}
+      <a href="{modurl modname='MUFiles' type='user' func='display' ot='collection' id=$file.Aliascollection.id}">{strip}
+        {$file.Aliascollection.name|default:""}
       {/strip}</a>
-      <a id="collectionItem{$file.Aliascolletion.id}Display" href="{modurl modname='MUFiles' type='user' func='display' ot='collection' id=$file.Aliascolletion.id theme='Printer' forcelongurl=true}" title="{gt text='Open quick view window'}" class="z-hide">{icon type='view' size='extrasmall' __alt='Quick view'}</a>
+      <a id="collectionItem{$file.Aliascollection.id}Display" href="{modurl modname='MUFiles' type='user' func='display' ot='collection' id=$file.Aliascollection.id theme='Printer' forcelongurl=true}" title="{gt text='Open quick view window'}" class="z-hide">{icon type='view' size='extrasmall' __alt='Quick view'}</a>
       <script type="text/javascript">
       /* <![CDATA[ */
           document.observe('dom:loaded', function() {
-              mufilesInitInlineWindow($('collectionItem{{$file.Aliascolletion.id}}Display'), '{{$file.Aliascolletion.name|replace:"'":""}}');
+              mufilesInitInlineWindow($('collectionItem{{$file.Aliascollection.id}}Display'), '{{$file.Aliascollection.name|replace:"'":""}}');
           });
       /* ]]> */
       </script>
       {else}
-    {$file.Aliascolletion.name|default:""}
+    {$file.Aliascollection.name|default:""}
       {/if}
     {else}
         {gt text='Not set.'}
