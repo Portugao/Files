@@ -22,7 +22,7 @@
       {/if}
       </a>
     </dd>
-    <dt>{gt text='Aliascollection'}</dt>
+    <dt>{gt text='Collection'}</dt>
     <dd>
     {if isset($file.Aliascollection) && $file.Aliascollection ne null}
       {if !isset($smarty.get.theme) || $smarty.get.theme ne 'Printer'}
