@@ -16,20 +16,27 @@
  */
 class MUFiles_Controller_User extends MUFiles_Controller_Base_User
 {
-    public function giveFile($id)
+    public function giveFile()
     {
+        // for guests no access
         if (UserUtil::isLoggedIn() == false) {
             return LogUtil::registerPermissionError();
         }
 
+        // we get the id of the relevant file
+        $id = $this->request->query->filter('id' , 0, FILTER_SANITIZE_NUMBER_INT);
+
+        // get file repository and get file
         $repository = MUFiles_Util_Model::getFilesRepository();
         $file = $repository->selectById($id);
 
-        if (!SecurityUtil::checkPermission($this->name . ':' . 'File' . ':', $id . '::', ACCESS_COMMENT) || !SecurityUtil::checkPermission($this->name. ':' . 'Collection'. ':', $file['aliascollection']['id'] . '::', ACCESS_COMMENT)) {
+        // return error if no permissions for the file or the collection of the file
+        if (!SecurityUtil::checkPermission($this->name . ':' . 'File' . ':', $id . '::', ACCESS_COMMENT) || !SecurityUtil::checkPermission($this->name. ':' . 'Collection' . ':', $file['aliascollection']['id'] . '::', ACCESS_COMMENT)) {
             $url = ModUtil::url($this->name, 'user', 'view');
             return LogUtil::registerPermissionError($url);
         } else {
              
+            // we build the header
             header('Content-Description: File Transfer');
             header('Content-Type: application/pdf');
             header('Content-Disposition: attachment; filename=' . $file['title']);
@@ -37,10 +44,12 @@ class MUFiles_Controller_User extends MUFiles_Controller_Base_User
             header('Expires: 0');
             header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
             header('Pragma: public');
-            header('Content-Length: ' . filesize("userdata/MUFiles/files/uploadfile" . $file['uploadFile']));
+            header('Content-Length: ' . filesize("userdata/MUFiles/files/uploadfile/" . $file['uploadFile']));
+            // we clean the output buffer
             ob_clean();
             flush();
-            readfile('userdata/MUFiles/files/uploadfile' . $file['uploadFile']);
+            // we read the file if give it out
+            readfile('userdata/MUFiles/files/uploadfile/' . $file['uploadFile']);
             exit();
         }
 
