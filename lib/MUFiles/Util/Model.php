@@ -18,7 +18,7 @@ class MUFiles_Util_Model extends MUFiles_Util_Base_Model
 {
 	/**
 	 *
-	 This method is for getting a repository for rank
+	 * This method is for getting a repository for file
 	 *
 	 */
 
@@ -29,5 +29,24 @@ class MUFiles_Util_Model extends MUFiles_Util_Base_Model
 		$repository = $entityManager->getRepository('MUFiles_Entity_File');
 
 		return $repository;
+	}
+	
+	/**
+	 * This method is for getting the allowed file extensions
+	 */
+	public static function getAllowedExtensions()
+	{
+	    $extensions = ModUtil::getVar('MUFiles', 'allowedExtensions');
+	    //$extensions = explode(',', $extensions);
+	    return $extensions;
+	}
+	
+	/**
+	 * This method is for getting the allowed max size for files
+	 */
+	public static function getMaxSize()
+	{
+	    $maxSize = ModUtil::getVar('MUFiles', 'maxSize');
+	    return $maxSize;
 	}
 }
