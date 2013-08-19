@@ -4,7 +4,7 @@
 <form action="{$modvars.ZConfig.entrypoint|default:'index.php'}" method="get" id="mufilesCollectionQuickNavForm" class="mufilesQuickNavForm">
     <fieldset>
         <h3>{gt text='Quick navigation'}</h3>
-        <input type="hidden" name="module" value="{modgetinfo modname='MUFiles' info='displayname'}" />
+        <input type="hidden" name="module" value="{modgetinfo modname='MUFiles' info='url'}" />
         <input type="hidden" name="type" value="user" />
         <input type="hidden" name="func" value="view" />
         <input type="hidden" name="ot" value="collection" />
