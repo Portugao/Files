@@ -33,7 +33,8 @@
         <col id="cworkflowstate" />
         <col id="cname" />
         <col id="cdescription" />
-        <col id="cparentid" />
+       {* <col id="cparentid" /> *}
+        <col id="cnumberFiles" />
         <col id="cparent" />
         <col id="citemactions" />
     </colgroup>
@@ -52,6 +53,9 @@
         <th id="hparentid" scope="col" class="z-right">
             {sortlink __linktext='Parentid' currentsort=$sort modname='MUFiles' type='user' func='view' ot='collection' sort='parentid' sortdir=$sdir all=$all own=$own catidMain=$catIdListMainString parent=$parent workflowState=$workflowState searchterm=$searchterm pageSize=$pageSize}
         </th>
+        <th id="hnumberFiles" scope="col" class="z-right">
+            {gt text='Number of files'}
+        </th>
         <th id="hparent" scope="col" class="z-left">
             {sortlink __linktext='Parent' currentsort=$sort modname='MUFiles' type='user' func='view' ot='collection' sort='parent' sortdir=$sdir all=$all own=$own catidMain=$catIdListMainString parent=$parent workflowState=$workflowState searchterm=$searchterm pageSize=$pageSize}
         </th>
@@ -61,6 +65,7 @@
     <tbody>
 
 {foreach item='collection' from=$items}
+{checkpermissionblock component='MUFiles:Collection:' instance='`$collection.id`::' level='ACCESS_READ'}
     <tr class="{cycle values='z-odd, z-even'}">
         <td headers="hworkflowstate" class="z-left z-nowrap">
             {$collection.workflowState|mufilesObjectState}
@@ -73,6 +78,9 @@
         </td>
         <td headers="hparentid" class="z-right">
             {$collection.parentid}
+        </td>
+        <td headers="hnumberFiles" class="z-right">
+            {$collection.alilasfile|@count}
         </td>
         <td headers="hparent" class="z-left">
             {if isset($collection.Parent) && $collection.Parent ne null}
@@ -107,6 +115,7 @@
             {/if}
         </td>
     </tr>
+{/checkpermissionblock}
 {foreachelse}
     <tr class="z-datatableempty">
       <td class="z-left" colspan="6">
