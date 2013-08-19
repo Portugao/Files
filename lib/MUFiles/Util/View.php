@@ -3,7 +3,7 @@
  * MUFiles.
  *
  * @copyright Michael Ueberschaer (MU)
- * @license 
+ * @license
  * @package MUFiles
  * @author Michael Ueberschaer <kontakt@webdesign-in-bremen.com>.
  * @link http://webdesign-in-bremen.com
@@ -16,5 +16,26 @@
  */
 class MUFiles_Util_View extends MUFiles_Util_Base_View
 {
-    // feel free to add your own convenience methods here
+    /**
+     *
+     */
+    public static function getMimeTyp($extension)
+    {
+        switch ($extension)
+        {
+            case 'pdf':   //PDF
+                $mime = 'application/pdf';
+                break;
+            
+            case 'doc':  // DOC
+                $mime = 'application/msword';
+                break;
+                
+            case 'odt':  //
+                $mime = 'application/vnd.oasis.opendocument.text';
+                break;
+        }
+        
+        return $mime;
+    }
 }
