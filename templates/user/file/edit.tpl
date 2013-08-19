@@ -48,8 +48,8 @@
                 <p class="z-formnote"><a id="resetUploadFileVal" href="javascript:void(0);" class="z-hide">{gt text='Reset to empty value'}</a></p>
             {/if}
             
-                <div class="z-formnote">{gt text='Allowed file extensions:'} <span id="fileextensionsuploadFile">pdf</span></div>
-            <div class="z-formnote">{gt text='Allowed file size:'} {'102400'|mufilesGetFileSize:'':false:false}</div>
+                <div class="z-formnote">{gt text='Allowed file extensions:'} <span id="fileextensionsuploadFile">{$allowedExtensions}</span></div>
+            <div class="z-formnote">{gt text='Allowed file size:'} {$maxSize|mufilesGetFileSize:'':false:false}</div>
             {if $mode ne 'create'}
                 {if $file.uploadFile ne ''}
                     <div class="z-formnote">
