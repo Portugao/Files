@@ -17,5 +17,18 @@
  */
 class MUFiles_Form_Handler_User_File_Edit extends MUFiles_Form_Handler_User_File_Base_Edit
 {
-    // feel free to extend the base handler class here
+    /**
+     * Post-initialise hook.
+     *
+     * @return void
+     */
+    public function postInitialize()
+    {
+        $maxSize = MUFiles_Util_Model::getMaxSize();
+        $this->view->assign('maxSize', $maxSize);
+        $allowedExtensions = MUFiles_Util_Model::getAllowedExtensions();
+        $this->view->assign('allowedExtensions', $allowedExtensions);
+        
+        parent::postInitialize();
+    }
 }
