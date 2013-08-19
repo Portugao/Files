@@ -43,9 +43,9 @@
 <dl>
     <dt>{gt text='Description'}</dt>
     <dd>{$collection.description}</dd>
-    <dt>{gt text='Parentid'}</dt>
-    <dd>{$collection.parentid}</dd>
-    <dt>{gt text='Parent'}</dt>
+   {* <dt>{gt text='Parentid'}</dt>
+    <dd>{$collection.parentid}</dd> *}
+    <dt>{gt text='Main collection'}</dt> 
     <dd>
     {if isset($collection.Parent) && $collection.Parent ne null}
       {if !isset($smarty.get.theme) || $smarty.get.theme ne 'Printer'}
