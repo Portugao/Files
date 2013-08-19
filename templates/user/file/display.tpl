@@ -13,7 +13,7 @@
     <dd>{$file.description}</dd>
     <dt>{gt text='Download file'}</dt>
     <dd>
-        <a href="{modurl modname='MUFiles' type='user' func='giveFile' id=$file.id}">{gt text='Download'} ({$file.uploadFileMeta.size|mufilesGetFileSize:$file.uploadFileFullPath:false:false})</a>
+        <a href="{modurl modname='MUFiles' type='user' func='giveFile' id=$file.id}">{gt text='Download'} ({$file.uploadFileMeta.size|mufilesGetFileSize:$file.uploadFileFullPath:false:false})</a> ({$file.uploadFileMeta.extension})
     </dd>
     <dt>{gt text='Collection'}</dt>
     <dd>
