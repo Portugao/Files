@@ -16,5 +16,14 @@
  */
 class MUFiles_Form_Handler_Admin_Config extends MUFiles_Form_Handler_Admin_Base_Config
 {
-    // feel free to extend the base handler class here
+    /**
+     * Method stub for own additions in subclasses.
+     */
+    protected function initializeAdditions()
+    {
+        $maxSize = ModUtil::getVar($this->name, 'maxSize');
+        $this->view->assign('maxSize', $maxSize);
+        
+        return true;
+    }
 }
