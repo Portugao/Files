@@ -1,6 +1,7 @@
 'use strict';
 
-function mufilesToday(format) {
+function mufilesToday(format)
+{
     var timestamp, todayDate, month, day, hours, minutes, seconds;
 
     timestamp = new Date();
@@ -38,7 +39,8 @@ function mufilesToday(format) {
 }
 
 // returns YYYY-MM-DD even if date is in DD.MM.YYYY
-function mufilesReadDate(val, includeTime) {
+function mufilesReadDate(val, includeTime)
+{
     // look if we have YYYY-MM-DD
     if (val.substr(4, 1) === '-' && val.substr(7, 1) === '-') {
         return val;
@@ -57,25 +59,21 @@ function mufilesReadDate(val, includeTime) {
 /**
  * Add special validation rules.
  */
-function mufilesAddCommonValidationRules(objectType, id) {
+function mufilesAddCommonValidationRules(objectType, id)
+{
     Validation.addAllThese([
-        ['validate-nospace', Zikula.__('No spaces', 'module_MUFiles'), function(val, elem) {
+        ['validate-nospace', Zikula.__('No spaces', 'module_mufiles_js'), function(val, elem) {
             var valStr;
             valStr = new String(val);
             return (valStr.indexOf(' ') === -1);
         }],
-        ['validate-htmlcolour', Zikula.__('Please select a valid html colour code.', 'module_MUFiles'), function(val, elem) {
-            var valStr;
-            valStr = new String(val);
-            return Validation.get('IsEmpty').test(val) || (/^#[0-9a-f]{3}([0-9a-f]{3})?$/i.test(valStr));
-        }],
-        ['validate-upload', Zikula.__('Please select a valid file extension.', 'module_MUFiles'), function(val, elem) {
+        ['validate-upload', Zikula.__('Please select a valid file extension.', 'module_mufiles_js'), function(val, elem) {
             var allowedExtensions;
             if (val === '') {
                 return true;
             }
             var fileExtension = '.' + val.substr(val.lastIndexOf('.') + 1);
-            allowedExtensions = $('fileextensions' + elem.id).innerHTML;
+            allowedExtensions = $(elem.id + 'FileExtensions').innerHTML;
             allowedExtensions = '(.' + allowedExtensions.replace(/, /g, '|.').replace(/,/g, '|.') + ')$';
             allowedExtensions = new RegExp(allowedExtensions, 'i');
             return allowedExtensions.test(val);

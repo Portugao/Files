@@ -3,7 +3,7 @@
 <ul>
 {foreach item='collection' from=$items}
     <li>
-        <a href="{modurl modname='MUFiles' type='user' func='display' ot=$objectType id=$collection.id fqurl=true}">{$collection.name}
+        <a href="{modurl modname='MUFiles' type='user' func='display' ot=$objectType id=$collection.id fqurl=true}">{$collection->getTitleFromDisplayPattern()}
         </a>
     </li>
 {foreachelse}

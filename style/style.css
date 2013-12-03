@@ -4,11 +4,11 @@ div#z-maincontent.z-module-mufiles table tbody tr td {
 }
 
 /* display pages */
-.mufiles-display.withrightbox div.z-panel-content {
+.mufiles-display.with-rightbox div.z-panel-content {
     float: left;
     width: 79%;
 }
-.mufiles-display div.mufilesrightbox {
+.mufiles-display div.mufiles-rightbox {
     float: right;
     margin: 0 1em;
     padding: .5em;
@@ -16,18 +16,15 @@ div#z-maincontent.z-module-mufiles table tbody tr td {
     /*border: 1px solid #666;*/
 }
 
-.mufiles-display div.mufilesrightbox h3 {
+.mufiles-display div.mufiles-rightbox h3 {
     color: #333;
     font-weight: 400;
-    border-bottom: 1px solid #CCC;
+    border-bottom: 1px solid #ccc;
     padding-bottom: 8px;
 }
 
-.mufiles-display div.mufilesrightbox p.manageLink {
+.mufiles-display div.mufiles-rightbox p.managelink {
     margin-left: 18px;
-}
-.mufilesColourPicker {
-    cursor: pointer;
 }
 /* validation */
 div.z-formrow input.required, div.z-formrow textarea.required {
@@ -51,12 +48,16 @@ div.z-formrow input.validation-passed, div.z-formrow textarea.validation-passed 
 }
 
 /* edit pages */
-div.mufilesRelationLeftSide {
+form.z-form select.z-form-dropdownlist,
+form.z-form input.z-form-upload {
+    float: left;
+}
+div.mufiles-relation-leftside {
     float: left;
     width: 25%;
 }
 
-div.mufilesRelationRightSide {
+div.mufiles-relation-rightside {
     float: right;
     width: 65%;
 }
@@ -67,7 +68,7 @@ div.mufiles-edit .z-panel-content legend {
 }
 
 
-div.mufilesAutoCompleteWrap {
+div.mufiles-autocomplete-wrap {
     position: absolute;
     height: 40px;
     margin: 0;
@@ -76,7 +77,7 @@ div.mufilesAutoCompleteWrap {
     top: 10px;
 }
 
-div.mufilesAutoComplete {
+div.mufiles-autocomplete {
     position: relative !important;
     top: 2px !important;
     width: 191px !important;
@@ -86,15 +87,15 @@ div.mufilesAutoComplete {
     padding: 0;
 }
 
-div.mufilesAutoComplete {
+div.mufiles-autocomplete {
     left: 0 !important;
 }
-div.mufilesAutoComplete ul {
+div.mufiles-autocomplete ul {
     margin: 0;
     padding: 0;
 }
 
-div.mufilesAutoComplete ul li {
+div.mufiles-autocomplete ul li {
     margin: 0;
     padding: 0.2em 0 0.2em 20px;
     list-style-type: none;
@@ -105,44 +106,45 @@ div.mufilesAutoComplete ul li {
     background-repeat: no-repeat;
 }
 
-div.mufilesAutoComplete ul li {
+div.mufiles-autocomplete ul li {
     background-image: url("../../../images/icons/extrasmall/tab_right.png");
 }
 
-div.mufilesAutoComplete ul li.selected {
+div.mufiles-autocomplete ul li.selected {
     background-color: #ffb;
 }
 
-div.mufilesAutoComplete ul li div.itemtitle {
+div.mufiles-autocomplete ul li div.itemtitle {
     font-weight: 700;
     font-size: 12px;
     line-height: 1.2em;
 }
-div.mufilesAutoComplete ul li div.itemdesc {
+div.mufiles-autocomplete ul li div.itemdesc {
     font-size: 10px;
     color: #888;
 }
 
-button.mufilesInlineButton {
+button.mufiles-inline-button {
     margin-top: 1em;
 }
 
-div.mufiles-view form.mufilesQuickNavForm {
+div.mufiles-view form.mufiles-quicknav {
     margin: 10px 0;
     padding: 8px 12px;
     border: 1px solid #ccc;
 }
 
-div.mufiles-view form.mufilesQuickNavForm fieldset {
+div.mufiles-view form.mufiles-quicknav fieldset {
     padding: 3px 10px;
     margin-bottom: 0;
 }
 
-div.mufiles-view form.mufilesQuickNavForm fieldset h3 {
+div.mufiles-view form.mufiles-quicknav fieldset h3 {
     margin-top: 0;
+    display: none;
 }
 
-div.mufiles-view form.mufilesQuickNavForm fieldset #num {
+div.mufiles-view form.mufiles-quicknav fieldset #num {
     width: 50px;
     text-align: right;
 }

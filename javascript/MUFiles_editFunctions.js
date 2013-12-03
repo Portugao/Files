@@ -6,7 +6,8 @@
  * Purpose: better feedback if no results are found (#247).
  * See http://stackoverflow.com/questions/657839/scriptaculous-ajax-autocomplete-empty-response for more information.
  */
-Ajax.Autocompleter.prototype.updateChoices = function (choices) {
+Ajax.Autocompleter.prototype.updateChoices = function (choices)
+{
     if (!this.changed && this.hasFocus) {
         if (!choices || choices == '<ul></ul>') {
             this.stopIndicator();
@@ -46,7 +47,8 @@ Ajax.Autocompleter.prototype.updateChoices = function (choices) {
 /**
  * Resets the value of an upload / file input field.
  */
-function mufilesResetUploadField(fieldName) {
+function mufilesResetUploadField(fieldName)
+{
     if ($(fieldName) != undefined) {
         $(fieldName).setAttribute('type', 'input');
         $(fieldName).setAttribute('type', 'file');
@@ -56,7 +58,8 @@ function mufilesResetUploadField(fieldName) {
 /**
  * Initialises the reset button for a certain upload input.
  */
-function mufilesInitUploadField(fieldName) {
+function mufilesInitUploadField(fieldName)
+{
     if ($('reset' + fieldName.capitalize() + 'Val') != undefined) {
         $('reset' + fieldName.capitalize() + 'Val').observe('click', function (evt) {
             evt.preventDefault();
@@ -68,7 +71,8 @@ function mufilesInitUploadField(fieldName) {
 /**
  * Toggles the fields of an auto completion field.
  */
-function mufilesToggleRelatedItemForm(idPrefix) {
+function mufilesToggleRelatedItemForm(idPrefix)
+{
     // if we don't have a toggle link do nothing
     if ($(idPrefix + 'AddLink') === undefined) {
         return;
@@ -84,7 +88,8 @@ function mufilesToggleRelatedItemForm(idPrefix) {
 /**
  * Resets an auto completion field.
  */
-function mufilesResetRelatedItemForm(idPrefix) {
+function mufilesResetRelatedItemForm(idPrefix)
+{
     // hide the sub form
     mufilesToggleRelatedItemForm(idPrefix);
 
@@ -97,7 +102,8 @@ function mufilesResetRelatedItemForm(idPrefix) {
  * For edit forms we use "iframe: true" to ensure file uploads work without problems.
  * For all other windows we use "iframe: false" because we want the escape key working.
  */
-function mufilesCreateWindowInstance(containerElem, useIframe) {
+function mufilesCreateWindowInstance(containerElem, useIframe)
+{
     var newWindow;
 
     // define the new window instance
@@ -124,7 +130,8 @@ function mufilesCreateWindowInstance(containerElem, useIframe) {
 /**
  * Observe a link for opening an inline window
  */
-function mufilesInitInlineWindow(objectType, containerID) {
+function mufilesInitInlineWindow(objectType, containerID)
+{
     var found, newItem;
 
     // whether the handler has been found
@@ -164,7 +171,8 @@ function mufilesInitInlineWindow(objectType, containerID) {
 /**
  * Removes a related item from the list of selected ones.
  */
-function mufilesRemoveRelatedItem(idPrefix, removeId) {
+function mufilesRemoveRelatedItem(idPrefix, removeId)
+{
     var itemIds, itemIdsArr;
 
     itemIds = $F(idPrefix + 'ItemList');
@@ -181,7 +189,8 @@ function mufilesRemoveRelatedItem(idPrefix, removeId) {
 /**
  * Adds a related item to selection which has been chosen by auto completion.
  */
-function mufilesSelectRelatedItem(objectType, idPrefix, inputField, selectedListItem) {
+function mufilesSelectRelatedItem(objectType, idPrefix, inputField, selectedListItem)
+{
     var newItemId, newTitle, includeEditing, editLink, removeLink, elemPrefix, itemPreview, li, editHref, fldPreview, itemIds, itemIdsArr;
 
     newItemId = selectedListItem.id;
@@ -190,8 +199,8 @@ function mufilesSelectRelatedItem(objectType, idPrefix, inputField, selectedList
     elemPrefix = idPrefix + 'Reference_' + newItemId;
     itemPreview = '';
 
-    if ($('itempreview' + selectedListItem.id) !== null) {
-        itemPreview = $('itempreview' + selectedListItem.id).innerHTML;
+    if ($('itemPreview' + selectedListItem.id) !== null) {
+        itemPreview = $('itemPreview' + selectedListItem.id).innerHTML;
     }
 
     var li = Builder.node('li', {id: elemPrefix}, newTitle);
@@ -243,7 +252,8 @@ function mufilesSelectRelatedItem(objectType, idPrefix, inputField, selectedList
 /**
  * Initialise a relation field section with autocompletion and optional edit capabilities
  */
-function mufilesInitRelationItemsForm(objectType, idPrefix, includeEditing) {
+function mufilesInitRelationItemsForm(objectType, idPrefix, includeEditing)
+{
     var acOptions, itemIds, itemIdsArr;
 
     // add handling for the toggle link if existing
@@ -327,7 +337,8 @@ function mufilesInitRelationItemsForm(objectType, idPrefix, includeEditing) {
 /**
  * Closes an iframe from the document displayed in it
  */
-function mufilesCloseWindowFromInside(idPrefix, itemId) {
+function mufilesCloseWindowFromInside(idPrefix, itemId)
+{
     // if there is no parent window do nothing
     if (window.parent === '') {
         return;

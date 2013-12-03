@@ -7,7 +7,8 @@ var currentMUFilesInput = null;
  * Returns the attributes used for the popup window. 
  * @return {String}
  */
-function getPopupAttributes() {
+function getPopupAttributes()
+{
     var pWidth, pHeight;
 
     pWidth = screen.width * 0.75;
@@ -18,7 +19,8 @@ function getPopupAttributes() {
 /**
  * Open a popup window with the finder triggered by a Xinha button.
  */
-function MUFilesFinderXinha(editor, mufilesURL) {
+function MUFilesFinderXinha(editor, mufilesURL)
+{
     var popupAttributes;
 
     // Save editor for access in selector window
@@ -31,7 +33,8 @@ function MUFilesFinderXinha(editor, mufilesURL) {
 /**
  * Open a popup window with the finder triggered by a CKEditor button.
  */
-function MUFilesFinderCKEditor(editor, mufilesURL) {
+function MUFilesFinderCKEditor(editor, mufilesURL)
+{
     // Save editor for access in selector window
     currentMUFilesEditor = editor;
 
@@ -48,21 +51,25 @@ var mufiles = {};
 
 mufiles.finder = {};
 
-mufiles.finder.onLoad = function (baseId, selectedId) {
-    $('MUFiles_sort').observe('change', mufiles.finder.onParamChanged);
-    $('MUFiles_sortdir').observe('change', mufiles.finder.onParamChanged);
-    $('MUFiles_pagesize').observe('change', mufiles.finder.onParamChanged);
-    $('MUFiles_gosearch').observe('click', mufiles.finder.onParamChanged)
-                           .observe('keypress', mufiles.finder.onParamChanged);
-    $('MUFiles_submit').addClassName('z-hide');
-    $('MUFiles_cancel').observe('click', mufiles.finder.handleCancel);
+mufiles.finder.onLoad = function (baseId, selectedId)
+{
+    $$('div.categoryselector select').invoke('observe', 'change', mufiles.finder.onParamChanged);
+    $('mUFilesSort').observe('change', mufiles.finder.onParamChanged);
+    $('mUFilesSortDir').observe('change', mufiles.finder.onParamChanged);
+    $('mUFilesPageSize').observe('change', mufiles.finder.onParamChanged);
+    $('mUFilesSearchGo').observe('click', mufiles.finder.onParamChanged);
+    $('mUFilesSearchGo').observe('keypress', mufiles.finder.onParamChanged);
+    $('mUFilesSubmit').addClassName('z-hide');
+    $('mUFilesCancel').observe('click', mufiles.finder.handleCancel);
 };
 
-mufiles.finder.onParamChanged = function () {
-    $('selectorForm').submit();
+mufiles.finder.onParamChanged = function ()
+{
+    $('mUFilesSelectorForm').submit();
 };
 
-mufiles.finder.handleCancel = function () {
+mufiles.finder.handleCancel = function ()
+{
     var editor, w;
 
     editor = $F('editorName');
@@ -80,13 +87,14 @@ mufiles.finder.handleCancel = function () {
 };
 
 
-function getPasteSnippet(mode, itemId) {
+function getPasteSnippet(mode, itemId)
+{
     var itemUrl, itemTitle, itemDescription, pasteMode;
 
     itemUrl = $F('url' + itemId);
     itemTitle = $F('title' + itemId);
     itemDescription = $F('desc' + itemId);
-    pasteMode = $F('MUFiles_pasteas');
+    pasteMode = $F('mUFilesPasteAs');
 
     if (pasteMode === '2' || pasteMode !== '1') {
         return itemId;
@@ -104,7 +112,8 @@ function getPasteSnippet(mode, itemId) {
 
 
 // User clicks on "select item" button
-mufiles.finder.selectItem = function (itemId) {
+mufiles.finder.selectItem = function (itemId)
+{
     var editor, html;
 
     editor = $F('editorName');
@@ -153,7 +162,8 @@ mufiles.finder.selectItem = function (itemId) {
 };
 
 
-function mufilesClosePopup() {
+function mufilesClosePopup()
+{
     window.opener.focus();
     window.close();
 }
@@ -170,42 +180,49 @@ mufiles.itemSelector.items = {};
 mufiles.itemSelector.baseId = 0;
 mufiles.itemSelector.selectedId = 0;
 
-mufiles.itemSelector.onLoad = function (baseId, selectedId) {
+mufiles.itemSelector.onLoad = function (baseId, selectedId)
+{
     mufiles.itemSelector.baseId = baseId;
     mufiles.itemSelector.selectedId = selectedId;
 
     // required as a changed object type requires a new instance of the item selector plugin
-    $(baseId + '_objecttype').observe('change', mufiles.itemSelector.onParamChanged);
+    $('mUFilesObjectType').observe('change', mufiles.itemSelector.onParamChanged);
 
-    if ($(baseId + '_catid') !== undefined) {
-        $(baseId + '_catid').observe('change', mufiles.itemSelector.onParamChanged);
+    if ($(baseId + '_catidMain') != undefined) {
+        $(baseId + '_catidMain').observe('change', mufiles.itemSelector.onParamChanged);
+    } else if ($(baseId + '_catidsMain') != undefined) {
+        $(baseId + '_catidsMain').observe('change', mufiles.itemSelector.onParamChanged);
     }
-    $(baseId + '_id').observe('change', mufiles.itemSelector.onItemChanged);
-    $(baseId + '_sort').observe('change', mufiles.itemSelector.onParamChanged);
-    $(baseId + '_sortdir').observe('change', mufiles.itemSelector.onParamChanged);
-    $('MUFiles_gosearch').observe('click', mufiles.itemSelector.onParamChanged)
-                           .observe('keypress', mufiles.itemSelector.onParamChanged);
+    $(baseId + 'Id').observe('change', mufiles.itemSelector.onItemChanged);
+    $(baseId + 'Sort').observe('change', mufiles.itemSelector.onParamChanged);
+    $(baseId + 'SortDir').observe('change', mufiles.itemSelector.onParamChanged);
+    $('mUFilesSearchGo').observe('click', mufiles.itemSelector.onParamChanged);
+    $('mUFilesSearchGo').observe('keypress', mufiles.itemSelector.onParamChanged);
 
     mufiles.itemSelector.getItemList();
 };
 
-mufiles.itemSelector.onParamChanged = function () {
+mufiles.itemSelector.onParamChanged = function ()
+{
     $('ajax_indicator').removeClassName('z-hide');
 
     mufiles.itemSelector.getItemList();
 };
 
-mufiles.itemSelector.getItemList = function () {
+mufiles.itemSelector.getItemList = function ()
+{
     var baseId, pars, request;
 
     baseId = mufiles.itemSelector.baseId;
-    pars = 'objectType=' + baseId + '&';
-    if ($(baseId + '_catid') !== undefined) {
-        pars += 'catid=' + $F(baseId + '_catid') + '&';
+    pars = 'ot=' + baseId + '&';
+    if ($(baseId + '_catidMain') != undefined) {
+        pars += 'catidMain=' + $F(baseId + '_catidMain') + '&';
+    } else if ($(baseId + '_catidsMain') != undefined) {
+        pars += 'catidsMain=' + $F(baseId + '_catidsMain') + '&';
     }
-    pars += 'sort=' + $F(baseId + '_sort') + '&' +
-            'sortdir=' + $F(baseId + '_sortdir') + '&' +
-            'searchterm=' + $F(baseId + '_searchterm');
+    pars += 'sort=' + $F(baseId + 'Sort') + '&' +
+            'sortdir=' + $F(baseId + 'SortDir') + '&' +
+            'searchterm=' + $F(baseId + 'SearchTerm');
 
     request = new Zikula.Ajax.Request('ajax.php?module=MUFiles&func=getItemListFinder', {
         method: 'post',
@@ -224,11 +241,12 @@ mufiles.itemSelector.getItemList = function () {
     });
 };
 
-mufiles.itemSelector.updateItemDropdownEntries = function () {
+mufiles.itemSelector.updateItemDropdownEntries = function ()
+{
     var baseId, itemSelector, items, i, item;
 
     baseId = mufiles.itemSelector.baseId;
-    itemSelector = $(baseId + '_id');
+    itemSelector = $(baseId + 'Id');
     itemSelector.length = 0;
 
     items = mufiles.itemSelector.items[baseId];
@@ -238,17 +256,18 @@ mufiles.itemSelector.updateItemDropdownEntries = function () {
     }
 
     if (mufiles.itemSelector.selectedId > 0) {
-        $(baseId + '_id').value = mufiles.itemSelector.selectedId;
+        $(baseId + 'Id').value = mufiles.itemSelector.selectedId;
     }
 };
 
-mufiles.itemSelector.updatePreview = function () {
+mufiles.itemSelector.updatePreview = function ()
+{
     var baseId, items, selectedElement, i;
 
     baseId = mufiles.itemSelector.baseId;
     items = mufiles.itemSelector.items[baseId];
 
-    $(baseId + '_previewcontainer').addClassName('z-hide');
+    $(baseId + 'PreviewContainer').addClassName('z-hide');
 
     if (items.length === 0) {
         return;
@@ -265,18 +284,19 @@ mufiles.itemSelector.updatePreview = function () {
     }
 
     if (selectedElement !== null) {
-        $(baseId + '_previewcontainer').update(window.atob(selectedElement.previewInfo))
-                                       .removeClassName('z-hide');
+        $(baseId + 'PreviewContainer').update(window.atob(selectedElement.previewInfo))
+                                      .removeClassName('z-hide');
     }
 };
 
-mufiles.itemSelector.onItemChanged = function () {
+mufiles.itemSelector.onItemChanged = function ()
+{
     var baseId, itemSelector, preview;
 
     baseId = mufiles.itemSelector.baseId;
-    itemSelector = $(baseId + '_id');
+    itemSelector = $(baseId + 'Id');
     preview = window.atob(mufiles.itemSelector.items[baseId][itemSelector.selectedIndex].previewInfo);
 
-    $(baseId + '_previewcontainer').update(preview);
-    mufiles.itemSelector.selectedId = $F(baseId + '_id');
+    $(baseId + 'PreviewContainer').update(preview);
+    mufiles.itemSelector.selectedId = $F(baseId + 'Id');
 };

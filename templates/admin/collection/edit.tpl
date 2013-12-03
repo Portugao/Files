@@ -22,24 +22,22 @@
 {form cssClass='z-form'}
     {* add validation summary and a <div> element for styling the form *}
     {mufilesFormFrame}
-
     {formsetinitialfocus inputId='name'}
 
-
-    <div class="z-panels" id="MUFiles_panel">
+    <div id="mUFilesPanel" class="z-panels">
         <h3 id="z-panel-header-fields" class="z-panel-header z-panel-indicator z-pointer">{gt text='Fields'}</h3>
         <div class="z-panel-content z-panel-active" style="overflow: visible">
             <fieldset>
                 <legend>{gt text='Content'}</legend>
                 
                 <div class="z-formrow">
-                    {formlabel for='name' __text='Name' mandatorysym='1'}
+                    {formlabel for='name' __text='Name' mandatorysym='1' cssClass=''}
                     {formtextinput group='collection' id='name' mandatory=true readOnly=false __title='Enter the name of the collection' textMode='singleline' maxLength=255 cssClass='required' }
                     {mufilesValidationError id='name' class='required'}
                 </div>
                 
                 <div class="z-formrow">
-                    {formlabel for='description' __text='Description'}
+                    {formlabel for='description' __text='Description' cssClass=''}
                     {formtextinput group='collection' id='description' mandatory=false __title='Enter the description of the collection' textMode='multiline' rows='6' cols='50' cssClass='' }
                 </div>
                 
@@ -53,11 +51,12 @@
         {/if}
         
         {* include display hooks *}
-        {assign var='hookid' value=null}
         {if $mode ne 'create'}
-            {assign var='hookid' value=$collection.id}
+            {assign var='hookId' value=$collection.id}
+            {notifydisplayhooks eventname='mufiles.ui_hooks.collections.form_edit' id=$hookId assign='hooks'}
+        {else}
+            {notifydisplayhooks eventname='mufiles.ui_hooks.collections.form_edit' id=null assign='hooks'}
         {/if}
-        {notifydisplayhooks eventname='mufiles.ui_hooks.collections.form_edit' id=$hookId assign='hooks'}
         {if is_array($hooks) && count($hooks)}
             {foreach key='providerArea' item='hook' from=$hooks}
                 <h3 class="hook z-panel-header z-panel-indicator z-pointer">{$providerArea}</h3>
@@ -72,8 +71,8 @@
             <fieldset>
                 <legend>{gt text='Return control'}</legend>
                 <div class="z-formrow">
-                    {formlabel for='repeatcreation' __text='Create another item after save'}
-                    {formcheckbox group='collection' id='repeatcreation' readOnly=false}
+                    {formlabel for='repeatCreation' __text='Create another item after save'}
+                        {formcheckbox group='collection' id='repeatCreation' readOnly=false}
                 </div>
             </fieldset>
         {/if}
@@ -96,12 +95,11 @@
     </div>
     {/mufilesFormFrame}
 {/form}
-
 </div>
 {include file='admin/footer.tpl'}
 
 {icon type='edit' size='extrasmall' assign='editImageArray'}
-{icon type='delete' size='extrasmall' assign='deleteImageArray'}
+{icon type='delete' size='extrasmall' assign='removeImageArray'}
 
 
 <script type="text/javascript">
@@ -141,14 +139,14 @@
             }
         });
 
-        var panel = new Zikula.UI.Panels('MUFiles_panel', {
+        var panel = new Zikula.UI.Panels('mUFilesPanel', {
             headerSelector: 'h3',
             headerClassName: 'z-panel-header z-panel-indicator',
             contentClassName: 'z-panel-content',
             active: $('z-panel-header-fields')
         });
 
-        Zikula.UI.Tooltips($$('.mufilesFormTooltips'));
+        Zikula.UI.Tooltips($$('.mufiles-form-tooltips'));
     });
 
 /* ]]> */

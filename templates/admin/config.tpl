@@ -9,22 +9,23 @@
     </div>
 
     {form cssClass='z-form'}
-
-
         {* add validation summary and a <div> element for styling the form *}
         {mufilesFormFrame}
             {formsetinitialfocus inputId='allowedExtensions'}
+            {gt text='General' assign='tabTitle'}
             <fieldset>
-                <legend>{gt text='Here you can manage all basic settings for this application.'}</legend>
+                <legend>{$tabTitle}</legend>
+            
+                <p class="z-confirmationmsg">{gt text='Here you can manage all basic settings for this application.'}</p>
             
                 <div class="z-formrow">
                     {gt text='A list of the allowed extensions; comma seperated.' assign='toolTip'}
-                    {formlabel for='allowedExtensions' __text='Allowed extensions' class='mufilesFormTooltips' title=$toolTip}
-                    {formtextinput id='allowedExtensions' group='config' maxLength=255 __title='Enter the allowed extensions.'}
+                    {formlabel for='allowedExtensions' __text='Allowed extensions' cssClass='mufiles-form-tooltips ' title=$toolTip}
+                        {formtextinput id='allowedExtensions' group='config' maxLength=255 __title='Enter the allowed extensions.'}
                 </div>
                 <div class="z-formrow">
-                    {formlabel for='maxSize' __text='Max size'}
-                    {formintinput id='maxSize' group='config' maxLength=255 __title='Enter the max size. Only digits are allowed.'}
+                    {formlabel for='maxSize' __text='Max size' cssClass=''}
+                        {formintinput id='maxSize' group='config' maxLength=255 __title='Enter the max size. Only digits are allowed.'}
                 </div>
             </fieldset>
 
@@ -39,7 +40,7 @@
 <script type="text/javascript">
 /* <![CDATA[ */
     document.observe('dom:loaded', function() {
-        Zikula.UI.Tooltips($$('.mufilesFormTooltips'));
+        Zikula.UI.Tooltips($$('.mufiles-form-tooltips'));
     });
 /* ]]> */
 </script>

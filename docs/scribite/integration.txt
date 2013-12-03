@@ -17,8 +17,8 @@ Just follow these few steps to complete the integration for Scribite <= 4.3:
         if (ModUtil::available('MUFiles')) {
             PageUtil::AddVar('javascript', 'modules/MUFiles/javascript/MUFiles_finder.js');
         }
-  4. Copy or move all files from modules/MUFiles/docs/scribite/plugins/ into modules/Scribite/plugins/.
+  4. Copy or move all files from modules/MUFiles/docs/scribite/includes/ into modules/Scribite/includes/.
 
 Just follow these few steps to complete the integration for Scribite >= 5.0:
  1. Check if the plugins for MUFiles are in Scribite/plugins/EDITOR/vendor/plugins. If not then copy from
-    modules/MUFiles/docs/scribite/plugins into modules/Scribite/plugins.
+    modules/MUFiles/docs/scribite/includes into modules/Scribite/plugins.

@@ -4,48 +4,48 @@ body {
     text-align: left;
 }
 
-.mufilesform fieldset,
-.mufilesform fieldset legend {
+.mufiles-finderform fieldset,
+.mufiles-finderform fieldset legend {
     background-color: #fff;
     border: none;
 }
 
-#mufilesitemcontainer {
+#mufilesItemContainer {
     background-color: #eee;
     height: 300px;
     overflow: auto;
     padding: 5px;
 }
 
-#mufilesitemcontainer ul {
+#mufilesItemContainer ul {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-#mufilesitemcontainer a {
+#mufilesItemContainer a {
     color: #000;
     margin: 0.1em 0.2em;
     text-decoration: underline;
 }
-#mufilesitemcontainer a:hover,
-#mufilesitemcontainer a:focus,
-#mufilesitemcontainer a:active {
+#mufilesItemContainer a:hover,
+#mufilesItemContainer a:focus,
+#mufilesItemContainer a:active {
     color: #900;
     text-decoration: none;
 }
 
-#mufilesitemcontainer a img {
+#mufilesItemContainer a img {
     border: none;
 }
 
-#mufilesitemcontainer a img {
+#mufilesItemContainer a img {
     border: 1px solid #ccc;
     background-color: #f5f5f5;
     padding: 0.5em;
 }
-#mufilesitemcontainer a:hover img,
-#mufilesitemcontainer a:focus img,
-#mufilesitemcontainer a:active img {
+#mufilesItemContainer a:hover img,
+#mufilesItemContainer a:focus img,
+#mufilesItemContainer a:active img {
     background-color: #fff;
 }

@@ -16,9 +16,9 @@
         {/if}
         <div class="z-formrow">
             {formlabel for="category_`$registryId`" text=$categorySelectorLabel}
-            {formcategoryselector id="category_`$registryId`" category=$registryCid
-                                  dataField='categories' group=$groupName registryId=$registryId doctrine2=true
-                                  selectionMode=$selectionMode}
+                {formcategoryselector id="category_`$registryId`" category=$registryCid
+                                      dataField='categories' group=$groupName registryId=$registryId doctrine2=true
+                                      selectionMode=$selectionMode}
         </div>
     {/foreach}
     {/formvolatile}

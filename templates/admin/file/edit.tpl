@@ -22,21 +22,19 @@
 {form enctype='multipart/form-data' cssClass='z-form'}
     {* add validation summary and a <div> element for styling the form *}
     {mufilesFormFrame}
-
     {formsetinitialfocus inputId='title'}
-
 
     <fieldset>
         <legend>{gt text='Content'}</legend>
         
         <div class="z-formrow">
-            {formlabel for='title' __text='Title' mandatorysym='1'}
+            {formlabel for='title' __text='Title' mandatorysym='1' cssClass=''}
             {formtextinput group='file' id='title' mandatory=true readOnly=false __title='Enter the title of the file' textMode='singleline' maxLength=255 cssClass='required' }
             {mufilesValidationError id='title' class='required'}
         </div>
         
         <div class="z-formrow">
-            {formlabel for='description' __text='Description'}
+            {formlabel for='description' __text='Description' cssClass=''}
             {formtextinput group='file' id='description' mandatory=false __title='Enter the description of the file' textMode='multiline' rows='6' cols='50' cssClass='' }
         </div>
         
@@ -45,28 +43,28 @@
             {if $mode ne 'create'}
                 {assign var='mandatorySym' value='0'}
             {/if}
-            {formlabel for='uploadFile' __text='Upload file' mandatorysym=$mandatorySym}<br />{* break required for Google Chrome *}
+            {formlabel for='uploadFile' __text='Upload file' mandatorysym=$mandatorySym cssClass=''}<br />{* break required for Google Chrome *}
             {if $mode eq 'create'}
                 {formuploadinput group='file' id='uploadFile' mandatory=true readOnly=false cssClass='required validate-upload' }
             {else}
                 {formuploadinput group='file' id='uploadFile' mandatory=false readOnly=false cssClass=' validate-upload' }
-                <p class="z-formnote"><a id="resetUploadFileVal" href="javascript:void(0);" class="z-hide">{gt text='Reset to empty value'}</a></p>
+                <span class="z-formnote"><a id="resetUploadFileVal" href="javascript:void(0);" class="z-hide">{gt text='Reset to empty value'}</a></span>
             {/if}
             
-                <div class="z-formnote">{gt text='Allowed file extensions:'} <span id="fileextensionsuploadFile">pdf</span></div>
-            <div class="z-formnote">{gt text='Allowed file size:'} {$maxSize|mufilesGetFileSize:'':false:false}</div>
+                <span class="z-formnote">{gt text='Allowed file extensions:'} <span id="uploadFileFileExtensions">pdf</span></span>
+            <span class="z-formnote">{gt text='Allowed file size:'} {'102400'|mufilesGetFileSize:'':false:false}</span>
             {if $mode ne 'create'}
                 {if $file.uploadFile ne ''}
-                    <div class="z-formnote">
+                    <span class="z-formnote">
                         {gt text='Current file'}:
-                        <a href="{$file.uploadFileFullPathUrl}" title="{$file.title|replace:"\"":""}"{if $file.uploadFileMeta.isImage} rel="imageviewer[file]"{/if}>
+                        <a href="{$file.uploadFileFullPathUrl}" title="{$file->getTitleFromDisplayPattern()|replace:"\"":""}"{if $file.uploadFileMeta.isImage} rel="imageviewer[file]"{/if}>
                         {if $file.uploadFileMeta.isImage}
-                            {thumb image=$file.uploadFileFullPath objectid="file-`$file.id`" manager=$fileThumbManagerUploadFile tag=true img_alt=$file.title}
+                            {thumb image=$file.uploadFileFullPath objectid="file-`$file.id`" preset=$fileThumbPresetUploadFile tag=true img_alt=$file->getTitleFromDisplayPattern()}
                         {else}
                             {gt text='Download'} ({$file.uploadFileMeta.size|mufilesGetFileSize:$file.uploadFileFullPath:false:false})
                         {/if}
                         </a>
-                    </div>
+                    </span>
                 {/if}
             {/if}
             {mufilesValidationError id='uploadFile' class='required'}
@@ -80,11 +78,12 @@
     {/if}
     
     {* include display hooks *}
-    {assign var='hookid' value=null}
     {if $mode ne 'create'}
-        {assign var='hookid' value=$file.id}
+        {assign var='hookId' value=$file.id}
+        {notifydisplayhooks eventname='mufiles.ui_hooks.files.form_edit' id=$hookId assign='hooks'}
+    {else}
+        {notifydisplayhooks eventname='mufiles.ui_hooks.files.form_edit' id=null assign='hooks'}
     {/if}
-    {notifydisplayhooks eventname='mufiles.ui_hooks.files.form_edit' id=$hookId assign='hooks'}
     {if is_array($hooks) && count($hooks)}
         {foreach key='providerArea' item='hook' from=$hooks}
             <fieldset>
@@ -98,8 +97,8 @@
         <fieldset>
             <legend>{gt text='Return control'}</legend>
             <div class="z-formrow">
-                {formlabel for='repeatcreation' __text='Create another item after save'}
-                {formcheckbox group='file' id='repeatcreation' readOnly=false}
+                {formlabel for='repeatCreation' __text='Create another item after save'}
+                    {formcheckbox group='file' id='repeatCreation' readOnly=false}
             </div>
         </fieldset>
     {/if}
@@ -121,12 +120,11 @@
     </div>
     {/mufilesFormFrame}
 {/form}
-
 </div>
 {include file='admin/footer.tpl'}
 
 {icon type='edit' size='extrasmall' assign='editImageArray'}
-{icon type='delete' size='extrasmall' assign='deleteImageArray'}
+{icon type='delete' size='extrasmall' assign='removeImageArray'}
 
 
 <script type="text/javascript">
@@ -166,7 +164,7 @@
             }
         });
 
-        Zikula.UI.Tooltips($$('.mufilesFormTooltips'));
+        Zikula.UI.Tooltips($$('.mufiles-form-tooltips'));
         mufilesInitUploadField('uploadFile');
     });
 
