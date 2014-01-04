@@ -33,6 +33,8 @@ Implemented Classes
 
 *lib/MUFiles/Form/Handler/admin/Config.php
 
+*lib/MUFiles/Form/Plugin/AbstractObjectSelector.php
+
 
 Additional Files
 
