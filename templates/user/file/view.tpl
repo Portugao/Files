@@ -31,27 +31,27 @@
 
     <table class="z-datatable">
         <colgroup>
-            <col id="cWorkflowState" />
+           {* <col id="cWorkflowState" /> *}
             <col id="cTitle" />
-            <col id="cDescription" />
-            <col id="cUploadFile" />
+           {* <col id="cDescription" />
+            <col id="cUploadFile" /> *}
             <col id="cAliascollection" />
             <col id="cItemActions" />
         </colgroup>
         <thead>
         <tr>
-            <th id="hWorkflowState" scope="col" class="z-left">
+           {* <th id="hWorkflowState" scope="col" class="z-left">
                 {sortlink __linktext='State' currentsort=$sort modname='MUFiles' type='user' func='view' ot='file' sort='workflowState' sortdir=$sdir all=$all own=$own aliascollection=$aliascollection workflowState=$workflowState searchterm=$searchterm pageSize=$pageSize}
-            </th>
+            </th> *}
             <th id="hTitle" scope="col" class="z-left">
                 {sortlink __linktext='Title' currentsort=$sort modname='MUFiles' type='user' func='view' ot='file' sort='title' sortdir=$sdir all=$all own=$own aliascollection=$aliascollection workflowState=$workflowState searchterm=$searchterm pageSize=$pageSize}
             </th>
-            <th id="hDescription" scope="col" class="z-left">
+           {* <th id="hDescription" scope="col" class="z-left">
                 {sortlink __linktext='Description' currentsort=$sort modname='MUFiles' type='user' func='view' ot='file' sort='description' sortdir=$sdir all=$all own=$own aliascollection=$aliascollection workflowState=$workflowState searchterm=$searchterm pageSize=$pageSize}
             </th>
             <th id="hUploadFile" scope="col" class="z-left">
                 {sortlink __linktext='Upload file' currentsort=$sort modname='MUFiles' type='user' func='view' ot='file' sort='uploadFile' sortdir=$sdir all=$all own=$own aliascollection=$aliascollection workflowState=$workflowState searchterm=$searchterm pageSize=$pageSize}
-            </th>
+            </th> *}
             <th id="hAliascollection" scope="col" class="z-left">
                 {sortlink __linktext='Aliascollection' currentsort=$sort modname='MUFiles' type='user' func='view' ot='file' sort='aliascollection' sortdir=$sdir all=$all own=$own aliascollection=$aliascollection workflowState=$workflowState searchterm=$searchterm pageSize=$pageSize}
             </th>
@@ -62,13 +62,13 @@
     
     {foreach item='file' from=$items}
         <tr class="{cycle values='z-odd, z-even'}">
-            <td headers="hWorkflowState" class="z-left z-nowrap">
+          {*  <td headers="hWorkflowState" class="z-left z-nowrap">
                 {$file.workflowState|mufilesObjectState}
-            </td>
+            </td> *}
             <td headers="hTitle" class="z-left">
                 <a href="{modurl modname='MUFiles' type='user' func='display' ot='file' id=$file.id}" title="{gt text='View detail page'}">{$file.title|notifyfilters:'mufiles.filterhook.files'}</a>
             </td>
-            <td headers="hDescription" class="z-left">
+          {*  <td headers="hDescription" class="z-left">
                 {$file.description}
             </td>
             <td headers="hUploadFile" class="z-left">
@@ -79,7 +79,7 @@
                       {gt text='Download'} ({$file.uploadFileMeta.size|mufilesGetFileSize:$file.uploadFileFullPath:false:false})
                   {/if}
                   </a>
-            </td>
+            </td> *}
             <td headers="hAliascollection" class="z-left">
                 {if isset($file.Aliascollection) && $file.Aliascollection ne null}
                     <a href="{modurl modname='MUFiles' type='user' func='display' ot='collection' id=$file.Aliascollection.id}">{strip}
