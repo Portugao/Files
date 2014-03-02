@@ -64,8 +64,8 @@ class MUFiles_Controller_User extends MUFiles_Controller_Base_User
         $repository = MUFiles_Util_Model::getFilesRepository();
         $file = $repository->selectById($id);
 
-        // return error if no permissions for the file or the collection of the file
-        if (!SecurityUtil::checkPermission($this->name . ':' . 'File' . ':', $id . '::', ACCESS_COMMENT) || !SecurityUtil::checkPermission($this->name. ':' . 'Collection' . ':', $file['aliascollection']['id'] . '::', ACCESS_COMMENT)) {
+        // return error if no permissions for the file or the collection of the file or a special file (this file) of an collection
+        if (!SecurityUtil::checkPermission($this->name . ':' . 'File' . ':', $id . '::', ACCESS_COMMENT) || !SecurityUtil::checkPermission($this->name. ':' . 'Collection' . ':', $file['aliascollection']['id'] . '::', ACCESS_COMMENT) || !SecurityUtil::checkPermission($this->name. ':' . 'Collection' . ':File', $file['aliascollection']['id'] . ':.*:', ACCESS_COMMENT)) {
             $url = ModUtil::url($this->name, 'user', 'view');
             return LogUtil::registerPermissionError($url);
         } else {
