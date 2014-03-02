@@ -42,7 +42,7 @@ class MUFiles_UploadHandler extends MUFiles_Base_UploadHandler
         $allowedExtensions = array();
         switch ($objectType) {
             case 'file':
-                $allowedExtensions = explode(',', ModUtil::getVar('allowedExtension'));
+                $allowedExtensions = explode(',', ModUtil::getVar('allowedExtensions'));
                 break;
         }
     
