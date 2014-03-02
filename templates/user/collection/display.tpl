@@ -8,7 +8,7 @@
     <h2>{$templateTitle|notifyfilters:'mufiles.filter_hooks.collections.filter'} ({$collection.workflowState|mufilesObjectState:false|lower}){icon id='itemactionstrigger' type='options' size='extrasmall' __alt='Actions' class='z-pointer z-hide'}</h2>
 
 {if !isset($smarty.get.theme) || $smarty.get.theme ne 'Printer'}
-    <div class="mufilesrightbox">
+    <div class="mufiles-rightbox">
         <h3>{gt text='Files'}</h3>
         
         {if isset($collection.alilasfile) && $collection.alilasfile ne null}
