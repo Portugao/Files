@@ -24,16 +24,18 @@ Changed Files
 Implemented Classes
 
 *lib/MUFiles/UploadHandler.php
+*lib/MUFiles/Version.php
 
 *lib/MUFiles/Controller/User.php
-*lib/MUFiles/Form/Handler/user/file//Edit.php
+
+*lib/MUFiles/Form/Handler/admin/Config.php
+*lib/MUFiles/Form/Handler/user/file/Edit.php
+
+*lib/MUFiles/Form/Plugin/AbstractObjectSelector.php
+
 *lib/MUFiles/Util/Controller.php
 *lib/MUFiles/Util/Model.php
 *lib/MUFiles/Util/View.php
-
-*lib/MUFiles/Form/Handler/admin/Config.php
-
-*lib/MUFiles/Form/Plugin/AbstractObjectSelector.php
 
 
 Additional Files
