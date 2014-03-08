@@ -6,7 +6,7 @@
     {pagesetvar name='title' value=$templateTitle|@html_entity_decode}
     <div class="z-admin-content-pagetitle">
         {icon type='display' size='small' __alt='Details'}
-        <h3>{$templateTitle|notifyfilters:'mufiles.filter_hooks.collections.filter'} <small>{$collection.workflowState|mufilesObjectState:false|lower})</small>{icon id='itemActionsTrigger' type='options' size='extrasmall' __alt='Actions' class='z-pointer z-hide'}</h3>
+        <h3>{$templateTitle|notifyfilters:'mufiles.filter_hooks.collections.filter'} <small>({$collection.workflowState|mufilesObjectState:false|lower})</small>{icon id='itemActionsTrigger' type='options' size='extrasmall' __alt='Actions' class='z-pointer z-hide'}</h3>
     </div>
 
     {if !isset($smarty.get.theme) || $smarty.get.theme ne 'Printer'}
@@ -17,8 +17,8 @@
                 {include file='admin/file/include_displayItemListMany.tpl' items=$collection.alilasfile}
             {/if}
             
-            {checkpermission component='MUFiles:Collection:' instance="`$collection.id`::" level='ACCESS_ADMIN' assign='authAdmin'}
-            {if $authAdmin || (isset($uid) && isset($collection.createdUserId) && $collection.createdUserId eq $uid)}
+            {checkpermission component='MUFiles:Collection:' instance="`$collection.id`::" level='ACCESS_ADMIN' assign='mayManage'}
+            {if $mayManage || (isset($uid) && isset($collection.createdUserId) && $collection.createdUserId eq $uid)}
             <p class="managelink">
                 {gt text='Create file' assign='createTitle'}
                 <a href="{modurl modname='MUFiles' type='admin' func='edit' ot='file' aliascollection="`$collection.id`" returnTo='adminDisplayCollection'}" title="{$createTitle}" class="z-icon-es-add">{$createTitle}</a>
@@ -31,8 +31,8 @@
             {/if}
             
             {if !isset($collection.parent) || $collection.parent eq null}
-            {checkpermission component='MUFiles:Collection:' instance="`$collection.id`::" level='ACCESS_ADMIN' assign='authAdmin'}
-            {if $authAdmin || (isset($uid) && isset($collection.createdUserId) && $collection.createdUserId eq $uid)}
+            {checkpermission component='MUFiles:Collection:' instance="`$collection.id`::" level='ACCESS_ADMIN' assign='mayManage'}
+            {if $mayManage || (isset($uid) && isset($collection.createdUserId) && $collection.createdUserId eq $uid)}
             <p class="managelink">
                 {gt text='Create collection' assign='createTitle'}
                 <a href="{modurl modname='MUFiles' type='admin' func='edit' ot='collection' children="`$collection.id`" returnTo='adminDisplayCollection'}" title="{$createTitle}" class="z-icon-es-add">{$createTitle}</a>

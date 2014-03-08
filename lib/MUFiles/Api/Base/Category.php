@@ -151,8 +151,7 @@ class MUFiles_Api_Base_Category extends Zikula_AbstractApi
             if (count($filtersPerRegistry) == 1) {
                 $qb->andWhere($filtersPerRegistry[0]);
             } else {
-    
-                $qb->andWhere($qb->expr()->orX()->addMultiple($filtersPerRegistry));
+                $qb->andWhere('(' . implode(' OR ', $filtersPerRegistry) . ')');
             }
             foreach ($filterParameters['values'] as $propertyName => $filterValue) {
                 $qb->setParameter('propName' . $propertyName, $filterValue)

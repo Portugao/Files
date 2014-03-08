@@ -1,10 +1,13 @@
 {* purpose of this template: inclusion template for display of related files in user area *}
+{checkpermission component='MUFiles:File:' instance='::' level='ACCESS_COMMENT' assign='hasAdminPermission'}
+{checkpermission component='MUFiles:File:' instance='::' level='ACCESS_COMMENT' assign='hasEditPermission'}
 {if !isset($nolink)}
     {assign var='nolink' value=false}
 {/if}
 {if isset($items) && $items ne null && count($items) gt 0}
 <ul class="mufiles-related-item-list file">
 {foreach name='relLoop' item='item' from=$items}
+{if $hasAdminPermission || $item.workflowState eq 'approved'}
     <li>
 {strip}
 {if !$nolink}
@@ -26,6 +29,7 @@
 </script>
 {/if}
     </li>
+{/if}
 {/foreach}
 </ul>
 {/if}

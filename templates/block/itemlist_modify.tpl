@@ -8,10 +8,10 @@
         <span class="z-sub z-formnote">{gt text='If you change this please save the block once to reload the parameters below.'}</span>
 </div>
 
-{if $properties ne null && is_array($properties)}
+{if $catIds ne null && is_array($catIds)}
     {gt text='All' assign='lblDefault'}
     {nocache}
-    {foreach key='propertyName' item='propertyId' from=$properties}
+    {foreach key='propertyName' item='propertyId' from=$catIds}
         <div class="z-formrow">
             {modapifunc modname='MUFiles' type='category' func='hasMultipleSelection' ot=$objectType registry=$propertyName assign='hasMultiSelection'}
             {gt text='Category' assign='categoryLabel'}
@@ -59,7 +59,7 @@
 <div id="customTemplateArea" class="z-formrow z-hide">
     <label for="mUFilesCustomTemplate">{gt text='Custom template'}:</label>
         <input type="text" id="mUFilesCustomTemplate" name="customtemplate" size="40" maxlength="80" value="{$customTemplate|default:''}" />
-        <span class="z-sub z-formnote">{gt text='Example'}: <em>itemlist_{$objecttype}_display.tpl</em></span>
+        <span class="z-sub z-formnote">{gt text='Example'}: <em>itemlist_[objectType]_display.tpl</em></span>
 </div>
 
 <div class="z-formrow z-hide">

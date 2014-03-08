@@ -36,7 +36,7 @@ class MUFiles_Entity_Base_CollectionCategory extends Zikula_Doctrine2_Entity_Ent
     {
         return $this->entity;
     }
-
+    
     /**
      * Set reference to owning entity.
      *

@@ -169,7 +169,7 @@ class MUFiles_Block_Base_ItemList extends Zikula_Controller_AbstractBlock
         $currentPage = 1;
         $resultsPerPage = $vars['amount'];
         list($query, $count) = $repository->getSelectWherePaginatedQuery($qb, $currentPage, $resultsPerPage);
-        $entities = $query->getResult();
+        $entities = $repository->retrieveCollectionResult($query, $orderBy, true);
     
         // assign block vars and fetched data
         $this->view->assign('vars', $vars)
@@ -247,7 +247,7 @@ class MUFiles_Block_Base_ItemList extends Zikula_Controller_AbstractBlock
                     if (!empty($sortParam)) {
                         $sortParam .= ', ';
                     }
-                    $sortParam .= $idField . ' ASC';
+                    $sortParam .= $idField . ' DESC';
                 }
             }
         } elseif ($vars['sorting'] == 'default') {

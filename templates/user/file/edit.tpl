@@ -51,9 +51,9 @@
                 {if $file.uploadFile ne ''}
                     <span class="z-formnote">
                         {gt text='Current file'}:
-                        <a href="{$file.uploadFileFullPathUrl}" title="{$file->getTitleFromDisplayPattern()|replace:"\"":""}"{if $file.uploadFileMeta.isImage} rel="imageviewer[file]"{/if}>
+                        <a href="{$file.uploadFileFullPathUrl}" title="{$formattedEntityTitle|replace:"\"":""}"{if $file.uploadFileMeta.isImage} rel="imageviewer[file]"{/if}>
                         {if $file.uploadFileMeta.isImage}
-                            {thumb image=$file.uploadFileFullPath objectid="file-`$file.id`" preset=$fileThumbPresetUploadFile tag=true img_alt=$file->getTitleFromDisplayPattern()}
+                            {thumb image=$file.uploadFileFullPath objectid="file-`$file.id`" preset=$fileThumbPresetUploadFile tag=true img_alt=$formattedEntityTitle}
                         {else}
                             {gt text='Download'} ({$file.uploadFileMeta.size|mufilesGetFileSize:$file.uploadFileFullPath:false:false})
                         {/if}

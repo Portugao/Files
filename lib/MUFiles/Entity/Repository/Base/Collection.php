@@ -107,22 +107,22 @@ class MUFiles_Entity_Repository_Base_Collection extends EntityRepository
     public function getTitleFieldName()
     {
         $fieldName = '';
-
+    
         return $fieldName;
     }
-
+    
     /**
      * Returns name of the field used for describing entities of this repository.
      *
      * @return string Name of field to be used as description.
      */
     public function getDescriptionFieldName()
-   {
+    {
         $fieldName = 'description';
-
+    
         return $fieldName;
     }
-
+    
     /**
      * Returns name of first upload field which is capable for handling images.
      *
@@ -131,10 +131,10 @@ class MUFiles_Entity_Repository_Base_Collection extends EntityRepository
     public function getPreviewFieldName()
     {
         $fieldName = '';
-
+    
         return $fieldName;
     }
-
+    
     /**
      * Returns name of the date(time) field to be used for representing the start
      * of this object. Used for providing meta data to the tag module.
@@ -144,7 +144,7 @@ class MUFiles_Entity_Repository_Base_Collection extends EntityRepository
     public function getStartDateFieldName()
     {
         $fieldName = 'createdDate';
-
+    
         return $fieldName;
     }
 
@@ -189,7 +189,6 @@ class MUFiles_Entity_Repository_Base_Collection extends EntityRepository
     
         return $templateParameters;
     }
-    
     /**
      * Returns an array of additional template variables for view quick navigation forms.
      *
@@ -348,15 +347,41 @@ class MUFiles_Entity_Repository_Base_Collection extends EntityRepository
      */
     protected function addIdFilter($id, QueryBuilder $qb)
     {
-        if (is_array($id)) {
-            foreach ($id as $fieldName => $fieldValue) {
-                $qb->andWhere('tbl.' . $fieldName . ' = :' . $fieldName)
-                   ->setParameter($fieldName, $fieldValue);
+        return $this->addIdListFilter(array($id), $qb);
+    }
+    
+    /**
+     * Adds an array of id filters to given query instance.
+     *
+     * @param mixed                     $id The array of ids to use to retrieve the object.
+     * @param Doctrine\ORM\QueryBuilder $qb Query builder to be enhanced.
+     *
+     * @return Doctrine\ORM\QueryBuilder Enriched query builder instance.
+     */
+    protected function addIdListFilter($idList, QueryBuilder $qb)
+    {
+        $orX = $qb->expr()->orX();
+    
+        foreach ($idList as $id) {
+            // check id parameter
+            if ($id == 0) {
+                throw new \InvalidArgumentException(__('Invalid identifier received.'));
             }
-        } else {
-            $qb->andWhere('tbl.id = :id')
-               ->setParameter('id', $id);
+    
+            if (is_array($id)) {
+                $andX = $qb->expr()->andX();
+                foreach ($id as $fieldName => $fieldValue) {
+                    $andX->add($qb->expr()->eq('tbl.' . $fieldName, $fieldValue));
+                }
+                $orX->add($andX);
+            } else {
+                $orX->add($qb->expr()->eq('tbl.id', $id));
+            }
+            
         }
+    
+        $qb->andWhere($orX);
+    
         return $qb;
     }
     
@@ -373,20 +398,32 @@ class MUFiles_Entity_Repository_Base_Collection extends EntityRepository
      */
     public function selectById($id = 0, $useJoins = true, $slimMode = false)
     {
-        // check id parameter
-        if ($id == 0) {
-            throw new \InvalidArgumentException(__('Invalid identifier received.'));
-        }
+        $results = $this->selectByIdList(array($id));
     
+        return (count($results) > 0) ? $results[0] : null;
+    }
+    
+    /**
+     * Selects a list of objects with an array of ids
+     *
+     * @param mixed   $id       The array of ids to use to retrieve the objects (optional) (default=0).
+     * @param boolean $useJoins Whether to include joining related objects (optional) (default=true).
+     * @param boolean $slimMode If activated only some basic fields are selected without using any joins (optional) (default=false).
+     *
+     * @return ArrayCollection collection containing retrieved MUFiles_Entity_Collection instances
+     *
+     * @throws InvalidArgumentException Thrown if invalid parameters are received
+     */
+    public function selectByIdList($idList = array(0), $useJoins = true, $slimMode = false)
+    {
         $qb = $this->genericBaseQuery('', '', $useJoins, $slimMode);
-    
-        $qb = $this->addIdFilter($id, $qb);
-    
+        $qb = $this->addIdListFilter($idList, $qb);
+        
         $query = $this->getQueryFromBuilder($qb);
     
         $results = $query->getResult();//OneOrNullResult();
     
-        return (count($results) > 0) ? $results[0] : null;
+        return (count($results) > 0) ? $results : null;
     }
 
     /**
@@ -513,7 +550,7 @@ class MUFiles_Entity_Repository_Base_Collection extends EntityRepository
                 }
             } else {
                 // field filter
-                if ($v != '' || (is_numeric($v) && $v > 0)) {
+                if ((!is_numeric($v) && $v != '') || (is_numeric($v) && $v > 0)) {
                     if ($k == 'workflowState' && substr($v, 0, 1) == '!') {
                         $qb->andWhere('tbl.' . $k . ' != :' . $k)
                            ->setParameter($k, substr($v, 1, strlen($v)-1));
@@ -639,7 +676,7 @@ class MUFiles_Entity_Repository_Base_Collection extends EntityRepository
      *
      * @return Array with retrieved collection.
      */
-    protected function retrieveCollectionResult(Query $query, $orderBy = '', $isPaginated = false)
+    public function retrieveCollectionResult(Query $query, $orderBy = '', $isPaginated = false)
     {
         $result = $query->getResult();
     
@@ -689,16 +726,16 @@ class MUFiles_Entity_Repository_Base_Collection extends EntityRepository
     /**
      * Selects entity count with a given where clause.
      *
-     * @param string  $where    The where clause to use when retrieving the object count (optional) (default='').
-     * @param boolean $useJoins Whether to include joining related objects (optional) (default=true).
+     * @param string  $where      The where clause to use when retrieving the object count (optional) (default='').
+     * @param boolean $useJoins   Whether to include joining related objects (optional) (default=true).
+     * @param array   $parameters List of determined filter options.
      *
      * @return integer amount of affected records
      */
-    public function selectCount($where = '', $useJoins = true)
+    public function selectCount($where = '', $useJoins = true, $parameters = array())
     {
         $qb = $this->getCountQuery($where, $useJoins);
     
-        $parameters = array();
         $qb = $this->applyDefaultFilters($qb, $parameters);
     
         $query = $qb->getQuery();

@@ -24,7 +24,7 @@ abstract class MUFiles_Form_Plugin_AbstractObjectSelector extends MUFiles_Form_P
      *
      * @return void
      */
-    public function load(Zikula_Form_View $view, &$params)
+    /*public function load(Zikula_Form_View $view, &$params)
     {
         if (!$this->mandatory) {
             $this->addItem('', NULL);
@@ -44,5 +44,5 @@ abstract class MUFiles_Form_Plugin_AbstractObjectSelector extends MUFiles_Form_P
             $itemId = $this->createItemIdentifier($item);
             $this->addItem($itemLabel, $itemId);
         }
-    }
+    }*/
 }

@@ -245,12 +245,13 @@ class MUFiles_Form_Handler_Admin_Base_Edit extends Zikula_Form_AbstractHandler
         $this->view->assign('mode', $this->mode)
                    ->assign('inlineUsage', $this->inlineUsage);
     
+        // save entity reference for later reuse
+        $this->entityRef = $entity;
+        
+        
         if ($this->hasCategories === true) {
             $this->initCategoriesForEdit($entity);
         }
-    
-        // save entity reference for later reuse
-        $this->entityRef = $entity;
     
         $workflowHelper = new MUFiles_Util_Workflow($this->view->getServiceManager());
         $actions = $workflowHelper->getActionsForObject($entity);
@@ -342,7 +343,6 @@ class MUFiles_Form_Handler_Admin_Base_Edit extends Zikula_Form_AbstractHandler
                 return LogUtil::registerError($this->__('No such item.'));
             }
             $entity = clone $entityT;
-            $entity->resetWorkflow();
         } else {
             $entityClass = $this->name . '_Entity_' . ucfirst($this->objectType);
             $entity = new $entityClass();

@@ -193,7 +193,7 @@ class MUFiles_NewsletterPlugin_ItemList extends Newsletter_AbstractPlugin
         $currentPage = 1;
         $resultsPerPage = isset($args['amount']) && is_numeric($args['amount']) ? $args['amount'] : $this->nItems;
         list($query, $count) = $repository->getSelectWherePaginatedQuery($qb, $currentPage, $resultsPerPage);
-        $entities = $query->getResult();
+        $entities = $repository->retrieveCollectionResult($query, $orderBy, true);
     
         // post processing
         $descriptionFieldName = $repository->getDescriptionFieldName();
@@ -247,7 +247,7 @@ class MUFiles_NewsletterPlugin_ItemList extends Newsletter_AbstractPlugin
                     if (!empty($sortParam)) {
                         $sortParam .= ', ';
                     }
-                    $sortParam .= $idField . ' ASC';
+                    $sortParam .= $idField . ' DESC';
                 }
             }
         } elseif ($args['sorting'] == 'default') {

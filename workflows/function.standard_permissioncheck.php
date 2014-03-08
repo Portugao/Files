@@ -25,6 +25,7 @@
  */
 function MUFiles_workflow_standard_permissioncheck($obj, $permLevel, $currentUser, $actionId)
 {
+
     // calculate the permission component
     $objectType = $obj['_objectType'];
     $component = 'MUFiles:' . ucwords($objectType) . ':';

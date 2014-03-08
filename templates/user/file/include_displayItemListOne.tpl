@@ -1,4 +1,6 @@
 {* purpose of this template: inclusion template for display of related files in user area *}
+{checkpermission component='MUFiles:File:' instance='::' level='ACCESS_COMMENT' assign='hasAdminPermission'}
+{checkpermission component='MUFiles:File:' instance='::' level='ACCESS_COMMENT' assign='hasEditPermission'}
 {if !isset($nolink)}
     {assign var='nolink' value=false}
 {/if}

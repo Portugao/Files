@@ -3,7 +3,7 @@
     {foreach item='file' from=$items}
         <dt>{$file->getTitleFromDisplayPattern()}</dt>
         {if $file.description}
-            <dd>{$file.description|truncate:200:"..."}</dd>
+            <dd>{$file.description|strip_tags|truncate:200:'&hellip;'}</dd>
         {/if}
         <dd><a href="{modurl modname='MUFiles' type='user' func='display' ot=$objectType id=$file.id}">{gt text='Read more'}</a>
         </dd>

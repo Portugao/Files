@@ -72,7 +72,7 @@ class MUFiles_Util_Base_Image extends Zikula_AbstractBase
         $presetData = array(
             'width'     => 100,      // thumbnail width in pixels
             'height'    => 100,      // thumbnail height in pixels
-            'mode'      => 'inset',  // inset or outset
+            'mode'      => 'inset',  // inset or outbound
             'extension' => null      // file extension for thumbnails (jpg, png, gif; null for original file type)
         );
     

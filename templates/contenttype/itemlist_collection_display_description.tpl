@@ -3,7 +3,7 @@
     {foreach item='collection' from=$items}
         <dt>{$collection->getTitleFromDisplayPattern()}</dt>
         {if $collection.description}
-            <dd>{$collection.description|truncate:200:"..."}</dd>
+            <dd>{$collection.description|strip_tags|truncate:200:'&hellip;'}</dd>
         {/if}
         <dd><a href="{modurl modname='MUFiles' type='user' func='display' ot=$objectType id=$collection.id}">{gt text='Read more'}</a>
         </dd>

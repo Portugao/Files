@@ -22,7 +22,7 @@
             <label for="mUFilesArgs_{$objectType}_amount">{gt text='Amount'}:</label>
                 <input type="text" id="mUFilesArgs_{$objectType}_amount" name="MUFilesArgs[{$objectType}][amount]" value="{$pageArgs.$objectType.amount|default:'5'}" maxlength="2" size="10" />
         </div>
-
+        
         <div class="z-formrow z-hide">
             <label for="mUFilesArgs_{$objectType}_filter">{gt text='Filter (expert option)'}:</label>
                 <input type="text" id="mUFilesArgs_{$objectType}_filter" name="MUFilesArgs[{$objectType}][filter]" value="{$pageArgs.$objectType.filter|default:''}" size="40" />

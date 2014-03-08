@@ -99,7 +99,7 @@
                     <input type="text" id="mUFilesSearchTerm" name="searchterm" style="width: 150px" class="z-floatleft" style="margin-right: 10px" />
                     <input type="button" id="mUFilesSearchGo" name="gosearch" value="{gt text='Filter'}" style="width: 80px" />
             </div>
-
+            
             <div style="margin-left: 6em">
                 {pager display='page' rowcount=$pager.numitems limit=$pager.itemsperpage posvar='pos' template='pagercss.tpl' maxpages='10'}
             </div>

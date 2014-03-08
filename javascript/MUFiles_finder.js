@@ -13,6 +13,7 @@ function getPopupAttributes()
 
     pWidth = screen.width * 0.75;
     pHeight = screen.height * 0.66;
+
     return 'width=' + pWidth + ',height=' + pHeight + ',scrollbars,resizable';
 }
 
@@ -224,21 +225,24 @@ mufiles.itemSelector.getItemList = function ()
             'sortdir=' + $F(baseId + 'SortDir') + '&' +
             'searchterm=' + $F(baseId + 'SearchTerm');
 
-    request = new Zikula.Ajax.Request('ajax.php?module=MUFiles&func=getItemListFinder', {
-        method: 'post',
-        parameters: pars,
-        onFailure: function(req) {
-            Zikula.showajaxerror(req.getMessage());
-        },
-        onSuccess: function(req) {
-            var baseId;
-            baseId = mufiles.itemSelector.baseId;
-            mufiles.itemSelector.items[baseId] = req.getData();
-            $('ajax_indicator').addClassName('z-hide');
-            mufiles.itemSelector.updateItemDropdownEntries();
-            mufiles.itemSelector.updatePreview();
+    request = new Zikula.Ajax.Request(
+        Zikula.Config.baseURL + 'ajax.php?module=MUFiles&func=getItemListFinder',
+        {
+            method: 'post',
+            parameters: pars,
+            onFailure: function(req) {
+                Zikula.showajaxerror(req.getMessage());
+            },
+            onSuccess: function(req) {
+                var baseId;
+                baseId = mufiles.itemSelector.baseId;
+                mufiles.itemSelector.items[baseId] = req.getData();
+                $('ajax_indicator').addClassName('z-hide');
+                mufiles.itemSelector.updateItemDropdownEntries();
+                mufiles.itemSelector.updatePreview();
+            }
         }
-    });
+    );
 };
 
 mufiles.itemSelector.updateItemDropdownEntries = function ()

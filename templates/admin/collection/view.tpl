@@ -9,7 +9,7 @@
     </div>
 
     {if $canBeCreated}
-        {checkpermissionblock component='MUFiles:Collection:' instance='::' level='ACCESS_EDIT'}
+        {checkpermissionblock component='MUFiles:Collection:' instance='::' level='ACCESS_COMMENT'}
             {gt text='Create collection' assign='createTitle'}
             <a href="{modurl modname='MUFiles' type='admin' func='edit' ot='collection'}" title="{$createTitle}" class="z-icon-es-add">{$createTitle}</a>
         {/checkpermissionblock}

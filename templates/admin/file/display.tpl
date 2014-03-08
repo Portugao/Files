@@ -6,7 +6,7 @@
     {pagesetvar name='title' value=$templateTitle|@html_entity_decode}
     <div class="z-admin-content-pagetitle">
         {icon type='display' size='small' __alt='Details'}
-        <h3>{$templateTitle|notifyfilters:'mufiles.filter_hooks.files.filter'} <small>{$file.workflowState|mufilesObjectState:false|lower})</small>{icon id='itemActionsTrigger' type='options' size='extrasmall' __alt='Actions' class='z-pointer z-hide'}</h3>
+        <h3>{$templateTitle|notifyfilters:'mufiles.filter_hooks.files.filter'} <small>({$file.workflowState|mufilesObjectState:false|lower})</small>{icon id='itemActionsTrigger' type='options' size='extrasmall' __alt='Actions' class='z-pointer z-hide'}</h3>
     </div>
 
     <dl>

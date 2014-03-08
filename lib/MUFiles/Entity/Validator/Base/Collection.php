@@ -57,7 +57,7 @@ class MUFiles_Entity_Validator_Base_Collection extends MUFiles_Validator
      */
     public function isUniqueValue($fieldName)
     {
-        if ($this->entity[$fieldName] == '') {
+        if ($this->entity[$fieldName] === '') {
             return false;
         }
     

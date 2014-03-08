@@ -25,7 +25,7 @@ class MUFiles_Util_Controller extends MUFiles_Util_Base_Controller
      * @return mixed Output.
      * @throws Exception if invalid object type is given.
      */
-    public function getFileBaseFolder($objectType, $fieldName)
+    public function getFileBaseFolder($objectType, $fieldName, $ignoreCreate = false)
     {
         if (!in_array($objectType, $this->getObjectTypes())) {
             throw new Exception('Error! Invalid object type received.');

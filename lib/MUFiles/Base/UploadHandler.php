@@ -137,6 +137,7 @@ class MUFiles_Base_UploadHandler
             return LogUtil::registerError(__('Error! This file type is not allowed. Please choose another file format.', $dom));
         }
     
+        // validate file size
         $maxSize = $this->allowedFileSizes[$objectType][$fieldName];
         if ($maxSize > 0) {
             $fileSize = filesize($file['tmp_name']);
@@ -277,7 +278,7 @@ class MUFiles_Base_UploadHandler
                 $fileNameCharCount = strlen($fileName);
                 for ($y = 0; $y < $fileNameCharCount; $y++) {
                     if (preg_match('/[^0-9A-Za-z_\.]/', $fileName[$y])) {
-                    $fileName[$y] = '_';
+                        $fileName[$y] = '_';
                     }
                 }
                 // append incremented number

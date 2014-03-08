@@ -1,15 +1,14 @@
 {* purpose of this template: collections display view in user area *}
 {include file='user/header.tpl'}
-<div class="mufiles-collection mufiles-display withrightbox">
-{gt text='Collection' assign='templateTitle'}
-{assign var='templateTitle' value=$collection.name|default:$templateTitle}
-{pagesetvar name='title' value=$templateTitle|@html_entity_decode}
-<div class="z-frontendcontainer">
-    <h2>{$templateTitle|notifyfilters:'mufiles.filter_hooks.collections.filter'} ({$collection.workflowState|mufilesObjectState:false|lower}){icon id='itemactionstrigger' type='options' size='extrasmall' __alt='Actions' class='z-pointer z-hide'}</h2>
+<div class="mufiles-collection mufiles-display with-rightbox">
+    {gt text='Collection' assign='templateTitle'}
+    {assign var='templateTitle' value=$collection->getTitleFromDisplayPattern()|default:$templateTitle}
+    {pagesetvar name='title' value=$templateTitle|@html_entity_decode}
+    <h2>{$templateTitle|notifyfilters:'mufiles.filter_hooks.collections.filter'} {* <small>({$collection.workflowState|mufilesObjectState:false|lower})</small> *} {icon id='itemActionsTrigger' type='options' size='extrasmall' __alt='Actions' class='z-pointer z-hide'}</h2>
 
-{if !isset($smarty.get.theme) || $smarty.get.theme ne 'Printer'}
-    <div class="mufiles-rightbox">
-        <h3>{gt text='Files'}</h3>
+    {if !isset($smarty.get.theme) || $smarty.get.theme ne 'Printer'}
+        <div class="mufiles-rightbox">
+            <h3>{gt text='Files'}</h3>
         
         {if isset($collection.alilasfile) && $collection.alilasfile ne null}
             {include file='user/file/include_displayItemListMany.tpl' items=$collection.alilasfile}
@@ -72,28 +71,28 @@
 {include file='user/include_categories_display.tpl' obj=$collection}
 {include file='user/include_standardfields_display.tpl' obj=$collection}
 
-{if !isset($smarty.get.theme) || $smarty.get.theme ne 'Printer'}
-    {* include display hooks *}
-    {notifydisplayhooks eventname='mufiles.ui_hooks.collections.display_view' id=$collection.id urlobject=$currentUrlObject assign='hooks'}
-    {foreach key='providerArea' item='hook' from=$hooks}
-        {$hook}
-    {/foreach}
-    {if count($collection._actions) gt 0}
-        <p id="itemactions">
-        {foreach item='option' from=$collection._actions}
-            <a href="{$option.url.type|mufilesActionUrl:$option.url.func:$option.url.arguments}" title="{$option.linkTitle|safetext}" class="z-icon-es-{$option.icon}">{$option.linkText|safetext}</a>
+    {if !isset($smarty.get.theme) || $smarty.get.theme ne 'Printer'}
+        {* include display hooks *}
+        {notifydisplayhooks eventname='mufiles.ui_hooks.collections.display_view' id=$collection.id urlobject=$currentUrlObject assign='hooks'}
+        {foreach key='providerArea' item='hook' from=$hooks}
+            {$hook}
         {/foreach}
-        </p>
-        <script type="text/javascript">
-        /* <![CDATA[ */
-            document.observe('dom:loaded', function() {
-                mufilesInitItemActions('collection', 'display', 'itemactions');
-            });
-        /* ]]> */
-        </script>
+        {if count($collection._actions) gt 0}
+            <p id="itemActions">
+            {foreach item='option' from=$collection._actions}
+                <a href="{$option.url.type|mufilesActionUrl:$option.url.func:$option.url.arguments}" title="{$option.linkTitle|safetext}" class="z-icon-es-{$option.icon}">{$option.linkText|safetext}</a>
+            {/foreach}
+            </p>
+            <script type="text/javascript">
+            /* <![CDATA[ */
+                document.observe('dom:loaded', function() {
+                    mufilesInitItemActions('collection', 'display', 'itemActions');
+                });
+            /* ]]> */
+            </script>
+        {/if}
+        <br style="clear: right" />
     {/if}
-    <br style="clear: right" />
-{/if}
 
 </div>
 </div>

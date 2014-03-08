@@ -61,7 +61,7 @@ class MUFiles_Util_Base_Controller extends Zikula_AbstractBase
      *
      * @param string $objectType The object type to retrieve.
      *
-     * @boolean Whether composite keys are used or not.
+     * @return boolean Whether composite keys are used or not.
      */
     public function hasCompositeKeys($objectType)
     {
@@ -140,7 +140,7 @@ class MUFiles_Util_Base_Controller extends Zikula_AbstractBase
      */
     public function formatPermalink($name)
     {
-        $name = str_replace(array('ä', 'ö', 'ü', 'Ä', 'Ö', 'Ü', 'ß', '.', '?', '"', '/', ':', 'é', 'è', 'â'),
+        $name = str_replace(array('?', '?', '?', '?', '?', '?', '?', '.', '?', '"', '/', ':', '?', '?', '?'),
                             array('ae', 'oe', 'ue', 'Ae', 'Oe', 'Ue', 'ss', '', '', '', '-', '-', 'e', 'e', 'a'),
                             $name);
         $name = DataUtil::formatPermalink($name);

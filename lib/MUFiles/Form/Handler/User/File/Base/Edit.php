@@ -28,11 +28,11 @@ class MUFiles_Form_Handler_User_File_Base_Edit extends MUFiles_Form_Handler_User
     public function preInitialize()
     {
         parent::preInitialize();
-
+    
         $this->objectType = 'file';
         $this->objectTypeCapital = 'File';
         $this->objectTypeLower = 'file';
-
+    
         $this->hasPageLockSupport = true;
         $this->hasCategories = false;
         // array with upload fields and mandatory flags
@@ -92,6 +92,11 @@ class MUFiles_Form_Handler_User_File_Base_Edit extends MUFiles_Form_Handler_User
     
         // assign data to template as array (makes translatable support easier)
         $this->view->assign($this->objectTypeLower, $entityData);
+    
+        if ($this->mode == 'edit') {
+            // assign formatted title
+            $this->view->assign('formattedEntityTitle', $entity->getTitleFromDisplayPattern());
+        }
     
         // everything okay, no initialization errors occured
         return true;
@@ -263,10 +268,48 @@ class MUFiles_Form_Handler_User_File_Base_Edit extends MUFiles_Form_Handler_User
     
         // parse given redirect code and return corresponding url
         switch ($this->returnTo) {
-            case 'ajax':
-                        return ModUtil::url($this->name, 'ajax', 'main');
-                    default:
-                        return $this->getDefaultReturnUrl($args);
+            case 'admin':
+                return ModUtil::url($this->name, 'admin', 'main');
+            case 'adminView':
+                return ModUtil::url($this->name, 'admin', 'view',
+                                                array('ot' => $this->objectType));
+            case 'adminDisplay':
+                if ($args['commandName'] != 'delete' && !($this->mode == 'create' && $args['commandName'] == 'cancel')) {
+                    $urlArgs = $this->addIdentifiersToUrlArgs();
+                    $urlArgs['ot'] = $this->objectType;
+                    return ModUtil::url($this->name, 'admin', 'display', $urlArgs);
+                }
+                return $this->getDefaultReturnUrl($args);
+            case 'user':
+                return ModUtil::url($this->name, 'user', 'main');
+            case 'userView':
+                return ModUtil::url($this->name, 'user', 'view',
+                                                array('ot' => $this->objectType));
+            case 'userDisplay':
+                if ($args['commandName'] != 'delete' && !($this->mode == 'create' && $args['commandName'] == 'cancel')) {
+                    $urlArgs = $this->addIdentifiersToUrlArgs();
+                    $urlArgs['ot'] = $this->objectType;
+                    return ModUtil::url($this->name, 'user', 'display', $urlArgs);
+                }
+                return $this->getDefaultReturnUrl($args);
+            case 'adminViewCollection':
+                return ModUtil::url($this->name, 'admin', 'view',
+                                         array('ot' => 'collection'));
+            case 'adminDisplayCollection':
+                if (!empty($this->relationPresets['aliascollection'])) {
+                    return ModUtil::url($this->name, 'admin', 'display', array('ot' => 'collection', 'id' => $this->relationPresets['aliascollection']));
+                }
+                return $this->getDefaultReturnUrl($args);
+            case 'userViewCollection':
+                return ModUtil::url($this->name, 'user', 'view',
+                                         array('ot' => 'collection'));
+            case 'userDisplayCollection':
+                if (!empty($this->relationPresets['aliascollection'])) {
+                    return ModUtil::url($this->name, 'user', 'display', array('ot' => 'collection', 'id' => $this->relationPresets['aliascollection']));
+                }
+                return $this->getDefaultReturnUrl($args);
+            default:
+                return $this->getDefaultReturnUrl($args);
         }
     }
 }

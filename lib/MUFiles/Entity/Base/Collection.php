@@ -91,44 +91,39 @@ abstract class MUFiles_Entity_Base_Collection extends Zikula_EntityAccess
      */
     protected $categories = null;
     
-    /**
-     * @ORM\Column(type="integer")
-     * @ZK\StandardFields(type="userid", on="create")
-     * @var integer $createdUserId.
-     */
-    protected $createdUserId;
+            /**
+             * @ORM\Column(type="integer")
+             * @ZK\StandardFields(type="userid", on="create")
+             * @var integer $createdUserId.
+             */
+            protected $createdUserId;
     
-    /**
-     * @ORM\Column(type="integer")
-     * @ZK\StandardFields(type="userid", on="update")
-     * @var integer $updatedUserId.
-     */
-    protected $updatedUserId;
+            /**
+             * @ORM\Column(type="integer")
+             * @ZK\StandardFields(type="userid", on="update")
+             * @var integer $updatedUserId.
+             */
+            protected $updatedUserId;
     
-    /**
-     * @ORM\Column(type="datetime")
-     * @Gedmo\Timestampable(on="create")
-     * @var datetime $createdDate.
-     */
-    protected $createdDate;
+            /**
+             * @ORM\Column(type="datetime")
+             * @Gedmo\Timestampable(on="create")
+             * @var datetime $createdDate.
+             */
+            protected $createdDate;
     
-    /**
-     * @ORM\Column(type="datetime")
-     * @Gedmo\Timestampable(on="update")
-     * @var datetime $updatedDate.
-     */
-    protected $updatedDate;
+            /**
+             * @ORM\Column(type="datetime")
+             * @Gedmo\Timestampable(on="update")
+             * @var datetime $updatedDate.
+             */
+            protected $updatedDate;
     
     /**
      * Bidirectional - Many children [collections] are linked by one parent [collection] (OWNING SIDE).
      *
      * @ORM\ManyToOne(targetEntity="MUFiles_Entity_Collection", inversedBy="children")
-     * @ORM\JoinTable(name="mufiles_collection",
-             *      joinColumns={@ORM\JoinColumn(name="id", referencedColumnName="id" )
-             },
-             *      inverseJoinColumns={@ORM\JoinColumn(name="parentid", referencedColumnName="id" )
-            }
-             * )
+     * @ORM\JoinColumn(name="collection_parentid", referencedColumnName="id" )
      * @var MUFiles_Entity_Collection $parent.
      */
     protected $parent;
@@ -147,9 +142,9 @@ abstract class MUFiles_Entity_Base_Collection extends Zikula_EntityAccess
      *
      * @ORM\OneToMany(targetEntity="MUFiles_Entity_Collection", mappedBy="parent", cascade={"remove"})
      * @ORM\JoinTable(name="mufiles_parentchildren",
-             *      joinColumns={@ORM\JoinColumn(name="parentid", referencedColumnName="id" )
+             *      joinColumns={@ORM\JoinColumn(name="collection_parentid", referencedColumnName="id" )
              },
-             *      inverseJoinColumns={@ORM\JoinColumn(name="id", referencedColumnName="id" )
+             *      inverseJoinColumns={@ORM\JoinColumn(name="collection_id", referencedColumnName="id" )
             }
              * )
      * @ORM\OrderBy({"title" = "ASC"})
@@ -643,7 +638,7 @@ abstract class MUFiles_Entity_Base_Collection extends Zikula_EntityAccess
     
     
     /**
-     * Initialise validator and return it's instance.
+     * Initialises the validator and return it's instance.
      *
      * @return MUFiles_Entity_Validator_Collection The validator for this entity.
      */
@@ -659,8 +654,10 @@ abstract class MUFiles_Entity_Base_Collection extends Zikula_EntityAccess
     
     /**
      * Sets/retrieves the workflow details.
+     *
+     * @param boolean $forceLoading load the workflow record.
      */
-    public function initWorkflow()
+    public function initWorkflow($forceLoading = false)
     {
         $currentFunc = FormUtil::getPassedValue('func', 'main', 'GETPOST', FILTER_SANITIZE_STRING);
         $isReuse = FormUtil::getPassedValue('astemplate', '', 'GETPOST', FILTER_SANITIZE_STRING);
@@ -670,6 +667,7 @@ abstract class MUFiles_Entity_Base_Collection extends Zikula_EntityAccess
         $workflowHelper = new MUFiles_Util_Workflow(ServiceUtil::getManager());
         $schemaName = $workflowHelper->getWorkflowName($this['_objectType']);
         $this['__WORKFLOW__'] = array(
+            'module' => 'MUFiles',
             'state' => $this['workflowState'],
             'obj_table' => $this['_objectType'],
             'obj_idcolumn' => $idColumn,
@@ -677,7 +675,7 @@ abstract class MUFiles_Entity_Base_Collection extends Zikula_EntityAccess
             'schemaname' => $schemaName);
         
         // load the real workflow only when required (e. g. when func is edit or delete)
-        if (!in_array($currentFunc, array('main', 'view', 'display')) && empty($isReuse)) {
+        if ((!in_array($currentFunc, array('main', 'view', 'display')) && empty($isReuse)) || $forceLoading) {
             $result = Zikula_Workflow_Util::getWorkflowForObject($this, $this['_objectType'], $idColumn, 'MUFiles');
             if (!$result) {
                 $dom = ZLanguage::getModuleDomain('MUFiles');
@@ -702,6 +700,7 @@ abstract class MUFiles_Entity_Base_Collection extends Zikula_EntityAccess
         $workflowHelper = new MUFiles_Util_Workflow(ServiceUtil::getManager());
         $schemaName = $workflowHelper->getWorkflowName($this['_objectType']);
         $this['__WORKFLOW__'] = array(
+            'module' => 'MUFiles',
             'state' => $this['workflowState'],
             'obj_table' => $this['_objectType'],
             'obj_idcolumn' => 'id',
@@ -799,12 +798,13 @@ abstract class MUFiles_Entity_Base_Collection extends Zikula_EntityAccess
                     'linkText' => __('Back to overview', $dom)
                 );
             }
-    
+            
             // more actions for adding new related items
             $authAdmin = SecurityUtil::checkPermission($component, $instance, ACCESS_ADMIN);
+            
             $uid = UserUtil::getVar('uid');
             if ($authAdmin || (isset($uid) && isset($this->createdUserId) && $this->createdUserId == $uid)) {
-    
+            
                 $urlArgs = array('ot' => 'file',
                                  'aliascollection' => $this->id);
                 if ($currentFunc == 'view') {
@@ -818,7 +818,7 @@ abstract class MUFiles_Entity_Base_Collection extends Zikula_EntityAccess
                     'linkTitle' => __('Create file', $dom),
                     'linkText' => __('Create file', $dom)
                 );
-    
+            
                 $urlArgs = array('ot' => 'collection',
                                  'parent' => $this->id);
                 if ($currentFunc == 'view') {
@@ -877,12 +877,13 @@ abstract class MUFiles_Entity_Base_Collection extends Zikula_EntityAccess
                     'linkText' => __('Back to overview', $dom)
                 );
             }
-    
+            
             // more actions for adding new related items
             $authAdmin = SecurityUtil::checkPermission($component, $instance, ACCESS_ADMIN);
+            
             $uid = UserUtil::getVar('uid');
             if ($authAdmin || (isset($uid) && isset($this->createdUserId) && $this->createdUserId == $uid)) {
-    
+            
                 $urlArgs = array('ot' => 'file',
                                  'aliascollection' => $this->id);
                 if ($currentFunc == 'view') {
@@ -896,7 +897,7 @@ abstract class MUFiles_Entity_Base_Collection extends Zikula_EntityAccess
                     'linkTitle' => __('Create file', $dom),
                     'linkText' => __('Create file', $dom)
                 );
-    
+            
                 $urlArgs = array('ot' => 'collection',
                                  'parent' => $this->id);
                 if ($currentFunc == 'view') {
@@ -917,7 +918,7 @@ abstract class MUFiles_Entity_Base_Collection extends Zikula_EntityAccess
     /**
      * Creates url arguments array for easy creation of display urls.
      *
-     * @return Array The resulting arguments list. 
+     * @return Array The resulting arguments list.
      */
     public function createUrlArgs()
     {
@@ -953,6 +954,17 @@ abstract class MUFiles_Entity_Base_Collection extends Zikula_EntityAccess
     {
         return 'mufiles.ui_hooks.collections';
     }
+
+    /**
+     * Returns an array of all related objects that need to be persited after clone.
+     * 
+     * @param array $objects The objects are added to this array. Default: array()
+     * 
+     * @return array of entity objects.
+     */
+    public function getRelatedObjectsToPersist(&$objects = array()) {
+        return array();
+     }
 
     
     /**
@@ -1210,11 +1222,11 @@ abstract class MUFiles_Entity_Base_Collection extends Zikula_EntityAccess
     /**
      * Clone interceptor implementation.
      * This method is for example called by the reuse functionality.
-     * Performs a deep copy. 
+     * Performs a quite simple shallow copy.
      *
      * See also:
      * (1) http://docs.doctrine-project.org/en/latest/cookbook/implementing-wakeup-or-clone.html
-     * (2) http://www.sunilb.com/php/php5-oops-tutorial-magic-methods-__clone-method
+     * (2) http://www.php.net/manual/en/language.oop5.cloning.php
      * (3) http://stackoverflow.com/questions/185934/how-do-i-create-a-copy-of-an-object-in-php
      * (4) http://www.pantovic.com/article/26/doctrine2-entity-cloning
      */
@@ -1222,33 +1234,30 @@ abstract class MUFiles_Entity_Base_Collection extends Zikula_EntityAccess
     {
         // If the entity has an identity, proceed as normal.
         if ($this->id) {
-            // create new instance
-            
-            $entity = new \MUFiles_Entity_Collection();
             // unset identifiers
-            $entity->setId(null);
-            // copy simple fields
-            $entity->set_objectType($this->get_objectType());
-            $entity->set_actions($this->get_actions());
-            $entity->initValidator();
-            $entity->setName($this->getName());
-            $entity->setDescription($this->getDescription());
-            $entity->setParentid($this->getParentid());
+            $this->setId(0);
     
-            // handle related objects
-            // prevent shared references by doing a deep copy - see (2) and (3) for more information
-            if ($this->getParent() != null) {
-                $this->parent = clone $this->parent;
-                $entity->setParent($this->parent);
-            }
-            if ($this->getAlilasfile() != null) {
-                $entity->setAlilasfile($this->alilasfile);
-            }
-            if ($this->getChildren() != null) {
-                $entity->setChildren($this->children);
-            }
+            // init validator
+            $this->initValidator();
     
-            return $entity;
+            // reset Workflow
+            $this->resetWorkflow();
+    
+            $this->setCreatedDate(null);
+            $this->setCreatedUserId(null);
+            $this->setUpdatedDate(null);
+            $this->setUpdatedUserId(null);
+    
+    
+            // clone categories
+            $categories = $this->categories;
+            $this->categories = new ArrayCollection();
+            foreach ($categories as $c) {
+                $newCat = clone $c;
+                $this->categories->add($newCat);
+                $newCat->setEntity($this);
+            }
+            
         }
         // otherwise do nothing, do NOT throw an exception!
     }

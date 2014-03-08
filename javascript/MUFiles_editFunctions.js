@@ -12,7 +12,7 @@ Ajax.Autocompleter.prototype.updateChoices = function (choices)
         if (!choices || choices == '<ul></ul>') {
             this.stopIndicator();
             var idPrefix = this.options.indicator.replace('Indicator', '');
-            if ($(idPrefix + 'NoResultsHint') != undefined) {
+            if ($(idPrefix + 'NoResultsHint') != null) {
                 $(idPrefix + 'NoResultsHint').removeClassName('z-hide');
             }
         } else {
@@ -49,7 +49,7 @@ Ajax.Autocompleter.prototype.updateChoices = function (choices)
  */
 function mufilesResetUploadField(fieldName)
 {
-    if ($(fieldName) != undefined) {
+    if ($(fieldName) != null) {
         $(fieldName).setAttribute('type', 'input');
         $(fieldName).setAttribute('type', 'file');
     }
@@ -60,7 +60,7 @@ function mufilesResetUploadField(fieldName)
  */
 function mufilesInitUploadField(fieldName)
 {
-    if ($('reset' + fieldName.capitalize() + 'Val') != undefined) {
+    if ($('reset' + fieldName.capitalize() + 'Val') != null) {
         $('reset' + fieldName.capitalize() + 'Val').observe('click', function (evt) {
             evt.preventDefault();
             mufilesResetUploadField(fieldName);
@@ -74,7 +74,7 @@ function mufilesInitUploadField(fieldName)
 function mufilesToggleRelatedItemForm(idPrefix)
 {
     // if we don't have a toggle link do nothing
-    if ($(idPrefix + 'AddLink') === undefined) {
+    if ($(idPrefix + 'AddLink') === null) {
         return;
     }
 
@@ -257,13 +257,13 @@ function mufilesInitRelationItemsForm(objectType, idPrefix, includeEditing)
     var acOptions, itemIds, itemIdsArr;
 
     // add handling for the toggle link if existing
-    if ($(idPrefix + 'AddLink') !== undefined) {
+    if ($(idPrefix + 'AddLink') !== null) {
         $(idPrefix + 'AddLink').observe('click', function (e) {
             mufilesToggleRelatedItemForm(idPrefix);
         });
     }
     // add handling for the cancel button
-    if ($(idPrefix + 'SelectorDoCancel') !== undefined) {
+    if ($(idPrefix + 'SelectorDoCancel') !== null) {
         $(idPrefix + 'SelectorDoCancel').observe('click', function (e) {
             mufilesResetRelatedItemForm(idPrefix);
         });
@@ -280,11 +280,11 @@ function mufilesInitRelationItemsForm(objectType, idPrefix, includeEditing)
 
             // modify the query string before the request
             queryString = defaultQueryString + '&ot=' + objectType;
-            if ($(idPrefix + 'ItemList') !== undefined) {
+            if ($(idPrefix + 'ItemList') !== null) {
                 queryString += '&exclude=' + $F(idPrefix + 'ItemList');
             }
 
-            if ($(idPrefix + 'NoResultsHint') != undefined) {
+            if ($(idPrefix + 'NoResultsHint') != null) {
                 $(idPrefix + 'NoResultsHint').addClassName('z-hide');
             }
 
@@ -307,7 +307,7 @@ function mufilesInitRelationItemsForm(objectType, idPrefix, includeEditing)
         }
     });
 
-    if (!includeEditing || $(idPrefix + 'SelectorDoNew') === undefined) {
+    if (!includeEditing || $(idPrefix + 'SelectorDoNew') === null) {
         return;
     }
 
@@ -355,7 +355,7 @@ function mufilesCloseWindowFromInside(idPrefix, itemId)
                     // activate it
                     relationHandler.acInstance.activate();
                     // show a message 
-                    Zikula.UI.Alert(Zikula.__('Action has been completed.', 'module_mufiles_js'), Zikula.__('Information','module_mufiles_js'), {
+                    Zikula.UI.Alert(Zikula.__('Action has been completed.', 'module_mufiles_js'), Zikula.__('Information', 'module_mufiles_js'), {
                         autoClose: 3 // time in seconds
                     });
                 }

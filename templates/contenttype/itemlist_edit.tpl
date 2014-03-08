@@ -1,5 +1,4 @@
 {* Purpose of this template: edit view of generic item list content type *}
-
 <div class="z-formrow">
     {gt text='Object type' domain='module_mufiles' assign='objectTypeSelectorLabel'}
     {formlabel for='mUFilesObjectType' text=$objectTypeSelectorLabel}
@@ -68,7 +67,7 @@
     {gt text='Custom template' domain='module_mufiles' assign='customTemplateLabel'}
     {formlabel for='mUFilesCustomTemplate' text=$customTemplateLabel}
         {formtextinput id='mUFilesCustomTemplate' dataField='customTemplate' group='data' mandatory=false maxLength=80}
-        <span class="z-sub z-formnote">{gt text='Example' domain='module_mufiles'}: <em>itemlist_[objecttype]_display.tpl</em></span>
+        <span class="z-sub z-formnote">{gt text='Example' domain='module_mufiles'}: <em>itemlist_[objectType]_display.tpl</em></span>
 </div>
 
 <div class="z-formrow z-hide">

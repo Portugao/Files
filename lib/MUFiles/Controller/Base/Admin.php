@@ -38,6 +38,7 @@ class MUFiles_Controller_Base_Admin extends Zikula_AbstractController
     public function main()
     {
         $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . '::', '::', ACCESS_ADMIN), LogUtil::getErrorMsgPermission());
+        
         return $this->redirect(ModUtil::url($this->name, 'admin', 'view'));
     }
     
@@ -381,7 +382,7 @@ class MUFiles_Controller_Base_Admin extends Zikula_AbstractController
                 ModUtil::apiFunc($this->name, 'cache', 'clearItemCache', $cacheArgs);
         
                 // redirect to the list of the current object type
-                $this->redirect(ModUtil::url($this->name, 'admin', 'view',
+                return $this->redirect(ModUtil::url($this->name, 'admin', 'view',
                                                                                             array('ot' => $objectType)));
             }
         }
@@ -525,7 +526,7 @@ class MUFiles_Controller_Base_Admin extends Zikula_AbstractController
                    ->assign('commandName', $commandName)
                    ->assign('jcssConfig', JCSSUtil::getJSConfig());
 
-        $view->display('admin/inlineRedirectHandler.tpl');
+        $this->view->display('admin/inlineRedirectHandler.tpl');
 
         return true;
     }

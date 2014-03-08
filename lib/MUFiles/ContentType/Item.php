@@ -18,8 +18,3 @@ class MUFiles_ContentType_Item extends MUFiles_ContentType_Base_Item
 {
     // feel free to extend the content type here
 }
-
-function MUFiles_Api_ContentTypes_item($args)
-{
-    return new MUFiles_Api_ContentTypes_itemPlugin();
-}

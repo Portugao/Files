@@ -189,17 +189,21 @@ abstract class MUFiles_Form_Plugin_Base_AbstractObjectSelector extends Zikula_Fo
         if ($this->showEmptyValue != false) {
             $this->addItem('- - -', 0);
         }
+        
+        $fetchItemsDuringLoad = isset($params['fetchItemsDuringLoad']) ? $params['fetchItemsDuringLoad'] : true;
     
-        $items = $this->loadItems($params);
+        if ($fetchItemsDuringLoad) {
+            $items = $this->loadItems($params);
     
-        foreach ($items as $item) {
-            if (!$this->isIncluded($item)) {
-                continue;
+            foreach ($items as $item) {
+                if (!$this->isIncluded($item)) {
+                    continue;
+                }
+    
+                $itemLabel = $this->createItemLabel($item);
+                $itemId = $this->createItemIdentifier($item);
+                $this->addItem($itemLabel, $itemId);
             }
-    
-            $itemLabel = $this->createItemLabel($item);
-            $itemId = $this->createItemIdentifier($item);
-            $this->addItem($itemLabel, $itemId);
         }
     
         parent::load($view, $params);
@@ -274,9 +278,15 @@ abstract class MUFiles_Form_Plugin_Base_AbstractObjectSelector extends Zikula_Fo
     public function setSelectedValue($value)
     {
         $newValue = null;
+    
         if ($this->selectionMode == 'single') {
             if ($value instanceof Zikula_EntityAccess && method_exists($value, 'createCompositeIdentifier')) {
                 $newValue = $value->createCompositeIdentifier();
+            } elseif (is_array($value)) {
+                $idFields = ModUtil::apiFunc($this->name, 'selection', 'getIdFields', array('ot' => $value['_objectType']));
+                $newValue = $value[$idFields[0]];
+            } else {
+                $newValue[] = $value;
             }
         } else {
             $newValue = array();
@@ -284,6 +294,11 @@ abstract class MUFiles_Form_Plugin_Base_AbstractObjectSelector extends Zikula_Fo
                 foreach ($value as $entity) {
                     if ($entity instanceof Zikula_EntityAccess && method_exists($entity, 'createCompositeIdentifier')) {
                         $newValue[] = $entity->createCompositeIdentifier();
+                    } elseif (is_array($entity)) {
+                        $idFields = ModUtil::apiFunc($this->name, 'selection', 'getIdFields', array('ot' => $entity['_objectType']));
+                        $newValue[] = $entity[$idFields[0]];
+                    } else {
+                        $newValue[] = $entity;
                     }
                 }
             }
@@ -322,7 +337,14 @@ abstract class MUFiles_Form_Plugin_Base_AbstractObjectSelector extends Zikula_Fo
             $this->preselectedItems = $relatedItems;
         }
     
-        $entityData[$alias] = $itemIds;
+        if (count($itemIds) > 0) {
+            if ($this->selectionMode != 'multiple') {
+                $entityData[$alias] = ModUtil::apiFunc($this->name, 'selection', 'getEntity', array('ot' => $alias, 'id' => $itemIds[0]));
+            } else {
+                $entityData[$alias] = ModUtil::apiFunc($this->name, 'selection', 'getEntities', array('ot' => $alias, 'idList' => $itemIds));
+            }
+        }
+    
         $view->assign('linkingItem', $entityData);
     }
 
@@ -360,6 +382,11 @@ abstract class MUFiles_Form_Plugin_Base_AbstractObjectSelector extends Zikula_Fo
             return $many ? array() : null;
         }
     
+        // fix for #446
+        if (count($inputValue) == 1 && empty($inputValue[0])) {
+            return $many ? array() : null;
+        }
+    
         $this->selectedItems = $this->fetchRelatedItems($view, $inputValue);
     }
     
@@ -378,7 +405,7 @@ abstract class MUFiles_Form_Plugin_Base_AbstractObjectSelector extends Zikula_Fo
         $entityManager = $serviceManager->getService('doctrine.entitymanager');
         $repository = $entityManager->getRepository($entityClass);
     
-        $qb = $repository->genericBaseQuery('', $this->orderBy, false);
+        $qb = $repository->genericBaseQuery('', '', false);
         $qb = $this->buildWhereClause($inputValue, $qb);
         //$qb = $repository->addCommonViewFilters($qb);
     
@@ -541,7 +568,7 @@ abstract class MUFiles_Form_Plugin_Base_AbstractObjectSelector extends Zikula_Fo
      *
      * @param Array $itemIds List of concatenated identifiers.
      *
-     * @return Array with list of single identifiers. 
+     * @return Array with list of single identifiers.
      */
     protected function decodeCompositeIdentifier($itemIds)
     {
