@@ -23,7 +23,7 @@
 
     {* you can distinguish the context like this: *}
     {if $source eq 'contentType'}
-        <a href="{modurl modname='MUFiles' type='user' func='giveFile' id=$file.id}">{gt text='Download'}</a>
+        <a href="{modurl modname='MUFiles' type='user' func='giveFile' id=$file.id}">{gt text='Download'}</a> ({$file.uploadFileMeta.extension})
     {elseif $source eq 'scribite'}
         ...
     {/if}
