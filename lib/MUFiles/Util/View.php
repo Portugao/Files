@@ -23,6 +23,7 @@ class MUFiles_Util_View extends MUFiles_Util_Base_View
     {
         switch ($extension)
         {
+            // we have mime types for text documents
             case 'pdf':   //PDF
                 $mime = 'application/pdf';
                 break;
@@ -31,8 +32,17 @@ class MUFiles_Util_View extends MUFiles_Util_Base_View
                 $mime = 'application/msword';
                 break;
                 
-            case 'odt':  //
+            case 'odt':  // Libre Office text document
                 $mime = 'application/vnd.oasis.opendocument.text';
+                break;
+                
+            case 'text': // text file
+                $mime = 'text/plain';
+                break;
+                
+            // we have mime types for tables
+            case 'xls': // word excel
+                $mime = 'application/msexcel';
                 break;
         }
         

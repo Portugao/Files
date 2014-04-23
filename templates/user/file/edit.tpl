@@ -45,8 +45,8 @@
                 <span class="z-formnote"><a id="resetUploadFileVal" href="javascript:void(0);" class="z-hide">{gt text='Reset to empty value'}</a></span>
             {/if}
             
-                <span class="z-formnote">{gt text='Allowed file extensions:'} <span id="uploadFileFileExtensions">pdf</span></span>
-            <span class="z-formnote">{gt text='Allowed file size:'} {'102400'|mufilesGetFileSize:'':false:false}</span>
+                <span class="z-formnote">{gt text='Allowed file extensions:'} <span id="uploadFileFileExtensions">{modgetvar module='MUFiles' name='allowedExtensions' assign='allowedExtensions'}{$allowedExtensions}</span></span>
+            <span class="z-formnote">{gt text='Allowed file size:'}{modgetvar module='MUFiles' name='maxSize' assign='allowedFileSize'} {$allowedFileSize|mufilesGetFileSize:'':false:false}</span>
             {if $mode ne 'create'}
                 {if $file.uploadFile ne ''}
                     <span class="z-formnote">

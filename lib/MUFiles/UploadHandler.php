@@ -24,7 +24,7 @@ class MUFiles_UploadHandler extends MUFiles_Base_UploadHandler
         $this->allowedObjectTypes = array('file');
         $this->imageFileTypes = array('gif', 'jpeg', 'jpg', 'png', 'swf');
         $this->forbiddenFileTypes = array('cgi', 'pl', 'asp', 'phtml', 'php', 'php3', 'php4', 'php5', 'exe', 'com', 'bat', 'jsp', 'cfm', 'shtml');
-        $this->allowedFileSizes = array('file' => array('uploadFile' => ModUtil::getVar('MUFiles', 'maxSize')));
+        $this->allowedFileSizes = array('file' => array('uploadFile' => ModUtil::getVar('MUFiles', 'maxSize', 102400)));
     }
     
     /**
@@ -42,7 +42,7 @@ class MUFiles_UploadHandler extends MUFiles_Base_UploadHandler
         $allowedExtensions = array();
         switch ($objectType) {
             case 'file':
-                $allowedExtensions = explode(',', ModUtil::getVar('allowedExtensions'));
+                $allowedExtensions = explode(',', ModUtil::getVar('MUFiles','allowedExtensions'));
                 break;
         }
     
