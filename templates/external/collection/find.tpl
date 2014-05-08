@@ -76,7 +76,7 @@
                         {foreach item='collection' from=$items}
                             <li>
                                 <a href="#" onclick="mufiles.finder.selectItem({$collection.id})" onkeypress="mufiles.finder.selectItem({$collection.id})">{$collection->getTitleFromDisplayPattern()}</a>
-                                <input type="hidden" id="url{$collection.id}" value="{modurl modname='MUFiles' type='user' func='display' ot='collection' id=$collection.id fqurl=true}" />
+                                <input type="hidden" id="url{$collection.id}" value="{modurl modname='MUFiles' type='user' func='display' id=$collection.id fqurl=true}" />
                                 <input type="hidden" id="title{$collection.id}" value="{$collection->getTitleFromDisplayPattern()|replace:"\"":""}" />
                                 <input type="hidden" id="desc{$collection.id}" value="{capture assign='description'}{if $collection.description ne ''}{$collection.description}{/if}
                                 {/capture}{$description|strip_tags|replace:"\"":""}" />
@@ -96,6 +96,7 @@
                     <option value="name"{if $sort eq 'name'} selected="selected"{/if}>{gt text='Name'}</option>
                     <option value="description"{if $sort eq 'description'} selected="selected"{/if}>{gt text='Description'}</option>
                     <option value="parentid"{if $sort eq 'parentid'} selected="selected"{/if}>{gt text='Parentid'}</option>
+                    <option value="inFrontend"{if $sort eq 'inFrontend'} selected="selected"{/if}>{gt text='In frontend'}</option>
                     <option value="createdDate"{if $sort eq 'createdDate'} selected="selected"{/if}>{gt text='Creation date'}</option>
                     <option value="createdUserId"{if $sort eq 'createdUserId'} selected="selected"{/if}>{gt text='Creator'}</option>
                     <option value="updatedDate"{if $sort eq 'updatedDate'} selected="selected"{/if}>{gt text='Update date'}</option>

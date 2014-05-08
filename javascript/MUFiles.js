@@ -102,7 +102,7 @@ function mufilesSubmitQuickNavForm(objectType)
 /**
  * Initialise the quick navigation panel in list views.
  */
-function mufilesInitQuickNavigation(objectType, controller)
+function mufilesInitQuickNavigation(objectType)
 {
     if ($('mufiles' + mufilesCapitaliseFirstLetter(objectType) + 'QuickNavForm') == undefined) {
         return;
@@ -128,6 +128,9 @@ function mufilesInitQuickNavigation(objectType, controller)
         }
         if ($('workflowState') != undefined) {
             $('workflowState').observe('change', function () { mufilesSubmitQuickNavForm(objectType); });
+        }
+        if ($('inFrontend') != undefined) {
+            $('inFrontend').observe('change', function () { mufilesSubmitQuickNavForm(objectType); });
         }
         break;
     case 'file':

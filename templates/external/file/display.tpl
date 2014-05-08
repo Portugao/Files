@@ -2,12 +2,12 @@
 <div id="file{$file.id}" class="mufiles-external-file">
 {if $displayMode eq 'link'}
     <p class="mufiles-external-link">
-    <a href="{modurl modname='MUFiles' type='user' func='display' ot='file' id=$file.id}" title="{$file->getTitleFromDisplayPattern()|replace:"\"":""}">
+    <a href="{modurl modname='MUFiles' type='user' func='display' id=$file.id}" title="{$file->getTitleFromDisplayPattern()|replace:"\"":""}">
     {$file->getTitleFromDisplayPattern()|notifyfilters:'mufiles.filter_hooks.files.filter'}
     </a>
     </p>
 {/if}
-{checkpermissionblock component='MUFiles::' instance='::' level='ACCESS_COMMENT'}
+{checkpermissionblock component='MUFiles::' instance='::' level='ACCESS_EDIT'}
     {if $displayMode eq 'embed'}
         <p class="mufiles-external-title">
             <strong>{$file->getTitleFromDisplayPattern()|notifyfilters:'mufiles.filter_hooks.files.filter'}</strong>
@@ -22,11 +22,11 @@
     </div>
 
     {* you can distinguish the context like this: *}
-    {if $source eq 'contentType'}
-        <a href="{modurl modname='MUFiles' type='user' func='giveFile' id=$file.id}">{gt text='Download'}</a> ({$file.uploadFileMeta.extension})
+    {*if $source eq 'contentType'}
+        ...
     {elseif $source eq 'scribite'}
         ...
-    {/if}
+    {/if*}
 
     {* you can enable more details about the item: *}
     {*

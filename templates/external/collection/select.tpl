@@ -54,6 +54,7 @@
         <option value="name"{if $sort eq 'name'} selected="selected"{/if}>{gt text='Name'}</option>
         <option value="description"{if $sort eq 'description'} selected="selected"{/if}>{gt text='Description'}</option>
         <option value="parentid"{if $sort eq 'parentid'} selected="selected"{/if}>{gt text='Parentid'}</option>
+        <option value="inFrontend"{if $sort eq 'inFrontend'} selected="selected"{/if}>{gt text='In frontend'}</option>
         <option value="createdDate"{if $sort eq 'createdDate'} selected="selected"{/if}>{gt text='Creation date'}</option>
         <option value="createdUserId"{if $sort eq 'createdUserId'} selected="selected"{/if}>{gt text='Creator'}</option>
         <option value="updatedDate"{if $sort eq 'updatedDate'} selected="selected"{/if}>{gt text='Update date'}</option>
