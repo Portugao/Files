@@ -1,8 +1,0 @@
-{* purpose of this template: files view csv view in user area *}
-{mufilesTemplateHeaders contentType='text/comma-separated-values; charset=iso-8859-15' asAttachment=true filename='Files.csv'}
-"{gt text='Title'}";"{gt text='Description'}";"{gt text='Upload file'}";"{gt text='Workflow state'}"
-;"{gt text='Aliascollection'}"
-{foreach item='file' from=$items}
-    "{$file.title|replace:"\"":""}";"{$file.description|replace:"\"":""}";"{$file.uploadFile}";"{$item.workflowState|mufilesObjectState:false|lower}"
-    ;"{if isset($file.Aliascollection) && $file.Aliascollection ne null}{$file.Aliascollection.name|default:''}{/if}"
-{/foreach}
