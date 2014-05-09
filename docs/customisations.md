@@ -12,7 +12,6 @@ Changes by hand on the model to change in MOST
 
 Changed Files
 
-*templates/admin/file/edit.tpl
 *templates/external/file/display.tpl
 *templates/user/header.tpl
 *templates/user/collection/display.tpl
@@ -21,6 +20,8 @@ Changed Files
 *templates/user/file/display.tpl
 *templates/user/file/edit.tpl
 *templates/user/file/view.tpl
+
+*images/admin.png
 
 
 Implemented Classes
