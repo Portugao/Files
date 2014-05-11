@@ -16,6 +16,20 @@
  */
 class MUFiles_Util_Model extends MUFiles_Util_Base_Model
 {
+    /**
+     *
+     * This method is for getting a repository for collection
+     *
+     */
+    
+    public static function getCollectionsRepository() {
+    
+        $serviceManager = ServiceUtil::getManager();
+        $entityManager = $serviceManager->getService('doctrine.entitymanager');
+        $repository = $entityManager->getRepository('MUFiles_Entity_Collection');
+    
+        return $repository;
+    }
 	/**
 	 *
 	 * This method is for getting a repository for file
