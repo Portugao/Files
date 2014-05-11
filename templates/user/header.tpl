@@ -9,8 +9,16 @@
 
 {if !isset($smarty.get.theme) || $smarty.get.theme ne 'Printer'}
     <div class="z-frontendbox">
-        <h2>{gt text='M u files' comment='This is the title of the header template'}</h2>
+        <h2>{gt text='MUFiles' comment='This is the title of the header template'}</h2>
         {modulelinks modname='MUFiles' type='user'}
     </div>
+    {nocache}
+        {mufilesModerationObjects assign='moderationObjects'}
+        {if count($moderationObjects) gt 0}
+            {foreach item='modItem' from=$moderationObjects}
+                <p class="z-informationmsg z-center"><a href="{modurl modname='MUFiles' type='admin' func='view' ot=$modItem.objectType workflowState=$modItem.state}" class="z-bold">{$modItem.message}</a></p>
+            {/foreach}
+        {/if}
+    {/nocache}
 {/if}
 {insert name='getstatusmsg'}
