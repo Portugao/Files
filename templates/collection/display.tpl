@@ -63,6 +63,27 @@
             </p>
             {/if}
             {/if}
+            {if $lct eq 'admin'}
+                <h4>{gt text='Hookobjects'}</h4>
+            {else}
+                <h3>{gt text='Hookobjects'}</h3>
+            {/if}
+            
+            {if isset($collection.hookcollection) && $collection.hookcollection ne null}
+                {include file='hookobject/include_displayItemListMany.tpl' items=$collection.hookcollection}
+            {/if}
+            
+            {assign var='permLevel' value='ACCESS_COMMENT'}
+            {if $lct eq 'admin'}
+                {assign var='permLevel' value='ACCESS_ADMIN'}
+            {/if}
+            {checkpermission component='MUFiles:Collection:' instance="`$collection.id`::" level=$permLevel assign='mayManage'}
+            {if $mayManage || (isset($uid) && isset($collection.createdUserId) && $collection.createdUserId eq $uid)}
+            <p class="managelink">
+                {gt text='Create hookobject' assign='createTitle'}
+                <a href="{modurl modname='MUFiles' type=$lct func='edit' ot='hookobject' collectionhook="`$collection.id`" returnTo="`$lct`DisplayCollection"'}" title="{$createTitle}" class="z-icon-es-add">{$createTitle}</a>
+            </p>
+            {/if}
         </div>
     {/if}
 

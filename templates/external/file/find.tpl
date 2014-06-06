@@ -22,7 +22,8 @@
 </head>
 <body>
     <p>{gt text='Switch to'}:
-    <a href="{modurl modname='MUFiles' type='external' func='finder' objectType='collection' editor=$editorName}" title="{gt text='Search and select collection'}">{gt text='Collections'}</a>
+    <a href="{modurl modname='MUFiles' type='external' func='finder' objectType='collection' editor=$editorName}" title="{gt text='Search and select collection'}">{gt text='Collections'}</a> | 
+    <a href="{modurl modname='MUFiles' type='external' func='finder' objectType='hookobject' editor=$editorName}" title="{gt text='Search and select hookobject'}">{gt text='Hookobjects'}</a>
     </p>
     <form action="{$ourEntry|default:'index.php'}" id="mUFilesSelectorForm" method="get" class="z-form">
     <div>

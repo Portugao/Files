@@ -96,5 +96,14 @@ class MUFiles_Listener_Base_User
         // set last editor to admin (2) for all files updated by this user
         $repo->updateLastEditor($uid, 2);
         // note you could also do: $repo->deleteLastEditor($uid);
+        
+        $repo = $entityManager->getRepository('MUFiles_Entity_Hookobject');
+        // delete all hookobjects created by this user
+        $repo->deleteCreator($uid);
+        // note you could also do: $repo->updateCreator($uid, 2);
+        
+        // set last editor to admin (2) for all hookobjects updated by this user
+        $repo->updateLastEditor($uid, 2);
+        // note you could also do: $repo->deleteLastEditor($uid);
     }
 }
