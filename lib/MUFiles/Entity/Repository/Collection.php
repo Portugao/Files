@@ -19,13 +19,13 @@
 class MUFiles_Entity_Repository_Collection extends MUFiles_Entity_Repository_Base_Collection
 {
     /**
-     * Adds default filters as where clauses.
-     *
-     * @param Doctrine\ORM\QueryBuilder $qb         Query builder to be enhanced.
-     * @param array                     $parameters List of determined filter options.
-     *
-     * @return Doctrine\ORM\QueryBuilder Enriched query builder instance.
-     */
+* Adds default filters as where clauses.
+*
+* @param Doctrine\ORM\QueryBuilder $qb Query builder to be enhanced.
+* @param array $parameters List of determined filter options.
+*
+* @return Doctrine\ORM\QueryBuilder Enriched query builder instance.
+*/
     protected function applyDefaultFilters(QueryBuilder $qb, $parameters = array())
     {
         $currentModule = ModUtil::getName();//FormUtil::getPassedValue('module', '', 'GETPOST');

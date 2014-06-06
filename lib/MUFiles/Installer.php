@@ -17,18 +17,18 @@
 class MUFiles_Installer extends MUFiles_Base_Installer
 {
      /**
-     * Install the MUFiles application.
-     *
-     * @return boolean True on success, or false.
-     */
+* Install the MUFiles application.
+*
+* @return boolean True on success, or false.
+*/
     public function install()
     {
         parent::install();
         
         // Set up module hooks
-        //HookUtil::registerProviderBundles($this->version->getHookProviderBundles()); TODO next version
+        HookUtil::registerProviderBundles($this->version->getHookProviderBundles()); //TODO next version
         
-        return true;        
+        return true;
     }
     
     public function uninstall()
@@ -36,7 +36,7 @@ class MUFiles_Installer extends MUFiles_Base_Installer
         parent::uninstall();
         
         // unregister hook providers
-        //HookUtil::unregisterProviderBundles($this->version->getHookProviderBundles()); TODO next version
+        HookUtil::unregisterProviderBundles($this->version->getHookProviderBundles()); //TODO next version
         return true;
     }
 }

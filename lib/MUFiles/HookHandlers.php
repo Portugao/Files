@@ -28,7 +28,7 @@ class MUFiles_HookHandlers extends Zikula_Hook_AbstractHandler
      */
     public function setup()
     {
-        $view = Zikula_View::getInstance("MUFiles");
+        $this->view = Zikula_View::getInstance("MUFiles");
     }
     
     public function uiView(Zikula_DisplayHook $hook)
@@ -84,122 +84,19 @@ class MUFiles_HookHandlers extends Zikula_Hook_AbstractHandler
      */
     public function processEdit(Zikula_ProcessHook $hook)
     {
-        $modname = $hook->getCaller();
-        // we get a request instance
-        $view = new Zikula_Request_Http();
 
-        // if the hooked module is News
-        if ($modname == 'News') {
-            $story = $view->getPost()->filter('story');
-            $args['newsaction'] = $story['action'];
-
-            // we check if images are selected for upload
-            $files = News_ImageUtil::reArrayFiles(FormUtil::getPassedValue('news_files', null, 'FILES'));
-
-            $picturerepository = MUImage_Util_Model::getPictureRepository();
-            $searchstring = '%' . 'sid' . $sid . '%';
-            $where = 'tbl.title LIKE \'' . DataUtil::formatForStore($searchstring) . '\'';
-            $pictures = $picturerepository->selectWhere($where);
-             
-            // if the user has selected images for upload
-            // we have to do something further
-            if ($files) {
-
-
-                // we check if the user wants to create
-                // or update an entry
-                $func = $view->request->filter('func', 'view');
-
-                if ($func == 'update') {
-                    $args['sid'] = $view->getPost->filter('news_sid', 0 , FILTER_SANITIZE_NUMBER_INT);
-                }
-                $albumyes = $view->getPost()->filter('muimage-albumyes', '');
-                $muimagealbum = $view->getPost()->filter('muimage-album', 0);
-                $muimagesubalbum = $view->getPost()->filter('muimage-subalbum', 0);
-                 
-
-                $args['sid'] = $story['sid'];
-                // if the user want to create a new muimage album
-                if ($albumyes != '') {
-
-                    $serviceManager = ServiceUtil::getManager();
-                    $entityManager = $serviceManager->getService('doctrine.entitymanager');
-
-                    // we get the title of the news
-                    $newstitle = $story['title'];
-
-                    // we create a new album object
-                    $album = new MUImage_Entity_Album();
-
-                    // we get the id of the user
-                    $uid = UserUtil::getVar('uid');
-                    // we set the user created this album
-                    $album->setCreatedUserId($uid);
-                    // we set the user updated this album
-                    $album->setUpdatedUserId($uid);
-
-                    // we get the actual time
-                    $date = new DateTime("now");
-
-                    // we set the time this album was created
-                    $album->setCreatedDate($date);
-                    // we set the time this album was updated
-                    $album->setUpdatedDate($date);
-
-                    // we build the title for this new album
-                    $title = DateUtil::formatDatetime($date, 'datebrief') . ' - ' . $newstitle;
-
-                    // we set the title
-                    $album->setTitle($title);
-
-                    /*$entityManager->persist($album);
-                     $entityManager->flush();*/
-
-                    $dom = ZLanguage::getModuleDomain('MUImage');
-
-                    LogUtil::registerStatus(__('Album with title ', $dom) . $title . __(' created!', $dom));
-
-                    $albumrepository = MUImage_Util_Model::getAlbumRepository();
-                    $where = 'tbl.title = \'' . DataUtil::formatForStore($title) . '\'';
-                    $newalbum = $albumrepository->selectWhere($where);
-
-                    if ($func == 'create') {
-                        $args['albumid'] = $newalbum[0]['id'];
-                    }
-
-                    $serviceManager = ServiceUtil::getManager();
-                    // create new Form reference
-                    $view = new Zikula_Form_View($serviceManager, 'MUImage');
-
-                    MUImage_Form_Handler_User_Picture_HookUpload::HandleCommand($view, &$args);
-
-                }
-                else {
-                    if ($muimagealbum >= 1) {
-                        $albumrepository = MUImage_Util_Model::getAlbumRepository();
-                        $where = 'tbl.id = \'' . DataUtil::formatForStore($muimagealbum) . '\'';
-                        $args['albumid'] = $muimagealbum;
-                        MUImage_Form_Handler_User_Picture_HookUpload::HandleCommand($view, &$args);
-
-                    }
-                    if ($muimagesubalbum >= 1) {
-                        $albumrepository = MUImage_Util_Model::getAlbumRepository();
-                        $where = 'tbl.id = \'' . DataUtil::formatForStore($muimagesubalbum) . '\'';
-                        $args['albumid'] = $muimagesubalbum;
-                        MUImage_Form_Handler_User_Picture_HookUpload::HandleCommand($view, &$args);
-                         
-                    }
-
-                }
-            }
-            // no files uploaded in News
-            else {
-                // nothing to do
-            }
-
-        } else { // if ($modname != 'News')
-
-            
+        // check for validation here
+        if (!$this->validation) {
+            return;
         }
+        
+        $args = array(
+                'hookedModule' => $hook->getCaller(),
+                'objectId' => $hook->getId(),
+                'areaId' => $hook->getAreaId(),
+                'objUrl' => $hook->getUrl(),
+                'urlObject' => $this->validation->getObject(),
+        );
+        ModUtil::apiFunc('MUFiles', 'user', 'hookedObject', $args);
     }
 }

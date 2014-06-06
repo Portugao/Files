@@ -24,7 +24,7 @@
         </select>
     </div>
 {else}
-    <legend>{gt text="Select Collection or file"}</legend>
+    <legend>{gt text="Select collection or file"}</legend>
     <div class="">
     <div class="mufiles-hook z-formrow">
         <label for="mufiles-collection">{gt text='Select a collection!'}</label>
