@@ -24,25 +24,29 @@ abstract class MUFiles_Form_Plugin_AbstractObjectSelector extends MUFiles_Form_P
      *
      * @return void
      */
-    /*public function load(Zikula_Form_View $view, &$params)
+    public function load(Zikula_Form_View $view, &$params)
     {
         if (!$this->mandatory) {
-            $this->addItem('', NULL);
+            $this->addItem('', 0);
         }
         if ($this->showEmptyValue != false) {
             $this->addItem('- - -', 0);
         }
     
-        $items = $this->loadItems($params);
+        $fetchItemsDuringLoad = isset($params['fetchItemsDuringLoad']) ? $params['fetchItemsDuringLoad'] : true;
     
-        foreach ($items as $item) {
-            if (!$this->isIncluded($item)) {
-                continue;
+        if ($fetchItemsDuringLoad) {
+            $items = $this->loadItems($params);
+    
+            foreach ($items as $item) {
+                if (!$this->isIncluded($item)) {
+                    continue;
+                }
+    
+                $itemLabel = $this->createItemLabel($item);
+                $itemId = $this->createItemIdentifier($item);
+                $this->addItem($itemLabel, $itemId);
             }
-    
-            $itemLabel = $this->createItemLabel($item);
-            $itemId = $this->createItemIdentifier($item);
-            $this->addItem($itemLabel, $itemId);
         }
-    }*/
+    }
 }
