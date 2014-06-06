@@ -39,8 +39,8 @@ class MUFiles_Version extends MUFiles_Base_Version
         // define special capabilities of this module
         $meta['capabilities'] = array(
                 HookUtil::SUBSCRIBER_CAPABLE => array('enabled' => true)
-                /*,
-                 HookUtil::PROVIDER_CAPABLE => array('enabled' => true), // TODO: see #15
+                ,
+                 HookUtil::PROVIDER_CAPABLE => array('enabled' => true)/*, // TODO: see #15
         'authentication' => array('version' => '1.0'),
         'profile'        => array('version' => '1.0', 'anotherkey' => 'anothervalue'),
         'message'        => array('version' => '1.0', 'anotherkey' => 'anothervalue')
@@ -62,5 +62,19 @@ class MUFiles_Version extends MUFiles_Base_Version
 
 
         return $meta;
+    }
+    
+    /**
+     * Define hook provider bundles.
+     */
+    protected function setupHookBundles()
+    {
+        $bundle = new Zikula_HookManager_ProviderBundle($this->name, 'provider.mufiles.ui_hooks.service', 'ui_hooks', $this->__('MUFiles - Embed file'));
+        // form_edit hook is used to add smiley selector and other code to new object form (validate and process hooks unneeded)
+        $bundle->addServiceHandler('form_edit', 'MUFiles_HookHandlers', 'uiEdit', 'mufiles.file');
+        $bundle->addServiceHandler('process_edit', 'MUFiles_HookHandlers', 'processEdit', 'mufiles.file');
+        $this->registerHookProviderBundle($bundle);
+         
+        parent::setupHookBundles();
     }
 }
