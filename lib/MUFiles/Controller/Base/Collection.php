@@ -107,10 +107,10 @@ class MUFiles_Controller_Base_Collection extends Zikula_AbstractController
         }
         
         // parameter for used sort order
-        $sdir = $this->request->query->filter('sortdir', '', FILTER_SANITIZE_STRING);
-        $sdir = strtolower($sdir);
-        if ($sdir != 'asc' && $sdir != 'desc') {
-            $sdir = 'asc';
+        $sortdir = $this->request->query->filter('sortdir', '', FILTER_SANITIZE_STRING);
+        $sortdir = strtolower($sortdir);
+        if ($sortdir != 'asc' && $sortdir != 'desc') {
+            $sortdir = 'asc';
         }
         
         // convenience vars to make code clearer
@@ -121,7 +121,7 @@ class MUFiles_Controller_Base_Collection extends Zikula_AbstractController
         $selectionArgs = array(
             'ot' => $objectType,
             'where' => $where,
-            'orderBy' => $sort . ' ' . $sdir
+            'orderBy' => $sort . ' ' . $sortdir
         );
         
         $showOwnEntries = (int) $this->request->query->filter('own', $this->getVar('showOnlyOwnEntries', 0), FILTER_VALIDATE_INT);
@@ -155,7 +155,7 @@ class MUFiles_Controller_Base_Collection extends Zikula_AbstractController
         }
         
         $templateFile = $viewHelper->getViewTemplate($this->view, $objectType, 'view', array());
-        $cacheId = 'view|ot_' . $objectType . '_sort_' . $sort . '_' . $sdir;
+        $cacheId = 'view|ot_' . $objectType . '_sort_' . $sort . '_' . $sortdir;
         $resultsPerPage = 0;
         if ($showAllEntries == 1) {
             // set cache id
@@ -206,7 +206,7 @@ class MUFiles_Controller_Base_Collection extends Zikula_AbstractController
         // assign the object data, sorting information and details for creating the pager
         $this->view->assign('items', $entities)
                    ->assign('sort', $sort)
-                   ->assign('sdir', $sdir)
+                   ->assign('sdir', $sortdir)
                    ->assign('pageSize', $resultsPerPage)
                    ->assign('currentUrlObject', $currentUrlObject)
                    ->assign($repository->getAdditionalTemplateParameters('controllerAction', $utilArgs));
@@ -221,6 +221,7 @@ class MUFiles_Controller_Base_Collection extends Zikula_AbstractController
     /**
      * This method provides a item detail view.
      *
+     * @param int     $id           Identifier of entity to be shown.
      * @param string  $tpl          Name of alternative template (to be used instead of the default template).
      * @param boolean $raw          Optional way to display a template instead of fetching it (required for standalone output).
      *
@@ -252,7 +253,6 @@ class MUFiles_Controller_Base_Collection extends Zikula_AbstractController
         $this->throwNotFoundUnless($hasIdentifier, $this->__('Error! Invalid identifier received.'));
         
         $selectionArgs = array('ot' => $objectType, 'id' => $idValues);
-        
         
         $entity = ModUtil::apiFunc($this->name, 'selection', 'getEntity', $selectionArgs);
         $this->throwNotFoundUnless($entity != null, $this->__('No such item.'));
@@ -331,7 +331,7 @@ class MUFiles_Controller_Base_Collection extends Zikula_AbstractController
     /**
      * This method provides a handling of simple delete requests.
      *
-     * @param int     $id           Identifier of entity to be deleted.
+     * @param int     $id           Identifier of entity to be shown.
      * @param boolean $confirmation Confirm the deletion, else a confirmation page is displayed.
      * @param string  $tpl          Name of alternative template (to be used instead of the default template).
      * @param boolean $raw          Optional way to display a template instead of fetching it (required for standalone output).
@@ -361,19 +361,21 @@ class MUFiles_Controller_Base_Collection extends Zikula_AbstractController
         
         $selectionArgs = array('ot' => $objectType, 'id' => $idValues);
         
-        
         $entity = ModUtil::apiFunc($this->name, 'selection', 'getEntity', $selectionArgs);
         $this->throwNotFoundUnless($entity != null, $this->__('No such item.'));
         
         $entity->initWorkflow();
         
+        // determine available workflow actions
         $workflowHelper = new MUFiles_Util_Workflow($this->serviceManager);
-        $deleteActionId = 'delete';
-        $deleteAllowed = false;
         $actions = $workflowHelper->getActionsForObject($entity);
         if ($actions === false || !is_array($actions)) {
             return LogUtil::registerError($this->__('Error! Could not determine workflow actions.'));
         }
+        
+        // check whether deletion is allowed
+        $deleteActionId = 'delete';
+        $deleteAllowed = false;
         foreach ($actions as $actionId => $action) {
             if ($actionId != $deleteActionId) {
                 continue;
@@ -386,7 +388,7 @@ class MUFiles_Controller_Base_Collection extends Zikula_AbstractController
         }
         
         $confirmation = (bool) $this->request->request->filter('confirmation', false, FILTER_VALIDATE_BOOLEAN);
-        if ($confirmation) {
+        if ($confirmation && $deleteAllowed) {
             $this->checkCsrfToken();
         
             $hookAreaPrefix = $entity->getHookAreaPrefix();
@@ -452,19 +454,19 @@ class MUFiles_Controller_Base_Collection extends Zikula_AbstractController
     public function handleSelectedEntries()
     {
         $this->checkCsrfToken();
-    
+        
         $redirectUrl = ModUtil::url($this->name, 'admin', 'main', array('ot' => 'collection'));
-    
+        
         $objectType = 'collection';
-    
+        
         // Get parameters
         $action = $this->request->request->get('action', null);
         $items = $this->request->request->get('items', null);
-    
+        
         $action = strtolower($action);
-    
+        
         $workflowHelper = new MUFiles_Util_Workflow($this->serviceManager);
-    
+        
         // process each item
         foreach ($items as $itemid) {
             // check if item exists, and get record instance
@@ -472,9 +474,9 @@ class MUFiles_Controller_Base_Collection extends Zikula_AbstractController
                                    'id' => $itemid,
                                    'useJoins' => false);
             $entity = ModUtil::apiFunc($this->name, 'selection', 'getEntity', $selectionArgs);
-    
+        
             $entity->initWorkflow();
-    
+        
             // check if $action can be applied to this entity (may depend on it's current workflow state)
             $allowedActions = $workflowHelper->getActionsForObject($entity);
             $actionIds = array_keys($allowedActions);
@@ -482,9 +484,9 @@ class MUFiles_Controller_Base_Collection extends Zikula_AbstractController
                 // action not allowed, skip this object
                 continue;
             }
-    
+        
             $hookAreaPrefix = $entity->getHookAreaPrefix();
-    
+        
             // Let any hooks perform additional validation actions
             $hookType = $action == 'delete' ? 'validate_delete' : 'validate_edit';
             $hook = new Zikula_ValidationHook($hookAreaPrefix . '.' . $hookType, new Zikula_Hook_ValidationProviders());
@@ -492,7 +494,7 @@ class MUFiles_Controller_Base_Collection extends Zikula_AbstractController
             if ($validators->hasErrors()) {
                 continue;
             }
-    
+        
             $success = false;
             try {
                 // execute the workflow action
@@ -500,17 +502,17 @@ class MUFiles_Controller_Base_Collection extends Zikula_AbstractController
             } catch(\Exception $e) {
                 LogUtil::registerError($this->__f('Sorry, but an unknown error occured during the %s action. Please apply the changes again!', array($action)));
             }
-    
+        
             if (!$success) {
                 continue;
             }
-    
+        
             if ($action == 'delete') {
                 LogUtil::registerStatus($this->__('Done! Item deleted.'));
             } else {
                 LogUtil::registerStatus($this->__('Done! Item updated.'));
             }
-    
+        
             // Let any hooks know that we have updated or deleted an item
             $hookType = $action == 'delete' ? 'process_delete' : 'process_edit';
             $url = null;
@@ -520,15 +522,15 @@ class MUFiles_Controller_Base_Collection extends Zikula_AbstractController
             }
             $hook = new Zikula_ProcessHook($hookAreaPrefix . '.' . $hookType, $entity->createCompositeIdentifier(), $url);
             $this->notifyHooks($hook);
-    
+        
             // An item was updated or deleted, so we clear all cached pages for this item.
             $cacheArgs = array('ot' => $objectType, 'item' => $entity);
             ModUtil::apiFunc($this->name, 'cache', 'clearItemCache', $cacheArgs);
         }
-    
+        
         // clear view cache to reflect our changes
         $this->view->clear_cache();
-    
+        
         return $this->redirect($redirectUrl);
     }
 
@@ -549,14 +551,14 @@ class MUFiles_Controller_Base_Collection extends Zikula_AbstractController
         if (empty($idPrefix)) {
             return false;
         }
-    
+        
         $this->view->assign('itemId', $id)
                    ->assign('idPrefix', $idPrefix)
                    ->assign('commandName', $commandName)
                    ->assign('jcssConfig', JCSSUtil::getJSConfig());
-    
+        
         $this->view->display('collection/inlineRedirectHandler.tpl');
-    
+        
         return true;
     }
 }

@@ -112,6 +112,9 @@
                 case 'file':
                     $entityNameTranslated = __('file', $dom);
                     break;
+                case 'hookobject':
+                    $entityNameTranslated = __('hookobject', $dom);
+                    break;
             }
 
             $addLinkText = $many ? __f('Add %s', array($entityNameTranslated), $dom) : __f('Select %s', array($entityNameTranslated), $dom);

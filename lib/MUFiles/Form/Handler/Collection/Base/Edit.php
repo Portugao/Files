@@ -133,8 +133,10 @@ class MUFiles_Form_Handler_Collection_Base_Edit extends MUFiles_Form_Handler_Com
      */
     protected function getDefaultReturnUrl($args)
     {
+        $legacyControllerType = $this->request->query->filter('lct', 'user', FILTER_SANITIZE_STRING);
+    
         // redirect to the list of collections
-        $viewArgs = array('ot' => $this->objectType);
+        $viewArgs = array('ot' => $this->objectType, 'lct' => $legacyControllerType);
         $url = ModUtil::url($this->name, FormUtil::getPassedValue('type', 'user', 'GETPOST'), 'view', $viewArgs);
     
         return $url;

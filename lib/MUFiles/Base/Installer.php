@@ -95,7 +95,7 @@ class MUFiles_Base_Installer extends Zikula_AbstractInstaller
     /*
         // Upgrade dependent on old version number
         switch ($oldVersion) {
-            case 1.0.0:
+            case '1.0.0':
                 // do something
                 // ...
                 // update the database schema
@@ -174,6 +174,7 @@ class MUFiles_Base_Installer extends Zikula_AbstractInstaller
         $classNames[] = 'MUFiles_Entity_Collection';
         $classNames[] = 'MUFiles_Entity_CollectionCategory';
         $classNames[] = 'MUFiles_Entity_File';
+        $classNames[] = 'MUFiles_Entity_Hookobject';
     
         return $classNames;
     }
@@ -190,6 +191,8 @@ class MUFiles_Base_Installer extends Zikula_AbstractInstaller
         $entityClass = 'MUFiles_Entity_Collection';
         $this->entityManager->getRepository($entityClass)->truncateTable();
         $entityClass = 'MUFiles_Entity_File';
+        $this->entityManager->getRepository($entityClass)->truncateTable();
+        $entityClass = 'MUFiles_Entity_Hookobject';
         $this->entityManager->getRepository($entityClass)->truncateTable();
     }
     

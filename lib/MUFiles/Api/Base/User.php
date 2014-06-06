@@ -48,6 +48,12 @@ class MUFiles_Api_Base_User extends Zikula_AbstractApi
                              'text' => $this->__('Files'),
                              'title' => $this->__('File list'));
         }
+        if (in_array('hookobject', $allowedObjectTypes)
+            && SecurityUtil::checkPermission($this->name . ':Hookobject:', '::', ACCESS_READ)) {
+            $links[] = array('url' => ModUtil::url($this->name, 'user', 'view', array('ot' => 'hookobject')),
+                             'text' => $this->__('Hookobjects'),
+                             'title' => $this->__('Hookobject list'));
+        }
 
         return $links;
     }

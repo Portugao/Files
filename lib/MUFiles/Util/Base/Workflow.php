@@ -79,6 +79,9 @@ class MUFiles_Util_Base_Workflow extends Zikula_AbstractBase
             case 'file':
                 $result = 'standard';
                 break;
+            case 'hookobject':
+                $result = 'none';
+                break;
         }
     
         return $result;
@@ -256,7 +259,6 @@ class MUFiles_Util_Base_Workflow extends Zikula_AbstractBase
     {
         $entityClass = $this->name . '_Entity_' . ucwords($objectType);
         $entityManager = $this->serviceManager->getService('doctrine.entitymanager');
-    
         $repository = $entityManager->getRepository($entityClass);
     
         $where = 'tbl.workflowState = \'' . $state . '\'';

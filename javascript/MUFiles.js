@@ -141,6 +141,11 @@ function mufilesInitQuickNavigation(objectType)
             $('workflowState').observe('change', function () { mufilesSubmitQuickNavForm(objectType); });
         }
         break;
+    case 'hookobject':
+        if ($('workflowState') != undefined) {
+            $('workflowState').observe('change', function () { mufilesSubmitQuickNavForm(objectType); });
+        }
+        break;
     default:
         break;
     }

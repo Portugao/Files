@@ -171,7 +171,8 @@ class MUFiles_Api_Base_Selection extends Zikula_AbstractApi
         }
     
         $entityClass = 'MUFiles_Entity_' . ucwords($objectType);
+        $repository = $this->entityManager->getRepository($entityClass);
     
-        return $this->entityManager->getRepository($entityClass);
+        return $repository;
     }
 }

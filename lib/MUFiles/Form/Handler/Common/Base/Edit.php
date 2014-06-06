@@ -367,7 +367,7 @@ class MUFiles_Form_Handler_Common_Base_Edit extends Zikula_Form_AbstractHandler
     {
         $entityClass = $this->name . '_Entity_' . ucwords($this->objectType);
         $repository = $this->entityManager->getRepository($entityClass);
-        $utilArgs = array('controller' => FormUtil::getPassedValue('type', 'user', 'GETPOST'),
+        $utilArgs = array('controller' => \FormUtil::getPassedValue('type', 'user', 'GETPOST'),
                           'action' => 'edit',
                           'mode' => $this->mode);
         $this->view->assign($repository->getAdditionalTemplateParameters('controllerAction', $utilArgs));

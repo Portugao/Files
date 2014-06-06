@@ -48,6 +48,9 @@ class MUFiles_Util_Base_Model extends Zikula_AbstractBase
             case 'file':
                 $result = true;
                 break;
+            case 'hookobject':
+                $result = true;
+                break;
         }
     
         return $result;
@@ -68,7 +71,6 @@ class MUFiles_Util_Base_Model extends Zikula_AbstractBase
         }
     
         $entityClass = 'MUFiles_Entity_' . ucwords($objectType);
-    
         $repository = $this->entityManager->getRepository($entityClass);
     
         return ($repository->selectCount() > 0);

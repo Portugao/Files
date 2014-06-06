@@ -375,9 +375,6 @@ class MUFiles_Base_UploadHandler
             $basePath = $controllerHelper->getFileBaseFolder($objectType, $fieldName);
         } catch (\Exception $e) {
             LogUtil::registerError($e->getMessage());
-            $logger = $serviceManager->get('logger');
-            $logger = $serviceManager->get('logger');
-            $logger->error('{app}: User {user} could not detect upload destination path for entity {entity} and field {field}.', array('app' => 'MUFiles', 'user' => UserUtil::getVar('uname'), 'entity' => $objectType, 'field' => $fieldName));
         }
         $fileName = $objectData[$fieldName];
     

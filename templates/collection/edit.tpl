@@ -9,23 +9,23 @@
 
 {if $mode eq 'edit'}
     {gt text='Edit collection' assign='templateTitle'}
-    {if $lcq eq 'admin'}
+    {if $lct eq 'admin'}
         {assign var='adminPageIcon' value='edit'}
     {/if}
 {elseif $mode eq 'create'}
     {gt text='Create collection' assign='templateTitle'}
-    {if $lcq eq 'admin'}
+    {if $lct eq 'admin'}
         {assign var='adminPageIcon' value='new'}
     {/if}
 {else}
     {gt text='Edit collection' assign='templateTitle'}
-    {if $lcq eq 'admin'}
+    {if $lct eq 'admin'}
         {assign var='adminPageIcon' value='edit'}
     {/if}
 {/if}
 <div class="mufiles-collection mufiles-edit">
     {pagesetvar name='title' value=$templateTitle}
-    {if $lcq eq 'admin'}
+    {if $lct eq 'admin'}
         <div class="z-admin-content-pagetitle">
             {icon type=$adminPageIcon size='small' alt=$templateTitle}
             <h3>{$templateTitle}</h3>

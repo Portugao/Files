@@ -42,7 +42,7 @@ class MUFiles_Entity_Repository_Base_Collection extends EntityRepository
     public function getAllowedSortingFields()
     {
         return array(
-            'id',
+            'hookobject',
             'workflowState',
             'name',
             'description',
@@ -166,6 +166,7 @@ class MUFiles_Entity_Repository_Base_Collection extends EntityRepository
         $templateParameters = array();
     
         if ($context == 'controllerAction') {
+            $serviceManager = ServiceUtil::getManager();
             if (!isset($args['action'])) {
                 $args['action'] = FormUtil::getPassedValue('func', 'main', 'GETPOST');
             }
@@ -181,7 +182,6 @@ class MUFiles_Entity_Repository_Base_Collection extends EntityRepository
             }
     
             // initialise Imagine preset instances
-            $serviceManager = ServiceUtil::getManager();
             $imageHelper = new MUFiles_Util_Image($serviceManager);
             if (in_array($args['action'], array('display', 'view'))) {
                 // use separate preset for images in related items
@@ -529,8 +529,10 @@ class MUFiles_Entity_Repository_Base_Collection extends EntityRepository
     
         if (!$hasFilters) {
             if ($page > 1) {
+                // store current page in session
                 SessionUtil::setVar('MUFilesCollectionsCurrentPage', $page);
             } else {
+                // restore current page from session
                 $page = SessionUtil::getVar('MUFilesCollectionsCurrentPage', 1);
                 System::queryStringSetVar('pos', $page);
             }

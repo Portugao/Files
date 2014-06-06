@@ -118,6 +118,13 @@ class MUFiles_Util_Base_ListEntries extends Zikula_AbstractBase
                         break;
                 }
                 break;
+            case 'hookobject':
+                switch ($fieldName) {
+                    case 'workflowState':
+                        $result = false;
+                        break;
+                }
+                break;
         }
     
         return $result;
@@ -151,6 +158,13 @@ class MUFiles_Util_Base_ListEntries extends Zikula_AbstractBase
                 switch ($fieldName) {
                     case 'workflowState':
                         $entries = $this->getWorkflowStateEntriesForFile();
+                        break;
+                }
+                break;
+            case 'hookobject':
+                switch ($fieldName) {
+                    case 'workflowState':
+                        $entries = $this->getWorkflowStateEntriesForHookobject();
                         break;
                 }
                 break;
@@ -213,6 +227,28 @@ class MUFiles_Util_Base_ListEntries extends Zikula_AbstractBase
         $states[] = array('value'   => '!waiting',
                           'text'    => $this->__('All except waiting'),
                           'title'   => $this->__('Shows all items except these which are waiting'),
+                          'image'   => '',
+                          'default' => false);
+        $states[] = array('value'   => '!approved',
+                          'text'    => $this->__('All except approved'),
+                          'title'   => $this->__('Shows all items except these which are approved'),
+                          'image'   => '',
+                          'default' => false);
+    
+        return $states;
+    }
+    
+    /**
+     * Get 'workflow state' list entries.
+     *
+     * @return array Array with desired list entries.
+     */
+    public function getWorkflowStateEntriesForHookobject()
+    {
+        $states = array();
+        $states[] = array('value'   => 'approved',
+                          'text'    => $this->__('Approved'),
+                          'title'   => $this->__('Content has been approved and is available online.'),
                           'image'   => '',
                           'default' => false);
         $states[] = array('value'   => '!approved',

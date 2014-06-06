@@ -48,6 +48,12 @@ class MUFiles_Api_Base_Admin extends Zikula_AbstractApi
                              'text' => $this->__('Files'),
                              'title' => $this->__('File list'));
         }
+        if (in_array('hookobject', $allowedObjectTypes)
+            && SecurityUtil::checkPermission($this->name . ':Hookobject:', '::', ACCESS_ADMIN)) {
+            $links[] = array('url' => ModUtil::url($this->name, 'admin', 'view', array('ot' => 'hookobject')),
+                             'text' => $this->__('Hookobjects'),
+                             'title' => $this->__('Hookobject list'));
+        }
         if (SecurityUtil::checkPermission($this->name . '::', '::', ACCESS_ADMIN)) {
             $links[] = array('url' => ModUtil::url($this->name, 'admin', 'config'),
                              'text' => $this->__('Configuration'),

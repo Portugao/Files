@@ -165,6 +165,7 @@ class MUFiles_Entity_Repository_Base_File extends EntityRepository
         $templateParameters = array();
     
         if ($context == 'controllerAction') {
+            $serviceManager = ServiceUtil::getManager();
             if (!isset($args['action'])) {
                 $args['action'] = FormUtil::getPassedValue('func', 'main', 'GETPOST');
             }
@@ -175,7 +176,6 @@ class MUFiles_Entity_Repository_Base_File extends EntityRepository
             }
     
             // initialise Imagine preset instances
-            $serviceManager = ServiceUtil::getManager();
             $imageHelper = new MUFiles_Util_Image($serviceManager);
     
             $objectType = 'file';
@@ -524,8 +524,10 @@ class MUFiles_Entity_Repository_Base_File extends EntityRepository
     
         if (!$hasFilters) {
             if ($page > 1) {
+                // store current page in session
                 SessionUtil::setVar('MUFilesFilesCurrentPage', $page);
             } else {
+                // restore current page from session
                 $page = SessionUtil::getVar('MUFilesFilesCurrentPage', 1);
                 System::queryStringSetVar('pos', $page);
             }

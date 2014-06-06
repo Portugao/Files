@@ -4,6 +4,7 @@
         <select id="mUFilesObjectType" name="objecttype" size="1">
             <option value="collection"{if $objectType eq 'collection'} selected="selected"{/if}>{gt text='Collections'}</option>
             <option value="file"{if $objectType eq 'file'} selected="selected"{/if}>{gt text='Files'}</option>
+            <option value="hookobject"{if $objectType eq 'hookobject'} selected="selected"{/if}>{gt text='Hookobjects'}</option>
         </select>
         <span class="z-sub z-formnote">{gt text='If you change this please save the block once to reload the parameters below.'}</span>
 </div>

@@ -44,6 +44,7 @@ class MUFiles_Api_Base_Search extends Zikula_AbstractApi
     
         $view->assign('active_collection', (!isset($args['active_collection']) || isset($args['active']['active_collection'])));
         $view->assign('active_file', (!isset($args['active_file']) || isset($args['active']['active_file'])));
+        $view->assign('active_hookobject', (!isset($args['active_hookobject']) || isset($args['active']['active_hookobject'])));
     
         return $view->fetch('search/options.tpl');
     }
@@ -97,6 +98,11 @@ class MUFiles_Api_Base_Search extends Zikula_AbstractApi
                     $whereArray[] = 'tbl.title';
                     $whereArray[] = 'tbl.description';
                     $whereArray[] = 'tbl.uploadFile';
+                    break;
+                case 'hookobject':
+                    $whereArray[] = 'tbl.workflowState';
+                    $whereArray[] = 'tbl.hookedModule';
+                    $whereArray[] = 'tbl.url';
                     break;
             }
             $where = Search_Api_User::construct_where($args, $whereArray, $languageField);

@@ -127,6 +127,9 @@ class MUFiles_Base_RouterFacade
                 case 'file':
                             $groupFolder = 'files';
                             break;
+                case 'hookobject':
+                            $groupFolder = 'hookobjects';
+                            break;
                 default: return '';
             }
         } else if ($func == 'display') {
@@ -136,6 +139,9 @@ class MUFiles_Base_RouterFacade
                             break;
                 case 'file':
                             $groupFolder = 'file';
+                            break;
+                case 'hookobject':
+                            $groupFolder = 'hookobject';
                             break;
                 default: return '';
             }
@@ -165,6 +171,9 @@ class MUFiles_Base_RouterFacade
                 case 'files':
                             $objectType = 'file';
                             break;
+                case 'hookobjects':
+                            $objectType = 'hookobject';
+                            break;
                 default: return '';
             }
         } else if ($func == 'display') {
@@ -174,6 +183,9 @@ class MUFiles_Base_RouterFacade
                             break;
                 case 'file':
                             $objectType = 'file';
+                            break;
+                case 'hookobject':
+                            $objectType = 'hookobject';
                             break;
                 default: return '';
             }
@@ -201,6 +213,9 @@ class MUFiles_Base_RouterFacade
                 $slug = $itemid;
                         break;
             case 'file':
+                $slug = $itemid;
+                        break;
+            case 'hookobject':
                 $slug = $itemid;
                         break;
         }

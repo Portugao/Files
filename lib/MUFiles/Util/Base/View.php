@@ -28,11 +28,6 @@ class MUFiles_Util_Base_View extends Zikula_AbstractBase
      */
     public function getViewTemplate(Zikula_View $view, $type, $func, $args = array())
     {
-        if (FormUtil::getPassedValue('lct', 'user', 'GETPOST') == 'admin') {
-            // load Smarty plugins of Admin module
-            $view->addPluginDir('system/Admin/templates/plugins');
-        }
-    
         // create the base template name
         $template = DataUtil::formatForOS($type . '/' . $func);
     
@@ -77,6 +72,13 @@ class MUFiles_Util_Base_View extends Zikula_AbstractBase
         $raw = (bool) (isset($args['raw']) && !empty($args['raw'])) ? $args['raw'] : FormUtil::getPassedValue('raw', false, 'GETPOST', FILTER_VALIDATE_BOOLEAN);
         if (!$raw && $templateExtension != 'tpl') {
             $raw = true;
+        }
+    
+        // ensure the Admin module's plugins are loaded if we have lct=admin but another type value
+        $lct = (isset($args['lct']) && !empty($args['lct'])) ? $args['lct'] : FormUtil::getPassedValue('lct', 'user', 'GETPOST', FILTER_SANITIZE_STRING);
+        if ($lct == 'admin') {
+            // load Smarty plugins of Admin module
+            $view->addPluginDir('system/Admin/templates/plugins');
         }
     
         if ($raw == true) {
