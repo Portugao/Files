@@ -10,7 +10,7 @@ CKEDITOR.plugins.add('MUFiles', {
             }
         });
         editor.ui.addButton('mufiles', {
-            label: 'Insert MUFiles object',
+            label: editor.lang.MUFiles.title,
             command: 'insertMUFiles',
          // icon: this.path + 'images/ed_mufiles.png'
             icon: '/images/icons/extrasmall/favorites.png'
