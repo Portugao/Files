@@ -1,38 +1,18 @@
 {* purpose of this template: build the Form to edit an instance of file *}
-{assign var='lct' value='user'}
-{if isset($smarty.get.lct) && $smarty.get.lct eq 'admin'}
-    {assign var='lct' value='admin'}
-{/if}
-{include file="`$lct`/header.tpl"}
+{include file='user/header.tpl'}
 {pageaddvar name='javascript' value='modules/MUFiles/javascript/MUFiles_editFunctions.js'}
 {pageaddvar name='javascript' value='modules/MUFiles/javascript/MUFiles_validation.js'}
 
 {if $mode eq 'edit'}
     {gt text='Edit file' assign='templateTitle'}
-    {if $lcq eq 'admin'}
-        {assign var='adminPageIcon' value='edit'}
-    {/if}
 {elseif $mode eq 'create'}
     {gt text='Create file' assign='templateTitle'}
-    {if $lcq eq 'admin'}
-        {assign var='adminPageIcon' value='new'}
-    {/if}
 {else}
     {gt text='Edit file' assign='templateTitle'}
-    {if $lcq eq 'admin'}
-        {assign var='adminPageIcon' value='edit'}
-    {/if}
 {/if}
 <div class="mufiles-file mufiles-edit">
     {pagesetvar name='title' value=$templateTitle}
-    {if $lcq eq 'admin'}
-        <div class="z-admin-content-pagetitle">
-            {icon type=$adminPageIcon size='small' alt=$templateTitle}
-            <h3>{$templateTitle}</h3>
-        </div>
-    {else}
-        <h2>{$templateTitle}</h2>
-    {/if}
+    <h2>{$templateTitle}</h2>
 {form enctype='multipart/form-data' cssClass='z-form'}
     {* add validation summary and a <div> element for styling the form *}
     {mufilesFormFrame}
@@ -65,8 +45,8 @@
                 <span class="z-formnote"><a id="resetUploadFileVal" href="javascript:void(0);" class="z-hide">{gt text='Reset to empty value'}</a></span>
             {/if}
             
-                <span class="z-formnote">{gt text='Allowed file extensions:'} <span id="uploadFileFileExtensions">pdf</span></span>
-            <span class="z-formnote">{gt text='Allowed file size:'} {'102400'|mufilesGetFileSize:'':false:false}</span>
+                <span class="z-formnote">{gt text='Allowed file extensions:'} <span id="uploadFileFileExtensions">{modgetvar module='MUFiles' name='allowedExtensions' assign='allowedExtensions'}{$allowedExtensions}</span></span>
+            <span class="z-formnote">{gt text='Allowed file size:'}{modgetvar module='MUFiles' name='maxSize' assign='allowedFileSize'} {$allowedFileSize|mufilesGetFileSize:'':false:false}</span>
             {if $mode ne 'create'}
                 {if $file.uploadFile ne ''}
                     <span class="z-formnote">
@@ -135,7 +115,7 @@
     {/mufilesFormFrame}
 {/form}
 </div>
-{include file="`$lct`/footer.tpl"}
+{include file='user/footer.tpl'}
 
 {icon type='edit' size='extrasmall' assign='editImageArray'}
 {icon type='delete' size='extrasmall' assign='removeImageArray'}
