@@ -2,7 +2,7 @@
 <div id="collection{$collection.id}" class="mufiles-external-collection">
 {if $displayMode eq 'link'}
     <p class="mufiles-external-link">
-    <a href="{modurl modname='MUFiles' type='user' func='display' id=$collection.id}" title="{$collection->getTitleFromDisplayPattern()|replace:"\"":""}">
+    <a href="{modurl modname='MUFiles' type='user' ot='collection' func='display' id=$collection.id}" title="{$collection->getTitleFromDisplayPattern()|replace:"\"":""}">
     {$collection->getTitleFromDisplayPattern()|notifyfilters:'mufiles.filter_hooks.collections.filter'}
     </a>
     </p>
