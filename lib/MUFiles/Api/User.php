@@ -16,5 +16,51 @@
  */
 class MUFiles_Api_User extends MUFiles_Api_Base_User
 {
-    // feel free to add own api methods here
+    public function hookedObject(array $args)
+    {
+        $module = $args['hookedModue'];
+        return $module;
+        $objectid = $args['objectId'];
+        $areaid = $args['areaId'];
+        $url = $args['url'];
+        $hookdata = $args['hookdata']; 
+              
+        $mucollections = $this->request->request->filter('mufilescollection');
+        //return LogUtil::registerStatus($mucollections);
+      
+        $mufiles = $this->request->request->filter('mufiles-file', '');
+     
+        if ($mucollections != '') {
+            if (is_array($mucollections)) {
+                foreach ($mucollections as $mucollection) {
+                    $hookedObject = new MUFiles_Entity_Hookobject();
+                    $hookedObject->setHookedModule($module);
+                    $hookedObject->setUrl($url);
+                    if ($hookdata) {
+                        $hookedObject->setUrlObject($hookdata);
+                    }
+                    $collection = $this->entityManager
+                        ->getRepository('MUFiles_Entity_Collection')
+                        ->findOneBy(array('id' => $mucollection));
+                    $hookedObject->setCollectionhook($collection);
+                    $this->entityManager->persist($hookedObject);
+                    $this->entityManager->flush();
+                }
+            } else {
+                $hookedObject = new MUFiles_Entity_Hookobject();
+                $hookedObject->setHookedModule($module);
+                $hookedObject->setUrl($url);
+                if ($hookdata) {
+                    $hookedObject->setUrlObject($hookdata);
+                }
+                $collection = $this->entityManager
+                ->getRepository('MUFiles_Entity_Collection')
+                ->findOneBy(array('id' => $mucollections));
+                $hookedObject->setCollectionhook($collection);
+                $this->entityManager->persist($hookedObject);
+                $this->entityManager->flush();                
+            }
+        }
+        
+    }
 }
