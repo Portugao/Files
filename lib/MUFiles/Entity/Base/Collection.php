@@ -139,6 +139,13 @@
         protected $parent;
         
         /**
+         * Bidirectional - Many collectionhook [collections] are linked by many hookcollection [hookobjects] (INVERSE SIDE).
+         *
+         * @ORM\ManyToMany(targetEntity="MUFiles_Entity_Hookobject", mappedBy="collectionhook")
+         * @var MUFiles_Entity_Hookobject[] $hookcollection.
+         */
+        protected $hookcollection = null;
+        /**
          * Bidirectional - One aliascollection [collection] has many alilasfile [files] (INVERSE SIDE).
          *
          * @ORM\OneToMany(targetEntity="MUFiles_Entity_File", mappedBy="aliascollection")
@@ -179,6 +186,7 @@
             $this->initWorkflow();
             $this->alilasfile = new ArrayCollection();
             $this->children = new ArrayCollection();
+            $this->hookcollection = new ArrayCollection();
             $this->categories = new ArrayCollection();
         }
 
@@ -568,6 +576,56 @@
         public function setParent(MUFiles_Entity_Collection $parent = null)
         {
             $this->parent = $parent;
+        }
+        
+        /**
+         * Get hookcollection.
+         *
+         * @return MUFiles_Entity_Hookobject[]
+         */
+        public function getHookcollection()
+        {
+            return $this->hookcollection;
+        }
+        
+        /**
+         * Set hookcollection.
+         *
+         * @param MUFiles_Entity_Hookobject[] $hookcollection.
+         *
+         * @return void
+         */
+        public function setHookcollection($hookcollection)
+        {
+            foreach ($hookcollection as $hookobjectSingle) {
+                $this->addHookcollection($hookobjectSingle);
+            }
+        }
+        
+        /**
+         * Adds an instance of MUFiles_Entity_Hookobject to the list of hookcollection.
+         *
+         * @param MUFiles_Entity_Hookobject $hookobject The instance to be added to the collection.
+         *
+         * @return void
+         */
+        public function addHookcollection(MUFiles_Entity_Hookobject $hookobject)
+        {
+            $this->hookcollection->add($hookobject);
+            $hookobject->addCollectionhook($this);
+        }
+        
+        /**
+         * Removes an instance of MUFiles_Entity_Hookobject from the list of hookcollection.
+         *
+         * @param MUFiles_Entity_Hookobject $hookobject The instance to be removed from the collection.
+         *
+         * @return void
+         */
+        public function removeHookcollection(MUFiles_Entity_Hookobject $hookobject)
+        {
+            $this->hookcollection->removeElement($hookobject);
+            $hookobject->removeCollectionhook($this);
         }
         
         /**

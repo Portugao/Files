@@ -915,7 +915,7 @@ class MUFiles_Entity_Repository_Base_File extends EntityRepository
      */
     protected function addJoinsToSelection()
     {
-        $selection = ', tblAliascollection';
+        $selection = ', tblAliascollection, tblHookfile';
     
         return $selection;
     }
@@ -930,6 +930,7 @@ class MUFiles_Entity_Repository_Base_File extends EntityRepository
     protected function addJoinsToFrom(QueryBuilder $qb)
     {
         $qb->leftJoin('tbl.aliascollection', 'tblAliascollection');
+        $qb->leftJoin('tbl.hookfile', 'tblHookfile');
     
         return $qb;
     }

@@ -39,6 +39,14 @@ class MUFiles_Entity_Validator_Base_Hookobject extends MUFiles_Validator
             $errorInfo['message'] = __f('Error! Field value must not be empty (%s).', array('hooked module'), $dom);
             return $errorInfo;
         }
+        if (!$this->isStringNotLongerThan('hookedObject', 50)) {
+            $errorInfo['message'] = __f('Error! Length of field value must not be higher than %2$s (%1$s).', array('hooked object', 50), $dom);
+            return $errorInfo;
+        }
+        if (!$this->isStringNotEmpty('hookedObject')) {
+            $errorInfo['message'] = __f('Error! Field value must not be empty (%s).', array('hooked object'), $dom);
+            return $errorInfo;
+        }
         if (!$this->isValidInteger('areaId')) {
             $errorInfo['message'] = __f('Error! Field value may only contain digits (%s).', array('area id'), $dom);
             return $errorInfo;

@@ -74,6 +74,14 @@ class MUFiles_Form_Handler_File_Base_Edit extends MUFiles_Form_Handler_Common_Ed
                 $relObj->addAlilasfile($entity);
             }
         }
+        // editable relation, we store the id and assign it now to show it in UI
+        $this->relationPresets['hookfile'] = FormUtil::getPassedValue('hookfile', '', 'GET');
+        if (!empty($this->relationPresets['hookfile'])) {
+            $relObj = ModUtil::apiFunc($this->name, 'selection', 'getEntity', array('ot' => 'hookobject', 'id' => $this->relationPresets['hookfile']));
+            if ($relObj != null) {
+                $entity->addHookfile($relObj);
+            }
+        }
     
         // save entity reference for later reuse
         $this->entityRef = $entity;

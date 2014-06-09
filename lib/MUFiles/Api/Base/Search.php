@@ -102,6 +102,7 @@ class MUFiles_Api_Base_Search extends Zikula_AbstractApi
                 case 'hookobject':
                     $whereArray[] = 'tbl.workflowState';
                     $whereArray[] = 'tbl.hookedModule';
+                    $whereArray[] = 'tbl.hookedObject';
                     $whereArray[] = 'tbl.url';
                     break;
             }

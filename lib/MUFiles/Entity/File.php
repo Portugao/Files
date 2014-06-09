@@ -12,6 +12,7 @@
  */
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use DoctrineExtensions\StandardFields\Mapping\Annotation as ZK;
 

@@ -23,7 +23,7 @@ class MUFiles_Api_User extends MUFiles_Api_Base_User
         $objectid = $args['objectId'];
         $areaid = $args['areaId'];
         $url = $args['url'];
-        $hookdata = $args['hookdata']; 
+        $hookdata = $args['hookdata'];
               
         $mucollections = $this->request->request->filter('mufilescollection');
         //return LogUtil::registerStatus($mucollections);
@@ -58,7 +58,7 @@ class MUFiles_Api_User extends MUFiles_Api_Base_User
                 ->findOneBy(array('id' => $mucollections));
                 $hookedObject->setCollectionhook($collection);
                 $this->entityManager->persist($hookedObject);
-                $this->entityManager->flush();                
+                $this->entityManager->flush();
             }
         }
         

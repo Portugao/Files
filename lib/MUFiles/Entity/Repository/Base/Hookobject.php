@@ -45,6 +45,7 @@ class MUFiles_Entity_Repository_Base_Hookobject extends EntityRepository
             'id',
             'workflowState',
             'hookedModule',
+            'hookedObject',
             'areaId',
             'url',
             'objectId',
@@ -120,7 +121,7 @@ class MUFiles_Entity_Repository_Base_Hookobject extends EntityRepository
      */
     public function getDescriptionFieldName()
     {
-        $fieldName = 'url';
+        $fieldName = 'hookedObject';
     
         return $fieldName;
     }
@@ -672,10 +673,14 @@ class MUFiles_Entity_Repository_Base_Hookobject extends EntityRepository
             $where .= ((!empty($where)) ? ' OR ' : '');
             $where .= 'tbl.hookedModule LIKE \'%' . $fragment . '%\'';
             $where .= ((!empty($where)) ? ' OR ' : '');
+            $where .= 'tbl.hookedObject LIKE \'%' . $fragment . '%\'';
+            $where .= ((!empty($where)) ? ' OR ' : '');
             $where .= 'tbl.url LIKE \'%' . $fragment . '%\'';
         } else {
             $where .= ((!empty($where)) ? ' OR ' : '');
             $where .= 'tbl.hookedModule LIKE \'%' . $fragment . '%\'';
+            $where .= ((!empty($where)) ? ' OR ' : '');
+            $where .= 'tbl.hookedObject LIKE \'%' . $fragment . '%\'';
             $where .= ((!empty($where)) ? ' OR ' : '');
             $where .= 'tbl.areaId = \'' . $fragment . '\'';
             $where .= ((!empty($where)) ? ' OR ' : '');

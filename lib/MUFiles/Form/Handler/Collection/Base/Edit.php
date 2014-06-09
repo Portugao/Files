@@ -72,6 +72,14 @@ class MUFiles_Form_Handler_Collection_Base_Edit extends MUFiles_Form_Handler_Com
                 $relObj->addChildren($entity);
             }
         }
+        // editable relation, we store the id and assign it now to show it in UI
+        $this->relationPresets['hookcollection'] = FormUtil::getPassedValue('hookcollection', '', 'GET');
+        if (!empty($this->relationPresets['hookcollection'])) {
+            $relObj = ModUtil::apiFunc($this->name, 'selection', 'getEntity', array('ot' => 'hookobject', 'id' => $this->relationPresets['hookcollection']));
+            if ($relObj != null) {
+                $entity->addHookcollection($relObj);
+            }
+        }
     
         // save entity reference for later reuse
         $this->entityRef = $entity;

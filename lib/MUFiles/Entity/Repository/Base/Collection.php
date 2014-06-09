@@ -925,7 +925,7 @@ class MUFiles_Entity_Repository_Base_Collection extends EntityRepository
      */
     protected function addJoinsToSelection()
     {
-        $selection = ', tblParent, tblAlilasfile, tblChildren';
+        $selection = ', tblParent, tblHookcollection, tblAlilasfile, tblChildren';
     
         $selection = ', tblCategories';
     
@@ -942,6 +942,7 @@ class MUFiles_Entity_Repository_Base_Collection extends EntityRepository
     protected function addJoinsToFrom(QueryBuilder $qb)
     {
         $qb->leftJoin('tbl.parent', 'tblParent');
+        $qb->leftJoin('tbl.hookcollection', 'tblHookcollection');
         $qb->leftJoin('tbl.alilasfile', 'tblAlilasfile');
         $qb->leftJoin('tbl.children', 'tblChildren');
     

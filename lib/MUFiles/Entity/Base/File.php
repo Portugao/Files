@@ -12,6 +12,7 @@
  */
 
     use Doctrine\ORM\Mapping as ORM;
+    use Doctrine\Common\Collections\ArrayCollection;
     use Gedmo\Mapping\Annotation as Gedmo;
     use DoctrineExtensions\StandardFields\Mapping\Annotation as ZK;
 
@@ -144,6 +145,13 @@
          */
         protected $aliascollection;
         
+        /**
+         * Bidirectional - Many filehook [files] are linked by many hookfile [hookobjects] (INVERSE SIDE).
+         *
+         * @ORM\ManyToMany(targetEntity="MUFiles_Entity_Hookobject", mappedBy="filehook")
+         * @var MUFiles_Entity_Hookobject[] $hookfile.
+         */
+        protected $hookfile = null;
 
         /**
          * Constructor.
@@ -158,6 +166,7 @@
             $this->workflowState = 'initial';
             $this->initValidator();
             $this->initWorkflow();
+            $this->hookfile = new ArrayCollection();
         }
 
         /**
@@ -572,6 +581,56 @@
         public function setAliascollection(MUFiles_Entity_Collection $aliascollection = null)
         {
             $this->aliascollection = $aliascollection;
+        }
+        
+        /**
+         * Get hookfile.
+         *
+         * @return MUFiles_Entity_Hookobject[]
+         */
+        public function getHookfile()
+        {
+            return $this->hookfile;
+        }
+        
+        /**
+         * Set hookfile.
+         *
+         * @param MUFiles_Entity_Hookobject[] $hookfile.
+         *
+         * @return void
+         */
+        public function setHookfile($hookfile)
+        {
+            foreach ($hookfile as $hookobjectSingle) {
+                $this->addHookfile($hookobjectSingle);
+            }
+        }
+        
+        /**
+         * Adds an instance of MUFiles_Entity_Hookobject to the list of hookfile.
+         *
+         * @param MUFiles_Entity_Hookobject $hookobject The instance to be added to the collection.
+         *
+         * @return void
+         */
+        public function addHookfile(MUFiles_Entity_Hookobject $hookobject)
+        {
+            $this->hookfile->add($hookobject);
+            $hookobject->addFilehook($this);
+        }
+        
+        /**
+         * Removes an instance of MUFiles_Entity_Hookobject from the list of hookfile.
+         *
+         * @param MUFiles_Entity_Hookobject $hookobject The instance to be removed from the collection.
+         *
+         * @return void
+         */
+        public function removeHookfile(MUFiles_Entity_Hookobject $hookobject)
+        {
+            $this->hookfile->removeElement($hookobject);
+            $hookobject->removeFilehook($this);
         }
         
 

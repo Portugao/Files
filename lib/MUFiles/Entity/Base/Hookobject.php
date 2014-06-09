@@ -75,6 +75,12 @@
         protected $hookedModule = '';
         
         /**
+         * @ORM\Column(length=50)
+         * @var string $hookedObject.
+         */
+        protected $hookedObject = '';
+        
+        /**
          * @ORM\Column(type="bigint")
          * @var integer $areaId.
          */
@@ -93,10 +99,10 @@
         protected $objectId = 0;
         
         /**
-         * @ORM\Column(type="array", nullable=true)
-         * @var array $urlObject.
+         * @ORM\Column(type="object")
+         * @var object $urlObject.
          */
-        protected $urlObject = array();
+        protected $urlObject = null;
         
         
         /**
@@ -128,17 +134,17 @@
         protected $updatedDate;
         
         /**
-         * Unidirectional - Many hookcollection [hookobjects] have many collectionhook [collections] (OWNING SIDE).
+         * Bidirectional - Many hookcollection [hookobjects] have many collectionhook [collections] (OWNING SIDE).
          *
-         * @ORM\ManyToMany(targetEntity="MUFiles_Entity_Collection")
+         * @ORM\ManyToMany(targetEntity="MUFiles_Entity_Collection", inversedBy="hookcollection")
          * @ORM\JoinTable(name="mufiles_hookobject_collection")
          * @var MUFiles_Entity_Collection[] $collectionhook.
          */
         protected $collectionhook = null;
         /**
-         * Unidirectional - Many hookfile [hookobjects] have many filehook [files] (OWNING SIDE).
+         * Bidirectional - Many hookfile [hookobjects] have many filehook [files] (OWNING SIDE).
          *
-         * @ORM\ManyToMany(targetEntity="MUFiles_Entity_File")
+         * @ORM\ManyToMany(targetEntity="MUFiles_Entity_File", inversedBy="hookfile")
          * @ORM\JoinTable(name="mufiles_hookobject_file")
          * @var MUFiles_Entity_File[] $filehook.
          */
@@ -347,6 +353,30 @@
         }
         
         /**
+         * Get hooked object.
+         *
+         * @return string
+         */
+        public function getHookedObject()
+        {
+            return $this->hookedObject;
+        }
+        
+        /**
+         * Set hooked object.
+         *
+         * @param string $hookedObject.
+         *
+         * @return void
+         */
+        public function setHookedObject($hookedObject)
+        {
+            if ($hookedObject != $this->hookedObject) {
+                $this->hookedObject = $hookedObject;
+            }
+        }
+        
+        /**
          * Get area id.
          *
          * @return integer
@@ -421,7 +451,7 @@
         /**
          * Get url object.
          *
-         * @return array
+         * @return object
          */
         public function getUrlObject()
         {
@@ -431,7 +461,7 @@
         /**
          * Set url object.
          *
-         * @param array $urlObject.
+         * @param object $urlObject.
          *
          * @return void
          */
@@ -649,10 +679,11 @@
             $this['id'] = (int) ((isset($this['id']) && !empty($this['id'])) ? DataUtil::formatForDisplay($this['id']) : 0);
             $this->formatTextualField('workflowState', $currentFunc, $usesCsvOutput, true);
             $this->formatTextualField('hookedModule', $currentFunc, $usesCsvOutput);
+            $this->formatTextualField('hookedObject', $currentFunc, $usesCsvOutput);
             $this['areaId'] = (int) ((isset($this['areaId']) && !empty($this['areaId'])) ? DataUtil::formatForDisplay($this['areaId']) : 0);
             $this->formatTextualField('url', $currentFunc, $usesCsvOutput);
             $this['objectId'] = (int) ((isset($this['objectId']) && !empty($this['objectId'])) ? DataUtil::formatForDisplay($this['objectId']) : 0);
-            $this['urlObject'] = ((isset($this['urlObject']) && is_array($this['urlObject'])) ? DataUtil::formatForDisplay($this['urlObject']) : array());
+            $this->formatObjectField('urlObject', $currentFunc, $usesCsvOutput);
         
             $this->prepareItemActions();
         
@@ -706,6 +737,28 @@
         protected function containsHtml($string)
         {
             return preg_match("/<[^<]+>/", $string, $m) != 0;
+        }
+        
+        /**
+         * Formats a given object field.
+         *
+         * @param string  $fieldName     Name of field to be formatted.
+         * @param string  $currentFunc   Name of current controller action.
+         * @param string  $usesCsvOutput Whether the output is CSV or not (defaults to false).
+         */
+        protected function formatObjectField($fieldName, $currentFunc, $usesCsvOutput = false)
+        {
+            if ($currentFunc == 'edit') {
+                // apply no changes when editing the content
+                return;
+            }
+        
+            if ($usesCsvOutput == 1) {
+                // apply no changes for CSV output
+                return;
+            }
+        
+            $this[$fieldName] = (isset($this[$fieldName]) && !empty($this[$fieldName])) ? DataUtil::formatForDisplay($this[$fieldName]) : '';
         }
         
         /**
