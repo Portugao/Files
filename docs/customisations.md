@@ -29,6 +29,8 @@ Implemented Classes
 *lib/MUFiles/UploadHandler.php
 *lib/MUFiles/Version.php
 
+*lib/MUFiles/Api/User.php
+
 *lib/MUFiles/Controller/User.php
 
 *lib/MUFiles/Form/Handler/admin/Config.php
