@@ -2,7 +2,7 @@
 <div id="hookobject{$hookobject.id}" class="mufiles-external-hookobject">
 {if $displayMode eq 'link'}
     <p class="mufiles-external-link">
-    <a href="{modurl modname='MUFiles' type='user' ot='hookobject' func='display' id=$hookobject.id}" title="{$hookobject->getTitleFromDisplayPattern()|replace:"\"":""}">
+    <a href="{modurl modname='MUFiles' type='user' func='display' ot='hookobject'  id=$hookobject.id}" title="{$hookobject->getTitleFromDisplayPattern()|replace:"\"":""}">
     {$hookobject->getTitleFromDisplayPattern()|notifyfilters:'mufiles.filter_hooks.hookobjects.filter'}
     </a>
     </p>

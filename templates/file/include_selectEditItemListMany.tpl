@@ -13,7 +13,7 @@
 {assign var='idPrefixItem' value="`$idPrefix`Reference_`$item.id`"}
 <li id="{$idPrefixItem}">
     {$item->getTitleFromDisplayPattern()}
-    <a id="{$idPrefixItem}Edit" href="{modurl modname='MUFiles' type=$lct func='edit' id=$item.id ot='file' forcelongurl=true}">{$editImage}</a>
+    <a id="{$idPrefixItem}Edit" href="{modurl modname='MUFiles' type=$lct func='edit' ot='file'  id=$item.id forcelongurl=true}">{$editImage}</a>
      <a id="{$idPrefixItem}Remove" href="javascript:mufilesRemoveRelatedItem('{$idPrefix}', '{$item.id}');">{$removeImage}</a>
 </li>
 {/foreach}

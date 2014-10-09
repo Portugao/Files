@@ -18,7 +18,7 @@
 
     <p class="z-warningmsg">{gt text='Do you really want to delete this hookobject ?'}</p>
 
-    <form class="z-form" action="{modurl modname='MUFiles' type=$lct func='delete' id=$hookobject.id ot='hookobject'}" method="post">
+    <form class="z-form" action="{modurl modname='MUFiles' type=$lct func='delete' ot='hookobject'  id=$hookobject.id}" method="post">
         <div>
             <input type="hidden" name="csrftoken" value="{insert name='csrftoken'}" />
             <input type="hidden" id="confirmation" name="confirmation" value="1" />

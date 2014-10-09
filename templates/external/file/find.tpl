@@ -52,7 +52,7 @@
                         {foreach item='file' from=$items}
                             <li>
                                 <a href="#" onclick="mufiles.finder.selectItem({$file.id})" onkeypress="mufiles.finder.selectItem({$file.id})">{$file->getTitleFromDisplayPattern()}</a>
-                                <input type="hidden" id="url{$file.id}" value="{modurl modname='MUFiles' type='user' func='display' id=$file.id fqurl=true}" />
+                                <input type="hidden" id="url{$file.id}" value="{modurl modname='MUFiles' type='user' func='display' ot='file'  id=$file.id fqurl=true}" />
                                 <input type="hidden" id="title{$file.id}" value="{$file->getTitleFromDisplayPattern()|replace:"\"":""}" />
                                 <input type="hidden" id="desc{$file.id}" value="{capture assign='description'}{if $file.description ne ''}{$file.description}{/if}
                                 {/capture}{$description|strip_tags|replace:"\"":""}" />

@@ -13,12 +13,12 @@
 <h4>
 {strip}
 {if !$nolink}
-    <a href="{modurl modname='MUFiles' type=$lct func='display' id=$item.id ot='hookobject'}" title="{$item->getTitleFromDisplayPattern()|replace:"\"":""}">
+    <a href="{modurl modname='MUFiles' type=$lct func='display' ot='hookobject'  id=$item.id}" title="{$item->getTitleFromDisplayPattern()|replace:"\"":""}">
 {/if}
     {$item->getTitleFromDisplayPattern()}
 {if !$nolink}
     </a>
-    <a id="hookobjectItem{$item.id}Display" href="{modurl modname='MUFiles' type=$lct func='display' id=$item.id ot='hookobject' theme='Printer' forcelongurl=true}" title="{gt text='Open quick view window'}" class="z-hide">{icon type='view' size='extrasmall' __alt='Quick view'}</a>
+    <a id="hookobjectItem{$item.id}Display" href="{modurl modname='MUFiles' type=$lct func='display' ot='hookobject'  id=$item.id theme='Printer' forcelongurl=true}" title="{gt text='Open quick view window'}" class="z-hide">{icon type='view' size='extrasmall' __alt='Quick view'}</a>
 {/if}
 {/strip}
 </h4>

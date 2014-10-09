@@ -11,10 +11,12 @@
     {if $lct eq 'admin'}
         <div class="z-admin-content-pagetitle">
             {icon type='display' size='small' __alt='Details'}
-            <h3>{$templateTitle|notifyfilters:'mufiles.filter_hooks.hookobjects.filter'}{icon id='itemActionsTrigger' type='options' size='extrasmall' __alt='Actions' class='z-pointer z-hide'}</h3>
+            <h3>{$templateTitle|notifyfilters:'mufiles.filter_hooks.hookobjects.filter'}{icon id="itemActions`$hookobject.id`Trigger" type='options' size='extrasmall' __alt='Actions' class='z-pointer z-hide'}
+            </h3>
         </div>
     {else}
-        <h2>{$templateTitle|notifyfilters:'mufiles.filter_hooks.hookobjects.filter'}{icon id='itemActionsTrigger' type='options' size='extrasmall' __alt='Actions' class='z-pointer z-hide'}</h2>
+        <h2>{$templateTitle|notifyfilters:'mufiles.filter_hooks.hookobjects.filter'}{icon id="itemActions`$hookobject.id`Trigger" type='options' size='extrasmall' __alt='Actions' class='z-pointer z-hide'}
+        </h2>
     {/if}
 
     {if !isset($smarty.get.theme) || $smarty.get.theme ne 'Printer'}
@@ -67,6 +69,8 @@
     <dl>
         <dt>{gt text='Hooked module'}</dt>
         <dd>{$hookobject.hookedModule}</dd>
+        <dt>{gt text='Hooked object'}</dt>
+        <dd>{$hookobject.hookedObject}</dd>
         <dt>{gt text='Area id'}</dt>
         <dd>{$hookobject.areaId}</dd>
         <dt>{gt text='Url'}</dt>
@@ -82,19 +86,20 @@
     {if !isset($smarty.get.theme) || $smarty.get.theme ne 'Printer'}
         {* include display hooks *}
         {notifydisplayhooks eventname='mufiles.ui_hooks.hookobjects.display_view' id=$hookobject.id urlobject=$currentUrlObject assign='hooks'}
-        {foreach key='providerArea' item='hook' from=$hooks}
+        {foreach name='hookLoop' key='providerArea' item='hook' from=$hooks}
             {$hook}
         {/foreach}
         {if count($hookobject._actions) gt 0}
-            <p id="itemActions">
-            {foreach item='option' from=$hookobject._actions}
-                <a href="{$option.url.type|mufilesActionUrl:$option.url.func:$option.url.arguments}" title="{$option.linkTitle|safetext}" class="z-icon-es-{$option.icon}">{$option.linkText|safetext}</a>
-            {/foreach}
+            <p id="itemActions{$hookobject.id}">
+                {foreach item='option' from=$hookobject._actions}
+                    <a href="{$option.url.type|mufilesActionUrl:$option.url.func:$option.url.arguments}" title="{$option.linkTitle|safetext}" class="z-icon-es-{$option.icon}">{$option.linkText|safetext}</a>
+                {/foreach}
             </p>
+        
             <script type="text/javascript">
             /* <![CDATA[ */
                 document.observe('dom:loaded', function() {
-                    mufilesInitItemActions('hookobject', 'display', 'itemActions');
+                    mufilesInitItemActions('hookobject', 'display', 'itemActions{{$hookobject.id}}');
                 });
             /* ]]> */
             </script>

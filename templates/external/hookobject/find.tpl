@@ -52,7 +52,7 @@
                         {foreach item='hookobject' from=$items}
                             <li>
                                 <a href="#" onclick="mufiles.finder.selectItem({$hookobject.id})" onkeypress="mufiles.finder.selectItem({$hookobject.id})">{$hookobject->getTitleFromDisplayPattern()}</a>
-                                <input type="hidden" id="url{$hookobject.id}" value="{modurl modname='MUFiles' type='user' func='display' id=$hookobject.id fqurl=true}" />
+                                <input type="hidden" id="url{$hookobject.id}" value="{modurl modname='MUFiles' type='user' func='display' ot='hookobject'  id=$hookobject.id fqurl=true}" />
                                 <input type="hidden" id="title{$hookobject.id}" value="{$hookobject->getTitleFromDisplayPattern()|replace:"\"":""}" />
                                 <input type="hidden" id="desc{$hookobject.id}" value="{capture assign='description'}{if $hookobject.hookedModule ne ''}{$hookobject.hookedModule}{/if}
                                 {/capture}{$description|strip_tags|replace:"\"":""}" />
@@ -70,6 +70,7 @@
                     <option value="id"{if $sort eq 'id'} selected="selected"{/if}>{gt text='Id'}</option>
                     <option value="workflowState"{if $sort eq 'workflowState'} selected="selected"{/if}>{gt text='Workflow state'}</option>
                     <option value="hookedModule"{if $sort eq 'hookedModule'} selected="selected"{/if}>{gt text='Hooked module'}</option>
+                    <option value="hookedObject"{if $sort eq 'hookedObject'} selected="selected"{/if}>{gt text='Hooked object'}</option>
                     <option value="areaId"{if $sort eq 'areaId'} selected="selected"{/if}>{gt text='Area id'}</option>
                     <option value="url"{if $sort eq 'url'} selected="selected"{/if}>{gt text='Url'}</option>
                     <option value="objectId"{if $sort eq 'objectId'} selected="selected"{/if}>{gt text='Object id'}</option>

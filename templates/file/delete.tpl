@@ -18,7 +18,7 @@
 
     <p class="z-warningmsg">{gt text='Do you really want to delete this file ?'}</p>
 
-    <form class="z-form" action="{modurl modname='MUFiles' type=$lct func='delete' id=$file.id ot='file'}" method="post">
+    <form class="z-form" action="{modurl modname='MUFiles' type=$lct func='delete' ot='file'  id=$file.id}" method="post">
         <div>
             <input type="hidden" name="csrftoken" value="{insert name='csrftoken'}" />
             <input type="hidden" id="confirmation" name="confirmation" value="1" />

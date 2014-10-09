@@ -17,12 +17,12 @@
     <li>
 {strip}
 {if !$nolink}
-    <a href="{modurl modname='MUFiles' type=$lct func='display' id=$item.id ot='file'}" title="{$item->getTitleFromDisplayPattern()|replace:"\"":""}">
+    <a href="{modurl modname='MUFiles' type=$lct func='display' ot='file'  id=$item.id}" title="{$item->getTitleFromDisplayPattern()|replace:"\"":""}">
 {/if}
     {$item->getTitleFromDisplayPattern()}
 {if !$nolink}
     </a>
-    <a id="fileItem{$item.id}Display" href="{modurl modname='MUFiles' type=$lct func='display' id=$item.id ot='file' theme='Printer' forcelongurl=true}" title="{gt text='Open quick view window'}" class="z-hide">{icon type='view' size='extrasmall' __alt='Quick view'}</a>
+    <a id="fileItem{$item.id}Display" href="{modurl modname='MUFiles' type=$lct func='display' ot='file'  id=$item.id theme='Printer' forcelongurl=true}" title="{gt text='Open quick view window'}" class="z-hide">{icon type='view' size='extrasmall' __alt='Quick view'}</a>
 {/if}
 {/strip}
 {if !$nolink}
