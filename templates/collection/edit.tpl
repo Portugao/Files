@@ -65,6 +65,7 @@
         
         {include file='helper/include_categories_edit.tpl' obj=$collection groupName='collectionObj' panel=true}
         {include file='collection/include_selectOne.tpl' group='collection' alias='parent' aliasReverse='children' mandatory=false idPrefix='mufilesCollection_Parent' linkingItem=$collection panel=true displayMode='dropdown' allowEditing=false}
+        {include file='hookobject/include_selectMany.tpl' group='collection' alias='hookcollection' aliasReverse='collectionhook' mandatory=false idPrefix='mufilesCollection_Hookcollection' linkingItem=$collection panel=true displayMode='dropdown' allowEditing=false}
         {if $mode ne 'create'}
             {include file='helper/include_standardfields_edit.tpl' obj=$collection panel=true}
         {/if}
@@ -77,13 +78,31 @@
             {notifydisplayhooks eventname='mufiles.ui_hooks.collections.form_edit' id=null assign='hooks'}
         {/if}
         {if is_array($hooks) && count($hooks)}
-            {foreach key='providerArea' item='hook' from=$hooks}
+            {foreach name='hookLoop' key='providerArea' item='hook' from=$hooks}
                 <h3 class="hook z-panel-header z-panel-indicator z-pointer">{$providerArea}</h3>
                 <fieldset class="hook z-panel-content" style="display: none">{$hook}</div>
                     {$hook}
                 </fieldset>
             {/foreach}
         {/if}
+        
+        <fieldset>
+            <legend>{gt text='Communication'}</legend>
+            <div class="z-formrow">
+                {usergetvar name='uid' assign='uid'}
+                {formlabel for='additionalNotificationRemarks' __text='Additional remarks'}
+                {gt text='Enter any additions about your changes' assign='fieldTitle'}
+                {if $mode eq 'create'}
+                    {gt text='Enter any additions about your content' assign='fieldTitle'}
+                {/if}
+                {formtextinput group='collection' id='additionalNotificationRemarks' mandatory=false title=$fieldTitle textMode='multiline' rows='6' cols='50'}
+                {if $isModerator || $isSuperModerator}
+                    <span class="z-formnote">{gt text='These remarks (like a reason for deny) are not stored, but added to any notification emails send to the creator.'}</span>
+                {elseif $isCreator}
+                    <span class="z-formnote">{gt text='These remarks (like questions about conformance) are not stored, but added to any notification emails send to our moderators.'}</span>
+                {/if}
+            </div>
+        </fieldset>
         
         {* include return control *}
         {if $mode eq 'create'}
@@ -99,7 +118,7 @@
         {* include possible submit actions *}
         <div class="z-buttons z-formbuttons">
         {foreach item='action' from=$actions}
-            {assign var='actionIdCapital' value=$action.id|@ucwords}
+            {assign var='actionIdCapital' value=$action.id|@ucfirst}
             {gt text=$action.title assign='actionTitle'}
             {*gt text=$action.description assign='actionDescription'*}{* TODO: formbutton could support title attributes *}
             {if $action.id eq 'delete'}
@@ -109,7 +128,7 @@
                 {formbutton id="btn`$actionIdCapital`" commandName=$action.id text=$actionTitle class=$action.buttonClass}
             {/if}
         {/foreach}
-            {formbutton id='btnCancel' commandName='cancel' __text='Cancel' class='z-bt-cancel'}
+        {formbutton id='btnCancel' commandName='cancel' __text='Cancel' class='z-bt-cancel'}
         </div>
     </div>
     {/mufilesFormFrame}
@@ -123,9 +142,9 @@
 
 <script type="text/javascript">
 /* <![CDATA[ */
-
+    
     var formButtons, formValidator;
-
+    
     function handleFormButton (event) {
         var result = formValidator.validate();
         if (!result) {
@@ -137,36 +156,35 @@
                 btn.addClassName('z-hide');
             });
         }
-
+    
         return result;
     }
-
+    
     document.observe('dom:loaded', function() {
-
+    
         mufilesAddCommonValidationRules('collection', '{{if $mode ne 'create'}}{{$collection.id}}{{/if}}');
         {{* observe validation on button events instead of form submit to exclude the cancel command *}}
         formValidator = new Validation('{{$__formid}}', {onSubmit: false, immediate: true, focusOnError: false});
         {{if $mode ne 'create'}}
             var result = formValidator.validate();
         {{/if}}
-
+    
         formButtons = $('{{$__formid}}').select('div.z-formbuttons input');
-
+    
         formButtons.each(function (elem) {
             if (elem.id != 'btnCancel') {
                 elem.observe('click', handleFormButton);
             }
         });
-
+    
         var panel = new Zikula.UI.Panels('mUFilesPanel', {
             headerSelector: 'h3',
             headerClassName: 'z-panel-header z-panel-indicator',
             contentClassName: 'z-panel-content',
             active: $('z-panel-header-fields')
         });
-
+    
         Zikula.UI.Tooltips($$('.mufiles-form-tooltips'));
     });
-
 /* ]]> */
 </script>

@@ -26,6 +26,7 @@ Changed Files
 
 Implemented Classes
 
+*lib/MUFiles/Installer.php
 *lib/MUFiles/UploadHandler.php
 *lib/MUFiles/Version.php
 
@@ -33,8 +34,10 @@ Implemented Classes
 
 *lib/MUFiles/Controller/User.php
 
-*lib/MUFiles/Form/Handler/admin/Config.php
-*lib/MUFiles/Form/Handler/user/file/Edit.php
+*lib/MUFiles/Entity/Repository/Collection.php
+
+*lib/MUFiles/Form/Handler/Admin/Config.php
+*lib/MUFiles/Form/Handler/User/File/Edit.php
 
 *lib/MUFiles/Form/Plugin/AbstractObjectSelector.php
 
