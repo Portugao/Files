@@ -19,7 +19,7 @@ function MUFiles(editor) {
         id       : 'MUFiles',
         tooltip  : 'Insert MUFiles object',
      // image    : _editor_url + 'plugins/MUFiles/img/ed_MUFiles.gif',
-        image    : '/images/icons/extrasmall/favorites.png',
+        image    : '/modules/MUFiles/images/mufiles.png',
         textMode : false,
         action   : function (editor) {
             var url = Zikula.Config.baseURL + 'index.php'/*Zikula.Config.entrypoint*/ + '?module=MUFiles&type=external&func=finder&editor=xinha';
@@ -34,7 +34,7 @@ MUFiles._pluginInfo = {
     version       : '1.0.0',
     developer     : 'Michael Ueberschaer',
     developer_url : 'http://webdesign-in-bremen.com',
-    sponsor       : 'ModuleStudio 0.6.0',
+    sponsor       : 'ModuleStudio 0.6.2',
     sponsor_url   : 'http://modulestudio.de',
     license       : 'htmlArea'
 };
