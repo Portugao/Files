@@ -170,7 +170,7 @@ class MUFiles_Api_Base_Selection extends Zikula_AbstractApi
             throw new \InvalidArgumentException(__('Invalid object type received.'));
         }
     
-        $entityClass = 'MUFiles_Entity_' . ucwords($objectType);
+        $entityClass = 'MUFiles_Entity_' . ucfirst($objectType);
         $repository = $this->entityManager->getRepository($entityClass);
     
         return $repository;

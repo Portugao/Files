@@ -48,7 +48,7 @@ class MUFiles_Controller_Base_Ajax extends Zikula_Controller_AbstractAjax
         if (!SecurityUtil::checkPermission($this->name . '::Ajax', '::', ACCESS_EDIT)) {
             return true;
         }
-    
+        
         $objectType = 'collection';
         if ($this->request->isPost() && $this->request->request->has('ot')) {
             $objectType = $this->request->request->filter('ot', 'collection', FILTER_SANITIZE_STRING);
@@ -60,32 +60,32 @@ class MUFiles_Controller_Base_Ajax extends Zikula_Controller_AbstractAjax
         if (!in_array($objectType, $controllerHelper->getObjectTypes('controllerAction', $utilArgs))) {
             $objectType = $controllerHelper->getDefaultObjectType('controllerAction', $utilArgs);
         }
-    
+        
         $entityClass = 'MUFiles_Entity_' . ucfirst($objectType);
         $repository = $this->entityManager->getRepository($entityClass);
         $repository->setControllerArguments(array());
         $idFields = ModUtil::apiFunc($this->name, 'selection', 'getIdFields', array('ot' => $objectType));
-    
+        
         $descriptionField = $repository->getDescriptionFieldName();
-    
+        
         $sort = $this->request->request->filter('sort', '', FILTER_SANITIZE_STRING);
         if (empty($sort) || !in_array($sort, $repository->getAllowedSortingFields())) {
             $sort = $repository->getDefaultSortingField();
         }
-    
+        
         $sdir = $this->request->request->filter('sortdir', '', FILTER_SANITIZE_STRING);
         $sdir = strtolower($sdir);
         if ($sdir != 'asc' && $sdir != 'desc') {
             $sdir = 'asc';
         }
-    
+        
         $where = ''; // filters are processed inside the repository class
         $sortParam = $sort . ' ' . $sdir;
-    
+        
         $entities = $repository->selectWhere($where, $sortParam);
-    
+        
         $slimItems = array();
-        $component = $this->name . ':' . ucwords($objectType) . ':';
+        $component = $this->name . ':' . ucfirst($objectType) . ':';
         foreach ($entities as $item) {
             $itemId = '';
             foreach ($idFields as $idField) {
@@ -96,7 +96,7 @@ class MUFiles_Controller_Base_Ajax extends Zikula_Controller_AbstractAjax
             }
             $slimItems[] = $this->prepareSlimItem($objectType, $item, $itemId, $descriptionField);
         }
-    
+        
         return new Zikula_Response_Ajax($slimItems);
     }
     
@@ -139,7 +139,7 @@ class MUFiles_Controller_Base_Ajax extends Zikula_Controller_AbstractAjax
         if (!SecurityUtil::checkPermission($this->name . '::Ajax', '::', ACCESS_EDIT)) {
             return true;
         }
-    
+        
         $objectType = 'collection';
         if ($this->request->isPost() && $this->request->request->has('ot')) {
             $objectType = $this->request->request->filter('ot', 'collection', FILTER_SANITIZE_STRING);
@@ -151,11 +151,11 @@ class MUFiles_Controller_Base_Ajax extends Zikula_Controller_AbstractAjax
         if (!in_array($objectType, $controllerHelper->getObjectTypes('controllerAction', $utilArgs))) {
             $objectType = $controllerHelper->getDefaultObjectType('controllerAction', $utilArgs);
         }
-    
+        
         $entityClass = 'MUFiles_Entity_' . ucfirst($objectType);
         $repository = $this->entityManager->getRepository($entityClass);
         $idFields = ModUtil::apiFunc($this->name, 'selection', 'getIdFields', array('ot' => $objectType));
-    
+        
         $fragment = '';
         $exclude = '';
         if ($this->request->isPost() && $this->request->request->has('fragment')) {
@@ -166,20 +166,20 @@ class MUFiles_Controller_Base_Ajax extends Zikula_Controller_AbstractAjax
             $exclude = $this->request->query->get('exclude', '');
         }
         $exclude = ((!empty($exclude)) ? array($exclude) : array());
-    
+        
         // parameter for used sorting field
         $sort = $this->request->query->get('sort', '');
         if (empty($sort) || !in_array($sort, $repository->getAllowedSortingFields())) {
             $sort = $repository->getDefaultSortingField();
         }
         $sortParam = $sort . ' asc';
-    
+        
         $currentPage = 1;
         $resultsPerPage = 20;
-    
+        
         // get objects from database
         list($entities, $objectCount) = $repository->selectSearch($fragment, $exclude, $sortParam, $currentPage, $resultsPerPage);
-    
+        
         $out = '<ul>';
         if ((is_array($entities) || is_object($entities)) && count($entities) > 0) {
             $descriptionFieldName = $repository->getDescriptionFieldName();
@@ -188,22 +188,66 @@ class MUFiles_Controller_Base_Ajax extends Zikula_Controller_AbstractAjax
                 // class="informal" --> show in dropdown, but do nots copy in the input field after selection
                 $itemTitle = $item->getTitleFromDisplayPattern();
                 $itemTitleStripped = str_replace('"', '', $itemTitle);
-                $itemDescription = (isset($item[$descriptionFieldName]) && !empty($item[$descriptionFieldName])) ? $item[$descriptionFieldName] : '';//$this->__('No description yet.');
-                $itemId = '';
-                foreach ($idFields as $idField) {
-                    $itemId .= ((!empty($itemId)) ? '_' : '') . $item[$idField];
-                }
+                $itemDescription = isset($item[$descriptionFieldName]) && !empty($item[$descriptionFieldName]) ? $item[$descriptionFieldName] : '';//$this->__('No description yet.');
+                $itemId = $item->createCompositeIdentifier();
+        
                 $out .= '<li id="' . $itemId . '" title="' . $itemTitleStripped . '">';
                 $out .= '<div class="itemtitle">' . $itemTitle . '</div>';
                 if (!empty($itemDescription)) {
                     $out .= '<div class="itemdesc informal">' . substr($itemDescription, 0, 50) . '&hellip;</div>';
                 }
+        
                 $out .= '</li>';
             }
         }
         $out .= '</ul>';
-    
+        
         // return response
         return new Zikula_Response_Ajax_Plain($out);
+    }
+    
+    /**
+     * Changes a given flag (boolean field) by switching between true and false.
+     *
+     * @param string $ot    Treated object type.
+     * @param string $field The field to be toggled.
+     * @param int    $id    Identifier of treated entity.
+     *
+     * @return Zikula_Response_Ajax
+     */
+    public function toggleFlag()
+    {
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . '::Ajax', '::', ACCESS_EDIT));
+        
+        $postData = $this->request->request;
+        
+        $objectType = $postData->filter('ot', '', FILTER_SANITIZE_STRING);
+        $field = $postData->filter('field', '', FILTER_SANITIZE_STRING);
+        $id = (int) $postData->filter('id', 0, FILTER_VALIDATE_INT);
+        
+        if ($id == 0
+            || ($objectType != 'collection')
+        || ($objectType == 'collection' && !in_array($field, array('inFrontend')))
+        ) {
+            return new Zikula_Response_Ajax_BadData($this->__('Error: invalid input.'));
+        }
+        
+        // select data from data source
+        $entity = ModUtil::apiFunc($this->name, 'selection', 'getEntity', array('ot' => $objectType, 'id' => $id));
+        if ($entity == null) {
+            return new Zikula_Response_Ajax_NotFound($this->__('No such item.'));
+        }
+        
+        // toggle the flag
+        $entity[$field] = !$entity[$field];
+        
+        // save entity back to database
+        $this->entityManager->flush();
+        
+        // return response
+        $result = array('id' => $id,
+                        'state' => $entity[$field]);
+        
+        return new Zikula_Response_Ajax($result);
     }
 }

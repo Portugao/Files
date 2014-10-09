@@ -361,7 +361,7 @@ abstract class MUFiles_Form_Plugin_Base_AbstractObjectSelector extends Zikula_Fo
         $alias = $this->id;
         $many = ($this->selectionMode == 'multiple');
     
-        $entityClass = $this->name . '_Entity_' . ucwords($this->objectType);
+        $entityClass = $this->name . '_Entity_' . ucfirst($this->objectType);
         $serviceManager = ServiceUtil::getManager();
         $entityManager = $serviceManager->getService('doctrine.entitymanager');
         $repository = $entityManager->getRepository($entityClass);
@@ -400,7 +400,7 @@ abstract class MUFiles_Form_Plugin_Base_AbstractObjectSelector extends Zikula_Fo
      */
     protected function fetchRelatedItems($view, $inputValue)
     {
-        $entityClass = 'MUFiles_Entity_' . ucwords($this->objectType);
+        $entityClass = 'MUFiles_Entity_' . ucfirst($this->objectType);
         $serviceManager = ServiceUtil::getManager();
         $entityManager = $serviceManager->getService('doctrine.entitymanager');
         $repository = $entityManager->getRepository($entityClass);
@@ -433,7 +433,7 @@ abstract class MUFiles_Form_Plugin_Base_AbstractObjectSelector extends Zikula_Fo
     
         // remove all existing references
         if ($many) {
-            $removeMethod = 'remove' . ucwords($alias);
+            $removeMethod = 'remove' . ucfirst($alias);
             foreach ($entity[$alias] as $relatedItem) {
                 $entity->$removeMethod($relatedItem);
             }
@@ -446,15 +446,15 @@ abstract class MUFiles_Form_Plugin_Base_AbstractObjectSelector extends Zikula_Fo
         }
     
         // create new references
-        $getter = 'get' . ucwords($alias);
-        $assignMethod = ($many ? 'add' : 'set') . ucwords($alias);
+        $getter = 'get' . ucfirst($alias);
+        $assignMethod = ($many ? 'add' : 'set') . ucfirst($alias);
         foreach ($this->selectedItems as $relatedItem) {
             if ($many && $entity->$getter()->contains($relatedItem)) {
                 continue;
             }
             if (!$many) {
                 // check if we are assigning the parent (1-side) of a bidirectional 1:n relationship
-                $inverseAddMethod = 'add' . ucwords($this->aliasReverse);
+                $inverseAddMethod = 'add' . ucfirst($this->aliasReverse);
                 if (method_exists($relatedItem, $inverseAddMethod)) {
                     // call the inverse method which calls the method in $entity
                     $relatedItem->$inverseAddMethod($entity);

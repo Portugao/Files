@@ -60,7 +60,7 @@ class MUFiles_Controller_Base_External extends Zikula_AbstractController
         
         $id = isset($args['id']) ? $args['id'] : $getData->filter('id', null, FILTER_SANITIZE_STRING);
         
-        $component = $this->name . ':' . ucwords($objectType) . ':';
+        $component = $this->name . ':' . ucfirst($objectType) . ':';
         if (!SecurityUtil::checkPermission($component, $id . '::', ACCESS_READ)) {
             return '';
         }
@@ -75,7 +75,7 @@ class MUFiles_Controller_Base_External extends Zikula_AbstractController
             $displayMode = 'embed';
         }
         
-        $entityClass = 'MUFiles_Entity_' . ucwords($objectType);
+        $entityClass = 'MUFiles_Entity_' . ucfirst($objectType);
         $repository = $this->entityManager->getRepository($entityClass);
         $repository->setControllerArguments(array());
         $idFields = ModUtil::apiFunc('MUFiles', 'selection', 'getIdFields', array('ot' => $objectType));
@@ -141,9 +141,9 @@ class MUFiles_Controller_Base_External extends Zikula_AbstractController
             $objectType = $controllerHelper->getDefaultObjectType('controllerType', $utilArgs);
         }
         
-        $this->throwForbiddenUnless(SecurityUtil::checkPermission('MUFiles:' . ucwords($objectType) . ':', '::', ACCESS_COMMENT), LogUtil::getErrorMsgPermission());
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission('MUFiles:' . ucfirst($objectType) . ':', '::', ACCESS_COMMENT), LogUtil::getErrorMsgPermission());
         
-        $entityClass = 'MUFiles_Entity_' . ucwords($objectType);
+        $entityClass = 'MUFiles_Entity_' . ucfirst($objectType);
         $repository = $this->entityManager->getRepository($entityClass);
         $repository->setControllerArguments(array());
         

@@ -47,7 +47,7 @@ class MUFiles_Controller_Base_Hookobject extends Zikula_AbstractController
         $objectType = 'hookobject';
         $utilArgs = array('controller' => 'hookobject', 'action' => 'main');
         $permLevel = $legacyControllerType == 'admin' ? ACCESS_ADMIN : ACCESS_OVERVIEW;
-        $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . ':' . ucwords($objectType) . ':', '::', $permLevel), LogUtil::getErrorMsgPermission());
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . ':' . ucfirst($objectType) . ':', '::', $permLevel), LogUtil::getErrorMsgPermission());
         
         if ($legacyControllerType == 'admin') {
             
@@ -94,8 +94,8 @@ class MUFiles_Controller_Base_Hookobject extends Zikula_AbstractController
         $objectType = 'hookobject';
         $utilArgs = array('controller' => 'hookobject', 'action' => 'view');
         $permLevel = $legacyControllerType == 'admin' ? ACCESS_ADMIN : ACCESS_READ;
-        $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . ':' . ucwords($objectType) . ':', '::', $permLevel), LogUtil::getErrorMsgPermission());
-        $entityClass = $this->name . '_Entity_' . ucwords($objectType);
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . ':' . ucfirst($objectType) . ':', '::', $permLevel), LogUtil::getErrorMsgPermission());
+        $entityClass = $this->name . '_Entity_' . ucfirst($objectType);
         $repository = $this->entityManager->getRepository($entityClass);
         $repository->setControllerArguments(array());
         $viewHelper = new MUFiles_Util_View($this->serviceManager);
@@ -145,7 +145,7 @@ class MUFiles_Controller_Base_Hookobject extends Zikula_AbstractController
         
         // prepare access level for cache id
         $accessLevel = ACCESS_READ;
-        $component = 'MUFiles:' . ucwords($objectType) . ':';
+        $component = 'MUFiles:' . ucfirst($objectType) . ':';
         $instance = '::';
         if (SecurityUtil::checkPermission($component, $instance, ACCESS_COMMENT)) {
             $accessLevel = ACCESS_COMMENT;
@@ -239,8 +239,8 @@ class MUFiles_Controller_Base_Hookobject extends Zikula_AbstractController
         $objectType = 'hookobject';
         $utilArgs = array('controller' => 'hookobject', 'action' => 'display');
         $permLevel = $legacyControllerType == 'admin' ? ACCESS_ADMIN : ACCESS_READ;
-        $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . ':' . ucwords($objectType) . ':', '::', $permLevel), LogUtil::getErrorMsgPermission());
-        $entityClass = $this->name . '_Entity_' . ucwords($objectType);
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . ':' . ucfirst($objectType) . ':', '::', $permLevel), LogUtil::getErrorMsgPermission());
+        $entityClass = $this->name . '_Entity_' . ucfirst($objectType);
         $repository = $this->entityManager->getRepository($entityClass);
         $repository->setControllerArguments(array());
         
@@ -249,6 +249,20 @@ class MUFiles_Controller_Base_Hookobject extends Zikula_AbstractController
         // retrieve identifier of the object we wish to view
         $idValues = $controllerHelper->retrieveIdentifier($this->request, array(), $objectType, $idFields);
         $hasIdentifier = $controllerHelper->isValidIdentifier($idValues);
+        
+        // check for unique permalinks (without id)
+        $hasSlug = false;
+        $slug = '';
+        if ($hasIdentifier === false) {
+            $entityClass = $this->name . '_Entity_' . ucfirst($objectType);
+            $meta = $this->entityManager->getClassMetadata($entityClass);
+            $hasSlug = $meta->hasField('slug') && $meta->isUniqueField('slug');
+            if ($hasSlug) {
+                $slug = $this->request->query->filter('slug', '', FILTER_SANITIZE_STRING);
+                $hasSlug = (!empty($slug));
+            }
+        }
+        $hasIdentifier |= $hasSlug;
         
         $this->throwNotFoundUnless($hasIdentifier, $this->__('Error! Invalid identifier received.'));
         
@@ -266,13 +280,13 @@ class MUFiles_Controller_Base_Hookobject extends Zikula_AbstractController
         $currentUrlArgs['id'] = $instanceId; // TODO remove this
         $currentUrlObject = new Zikula_ModUrl($this->name, 'hookobject', 'display', ZLanguage::getLanguageCode(), $currentUrlArgs);
         
-        $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . ':' . ucwords($objectType) . ':', $instanceId . '::', $permLevel), LogUtil::getErrorMsgPermission());
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . ':' . ucfirst($objectType) . ':', $instanceId . '::', $permLevel), LogUtil::getErrorMsgPermission());
         
         $viewHelper = new MUFiles_Util_View($this->serviceManager);
         $templateFile = $viewHelper->getViewTemplate($this->view, $objectType, 'display', array());
         
         // set cache id
-        $component = $this->name . ':' . ucwords($objectType) . ':';
+        $component = $this->name . ':' . ucfirst($objectType) . ':';
         $instance = $instanceId . '::';
         $accessLevel = ACCESS_READ;
         if (SecurityUtil::checkPermission($component, $instance, ACCESS_COMMENT)) {
@@ -312,7 +326,7 @@ class MUFiles_Controller_Base_Hookobject extends Zikula_AbstractController
         $objectType = 'hookobject';
         $utilArgs = array('controller' => 'hookobject', 'action' => 'edit');
         $permLevel = $legacyControllerType == 'admin' ? ACCESS_ADMIN : ACCESS_EDIT;
-        $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . ':' . ucwords($objectType) . ':', '::', $permLevel), LogUtil::getErrorMsgPermission());
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . ':' . ucfirst($objectType) . ':', '::', $permLevel), LogUtil::getErrorMsgPermission());
         
         // create new Form reference
         $view = FormUtil::newForm($this->name, $this);
@@ -350,7 +364,7 @@ class MUFiles_Controller_Base_Hookobject extends Zikula_AbstractController
         $objectType = 'hookobject';
         $utilArgs = array('controller' => 'hookobject', 'action' => 'delete');
         $permLevel = $legacyControllerType == 'admin' ? ACCESS_ADMIN : ACCESS_DELETE;
-        $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . ':' . ucwords($objectType) . ':', '::', $permLevel), LogUtil::getErrorMsgPermission());
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . ':' . ucfirst($objectType) . ':', '::', $permLevel), LogUtil::getErrorMsgPermission());
         $idFields = ModUtil::apiFunc($this->name, 'selection', 'getIdFields', array('ot' => $objectType));
         
         // retrieve identifier of the object we wish to delete
@@ -423,7 +437,7 @@ class MUFiles_Controller_Base_Hookobject extends Zikula_AbstractController
             }
         }
         
-        $entityClass = $this->name . '_Entity_' . ucwords($objectType);
+        $entityClass = $this->name . '_Entity_' . ucfirst($objectType);
         $repository = $this->entityManager->getRepository($entityClass);
         
         // set caching id
