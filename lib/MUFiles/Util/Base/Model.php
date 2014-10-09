@@ -70,7 +70,7 @@ class MUFiles_Util_Base_Model extends Zikula_AbstractBase
             throw new \Exception('Error! Invalid object type received.');
         }
     
-        $entityClass = 'MUFiles_Entity_' . ucfirst($objectType);
+        $entityClass = 'MUFiles_Entity_' . ucwords($objectType);
         $repository = $this->entityManager->getRepository($entityClass);
     
         return ($repository->selectCount() > 0);

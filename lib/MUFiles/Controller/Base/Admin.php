@@ -72,7 +72,7 @@ class MUFiles_Controller_Base_Admin extends Zikula_AbstractController
             $objectType = $controllerHelper->getDefaultObjectType('controllerAction', $utilArgs);
         }
         $permLevel = ACCESS_ADMIN;
-        $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . ':' . ucfirst($objectType) . ':', '::', $permLevel), LogUtil::getErrorMsgPermission());
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . ':' . ucwords($objectType) . ':', '::', $permLevel), LogUtil::getErrorMsgPermission());
         // redirect to entity controller
         
         System::queryStringSetVar('lct', 'admin');
@@ -102,7 +102,7 @@ class MUFiles_Controller_Base_Admin extends Zikula_AbstractController
             $objectType = $controllerHelper->getDefaultObjectType('controllerAction', $utilArgs);
         }
         $permLevel = ACCESS_ADMIN;
-        $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . ':' . ucfirst($objectType) . ':', '::', $permLevel), LogUtil::getErrorMsgPermission());
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . ':' . ucwords($objectType) . ':', '::', $permLevel), LogUtil::getErrorMsgPermission());
         // redirect to entity controller
         
         System::queryStringSetVar('lct', 'admin');
@@ -131,7 +131,7 @@ class MUFiles_Controller_Base_Admin extends Zikula_AbstractController
             $objectType = $controllerHelper->getDefaultObjectType('controllerAction', $utilArgs);
         }
         $permLevel = ACCESS_ADMIN;
-        $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . ':' . ucfirst($objectType) . ':', '::', $permLevel), LogUtil::getErrorMsgPermission());
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . ':' . ucwords($objectType) . ':', '::', $permLevel), LogUtil::getErrorMsgPermission());
         // redirect to entity controller
         
         System::queryStringSetVar('lct', 'admin');
@@ -162,7 +162,7 @@ class MUFiles_Controller_Base_Admin extends Zikula_AbstractController
             $objectType = $controllerHelper->getDefaultObjectType('controllerAction', $utilArgs);
         }
         $permLevel = ACCESS_ADMIN;
-        $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . ':' . ucfirst($objectType) . ':', '::', $permLevel), LogUtil::getErrorMsgPermission());
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . ':' . ucwords($objectType) . ':', '::', $permLevel), LogUtil::getErrorMsgPermission());
         // redirect to entity controller
         
         System::queryStringSetVar('lct', 'admin');

@@ -215,7 +215,7 @@ class MUFiles_Util_Base_Workflow extends Zikula_AbstractBase
         // check if objects are waiting for approval
         $state = 'waiting';
         $objectType = 'collection';
-        if (SecurityUtil::checkPermission($modname . ':' . ucfirst($objectType) . ':', '::', ACCESS_ADD)) {
+        if (SecurityUtil::checkPermission($modname . ':' . ucwords($objectType) . ':', '::', ACCESS_ADD)) {
             $amount = $this->getAmountOfModerationItems($objectType, $state);
             if ($amount > 0) {
                 $amounts[] = array(
@@ -229,7 +229,7 @@ class MUFiles_Util_Base_Workflow extends Zikula_AbstractBase
             }
         }
         $objectType = 'file';
-        if (SecurityUtil::checkPermission($modname . ':' . ucfirst($objectType) . ':', '::', ACCESS_ADD)) {
+        if (SecurityUtil::checkPermission($modname . ':' . ucwords($objectType) . ':', '::', ACCESS_ADD)) {
             $amount = $this->getAmountOfModerationItems($objectType, $state);
             if ($amount > 0) {
                 $amounts[] = array(
@@ -257,7 +257,7 @@ class MUFiles_Util_Base_Workflow extends Zikula_AbstractBase
      */
     public function getAmountOfModerationItems($objectType, $state)
     {
-        $entityClass = $this->name . '_Entity_' . ucfirst($objectType);
+        $entityClass = $this->name . '_Entity_' . ucwords($objectType);
         $entityManager = $this->serviceManager->getService('doctrine.entitymanager');
         $repository = $entityManager->getRepository($entityClass);
     

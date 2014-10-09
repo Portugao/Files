@@ -21,7 +21,7 @@ class MUFiles_Api_Base_User extends Zikula_AbstractApi
      *
      * @return array Array of user links.
      */
-    public function getLinks()
+    public function getlinks()
     {
         $links = array();
 
@@ -33,7 +33,7 @@ class MUFiles_Api_Base_User extends Zikula_AbstractApi
         }
 
         $controllerHelper = new MUFiles_Util_Controller($this->serviceManager);
-        $utilArgs = array('api' => 'user', 'action' => 'getLinks');
+        $utilArgs = array('api' => 'user', 'action' => 'getlinks');
         $allowedObjectTypes = $controllerHelper->getObjectTypes('api', $utilArgs);
 
         if (in_array('collection', $allowedObjectTypes)

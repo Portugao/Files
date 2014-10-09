@@ -122,13 +122,13 @@ class MUFiles_Block_Base_ItemList extends Zikula_Controller_AbstractBlock
     
         $objectType = $vars['objectType'];
     
-        $entityClass = 'MUFiles_Entity_' . ucfirst($objectType);
+        $entityClass = 'MUFiles_Entity_' . ucwords($objectType);
         $entityManager = $this->serviceManager->getService('doctrine.entitymanager');
         $repository = $entityManager->getRepository($entityClass);
     
         $this->view->setCaching(Zikula_View::CACHE_ENABLED);
         // set cache id
-        $component = 'MUFiles:' . ucfirst($objectType) . ':';
+        $component = 'MUFiles:' . ucwords($objectType) . ':';
         $instance = '::';
         $accessLevel = ACCESS_READ;
         if (SecurityUtil::checkPermission($component, $instance, ACCESS_COMMENT)) {
@@ -350,9 +350,9 @@ class MUFiles_Block_Base_ItemList extends Zikula_Controller_AbstractBlock
     
         // clear the block cache
         $this->view->clear_cache('block/itemlist_display.tpl');
-        $this->view->clear_cache('block/itemlist_' . ucfirst($vars['objectType']) . '_display.tpl');
+        $this->view->clear_cache('block/itemlist_' . ucwords($vars['objectType']) . '_display.tpl');
         $this->view->clear_cache('block/itemlist_display_description.tpl');
-        $this->view->clear_cache('block/itemlist_' . ucfirst($vars['objectType']) . '_display_description.tpl');
+        $this->view->clear_cache('block/itemlist_' . ucwords($vars['objectType']) . '_display_description.tpl');
     
         return $blockinfo;
     }

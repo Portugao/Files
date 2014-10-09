@@ -140,7 +140,7 @@ class MUFiles_Util_Base_View extends Zikula_AbstractBase
     public function availableExtensions($type, $func)
     {
         $extensions = array();
-        $hasAdminAccess = SecurityUtil::checkPermission('MUFiles:' . ucfirst($type) . ':', '::', ACCESS_ADMIN);
+        $hasAdminAccess = SecurityUtil::checkPermission('MUFiles:' . ucwords($type) . ':', '::', ACCESS_ADMIN);
         if ($func == 'view') {
             if ($hasAdminAccess) {
                 $extensions = array('csv');
