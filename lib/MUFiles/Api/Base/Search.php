@@ -108,7 +108,7 @@ class MUFiles_Api_Base_Search extends Zikula_AbstractApi
             }
             $where = Search_Api_User::construct_where($args, $whereArray, $languageField);
     
-            $entityClass = $this->name . '_Entity_' . ucwords($objectType);
+            $entityClass = $this->name . '_Entity_' . ucfirst($objectType);
             $repository = $entityManager->getRepository($entityClass);
     
             // get objects from database

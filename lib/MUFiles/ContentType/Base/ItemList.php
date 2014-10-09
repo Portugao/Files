@@ -224,7 +224,7 @@ class MUFiles_ContentType_Base_ItemList extends Content_AbstractContentType
         $dom = ZLanguage::getModuleDomain('MUFiles');
         ModUtil::initOOModule('MUFiles');
     
-        $entityClass = 'MUFiles_Entity_' . ucwords($this->objectType);
+        $entityClass = 'MUFiles_Entity_' . ucfirst($this->objectType);
         $serviceManager = ServiceUtil::getManager();
         $entityManager = $serviceManager->getService('doctrine.entitymanager');
         $repository = $entityManager->getRepository($entityClass);
@@ -234,7 +234,7 @@ class MUFiles_ContentType_Base_ItemList extends Content_AbstractContentType
     
         $this->view->setCaching(Zikula_View::CACHE_ENABLED);
         // set cache id
-        $component = 'MUFiles:' . ucwords($this->objectType) . ':';
+        $component = 'MUFiles:' . ucfirst($this->objectType) . ':';
         $instance = '::';
         $accessLevel = ACCESS_READ;
         if (SecurityUtil::checkPermission($component, $instance, ACCESS_COMMENT)) {

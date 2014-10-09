@@ -365,7 +365,7 @@ class MUFiles_Form_Handler_Common_Base_Edit extends Zikula_Form_AbstractHandler
      */
     public function postInitialize()
     {
-        $entityClass = $this->name . '_Entity_' . ucwords($this->objectType);
+        $entityClass = $this->name . '_Entity_' . ucfirst($this->objectType);
         $repository = $this->entityManager->getRepository($entityClass);
         $utilArgs = array('controller' => \FormUtil::getPassedValue('type', 'user', 'GETPOST'),
                           'action' => 'edit',
@@ -430,10 +430,10 @@ class MUFiles_Form_Handler_Common_Base_Edit extends Zikula_Form_AbstractHandler
     
         if ($action != 'cancel') {
             $otherFormData = $this->fetchInputData($view, $args);
-        	if ($otherFormData === false) {
-            	return false;
-        	}
-    	}
+            if ($otherFormData === false) {
+                return false;
+            }
+        }
     
         // get treated entity reference from persisted member var
         $entity = $this->entityRef;
@@ -596,6 +596,10 @@ class MUFiles_Form_Handler_Common_Base_Edit extends Zikula_Form_AbstractHandler
                 $this->repeatCreateAction = $entityData['repeatCreation'];
             }
             unset($entityData['repeatCreation']);
+        }
+        if (isset($entityData['additionalNotificationRemarks'])) {
+            SessionUtil::setVar($this->name . 'AdditionalNotificationRemarks', $entityData['additionalNotificationRemarks']);
+            unset($entityData['additionalNotificationRemarks']);
         }
     
         // search for relationship plugins to update the corresponding data

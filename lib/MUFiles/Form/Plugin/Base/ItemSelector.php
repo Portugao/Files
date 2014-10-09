@@ -90,7 +90,7 @@ class MUFiles_Form_Plugin_Base_ItemSelector extends Zikula_Form_Plugin_TextInput
         }
         $firstTime = false;
 
-        if (!SecurityUtil::checkPermission('MUFiles:' . ucwords($this->objectType) . ':', '::', ACCESS_COMMENT)) {
+        if (!SecurityUtil::checkPermission('MUFiles:' . ucfirst($this->objectType) . ':', '::', ACCESS_COMMENT)) {
             return false;
         }
 
@@ -104,7 +104,7 @@ class MUFiles_Form_Plugin_Base_ItemSelector extends Zikula_Form_Plugin_TextInput
 
         $this->selectedItemId = $this->text;
 
-        $entityClass = 'MUFiles_Entity_' . ucwords($this->objectType);
+        $entityClass = 'MUFiles_Entity_' . ucfirst($this->objectType);
         $serviceManager = ServiceUtil::getManager();
         $entityManager = $serviceManager->getService('doctrine.entitymanager');
         $repository = $entityManager->getRepository($entityClass);

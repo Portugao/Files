@@ -34,13 +34,13 @@ class MUFiles_TaggedObjectMeta_Base_MUFiles extends Tag_AbstractTaggedObjectMeta
         $urlArgs = $urlObject->getArgs();
         $objectType = isset($urlArgs['ot']) ? $urlArgs['ot'] : 'collection';
     
-        $component = $module . ':' . ucwords($objectType) . ':';
+        $component = $module . ':' . ucfirst($objectType) . ':';
         $perm = SecurityUtil::checkPermission($component, $objectId . '::', ACCESS_READ);
         if (!$perm) {
             return;
         }
     
-        $entityClass = $module . '_Entity_' . ucwords($objectType);
+        $entityClass = $module . '_Entity_' . ucfirst($objectType);
         $serviceManager = ServiceUtil::getManager();
         $entityManager = $serviceManager->getService('doctrine.entitymanager');
         $repository = $entityManager->getRepository($entityClass);

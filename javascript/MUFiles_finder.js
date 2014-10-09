@@ -105,10 +105,10 @@ function getPasteSnippet(mode, itemId)
     if (mode === 'url') {
         // plugin mode
         return itemUrl;
-    } else {
-        // editor mode
-        return '<a href="' + itemUrl + '" title="' + itemDescription + '">' + itemTitle + '</a>';
     }
+
+    // editor mode
+    return '<a href="' + itemUrl + '" title="' + itemDescription + '">' + itemTitle + '</a>';
 }
 
 
@@ -216,24 +216,24 @@ mufiles.itemSelector.onParamChanged = function ()
 
 mufiles.itemSelector.getItemList = function ()
 {
-    var baseId, pars, request;
+    var baseId, params, request;
 
     baseId = mufiles.itemSelector.baseId;
-    pars = 'ot=' + baseId + '&';
+    params = 'ot=' + baseId + '&';
     if ($(baseId + '_catidMain') != undefined) {
-        pars += 'catidMain=' + $F(baseId + '_catidMain') + '&';
+        params += 'catidMain=' + $F(baseId + '_catidMain') + '&';
     } else if ($(baseId + '_catidsMain') != undefined) {
-        pars += 'catidsMain=' + $F(baseId + '_catidsMain') + '&';
+        params += 'catidsMain=' + $F(baseId + '_catidsMain') + '&';
     }
-    pars += 'sort=' + $F(baseId + 'Sort') + '&' +
-            'sortdir=' + $F(baseId + 'SortDir') + '&' +
-            'searchterm=' + $F(baseId + 'SearchTerm');
+    params += 'sort=' + $F(baseId + 'Sort') + '&' +
+              'sortdir=' + $F(baseId + 'SortDir') + '&' +
+              'searchterm=' + $F(baseId + 'SearchTerm');
 
     request = new Zikula.Ajax.Request(
         Zikula.Config.baseURL + 'ajax.php?module=MUFiles&func=getItemListFinder',
         {
             method: 'post',
-            parameters: pars,
+            parameters: params,
             onFailure: function(req) {
                 Zikula.showajaxerror(req.getMessage());
             },
@@ -292,8 +292,9 @@ mufiles.itemSelector.updatePreview = function ()
     }
 
     if (selectedElement !== null) {
-        $(baseId + 'PreviewContainer').update(window.atob(selectedElement.previewInfo))
-                                      .removeClassName('z-hide');
+        $(baseId + 'PreviewContainer')
+            .update(window.atob(selectedElement.previewInfo))
+            .removeClassName('z-hide');
     }
 };
 

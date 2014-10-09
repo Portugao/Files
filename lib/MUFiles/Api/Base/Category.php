@@ -34,7 +34,7 @@ class MUFiles_Api_Base_Category extends Zikula_AbstractApi
     
         $objectType = $this->determineObjectType($args, 'getMainCat');
     
-        return CategoryRegistryUtil::getRegisteredModuleCategory($this->name, ucwords($objectType), $args['registry'], 32); // 32 == /__System/Modules/Global
+        return CategoryRegistryUtil::getRegisteredModuleCategory($this->name, ucfirst($objectType), $args['registry'], 32); // 32 == /__System/Modules/Global
     }
     
     /**
@@ -173,7 +173,7 @@ class MUFiles_Api_Base_Category extends Zikula_AbstractApi
     {
         $objectType = $this->determineObjectType($args, 'getAllProperties');
     
-        $propertyIdsPerName = CategoryRegistryUtil::getRegisteredModuleCategoriesIds($this->name, ucwords($objectType));
+        $propertyIdsPerName = CategoryRegistryUtil::getRegisteredModuleCategoriesIds($this->name, ucfirst($objectType));
     
         return $propertyIdsPerName;
     }
@@ -194,7 +194,7 @@ class MUFiles_Api_Base_Category extends Zikula_AbstractApi
             $args['arraykey'] = '';
         }
     
-        $registryInfo = CategoryRegistryUtil::getRegisteredModuleCategories($this->name, ucwords($objectType), $args['arraykey']);
+        $registryInfo = CategoryRegistryUtil::getRegisteredModuleCategories($this->name, ucfirst($objectType), $args['arraykey']);
     
         return $registryInfo;
     }
@@ -211,7 +211,7 @@ class MUFiles_Api_Base_Category extends Zikula_AbstractApi
     {
         $objectType = $this->determineObjectType($args, 'getMainCatForProperty');
     
-        $catId = CategoryRegistryUtil::getRegisteredModuleCategory($this->name, ucwords($objectType), $args['property']);
+        $catId = CategoryRegistryUtil::getRegisteredModuleCategory($this->name, ucfirst($objectType), $args['property']);
     
         return $catId;
     }

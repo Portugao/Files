@@ -102,7 +102,7 @@ function mufilesResetRelatedItemForm(idPrefix)
  * For edit forms we use "iframe: true" to ensure file uploads work without problems.
  * For all other windows we use "iframe: false" because we want the escape key working.
  */
-function mufilesCreateWindowInstance(containerElem, useIframe)
+function mufilesCreateRelationWindowInstance(containerElem, useIframe)
 {
     var newWindow;
 
@@ -130,7 +130,7 @@ function mufilesCreateWindowInstance(containerElem, useIframe)
 /**
  * Observe a link for opening an inline window
  */
-function mufilesInitInlineWindow(objectType, containerID)
+function mufilesinitInlineRelationWindow(objectType, containerID)
 {
     var found, newItem;
 
@@ -149,7 +149,7 @@ function mufilesInitInlineWindow(objectType, containerID)
                 relationHandler.windowInstance.destroy();
             }
             // create and assign the new window instance
-            relationHandler.windowInstance = mufilesCreateWindowInstance($(containerID), true);
+            relationHandler.windowInstance = mufilesCreateRelationWindowInstance($(containerID), true);
         }
     });
 
@@ -161,7 +161,7 @@ function mufilesInitInlineWindow(objectType, containerID)
         newItem.alias = '';
         newItem.prefix = containerID;
         newItem.acInstance = null;
-        newItem.windowInstance = mufilesCreateWindowInstance($(containerID), true);
+        newItem.windowInstance = mufilesCreateRelationWindowInstance($(containerID), true);
 
         // add it to the list of handlers
         relationHandler.push(newItem);
@@ -223,7 +223,7 @@ function mufilesSelectRelatedItem(objectType, idPrefix, inputField, selectedList
         editLink.update(' ' + editImage);
 
         $(elemPrefix + 'Edit').observe('click', function (e) {
-            mufilesInitInlineWindow(objectType, idPrefix + 'Reference_' + newItemId + 'Edit');
+            mufilesinitInlineRelationWindow(objectType, idPrefix + 'Reference_' + newItemId + 'Edit');
             e.stop();
         });
     }
@@ -314,7 +314,7 @@ function mufilesInitRelationItemsForm(objectType, idPrefix, includeEditing)
     // from here inline editing will be handled
     $(idPrefix + 'SelectorDoNew').href += '&theme=Printer&idp=' + idPrefix + 'SelectorDoNew';
     $(idPrefix + 'SelectorDoNew').observe('click', function(e) {
-        mufilesInitInlineWindow(objectType, idPrefix + 'SelectorDoNew');
+        mufilesinitInlineRelationWindow(objectType, idPrefix + 'SelectorDoNew');
         e.stop();
     });
 
@@ -327,7 +327,7 @@ function mufilesInitRelationItemsForm(objectType, idPrefix, includeEditing)
             elemPrefix = idPrefix + 'Reference_' + existingId + 'Edit';
             $(elemPrefix).href += '&theme=Printer&idp=' + elemPrefix;
             $(elemPrefix).observe('click', function (e) {
-                mufilesInitInlineWindow(objectType, elemPrefix);
+                mufilesinitInlineRelationWindow(objectType, elemPrefix);
                 e.stop();
             });
         }
@@ -354,7 +354,7 @@ function mufilesCloseWindowFromInside(idPrefix, itemId)
                 if (relationHandler.acInstance !== null) {
                     // activate it
                     relationHandler.acInstance.activate();
-                    // show a message 
+                    // show a message
                     Zikula.UI.Alert(Zikula.__('Action has been completed.', 'module_mufiles_js'), Zikula.__('Information', 'module_mufiles_js'), {
                         autoClose: 3 // time in seconds
                     });
