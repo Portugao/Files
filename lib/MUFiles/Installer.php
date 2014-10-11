@@ -39,4 +39,18 @@ class MUFiles_Installer extends MUFiles_Base_Installer
         HookUtil::unregisterProviderBundles($this->version->getHookProviderBundles()); //TODO next version
         return true;
     }
+    
+        /**
+         * Register persistent event handlers.
+         * These are listeners for external events of the core and other modules.
+         */
+        protected function registerPersistentEventHandlers()
+        {
+    
+            parent::registerPersistentEventHandlers();
+    
+            EventUtil::registerPersistentModuleHandler('MUSound', 'module.scribite.editorhelpers', array('MUSound_Listener_ThirdParty', 'getEditorHelpers'));
+            EventUtil::registerPersistentModuleHandler('MUSound', 'moduleplugin.tinymce.externalplugins', array('MUSound_Listener_ThirdParty', 'getTinyMcePlugins'));
+            EventUtil::registerPersistentModuleHandler('MUsound', 'moduleplugin.ckeditor.externalplugins', array('MUSound_Listener_ThirdParty', 'getCKEditorPlugins'));
+        }
 }

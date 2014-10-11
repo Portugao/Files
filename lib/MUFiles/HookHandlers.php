@@ -51,9 +51,15 @@ class MUFiles_HookHandlers extends Zikula_Hook_AbstractHandler
             return;
         }
 
-        $collections = $this->entityManager->getRepository('MUFiles_Entity_Hookobject')->findBy($hookedModule, $areaId, $objectId);
+        $hookObject = $this->entityManager->getRepository('MUFiles_Entity_Hookobject')->findBy(array('hookedModule' => $module, 'hookedObject' => 'collectionfile', 'areaId' => $areaId, 'objectId' => $objectId));
+
+        $collectionrepository = MUFiles_Util_Model::getCollectionsRepository();
+
+        $collections[] = $hookObject[0]['collectionhook'];
+        $files[] = $hookObject[0]['filehook'];
 
         $this->view->assign('collections', $collections);
+        $this->view->assign('files', $files);
 
         // add this response to the event stack
         $area = 'provider.mufiles.ui_hooks.service';
@@ -80,8 +86,25 @@ class MUFiles_HookHandlers extends Zikula_Hook_AbstractHandler
         $collectionrepository = MUFiles_Util_Model::getCollectionsRepository();
         // we get a file repository
         $filerepository = MUFiles_Util_Model::getFilesRepository();
+        // we get a hookobject repository
+        $hookobjectrepository = MUFiles_Util_Model::getHookedObjectRepository();
         // we get all collections
         $collections = $collectionrepository->selectWhere();
+        //we check for hooked collection object
+        $where = 'tbl.hookedModule = \'' . DataUtil::formatForStore($module) . '\'';
+        $where .= ' AND ';
+        $where .= 'tbl.objectId = \'' . DataUtil::formatForStore($objectId) . '\'';
+        $where .= ' AND ';
+        $where .= 'tbl.areaId = \'' . DataUtil::formatForStore($areaId) . '\'';
+        $where .= ' AND ';
+        $where .= 'tbl.hookedObject = \'' . DataUtil::formatForStore('collection') . '\'';
+
+        $hookObject = $hookobjectrepository->selectWhere($where);
+        if (!is_array($hookObject)) {
+
+        } else {
+
+        }
         // we get all files
         $files = $filerepository->selectWhere();
         // assign all collections
@@ -103,13 +126,13 @@ class MUFiles_HookHandlers extends Zikula_Hook_AbstractHandler
     {
         // get data from post
         $data = $this->request->query->get('mufilescollection', null);
-    
+
         // create a new hook validation object and assign it to $this->validation
         $this->validation = new Zikula_Hook_ValidationResponse('data', $data);
-    
+
         $hook->setValidator('provider.mufiles.ui_hooks.service', $this->validation);
-    }    
-    
+    }
+
     /**
      * process edit hook handler.
      *
@@ -128,7 +151,7 @@ class MUFiles_HookHandlers extends Zikula_Hook_AbstractHandler
                 'hookedModule' => $hook->getCaller(),
                 'objectId' => $hook->getId(),
                 'areaId' => $hook->getAreaId(),
-                'objUrl' => $hook->getUrl(),
+                'url' => $hook->getUrl(),
                 'hookdata' => $this->validation->getObject(),
         );
         ModUtil::apiFunc('MUFiles', 'user', 'hookedObject', $args);

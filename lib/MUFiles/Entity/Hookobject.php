@@ -3,7 +3,7 @@
  * MUFiles.
  *
  * @copyright Michael Ueberschaer (MU)
- * @license 
+ * @license
  * @package MUFiles
  * @author Michael Ueberschaer <kontakt@webdesign-in-bremen.com>.
  * @link http://webdesign-in-bremen.com
@@ -15,24 +15,54 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use DoctrineExtensions\StandardFields\Mapping\Annotation as ZK;
+use Zikula\Core\ModUrl;
 
 /**
  * Entity class that defines the entity structure and behaviours.
  *
  * This is the concrete entity class for hookobject entities.
  * @ORM\Entity(repositoryClass="MUFiles_Entity_Repository_Hookobject")
-  * @ORM\Table(name="mufiles_hookobject",
-  *     indexes={
+ * @ORM\Table(name="mufiles_hookobject",
+ *     indexes={
  *         @ORM\Index(name="workflowstateindex", columns={"workflowState"})
-  *     }
-  * )
+ *     }
+ * )
  * @ORM\HasLifecycleCallbacks
  */
 class MUFiles_Entity_Hookobject extends MUFiles_Entity_Base_Hookobject
 {
-    // feel free to add your own methods here
-
     
+    /**
+     * Constructor.
+     * Will not be called by Doctrine and can therefore be used
+     * for own implementation purposes. It is also possible to add
+     * arbitrary arguments as with every other class method.
+     *
+     * @param TODO
+     */
+    public function __construct(ModUrl $urlObject)
+    {
+        $this->areaId = 1;
+        $this->objectId = 1;
+        $this->workflowState = 'approved';
+        $this->initValidator();
+        $this->initWorkflow();
+        $this->collectionhook = new ArrayCollection();
+        $this->filehook = new ArrayCollection();
+        $this->setUrlObject($urlObject);
+    }
+    /**
+     * set the hooked object UrlObject
+     * @param ModUrl $urlObject
+     */
+    public function setUrlObject($urlObject)
+    {
+        if ($urlObject != $this->urlObject) {
+            $this->urlObject = $urlObject;
+        }
+    }
+
+
     /**
      * Post-Process the data after the entity has been constructed by the entity manager.
      *
@@ -44,7 +74,7 @@ class MUFiles_Entity_Hookobject extends MUFiles_Entity_Base_Hookobject
     {
         $this->performPostLoadCallback();
     }
-    
+
     /**
      * Pre-Process the data prior to an insert operation.
      *
@@ -56,7 +86,7 @@ class MUFiles_Entity_Hookobject extends MUFiles_Entity_Base_Hookobject
     {
         $this->performPrePersistCallback();
     }
-    
+
     /**
      * Post-Process the data after an insert operation.
      *
@@ -68,7 +98,7 @@ class MUFiles_Entity_Hookobject extends MUFiles_Entity_Base_Hookobject
     {
         $this->performPostPersistCallback();
     }
-    
+
     /**
      * Pre-Process the data prior a delete operation.
      *
@@ -80,7 +110,7 @@ class MUFiles_Entity_Hookobject extends MUFiles_Entity_Base_Hookobject
     {
         $this->performPreRemoveCallback();
     }
-    
+
     /**
      * Post-Process the data after a delete.
      *
@@ -92,7 +122,7 @@ class MUFiles_Entity_Hookobject extends MUFiles_Entity_Base_Hookobject
     {
         $this->performPostRemoveCallback();
     }
-    
+
     /**
      * Pre-Process the data prior to an update operation.
      *
@@ -104,7 +134,7 @@ class MUFiles_Entity_Hookobject extends MUFiles_Entity_Base_Hookobject
     {
         $this->performPreUpdateCallback();
     }
-    
+
     /**
      * Post-Process the data after an update operation.
      *
@@ -116,7 +146,7 @@ class MUFiles_Entity_Hookobject extends MUFiles_Entity_Base_Hookobject
     {
         $this->performPostUpdateCallback();
     }
-    
+
     /**
      * Pre-Process the data prior to a save operation.
      *
@@ -129,7 +159,7 @@ class MUFiles_Entity_Hookobject extends MUFiles_Entity_Base_Hookobject
     {
         $this->performPreSaveCallback();
     }
-    
+
     /**
      * Post-Process the data after a save operation.
      *
@@ -142,5 +172,5 @@ class MUFiles_Entity_Hookobject extends MUFiles_Entity_Base_Hookobject
     {
         $this->performPostSaveCallback();
     }
-    
+
 }
