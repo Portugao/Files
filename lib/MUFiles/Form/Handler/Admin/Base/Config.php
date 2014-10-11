@@ -41,8 +41,18 @@ class MUFiles_Form_Handler_Admin_Base_Config extends Zikula_Form_AbstractHandler
             return $view->registerError(LogUtil::registerPermissionError());
         }
 
+        // prepare list of user groups for moderation group selectors
+        $userGroups = ModUtil::apiFunc('Groups', 'user', 'getall');
+        $userGroupItems = array();
+        foreach ($userGroups as $userGroup) {
+            $userGroupItems = array('value' => $userGroup['gid'], 'text' => $userGroup['name']);
+        }
+
         // retrieve module vars
         $modVars = $this->getVars();
+
+        $modVars['moderationGroupForCollectionsItems'] = $userGroupItems;
+        $modVars['moderationGroupForFilesItems'] = $userGroupItems;
 
         // assign all module vars
         $this->view->assign('config', $modVars);

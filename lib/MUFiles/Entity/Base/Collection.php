@@ -133,7 +133,10 @@
          * Bidirectional - Many children [collections] are linked by one parent [collection] (OWNING SIDE).
          *
          * @ORM\ManyToOne(targetEntity="MUFiles_Entity_Collection", inversedBy="children")
-         * @ORM\JoinColumn(name="collection_parentid", referencedColumnName="id" )
+         * @ORM\JoinTable(name="mufiles_collection",
+         *      joinColumns={@ORM\JoinColumn(name="id", referencedColumnName="id" )},
+         *      inverseJoinColumns={@ORM\JoinColumn(name="parentid", referencedColumnName="id" )}
+         * )
          * @var MUFiles_Entity_Collection $parent.
          */
         protected $parent;
@@ -159,11 +162,9 @@
          *
          * @ORM\OneToMany(targetEntity="MUFiles_Entity_Collection", mappedBy="parent", cascade={"remove"})
          * @ORM\JoinTable(name="mufiles_parentchildren",
-                 *      joinColumns={@ORM\JoinColumn(name="collection_parentid", referencedColumnName="id" )
-                 },
-                 *      inverseJoinColumns={@ORM\JoinColumn(name="collection_id", referencedColumnName="id" )
-                }
-                 * )
+         *      joinColumns={@ORM\JoinColumn(name="parentid", referencedColumnName="id" )},
+         *      inverseJoinColumns={@ORM\JoinColumn(name="id", referencedColumnName="id" )}
+         * )
          * @ORM\OrderBy({"title" = "ASC"})
          * @var MUFiles_Entity_Collection[] $children.
          */

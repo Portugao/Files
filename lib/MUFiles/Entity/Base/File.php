@@ -140,7 +140,7 @@
          * Bidirectional - Many alilasfile [files] are linked by one aliascollection [collection] (OWNING SIDE).
          *
          * @ORM\ManyToOne(targetEntity="MUFiles_Entity_Collection", inversedBy="alilasfile")
-         * @ORM\JoinColumn(name="collection_id", referencedColumnName="id" )
+         * @ORM\JoinTable(name="mufiles_collection")
          * @var MUFiles_Entity_Collection $aliascollection.
          */
         protected $aliascollection;

@@ -47,6 +47,8 @@ class MUFiles_Base_Installer extends Zikula_AbstractInstaller
         // set up all our vars with initial values
         $this->setVar('allowedExtensions', 'pdf,doc,docx,odt');
         $this->setVar('maxSize', 102400);
+        $this->setVar('moderationGroupForCollections', 2);
+        $this->setVar('moderationGroupForFiles', 2);
     
         $categoryRegistryIdsPerEntity = array();
     

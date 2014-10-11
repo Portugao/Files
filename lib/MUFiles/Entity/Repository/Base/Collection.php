@@ -240,57 +240,6 @@ class MUFiles_Entity_Repository_Base_Collection extends EntityRepository
     
         $query->execute();
     }
-
-    /**
-     * Deletes all objects created by a certain user.
-     *
-     * @param integer $userId The userid of the creator to be removed.
-     *
-     * @return void
-     *
-     * @throws InvalidArgumentException Thrown if invalid parameters are received
-     */
-    public function deleteCreator($userId)
-    {
-        // check id parameter
-        if ($userId == 0 || !is_numeric($userId)) {
-            throw new \InvalidArgumentException(__('Invalid user identifier received.'));
-        }
-    
-        $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->delete('MUFiles_Entity_Collection', 'tbl')
-           ->where('tbl.createdUserId = :creator')
-           ->setParameter('creator', $userId);
-        $query = $qb->getQuery();
-    
-        $query->execute();
-    }
-    
-    /**
-     * Deletes all objects updated by a certain user.
-     *
-     * @param integer $userId The userid of the last editor to be removed.
-     *
-     * @return void
-     *
-     * @throws InvalidArgumentException Thrown if invalid parameters are received
-     */
-    public function deleteLastEditor($userId)
-    {
-        // check id parameter
-        if ($userId == 0 || !is_numeric($userId)) {
-            throw new \InvalidArgumentException(__('Invalid user identifier received.'));
-        }
-    
-        $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->delete('MUFiles_Entity_Collection', 'tbl')
-           ->where('tbl.updatedUserId = :editor')
-           ->setParameter('editor', $userId);
-        $query = $qb->getQuery();
-    
-        $query->execute();
-    }
-    
     /**
      * Updates the creator of all objects created by a certain user.
      *
@@ -342,6 +291,56 @@ class MUFiles_Entity_Repository_Base_Collection extends EntityRepository
            ->where('tbl.updatedUserId = :editor')
            ->setParameter('editor', $userId);
         $query = $qb->getQuery();
+        $query->execute();
+    }
+    
+    /**
+     * Deletes all objects created by a certain user.
+     *
+     * @param integer $userId The userid of the creator to be removed.
+     *
+     * @return void
+     *
+     * @throws InvalidArgumentException Thrown if invalid parameters are received
+     */
+    public function deleteByCreator($userId)
+    {
+        // check id parameter
+        if ($userId == 0 || !is_numeric($userId)) {
+            throw new \InvalidArgumentException(__('Invalid user identifier received.'));
+        }
+    
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->delete('MUFiles_Entity_Collection', 'tbl')
+           ->where('tbl.createdUserId = :creator')
+           ->setParameter('creator', $userId);
+        $query = $qb->getQuery();
+    
+        $query->execute();
+    }
+    
+    /**
+     * Deletes all objects updated by a certain user.
+     *
+     * @param integer $userId The userid of the last editor to be removed.
+     *
+     * @return void
+     *
+     * @throws InvalidArgumentException Thrown if invalid parameters are received
+     */
+    public function deleteByLastEditor($userId)
+    {
+        // check id parameter
+        if ($userId == 0 || !is_numeric($userId)) {
+            throw new \InvalidArgumentException(__('Invalid user identifier received.'));
+        }
+    
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->delete('MUFiles_Entity_Collection', 'tbl')
+           ->where('tbl.updatedUserId = :editor')
+           ->setParameter('editor', $userId);
+        $query = $qb->getQuery();
+    
         $query->execute();
     }
 
@@ -528,7 +527,7 @@ class MUFiles_Entity_Repository_Base_Collection extends EntityRepository
         }
     
         if (!$hasFilters) {
-            if ($page > 1) {
+            if ($page > 1 || isset($_GET['pos'])) {
                 // store current page in session
                 SessionUtil::setVar('MUFilesCollectionsCurrentPage', $page);
             } else {
@@ -554,11 +553,10 @@ class MUFiles_Entity_Repository_Base_Collection extends EntityRepository
      */
     public function addCommonViewFilters(QueryBuilder $qb)
     {
-        /* commented out to allow default filters also for other calls, like content types and mailz
         $currentFunc = FormUtil::getPassedValue('func', 'main', 'GETPOST');
-        if (!in_array($currentFunc, array('main', 'view', 'finder'))) {
+        if ($currentFunc == 'edit') {
             return $qb;
-        }*/
+        }
     
         $parameters = $this->getViewQuickNavParameters('', array());
         foreach ($parameters as $k => $v) {

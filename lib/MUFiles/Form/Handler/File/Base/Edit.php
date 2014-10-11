@@ -107,6 +107,15 @@ class MUFiles_Form_Handler_File_Base_Edit extends MUFiles_Form_Handler_Common_Ed
             $this->view->assign('formattedEntityTitle', $entity->getTitleFromDisplayPattern());
         }
     
+        $uid = UserUtil::getVar('uid');
+        $isCreator = $entity['createdUserId'] == $uid;
+        $groupArgs = array('uid' => $uid, 'gid' => $this->getVar('moderationGroupFor' . $this->objectTypeCapital, 2));
+        $isModerator = ModUtil::apiFunc('Groups', 'user', 'isgroupmember', $groupArgs);
+    
+        $this->view->assign('isCreator', $isCreator)
+                   ->assign('isModerator', $isModerator)
+                   ->assign('isSuperModerator', false);
+    
         // everything okay, no initialization errors occured
         return true;
     }
@@ -261,7 +270,9 @@ class MUFiles_Form_Handler_File_Base_Edit extends MUFiles_Form_Handler_Common_Ed
         if ($this->inlineUsage == true) {
             $urlArgs = array('idPrefix'    => $this->idPrefix,
                              'commandName' => $args['commandName']);
-            $urlArgs = $this->addIdentifiersToUrlArgs($urlArgs);
+            foreach ($this->idFields as $idField) {
+                $urlArgs[$idField] = $this->idValues[$idField];
+            }
     
             // inline usage, return to special function for closing the Zikula.UI.Window instance
             return ModUtil::url($this->name, FormUtil::getPassedValue('type', 'user', 'GETPOST'), 'handleInlineRedirect', $urlArgs);
@@ -285,8 +296,10 @@ class MUFiles_Form_Handler_File_Base_Edit extends MUFiles_Form_Handler_Common_Ed
                 return ModUtil::url($this->name, 'admin', 'view', array('ot' => $this->objectType));
             case 'adminDisplay':
                 if ($args['commandName'] != 'delete' && !($this->mode == 'create' && $args['commandName'] == 'cancel')) {
-                    $urlArgs = $this->addIdentifiersToUrlArgs();
                     $urlArgs['ot'] = $this->objectType;
+                    foreach ($this->idFields as $idField) {
+                        $urlArgs[$idField] = $this->idValues[$idField];
+                    }
                     return ModUtil::url($this->name, 'admin', 'display', $urlArgs);
                 }
                 return $this->getDefaultReturnUrl($args);
@@ -296,8 +309,10 @@ class MUFiles_Form_Handler_File_Base_Edit extends MUFiles_Form_Handler_Common_Ed
                 return ModUtil::url($this->name, 'user', 'view', array('ot' => $this->objectType));
             case 'userDisplay':
                 if ($args['commandName'] != 'delete' && !($this->mode == 'create' && $args['commandName'] == 'cancel')) {
-                    $urlArgs = $this->addIdentifiersToUrlArgs();
                     $urlArgs['ot'] = $this->objectType;
+                    foreach ($this->idFields as $idField) {
+                        $urlArgs[$idField] = $this->idValues[$idField];
+                    }
                     return ModUtil::url($this->name, 'user', 'display', $urlArgs);
                 }
                 return $this->getDefaultReturnUrl($args);
