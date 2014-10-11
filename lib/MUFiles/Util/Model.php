@@ -46,6 +46,21 @@ class MUFiles_Util_Model extends MUFiles_Util_Base_Model
 	}
 	
 	/**
+	 *
+	 * This method is for getting a repository for hookobject
+	 *
+	 */
+	
+	public static function getHookedObjectRepository() {
+	
+	    $serviceManager = ServiceUtil::getManager();
+	    $entityManager = $serviceManager->getService('doctrine.entitymanager');
+	    $repository = $entityManager->getRepository('MUFiles_Entity_Hookobject');
+	
+	    return $repository;
+	}
+	
+	/**
 	 * This method is for getting the allowed file extensions
 	 */
 	public static function getAllowedExtensions()
