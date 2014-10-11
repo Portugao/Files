@@ -111,7 +111,6 @@ class MUFiles_HookHandlers extends Zikula_Hook_AbstractHandler
         $this->view->assign('collections', $collections);
         $this->view->assign('files', $files);
 
-
         $hook->setResponse(new Zikula_Response_DisplayHook('provider.mufiles.ui_hooks.service', $this->view, 'hooks/edit.tpl'));
     }
 
