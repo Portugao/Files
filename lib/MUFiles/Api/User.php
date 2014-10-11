@@ -70,6 +70,9 @@ class MUFiles_Api_User extends MUFiles_Api_Base_User
         $areaid = $args['areaId'];
         $url = $args['url'];
         $hookdata = $args['hookdata'];
+        $hookdata = DataUtil::cleanVar($hookdata);
+        
+        $workflowHelper = new Zikula_Workflow('standard', 'MUFiles');
 
         $mufilescollections = $this->request->request->filter('mufilescollection', '');
         $mufilesfiles = $this->request->request->filter('mufilesfile', '');
@@ -77,22 +80,25 @@ class MUFiles_Api_User extends MUFiles_Api_Base_User
         $hookObject = $this->isHookedObject($args);
 
         if ($hookObject && $mufilescollections == '' && $mufilesfiles == '') {
+            $hookObject->setCollectionhook(0);
+            $hookObject->setFilehook(0);
+            $this->entityManager->flush();            
             $this->entityManager->remove($hookObject);
             $this->entityManager->flush();
 
         } else {
              
             if ($mufilescollections != '' || $mufilesfiles != '') {
-                $hookedObject = new MUFiles_Entity_Hookobject('approved');
+                $hookedObject = new MUFiles_Entity_Hookobject('approved', $hookdata);
                 $hookedObject->setObjectId($objectid);
                 $hookedObject->setAreaId($areaid);
                 $hookedObject->setHookedModule($module);
                 $hookedObject->setHookedObject('collectionfile');
                 $hookedObject->setUrl($url);
-                $hookedObject->setUrlObject($urlObject);
+              /*  $hookedObject->setUrlObject($urlObject);
                 if ($hookdata) {
                     $hookedObject->setUrlObject($hookdata);
-                }
+                }*/
 
                 if (is_array($mufilescollections)) {
                     foreach ($mufilescollections as $mufilescollection) {
@@ -114,6 +120,12 @@ class MUFiles_Api_User extends MUFiles_Api_Base_User
                 $hookedObject->setFilehook($hookfiles);
                 $this->entityManager->persist($hookedObject);
                 $this->entityManager->flush();
+                
+                $obj['__WORKFLOW__']['obj_table'] = 'hookobject';
+                $obj['__WORKFLOW__']['obj_idcolumn'] = 'id';
+                $obj['id'] = $album['id'];
+                $workflowHelper->registerWorkflow($obj, 'approved');
+                
             }
             return true;
         }
@@ -132,12 +144,9 @@ class MUFiles_Api_User extends MUFiles_Api_Base_User
         $areaid = $args['areaId'];
         $url = $args['url'];
         $hookdata = $args['hookdata'];
-        LogUtil::registerError($module);
-        LogUtil::registerError($objectid);
-        LogUtil::registerError($areaid);
 
         $hookobjectrepository = MUFiles_Util_Model::getHookedObjectRepository();
-        $hookObject = $this->entityManager->getRepository('MUFiles_Entity_Hookobject')->findOneBy(array('hookedModule' => $module));
+        $hookObject = $this->entityManager->getRepository('MUFiles_Entity_Hookobject')->findOneBy(array('hookedModule' => $module, 'hookedObject' => 'collectionfile', 'areaId' => $areaid, 'objectId' => $objectid));
 
 
         if (is_object($hookObject)) {

@@ -31,6 +31,12 @@ use Zikula\Core\ModUrl;
  */
 class MUFiles_Entity_Hookobject extends MUFiles_Entity_Base_Hookobject
 {
+    /**
+     * url object
+     * @ORM\Column(type="object")
+     * @var ModUrl
+     */
+    protected $urlObject = null;
     
     /**
      * Constructor.
@@ -40,11 +46,11 @@ class MUFiles_Entity_Hookobject extends MUFiles_Entity_Base_Hookobject
      *
      * @param TODO
      */
-    public function __construct(ModUrl $urlObject)
+    public function __construct($workflowState = 'initial', ModUrl $urlObject)
     {
         $this->areaId = 1;
         $this->objectId = 1;
-        $this->workflowState = 'approved';
+        $this->workflowState = $workflowState;
         $this->initValidator();
         $this->initWorkflow();
         $this->collectionhook = new ArrayCollection();
@@ -55,7 +61,7 @@ class MUFiles_Entity_Hookobject extends MUFiles_Entity_Base_Hookobject
      * set the hooked object UrlObject
      * @param ModUrl $urlObject
      */
-    public function setUrlObject($urlObject)
+    public function setUrlObject(ModUrl $urlObject)
     {
         if ($urlObject != $this->urlObject) {
             $this->urlObject = $urlObject;
