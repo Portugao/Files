@@ -28,7 +28,7 @@ function MUFiles_workflow_standard_permissioncheck($obj, $permLevel, $currentUse
 
     // calculate the permission component
     $objectType = $obj['_objectType'];
-    $component = 'MUFiles:' . ucwords($objectType) . ':';
+    $component = 'MUFiles:' . ucfirst($objectType) . ':';
 
     // calculate the permission instance
     $idFields = ModUtil::apiFunc('MUFiles', 'selection', 'getIdFields', array('ot' => $objectType));
