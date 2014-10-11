@@ -68,15 +68,6 @@ div.mufiles-edit .z-panel-content legend {
 }
 
 
-div.mufiles-autocomplete-wrap {
-    position: absolute;
-    height: 40px;
-    margin: 0;
-    padding: 0;
-    left: 260px;
-    top: 10px;
-}
-
 div.mufiles-autocomplete {
     position: relative !important;
     top: 2px !important;
@@ -147,4 +138,15 @@ div.mufiles-view form.mufiles-quicknav fieldset h3 {
 div.mufiles-view form.mufiles-quicknav fieldset #num {
     width: 50px;
     text-align: right;
+}
+
+/*******************OWN CODE ***********************/
+
+.mufileshook ul {
+	list-style: none;
+	margin: 0 0 0 20px;
+}
+
+.mufileshook ul li {
+	margin: 0;
 }
