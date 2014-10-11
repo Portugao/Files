@@ -30,6 +30,7 @@ Implemented Classes
 *lib/MUFiles/UploadHandler.php
 *lib/MUFiles/Version.php
 
+*lib/MUFiles/Api/Admin.php
 *lib/MUFiles/Api/User.php
 
 *lib/MUFiles/Controller/User.php
