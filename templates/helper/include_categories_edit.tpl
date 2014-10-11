@@ -22,4 +22,8 @@
         </div>
     {/foreach}
     {/formvolatile}
-</fieldset>
+{if isset($panel) && $panel eq true}
+    </fieldset>
+{else}
+    </fieldset>
+{/if}

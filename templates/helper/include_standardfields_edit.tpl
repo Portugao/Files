@@ -8,16 +8,20 @@
     {/if}
         <legend>{gt text='Creation and update'}</legend>
         <ul>
-    {if isset($obj.createdUserId) && $obj.createdUserId}
+        {if isset($obj.createdUserId) && $obj.createdUserId}
             {usergetvar name='uname' uid=$obj.createdUserId assign='username'}
             <li>{gt text='Created by %s' tag1=$username}</li>
             <li>{gt text='Created on %s' tag1=$obj.createdDate|dateformat}</li>
-    {/if}
-    {if isset($obj.updatedUserId) && $obj.updatedUserId}
+        {/if}
+        {if isset($obj.updatedUserId) && $obj.updatedUserId}
             {usergetvar name='uname' uid=$obj.updatedUserId assign='username'}
             <li>{gt text='Updated by %s' tag1=$username}</li>
             <li>{gt text='Updated on %s' tag1=$obj.updatedDate|dateformat}</li>
-    {/if}
+        {/if}
         </ul>
-    </fieldset>
+    {if isset($panel) && $panel eq true}
+        </fieldset>
+    {else}
+        </fieldset>
+    {/if}
 {/if}

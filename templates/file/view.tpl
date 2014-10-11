@@ -53,7 +53,9 @@
                 {/if}
                 <col id="cTitle" />
                 <col id="cDescription" />
+                {if $lct eq 'admin'}
                 <col id="cUploadFile" />
+                {/if}
                 <col id="cAliascollection" />
                 <col id="cItemActions" />
             </colgroup>
@@ -75,9 +77,11 @@
                 <th id="hDescription" scope="col" class="z-left">
                     {sortlink __linktext='Description' currentsort=$sort modname='MUFiles' type=$lct func='view' sort='description' sortdir=$sdir all=$all own=$own aliascollection=$aliascollection workflowState=$workflowState searchterm=$searchterm pageSize=$pageSize ot='file'}
                 </th>
+                {if $lct eq 'admin'}
                 <th id="hUploadFile" scope="col" class="z-left">
                     {sortlink __linktext='Upload file' currentsort=$sort modname='MUFiles' type=$lct func='view' sort='uploadFile' sortdir=$sdir all=$all own=$own aliascollection=$aliascollection workflowState=$workflowState searchterm=$searchterm pageSize=$pageSize ot='file'}
                 </th>
+                {/if}
                 <th id="hAliascollection" scope="col" class="z-left">
                     {sortlink __linktext='Aliascollection' currentsort=$sort modname='MUFiles' type=$lct func='view' sort='aliascollection' sortdir=$sdir all=$all own=$own aliascollection=$aliascollection workflowState=$workflowState searchterm=$searchterm pageSize=$pageSize ot='file'}
                 </th>
@@ -104,6 +108,7 @@
                 <td headers="hDescription" class="z-left">
                     {$file.description}
                 </td>
+                {if $lct eq 'admin'}
                 <td headers="hUploadFile" class="z-left">
                       <a href="{$file.uploadFileFullPathURL}" title="{$file->getTitleFromDisplayPattern()|replace:"\"":""}"{if $file.uploadFileMeta.isImage} rel="imageviewer[file]"{/if}>
                       {if $file.uploadFileMeta.isImage}
@@ -113,6 +118,7 @@
                       {/if}
                       </a>
                 </td>
+                {/if}
                 <td headers="hAliascollection" class="z-left">
                     {if isset($file.Aliascollection) && $file.Aliascollection ne null}
                         <a href="{modurl modname='MUFiles' type=$lct func='display' ot='collection'  id=$file.Aliascollection.id}">{strip}
