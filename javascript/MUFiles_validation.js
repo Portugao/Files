@@ -56,27 +56,39 @@ function mufilesReadDate(val, includeTime)
     }
 }
 
+function mufilesValidateNoSpace(val)
+{
+    var valStr;
+    valStr = new String(val);
+
+    return (valStr.indexOf(' ') === -1);
+}
+
+function mufilesValidateUploadExtension(val, elem)
+{
+    var fileExtension, allowedExtensions;
+    if (val === '') {
+        return true;
+    }
+    fileExtension = '.' + val.substr(val.lastIndexOf('.') + 1);
+    allowedExtensions = $(elem.id + 'FileExtensions').innerHTML;
+    allowedExtensions = '(.' + allowedExtensions.replace(/, /g, '|.').replace(/,/g, '|.') + ')$';
+    allowedExtensions = new RegExp(allowedExtensions, 'i');
+
+    return allowedExtensions.test(val);
+}
+
 /**
- * Add special validation rules.
+ * Adds special validation rules.
  */
 function mufilesAddCommonValidationRules(objectType, id)
 {
     Validation.addAllThese([
         ['validate-nospace', Zikula.__('No spaces', 'module_mufiles_js'), function(val, elem) {
-            var valStr;
-            valStr = new String(val);
-            return (valStr.indexOf(' ') === -1);
+            return mufilesValidateNoSpace(val);
         }],
         ['validate-upload', Zikula.__('Please select a valid file extension.', 'module_mufiles_js'), function(val, elem) {
-            var allowedExtensions;
-            if (val === '') {
-                return true;
-            }
-            var fileExtension = '.' + val.substr(val.lastIndexOf('.') + 1);
-            allowedExtensions = $(elem.id + 'FileExtensions').innerHTML;
-            allowedExtensions = '(.' + allowedExtensions.replace(/, /g, '|.').replace(/,/g, '|.') + ')$';
-            allowedExtensions = new RegExp(allowedExtensions, 'i');
-            return allowedExtensions.test(val);
+            return mufilesValidateUploadExtension(val, elem);
         }],
     ]);
 }

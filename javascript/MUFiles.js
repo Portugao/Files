@@ -177,7 +177,61 @@ function mufilesInitInlineWindow(containerElem, title)
         }
     );
 
-    // return the instance
+    // return the instance;
     return newWindow;
+}
+
+
+/**
+ * Initialise ajax-based toggle for boolean fields.
+ */
+function mufilesInitToggle(objectType, fieldName, itemId)
+{
+    var idSuffix = mufilesCapitaliseFirstLetter(fieldName) + itemId;
+    if ($('toggle' + idSuffix) == undefined) {
+        return;
+    }
+    $('toggle' + idSuffix).observe('click', function() {
+        mufilesToggleFlag(objectType, fieldName, itemId);
+    }).removeClassName('z-hide');
+}
+
+
+/**
+ * Toggle a certain flag for a given item.
+ */
+function mufilesToggleFlag(objectType, fieldName, itemId)
+{
+    fieldName = mufilesCapitaliseFirstLetter(fieldName);
+    var params = 'ot=' + objectType + '&field=' + fieldName + '&id=' + itemId;
+
+    new Zikula.Ajax.Request(
+        Zikula.Config.baseURL + 'ajax.php?module=MUFiles&func=toggleFlag',
+        {
+            method: 'post',
+            parameters: params,
+            onComplete: function(req) {
+                var idSuffix = fieldName + '_' + itemId;
+                if (!req.isSuccess()) {
+                    Zikula.UI.Alert(req.getMessage(), Zikula.__('Error', 'module_mufiles_js'));
+                    return;
+                }
+                var data = req.getData();
+                /*if (data.message) {
+                    Zikula.UI.Alert(data.message, Zikula.__('Success', 'module_mufiles_js'));
+                }*/
+
+                idSuffix = idSuffix.toLowerCase();
+                var state = data.state;
+                if (state === true) {
+                    $('no' + idSuffix).addClassName('z-hide');
+                    $('yes' + idSuffix).removeClassName('z-hide');
+                } else {
+                    $('yes' + idSuffix).addClassName('z-hide');
+                    $('no' + idSuffix).removeClassName('z-hide');
+                }
+            }
+        }
+    );
 }
 
