@@ -16,5 +16,50 @@
  */
 class MUFiles_Api_Admin extends MUFiles_Api_Base_Admin
 {
-    // feel free to add own api methods here
+    /**
+     * Returns available admin panel links.
+     *
+     * @return array Array of admin links.
+     */
+    public function getLinks()
+    {
+        $links = array();
+
+        if (SecurityUtil::checkPermission($this->name . '::', '::', ACCESS_READ)) {
+            $links[] = array('url' => ModUtil::url($this->name, 'user', 'main'),
+                             'text' => $this->__('Frontend'),
+                             'title' => $this->__('Switch to user area.'),
+                             'class' => 'z-icon-es-home');
+        }
+
+        $controllerHelper = new MUFiles_Util_Controller($this->serviceManager);
+        $utilArgs = array('api' => 'admin', 'action' => 'getLinks');
+        $allowedObjectTypes = $controllerHelper->getObjectTypes('api', $utilArgs);
+
+        if (in_array('collection', $allowedObjectTypes)
+            && SecurityUtil::checkPermission($this->name . ':Collection:', '::', ACCESS_ADMIN)) {
+            $links[] = array('url' => ModUtil::url($this->name, 'admin', 'view', array('ot' => 'collection')),
+                             'text' => $this->__('Collections'),
+                             'title' => $this->__('Collection list'));
+        }
+        if (in_array('file', $allowedObjectTypes)
+            && SecurityUtil::checkPermission($this->name . ':File:', '::', ACCESS_ADMIN)) {
+            $links[] = array('url' => ModUtil::url($this->name, 'admin', 'view', array('ot' => 'file')),
+                             'text' => $this->__('Files'),
+                             'title' => $this->__('File list'));
+        }
+        /*if (in_array('hookobject', $allowedObjectTypes)
+            && SecurityUtil::checkPermission($this->name . ':Hookobject:', '::', ACCESS_ADMIN)) {
+            $links[] = array('url' => ModUtil::url($this->name, 'admin', 'view', array('ot' => 'hookobject')),
+                             'text' => $this->__('Hookobjects'),
+                             'title' => $this->__('Hookobject list'));
+        }*/
+        if (SecurityUtil::checkPermission($this->name . '::', '::', ACCESS_ADMIN)) {
+            $links[] = array('url' => ModUtil::url($this->name, 'admin', 'config'),
+                             'text' => $this->__('Configuration'),
+                             'title' => $this->__('Manage settings for this application'));
+        }
+
+        return $links;
+    }
 }

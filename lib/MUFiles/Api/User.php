@@ -3,7 +3,7 @@
  * MUFiles.
  *
  * @copyright Michael Ueberschaer (MU)
- * @license 
+ * @license
  * @package MUFiles
  * @author Michael Ueberschaer <kontakt@webdesign-in-bremen.com>.
  * @link http://webdesign-in-bremen.com
@@ -16,51 +16,137 @@
  */
 class MUFiles_Api_User extends MUFiles_Api_Base_User
 {
+    /**
+     * Returns available user panel links.
+     *
+     * @return array Array of user links.
+     */
+    public function getlinks()
+    {
+        $links = array();
+
+        if (SecurityUtil::checkPermission($this->name . '::', '::', ACCESS_ADMIN)) {
+            $links[] = array('url' => ModUtil::url($this->name, 'admin', 'main'),
+                    'text' => $this->__('Backend'),
+                    'title' => $this->__('Switch to administration area.'),
+                    'class' => 'z-icon-es-options');
+        }
+
+        $controllerHelper = new MUFiles_Util_Controller($this->serviceManager);
+        $utilArgs = array('api' => 'user', 'action' => 'getlinks');
+        $allowedObjectTypes = $controllerHelper->getObjectTypes('api', $utilArgs);
+
+        if (in_array('collection', $allowedObjectTypes)
+                && SecurityUtil::checkPermission($this->name . ':Collection:', '::', ACCESS_READ)) {
+            $links[] = array('url' => ModUtil::url($this->name, 'user', 'view', array('ot' => 'collection')),
+                    'text' => $this->__('Collections'),
+                    'title' => $this->__('Collection list'));
+        }
+        if (in_array('file', $allowedObjectTypes)
+                && SecurityUtil::checkPermission($this->name . ':File:', '::', ACCESS_READ)) {
+            $links[] = array('url' => ModUtil::url($this->name, 'user', 'view', array('ot' => 'file')),
+                    'text' => $this->__('Files'),
+                    'title' => $this->__('File list'));
+        }
+        /* if (in_array('hookobject', $allowedObjectTypes)
+         && SecurityUtil::checkPermission($this->name . ':Hookobject:', '::', ACCESS_READ)) {
+        $links[] = array('url' => ModUtil::url($this->name, 'user', 'view', array('ot' => 'hookobject')),
+                'text' => $this->__('Hookobjects'),
+                'title' => $this->__('Hookobject list'));
+        } */
+
+        return $links;
+    }
+
+    /**
+     * 
+     * @param array $args
+     * @return boolean
+     */
     public function hookedObject(array $args)
     {
-        $module = $args['hookedModue'];
-        return $module;
+        $module = $args['hookedModule'];
         $objectid = $args['objectId'];
         $areaid = $args['areaId'];
         $url = $args['url'];
         $hookdata = $args['hookdata'];
-              
-        $mucollections = $this->request->request->filter('mufilescollection');
-        //return LogUtil::registerStatus($mucollections);
-      
-        $mufiles = $this->request->request->filter('mufiles-file', '');
-     
-        if ($mucollections != '') {
-            if (is_array($mucollections)) {
-                foreach ($mucollections as $mucollection) {
-                    $hookedObject = new MUFiles_Entity_Hookobject();
-                    $hookedObject->setHookedModule($module);
-                    $hookedObject->setUrl($url);
-                    if ($hookdata) {
-                        $hookedObject->setUrlObject($hookdata);
-                    }
-                    $collection = $this->entityManager
-                        ->getRepository('MUFiles_Entity_Collection')
-                        ->findOneBy(array('id' => $mucollection));
-                    $hookedObject->setCollectionhook($collection);
-                    $this->entityManager->persist($hookedObject);
-                    $this->entityManager->flush();
-                }
-            } else {
-                $hookedObject = new MUFiles_Entity_Hookobject();
+
+        $mufilescollections = $this->request->request->filter('mufilescollection', '');
+        $mufilesfiles = $this->request->request->filter('mufilesfile', '');
+
+        $hookObject = $this->isHookedObject($args);
+
+        if ($hookObject && $mufilescollections == '' && $mufilesfiles == '') {
+            $this->entityManager->remove($hookObject);
+            $this->entityManager->flush();
+
+        } else {
+             
+            if ($mufilescollections != '' || $mufilesfiles != '') {
+                $hookedObject = new MUFiles_Entity_Hookobject('approved');
+                $hookedObject->setObjectId($objectid);
+                $hookedObject->setAreaId($areaid);
                 $hookedObject->setHookedModule($module);
+                $hookedObject->setHookedObject('collectionfile');
                 $hookedObject->setUrl($url);
+                $hookedObject->setUrlObject($urlObject);
                 if ($hookdata) {
                     $hookedObject->setUrlObject($hookdata);
                 }
-                $collection = $this->entityManager
-                ->getRepository('MUFiles_Entity_Collection')
-                ->findOneBy(array('id' => $mucollections));
-                $hookedObject->setCollectionhook($collection);
+
+                if (is_array($mufilescollections)) {
+                    foreach ($mufilescollections as $mufilescollection) {
+                        $collection = $this->entityManager
+                        ->getRepository('MUFiles_Entity_Collection')
+                        ->findOneBy(array('id' => $mufilescollection));
+                        $hookcollections[] = $collection;
+                    }
+                }
+                if (is_array($mufilesfiles)) {
+                    foreach ($mufilesfiles as $mufilesfile) {
+                        $file = $this->entityManager
+                        ->getRepository('MUFiles_Entity_File')
+                        ->findOneBy(array('id' => $mufilesfile));
+                        $hookfiles[] = $file;
+                    }
+                }
+                $hookedObject->setCollectionhook($hookcollections);
+                $hookedObject->setFilehook($hookfiles);
                 $this->entityManager->persist($hookedObject);
                 $this->entityManager->flush();
             }
+            return true;
         }
-        
+
+    }
+    
+    /**
+     * 
+     * @param array $args
+     * @return object|boolean
+     */  
+    private function isHookedObject(array $args)
+    {
+        $module = $args['hookedModule'];
+        $objectid = $args['objectId'];
+        $areaid = $args['areaId'];
+        $url = $args['url'];
+        $hookdata = $args['hookdata'];
+        LogUtil::registerError($module);
+        LogUtil::registerError($objectid);
+        LogUtil::registerError($areaid);
+
+        $hookobjectrepository = MUFiles_Util_Model::getHookedObjectRepository();
+        $hookObject = $this->entityManager->getRepository('MUFiles_Entity_Hookobject')->findOneBy(array('hookedModule' => $module));
+
+
+        if (is_object($hookObject)) {
+            return $hookObject;
+        } else {
+            return false;
+        }
+
+
+
     }
 }
