@@ -28,7 +28,7 @@
     <div class="">
     <div class="mufiles-hook z-formrow">
         <label for="mufiles-collection">{gt text='Select a collection!'}</label>
-        <select id="mufiles-collection" name="mufilescollection[]">
+        <select id="mufiles-collection" name="mufilescollection[]" multiple=multiple>
             <option value="">{gt text='Select a collection'}</option>
             {foreach item='collection' from=$collections}
                 <option value={$collection.id}>{$collection.name}</option>
@@ -37,7 +37,7 @@
     </div>
     <div class="mufiles-hook z-formrow">
         <label for="mufiles-file">{gt text='Select a file!'}</label>
-        <select id="mufiles-file" name="mufilesfile[]">
+        <select id="mufiles-file" name="mufilesfile[]" multiple=multiple>
             <option value="">{gt text='Select a file'}</option>
             {foreach item='file' from=$files}
                 <option value={$file.id}>{$file.title}</option>
