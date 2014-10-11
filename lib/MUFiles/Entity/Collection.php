@@ -30,8 +30,11 @@ use DoctrineExtensions\StandardFields\Mapping\Annotation as ZK;
  */
 class MUFiles_Entity_Collection extends MUFiles_Entity_Base_Collection
 {
-    // feel free to add your own methods here
-
+        /**
+         * @ORM\Column(type="boolean")
+         * @var boolean $inFrontend.
+         */
+        protected $inFrontend = true;
     
     /**
      * Post-Process the data after the entity has been constructed by the entity manager.

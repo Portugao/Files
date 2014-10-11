@@ -55,11 +55,18 @@
                     {formtextinput group='collection' id='description' mandatory=false __title='Enter the description of the collection' textMode='multiline' rows='6' cols='50' cssClass='' }
                 </div>
                 
-                
+                {if $lct eq 'admin'}
                 <div class="z-formrow">
                     {formlabel for='inFrontend' __text='In frontend' cssClass=''}
                     {formcheckbox group='collection' id='inFrontend' readOnly=false __title='in frontend ?' cssClass='' }
                 </div>
+                {else}
+                <div class="z-formrow" style="display: none;">
+                    {formlabel for='inFrontend' __text='In frontend' cssClass=''}
+                    {formcheckbox group='collection' id='inFrontend' readOnly=false __title='in frontend ?' cssClass='' }
+                </div>
+                {/if}
+                
             </fieldset>
         </div>
         
