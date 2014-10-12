@@ -51,12 +51,12 @@ class MUFiles_HookHandlers extends Zikula_Hook_AbstractHandler
             return;
         }
 
-        $hookObject = $this->entityManager->getRepository('MUFiles_Entity_Hookobject')->findBy(array('hookedModule' => $module, 'hookedObject' => 'collectionfile', 'areaId' => $areaId, 'objectId' => $objectId));
+        $hookObject = $this->entityManager->getRepository('MUFiles_Entity_Hookobject')->findOneBy(array('hookedModule' => $module, 'hookedObject' => 'collectionfile', 'areaId' => $areaId, 'objectId' => $objectId));
 
         $collectionrepository = MUFiles_Util_Model::getCollectionsRepository();
 
-        $collections[] = $hookObject[0]['collectionhook'];
-        $files[] = $hookObject[0]['filehook'];
+        $collections[] = $hookObject['collectionhook'];
+        $files[] = $hookObject['filehook'];
 
         $this->view->assign('collections', $collections);
         $this->view->assign('files', $files);
