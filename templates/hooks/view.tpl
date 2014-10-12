@@ -10,12 +10,10 @@
             {if $singlecollection.alilasfile ne NULL}
                 {foreach item='file' from=$singlecollection.alilasfile}
                     <a href="{modurl modname='MUFiles' type='user' func='giveFile' id=$file.id}">{$file.title}</a>
-                {/foreach}
-                    
+                {/foreach}                
             {/if}
-
-</li>
-{/foreach}
+        </li>
+    {/foreach}
 {/foreach}
 </ul>
 </div>
