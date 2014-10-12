@@ -36,7 +36,7 @@
         <a href="{modurl modname='MUFiles' type=$lct func='view' ot='collection' all=1}" title="{$linkTitle}" class="z-icon-es-view">{$linkTitle}</a>
     {/if}
 
-    {include file='collection/view_quickNav.tpl' all=$all own=$own}{* see template file for available options *}
+   {* {include file='collection/view_quickNav.tpl' all=$all own=$own}{* see template file for available options *}
 
     {if $lct eq 'admin'}
     <form action="{modurl modname='MUFiles' type='collection' func='handleSelectedEntries' lct=$lct}" method="post" id="collectionsViewForm" class="z-form">
@@ -46,9 +46,9 @@
         <table class="z-datatable">
             <colgroup>
                 {if $lct eq 'admin'}
-                    <col id="cSelect" />
-                
-                <col id="cWorkflowState" />
+                    <col id="cSelect" />              
+                    <col id="cWorkflowState" />
+                    <col id="cInFrontend" />
                 {/if}
                 <col id="cName" />
                 <col id="cDescription" />
@@ -69,6 +69,9 @@
                 
                 <th id="hWorkflowState" scope="col" class="z-left">
                     {sortlink __linktext='State' currentsort=$sort modname='MUFiles' type=$lct func='view' sort='workflowState' sortdir=$sdir all=$all own=$own catidMain=$catIdListMainString parent=$parent workflowState=$workflowState searchterm=$searchterm pageSize=$pageSize inFrontend=$inFrontend ot='collection'}
+                </th>
+                <th id="hInFrontend" scope="col" align="center" valign="middle">
+                    {gt text='In frontend?'}
                 </th>
                 {/if}
                 <th id="hName" scope="col" class="z-left">
@@ -98,11 +101,13 @@
                 {if $lct eq 'admin'}
                     <td headers="hselect" align="center" valign="top">
                         <input type="checkbox" name="items[]" value="{$collection.id}" class="collections-checkbox" />
+                    </td>                
+                    <td headers="hWorkflowState" class="z-left z-nowrap">
+                        {$collection.workflowState|mufilesObjectState}
                     </td>
-                
-                <td headers="hWorkflowState" class="z-left z-nowrap">
-                    {$collection.workflowState|mufilesObjectState}
-                </td>
+                    <td headers="hInFrontend" align="center" valign="top">
+                        {$collection.inFrontend|yesno:true}
+                    </td>                     
                 {/if}
                 <td headers="hName" class="z-left">
                     <a href="{modurl modname='MUFiles' type=$lct func='display' ot='collection'  id=$collection.id}" title="{gt text='View detail page'}">{$collection.name|notifyfilters:'mufiles.filterhook.collections'}</a>
