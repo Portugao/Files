@@ -49,8 +49,8 @@ class MUFiles_Installer extends MUFiles_Base_Installer
     
             parent::registerPersistentEventHandlers();
     
-            EventUtil::registerPersistentModuleHandler('MUSound', 'module.scribite.editorhelpers', array('MUSound_Listener_ThirdParty', 'getEditorHelpers'));
-            EventUtil::registerPersistentModuleHandler('MUSound', 'moduleplugin.tinymce.externalplugins', array('MUSound_Listener_ThirdParty', 'getTinyMcePlugins'));
-            EventUtil::registerPersistentModuleHandler('MUsound', 'moduleplugin.ckeditor.externalplugins', array('MUSound_Listener_ThirdParty', 'getCKEditorPlugins'));
+            EventUtil::registerPersistentModuleHandler('MUFiles', 'module.scribite.editorhelpers', array('MUFiles_Listener_ThirdParty', 'getEditorHelpers'));
+            EventUtil::registerPersistentModuleHandler('MUFiles', 'moduleplugin.tinymce.externalplugins', array('MUFiles_Listener_ThirdParty', 'getTinyMcePlugins'));
+            EventUtil::registerPersistentModuleHandler('MUFiles', 'moduleplugin.ckeditor.externalplugins', array('MUFiles_Listener_ThirdParty', 'getCKEditorPlugins'));
         }
 }
