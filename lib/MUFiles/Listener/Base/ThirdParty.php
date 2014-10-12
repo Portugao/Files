@@ -88,4 +88,64 @@ class MUFiles_Listener_Base_ThirdParty
         // plugin for showing a list of multiple items
         $types->add('MUFiles_ContentType_ItemList');
     }
+    
+    /**
+     * Listener for the `module.scribite.editorhelpers` event.
+     *
+     * This occurs when Scribite adds pagevars to the editor page.
+     * MUSound will use this to add a javascript helper to add custom items.
+     *
+     * @param Zikula_Event $event The event instance.
+     */
+    public static function getEditorHelpers(Zikula_Event $event)
+    {
+        // intended is using the add() method to add a helper like below
+        $helpers = $event->getSubject();
+    
+        $helpers->add(
+                array('module' => 'MUFiles',
+                        'type'   => 'javascript',
+                        'path'   => 'modules/MUFiles/javascript/MUFiles_finder.js')
+        );
+    }
+    
+    /**
+     * Listener for the `moduleplugin.tinymce.externalplugins` event.
+     *
+     * Adds external plugin to TinyMCE.
+     *
+     * @param Zikula_Event $event The event instance.
+     */
+    public static function getTinyMcePlugins(Zikula_Event $event)
+    {
+        // intended is using the add() method to add a plugin like below
+        $plugins = $event->getSubject();
+    
+        $plugins->add(
+                array('name' => 'mufiles',
+                        'path' => 'modules/MUFiles/docs/scribite/plugins/TinyMce/vendor/tinymce/plugins/mufiles/editor_plugin.js'
+                )
+        );
+    }
+    
+    /**
+     * Listener for the `moduleplugin.ckeditor.externalplugins` event.
+     *
+     * Adds external plugin to CKEditor.
+     *
+     * @param Zikula_Event $event The event instance.
+     */
+    public static function getCKEditorPlugins(Zikula_Event $event)
+    {
+        // intended is using the add() method to add a plugin like below
+        $plugins = $event->getSubject();
+    
+        $plugins->add(
+                array('name' => 'mufiles',
+                        'path' => 'modules/MUFiles/docs/scribite/plugins/CKEditor/vendor/ckeditor/plugins/mufiles/',
+                        'file' => 'plugin.js',
+                        'img'  => 'ed_mufiles.gif'
+                )
+        );
+    }
 }
