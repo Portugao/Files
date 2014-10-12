@@ -57,6 +57,7 @@ class MUFiles_Entity_Hookobject extends MUFiles_Entity_Base_Hookobject
         $this->filehook = new ArrayCollection();
         $this->setUrlObject($urlObject);
     }
+    
     /**
      * set the hooked object UrlObject
      * @param ModUrl $urlObject
@@ -67,7 +68,6 @@ class MUFiles_Entity_Hookobject extends MUFiles_Entity_Base_Hookobject
             $this->urlObject = $urlObject;
         }
     }
-
 
     /**
      * Post-Process the data after the entity has been constructed by the entity manager.

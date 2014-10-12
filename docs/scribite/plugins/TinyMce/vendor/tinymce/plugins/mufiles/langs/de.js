@@ -1,3 +1,3 @@
 tinyMCE.addI18n('de.mufiles', {
-    desc : 'MUFiles-Objekt einf?gen'
+    desc : 'MUFiles-Objekt einfügen'
 });
