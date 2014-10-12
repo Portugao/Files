@@ -82,15 +82,19 @@ class MUFiles_HookHandlers extends Zikula_Hook_AbstractHandler
         $objectId = isset($hookObjectId) ? $hookObjectId : 0;
         $areaId = $hook->getAreaId();
 
+        $modelHelper = new MUFiles_Util_Model($this->view->getServicemanager());
         // we get a collection repository
-        $collectionrepository = MUFiles_Util_Model::getCollectionsRepository();
+        $collectionrepository = $modelHelper->getCollectionsRepository();
         // we get a file repository
-        $filerepository = MUFiles_Util_Model::getFilesRepository();
+        $filerepository = $modelHelper->getFilesRepository();
         // we get a hookobject repository
-        $hookobjectrepository = MUFiles_Util_Model::getHookedObjectRepository();
+        $hookobjectrepository = $modelHelper->getHookedObjectRepository();
         // we get all collections
         $collections = $collectionrepository->selectWhere();
-        //we check for hooked collection object
+        // we get all files
+        $files = $filerepository->selectWhere();
+        
+        //we check for hooked collectionfile object
         $where = 'tbl.hookedModule = \'' . DataUtil::formatForStore($module) . '\'';
         $where .= ' AND ';
         $where .= 'tbl.objectId = \'' . DataUtil::formatForStore($objectId) . '\'';
@@ -105,9 +109,8 @@ class MUFiles_HookHandlers extends Zikula_Hook_AbstractHandler
         } else {
 
         }
-        // we get all files
-        $files = $filerepository->selectWhere();
-        // assign all collections
+
+        // assign all collections and files
         $this->view->assign('collections', $collections);
         $this->view->assign('files', $files);
 

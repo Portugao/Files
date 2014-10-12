@@ -72,16 +72,18 @@ class MUFiles_Api_User extends MUFiles_Api_Base_User
         $hookdata = $args['hookdata'];
         $hookdata = DataUtil::cleanVar($hookdata);
         
-        $workflowHelper = new Zikula_Workflow('standard', 'MUFiles');
+        $workflowHelper = new Zikula_Workflow('none', 'MUFiles');
 
         $mufilescollections = $this->request->request->filter('mufilescollection', '');
         $mufilesfiles = $this->request->request->filter('mufilesfile', '');
 
+        // we look if there in an entry for this object
         $hookObject = $this->isHookedObject($args);
 
+        // if there is an entry and form fields are empty we delete the entry
         if ($hookObject && $mufilescollections == '' && $mufilesfiles == '') {
-            $hookObject->setCollectionhook(0);
-            $hookObject->setFilehook(0);
+            $hookObject->setCollectionhook(null);
+            $hookObject->setFilehook(null);
             $this->entityManager->flush();            
             $this->entityManager->remove($hookObject);
             $this->entityManager->flush();
@@ -95,6 +97,7 @@ class MUFiles_Api_User extends MUFiles_Api_Base_User
                 $hookedObject->setHookedModule($module);
                 $hookedObject->setHookedObject('collectionfile');
                 $hookedObject->setUrl($url);
+                $hookedObject->initWorkflow(true);
               /*  $hookedObject->setUrlObject($urlObject);
                 if ($hookdata) {
                     $hookedObject->setUrlObject($hookdata);
@@ -121,10 +124,10 @@ class MUFiles_Api_User extends MUFiles_Api_Base_User
                 $this->entityManager->persist($hookedObject);
                 $this->entityManager->flush();
                 
-                $obj['__WORKFLOW__']['obj_table'] = 'hookobject';
+               /* $obj['__WORKFLOW__']['obj_table'] = 'hookobject';
                 $obj['__WORKFLOW__']['obj_idcolumn'] = 'id';
                 $obj['id'] = $album['id'];
-                $workflowHelper->registerWorkflow($obj, 'approved');
+                $workflowHelper->registerWorkflow($obj, 'approved');*/
                 
             }
             return true;
