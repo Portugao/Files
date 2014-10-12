@@ -82,9 +82,9 @@ class MUFiles_Api_User extends MUFiles_Api_Base_User
 
         // if there is an entry and form fields are empty we delete the entry
         if ($hookObject && $mufilescollections == '' && $mufilesfiles == '') {
-            $hookObject->setCollectionhook(null);
-            $hookObject->setFilehook(null);
-            $this->entityManager->flush();            
+            //$hookObject->setCollectionhook(NULL);
+            //$hookObject->setFilehook(NULL);
+            //$this->entityManager->flush();            
             $this->entityManager->remove($hookObject);
             $this->entityManager->flush();
 
