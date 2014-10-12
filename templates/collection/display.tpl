@@ -63,7 +63,7 @@
                 <a href="{modurl modname='MUFiles' type=$lct func='edit' ot='collection' parent="`$collection.id`" returnTo="`$lct`DisplayCollection"'}" title="{$createTitle}" class="z-icon-es-add">{$createTitle}</a>
             </p>
             {/if}
-            {if $lct eq 'admin'}
+           {* {if $lct eq 'admin'}
                 <h4>{gt text='Hookobjects'}</h4>
             {else}
                 <h3>{gt text='Hookobjects'}</h3>
@@ -83,7 +83,7 @@
                 {gt text='Create hookobject' assign='createTitle'}
                 <a href="{modurl modname='MUFiles' type=$lct func='edit' ot='hookobject' collectionhook="`$collection.id`" returnTo="`$lct`DisplayCollection"'}" title="{$createTitle}" class="z-icon-es-add">{$createTitle}</a>
             </p>
-            {/if}
+            {/if} *}
         </div>
     {/if}
 

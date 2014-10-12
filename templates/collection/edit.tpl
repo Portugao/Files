@@ -72,8 +72,7 @@
         
         {include file='helper/include_categories_edit.tpl' obj=$collection groupName='collectionObj' panel=true}
         {include file='collection/include_selectOne.tpl' group='collection' alias='parent' aliasReverse='children' mandatory=false idPrefix='mufilesCollection_Parent' linkingItem=$collection panel=true displayMode='dropdown' allowEditing=false}
-        {include file='hookobject/include_selectMany.tpl' group='collection' alias='hookcollection' aliasReverse='collectionhook' mandatory=false idPrefix='mufilesCollection_Hookcollection' linkingItem=$collection panel=true displayMode='dropdown' allowEditing=false}
-        {if $mode ne 'create'}
+      {if $mode ne 'create'}
             {include file='helper/include_standardfields_edit.tpl' obj=$collection panel=true}
         {/if}
         
