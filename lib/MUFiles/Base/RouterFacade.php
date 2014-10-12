@@ -37,7 +37,7 @@ class MUFiles_Base_RouterFacade
             'func'          => '\w+',
             'ot'            => '\w+',
             'slug'          => '[^/.]+', // slugs ([^/.]+ = all chars except / and .)
-            'displayending' => '(?:' . $displayDefaultEnding . '|ics)',
+            'displayending' => '(?:' . $displayDefaultEnding . ')',
             'viewending'    => '(?:\.csv)?',
             'id'            => '\d+'
         );

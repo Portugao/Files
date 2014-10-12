@@ -149,9 +149,9 @@ class MUFiles_Util_Base_View extends Zikula_AbstractBase
             }
         } elseif ($func == 'display') {
             if ($hasAdminAccess) {
-                $extensions = array('ics');
+                $extensions = array();
             } else {
-                $extensions = array('ics');
+                $extensions = array();
             }
         }
     

@@ -15,7 +15,6 @@
     use Doctrine\Common\Collections\ArrayCollection;
     use Gedmo\Mapping\Annotation as Gedmo;
     use DoctrineExtensions\StandardFields\Mapping\Annotation as ZK;
-    use Zikula\Core\ModUrl;
 
     /**
      * Entity class that defines the entity structure and behaviours.
@@ -137,7 +136,7 @@
         /**
          * Bidirectional - Many hookcollection [hookobjects] have many collectionhook [collections] (OWNING SIDE).
          *
-         * @ORM\ManyToMany(targetEntity="MUFiles_Entity_Collection", inversedBy="hookcollection")
+         * @ORM\ManyToMany(targetEntity="MUFiles_Entity_Collection", inversedBy="hookcollection", cascade={"remove"})
          * @ORM\JoinTable(name="mufiles_hookobject_collection")
          * @var MUFiles_Entity_Collection[] $collectionhook.
          */
@@ -145,7 +144,7 @@
         /**
          * Bidirectional - Many hookfile [hookobjects] have many filehook [files] (OWNING SIDE).
          *
-         * @ORM\ManyToMany(targetEntity="MUFiles_Entity_File", inversedBy="hookfile")
+         * @ORM\ManyToMany(targetEntity="MUFiles_Entity_File", inversedBy="hookfile", cascade={"remove"})
          * @ORM\JoinTable(name="mufiles_hookobject_file")
          * @var MUFiles_Entity_File[] $filehook.
          */

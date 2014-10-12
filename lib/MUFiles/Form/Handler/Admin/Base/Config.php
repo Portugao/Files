@@ -45,7 +45,10 @@ class MUFiles_Form_Handler_Admin_Base_Config extends Zikula_Form_AbstractHandler
         $userGroups = ModUtil::apiFunc('Groups', 'user', 'getall');
         $userGroupItems = array();
         foreach ($userGroups as $userGroup) {
-            $userGroupItems = array('value' => $userGroup['gid'], 'text' => $userGroup['name']);
+            $userGroupItems[] = array(
+                'value' => $userGroup['gid'],
+                'text' => $userGroup['name']
+            );
         }
 
         // retrieve module vars

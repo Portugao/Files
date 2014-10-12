@@ -156,7 +156,7 @@ class MUFiles_Util_Base_Controller extends Zikula_AbstractBase
      */
     public function formatPermalink($name)
     {
-        $name = str_replace(array('?', '?', '?', '?', '?', '?', '?', '.', '?', '"', '/', ':', '?', '?', '?'),
+        $name = str_replace(array('ä', 'ö', 'ü', 'Ä', 'Ö', 'Ü', 'ß', '.', '?', '"', '/', ':', 'é', 'è', 'â'),
                             array('ae', 'oe', 'ue', 'Ae', 'Oe', 'Ue', 'ss', '', '', '', '-', '-', 'e', 'e', 'a'),
                             $name);
         $name = DataUtil::formatPermalink($name);

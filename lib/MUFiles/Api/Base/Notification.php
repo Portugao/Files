@@ -128,7 +128,7 @@ class MUFiles_Api_Base_Notification extends Zikula_AbstractApi
             'name' => (isset($userVars['name']) && !empty($userVars['name']) ? $userVars['name'] : $userVars['uname']),
             'email' => $userVars['email']
         );
-    
+        $this->recipients[] = $recipient;
         return $recipient;
     }
     
