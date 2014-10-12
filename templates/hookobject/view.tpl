@@ -49,6 +49,7 @@
                     <col id="cSelect" />
                 {/if}
                 <col id="cHookedModule" />
+                <col id="cHookedObject" />
                 <col id="cAreaId" />
                 <col id="cUrl" />
                 <col id="cObjectId" />
@@ -63,6 +64,9 @@
                 {/if}
                 <th id="hHookedModule" scope="col" class="z-left">
                     {sortlink __linktext='Hooked module' currentsort=$sort modname='MUFiles' type=$lct func='view' sort='hookedModule' sortdir=$sdir all=$all own=$own workflowState=$workflowState searchterm=$searchterm pageSize=$pageSize ot='hookobject'}
+                </th>
+                <th id="hHookedObject" scope="col" class="z-left">
+                    {sortlink __linktext='Hooked object' currentsort=$sort modname='MUFiles' type=$lct func='view' sort='hookedObject' sortdir=$sdir all=$all own=$own workflowState=$workflowState searchterm=$searchterm pageSize=$pageSize ot='hookobject'}
                 </th>
                 <th id="hAreaId" scope="col" class="z-right">
                     {sortlink __linktext='Area id' currentsort=$sort modname='MUFiles' type=$lct func='view' sort='areaId' sortdir=$sdir all=$all own=$own workflowState=$workflowState searchterm=$searchterm pageSize=$pageSize ot='hookobject'}
@@ -88,6 +92,9 @@
                 <td headers="hHookedModule" class="z-left">
                     {$hookobject.hookedModule}
                 </td>
+                <td headers="hHookedObject" class="z-left">
+                    {$hookobject.hookedObject}
+                </td>
                 <td headers="hAreaId" class="z-right">
                     {$hookobject.areaId}
                 </td>
@@ -99,10 +106,11 @@
                 </td>
                 <td id="itemActions{$hookobject.id}" headers="hItemActions" class="z-right z-nowrap z-w02">
                     {if count($hookobject._actions) gt 0}
+                        {icon id="itemActions`$hookobject.id`Trigger" type='options' size='extrasmall' __alt='Actions' class='z-pointer z-hide'}
                         {foreach item='option' from=$hookobject._actions}
                             <a href="{$option.url.type|mufilesActionUrl:$option.url.func:$option.url.arguments}" title="{$option.linkTitle|safetext}"{if $option.icon eq 'preview'} target="_blank"{/if}>{icon type=$option.icon size='extrasmall' alt=$option.linkText|safetext}</a>
                         {/foreach}
-                        {icon id="itemActions`$hookobject.id`Trigger" type='options' size='extrasmall' __alt='Actions' class='z-pointer z-hide'}
+                    
                         <script type="text/javascript">
                         /* <![CDATA[ */
                             document.observe('dom:loaded', function() {
@@ -115,7 +123,7 @@
             </tr>
         {foreachelse}
             <tr class="z-{if $lct eq 'admin'}admin{else}data{/if}tableempty">
-              <td class="z-left" colspan="{if $lct eq 'admin'}6{else}5{/if}">
+              <td class="z-left" colspan="{if $lct eq 'admin'}7{else}6{/if}">
             {gt text='No hookobjects found.'}
               </td>
             </tr>
@@ -153,15 +161,15 @@
 <script type="text/javascript">
 /* <![CDATA[ */
     document.observe('dom:loaded', function() {
-    {{if $lct eq 'admin'}}
-        {{* init the "toggle all" functionality *}}
-        if ($('toggleHookobjects') != undefined) {
-            $('toggleHookobjects').observe('click', function (e) {
-                Zikula.toggleInput('hookobjectsViewForm');
-                e.stop()
-            });
-        }
-    {{/if}}
+        {{if $lct eq 'admin'}}
+            {{* init the "toggle all" functionality *}}
+            if ($('toggleHookobjects') != undefined) {
+                $('toggleHookobjects').observe('click', function (e) {
+                    Zikula.toggleInput('hookobjectsViewForm');
+                    e.stop()
+                });
+            }
+        {{/if}}
     });
 /* ]]> */
 </script>

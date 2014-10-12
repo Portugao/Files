@@ -48,6 +48,12 @@
         </div>
         
         <div class="z-formrow">
+            {formlabel for='hookedObject' __text='Hooked object' mandatorysym='1' cssClass=''}
+            {formtextinput group='hookobject' id='hookedObject' mandatory=true readOnly=false __title='Enter the hooked object of the hookobject' textMode='singleline' maxLength=50 cssClass='required' }
+            {mufilesValidationError id='hookedObject' class='required'}
+        </div>
+        
+        <div class="z-formrow">
             {formlabel for='areaId' __text='Area id' mandatorysym='1' cssClass=''}
             {formintinput group='hookobject' id='areaId' mandatory=true __title='Enter the area id of the hookobject' maxLength=11 cssClass='required validate-digits' }
             {mufilesValidationError id='areaId' class='required'}
@@ -82,12 +88,13 @@
         {notifydisplayhooks eventname='mufiles.ui_hooks.hookobjects.form_edit' id=null assign='hooks'}
     {/if}
     {if is_array($hooks) && count($hooks)}
-        {foreach key='providerArea' item='hook' from=$hooks}
+        {foreach name='hookLoop' key='providerArea' item='hook' from=$hooks}
             <fieldset>
                 {$hook}
             </fieldset>
         {/foreach}
     {/if}
+    
     
     {* include return control *}
     {if $mode eq 'create'}
@@ -103,7 +110,7 @@
     {* include possible submit actions *}
     <div class="z-buttons z-formbuttons">
     {foreach item='action' from=$actions}
-        {assign var='actionIdCapital' value=$action.id|@ucwords}
+        {assign var='actionIdCapital' value=$action.id|@ucfirst}
         {gt text=$action.title assign='actionTitle'}
         {*gt text=$action.description assign='actionDescription'*}{* TODO: formbutton could support title attributes *}
         {if $action.id eq 'delete'}
@@ -113,7 +120,7 @@
             {formbutton id="btn`$actionIdCapital`" commandName=$action.id text=$actionTitle class=$action.buttonClass}
         {/if}
     {/foreach}
-        {formbutton id='btnCancel' commandName='cancel' __text='Cancel' class='z-bt-cancel'}
+    {formbutton id='btnCancel' commandName='cancel' __text='Cancel' class='z-bt-cancel'}
     </div>
     {/mufilesFormFrame}
 {/form}
@@ -126,9 +133,9 @@
 
 <script type="text/javascript">
 /* <![CDATA[ */
-
+    
     var formButtons, formValidator;
-
+    
     function handleFormButton (event) {
         var result = formValidator.validate();
         if (!result) {
@@ -140,29 +147,28 @@
                 btn.addClassName('z-hide');
             });
         }
-
+    
         return result;
     }
-
+    
     document.observe('dom:loaded', function() {
-
+    
         mufilesAddCommonValidationRules('hookobject', '{{if $mode ne 'create'}}{{$hookobject.id}}{{/if}}');
         {{* observe validation on button events instead of form submit to exclude the cancel command *}}
         formValidator = new Validation('{{$__formid}}', {onSubmit: false, immediate: true, focusOnError: false});
         {{if $mode ne 'create'}}
             var result = formValidator.validate();
         {{/if}}
-
+    
         formButtons = $('{{$__formid}}').select('div.z-formbuttons input');
-
+    
         formButtons.each(function (elem) {
             if (elem.id != 'btnCancel') {
                 elem.observe('click', handleFormButton);
             }
         });
-
+    
         Zikula.UI.Tooltips($$('.mufiles-form-tooltips'));
     });
-
 /* ]]> */
 </script>
