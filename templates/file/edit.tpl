@@ -1,5 +1,9 @@
 {* purpose of this template: build the Form to edit an instance of file *}
-{include file='user/header.tpl'}
+{assign var='lct' value='user'}
+{if isset($smarty.get.lct) && $smarty.get.lct eq 'admin'}
+    {assign var='lct' value='admin'}
+{/if}
+{include file="`$lct`/header.tpl"}
 {pageaddvar name='javascript' value='modules/MUFiles/javascript/MUFiles_editFunctions.js'}
 {pageaddvar name='javascript' value='modules/MUFiles/javascript/MUFiles_validation.js'}
 
