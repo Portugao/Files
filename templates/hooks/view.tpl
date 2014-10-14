@@ -23,11 +23,9 @@
 <h2>{gt text='Files'}</h2>
 <ul>
 {foreach item='file' from=$files }
-{foreach item='singlefile' from=$file }
         <li class='hookfile'>
-            <a href="{modurl modname='MUFiles' type='user' func='giveFile' id=$singlefile.id}">{$singlefile.title}</a>         
+            <a href="{modurl modname='MUFiles' type='user' func='giveFile' id=$file.id}">{$file.title}</a>         
         </li>
-{/foreach}
 {/foreach}
 </ul>
 </div>

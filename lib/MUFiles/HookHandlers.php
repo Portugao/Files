@@ -55,8 +55,16 @@ class MUFiles_HookHandlers extends Zikula_Hook_AbstractHandler
 
         $collectionrepository = MUFiles_Util_Model::getCollectionsRepository();
 
+        if (is_object($hookObject['collectionhook'])) {
         $collections[] = $hookObject['collectionhook'];
-        $files[] = $hookObject['filehook'];
+        } else {
+            $collections = '';
+        }
+        if (is_object($hookObject['filehook'])) {
+        $files = $hookObject['filehook'];
+        } else {
+            $files = '';
+        }
 
         $this->view->assign('collections', $collections);
         $this->view->assign('files', $files);
@@ -93,26 +101,80 @@ class MUFiles_HookHandlers extends Zikula_Hook_AbstractHandler
         $collections = $collectionrepository->selectWhere();
         // we get all files
         $files = $filerepository->selectWhere();
-        
+
         //we check for hooked collectionfile object
         $where = 'tbl.hookedModule = \'' . DataUtil::formatForStore($module) . '\'';
         $where .= ' AND ';
-        $where .= 'tbl.objectId = \'' . DataUtil::formatForStore($objectId) . '\'';
+        $where .= 'tbl.objectId = \'' . $hookObjectId . '\'';
         $where .= ' AND ';
-        $where .= 'tbl.areaId = \'' . DataUtil::formatForStore($areaId) . '\'';
+        $where .= 'tbl.areaId = \'' . $areaId . '\'';
         $where .= ' AND ';
-        $where .= 'tbl.hookedObject = \'' . DataUtil::formatForStore('collection') . '\'';
+        $where .= 'tbl.hookedObject = \'' . DataUtil::formatForStore('collectionfile') . '\'';
 
+        // we look if there is a hookoobject saved for this object
         $hookObject = $hookobjectrepository->selectWhere($where);
-        if (!is_array($hookObject)) {
 
+        // instanciate vars
+        $selectedCollectionIds = '';
+        $selectedFileIds = '';
+
+        // we build array of selected collections ids if there
+        // else we set this var to false
+        $selectedCollections = $hookObject[0]['collectionhook'];
+        if (is_array($selectedCollections)) {
+            foreach ($selectedCollections as $selectedSingleCollection) {
+                $selectedCollectionIds[] = $selectedSingleCollection['id'];
+            }
         } else {
+            $selectedCollectionIds = false;
+        }
 
+        // we build array of selected files ids if there
+        // else we set this var to false        
+        $selectedFiles = $hookObject[0]['filehook'];
+        LogUtil::registerError('Achtung: ' . $selectedFiles[0]['id']);
+        if (is_array($selectedFiles)) {
+            foreach ($selectedFiles as $selectedSingleFile) {
+                $selectedFileIds[] = $selectedSingleFile['id'];
+            }
+        } else {         
+                $selectedFileIds = false;           
+        }
+
+        // instanciate var
+        $collectionout = "";
+        foreach ($collections as $collection) {
+            $selected = "";
+            if (is_array($selectedCollectionIds)) {
+                if (in_array($collection['id'], $selectedCollectionIds)) {
+                    $collectionout .= "<option selected=selected value=" . $collection['id'] . ">" . $collection['name'] . "</option>";
+                } else {
+                    $collectionout .= "<option value=" . $collection['id'] . ">" . $collection['name'] . "</option>";
+                }
+            } else {
+                $collectionout .= "<option value=" . $collection['id'] . ">" . $collection['name'] . "</option>";
+
+            }
+        }
+
+        // instanciate var
+        $fileout = "";
+        foreach ($files as $file) {
+            $selected = "";
+            if (is_array($selectedFileIds)) {
+                if (in_array($file['id'], $selectedFileIds)) {
+                    $fileout .= "<option selected=selected value=" . $file['id'] . ">" . $file['title'] . "</option>";
+                } else {
+                    $fileout .= "<option value=" . $file['id'] . ">" . $file['title'] . "</option>";
+                }
+            } else {
+                $fileout .= "<option value=" . $file['id'] . ">" . $file['title'] . "</option>";
+            }
         }
 
         // assign all collections and files
-        $this->view->assign('collections', $collections);
-        $this->view->assign('files', $files);
+        $this->view->assign('collections', $collectionout);
+        $this->view->assign('files', $fileout);
 
         $hook->setResponse(new Zikula_Response_DisplayHook('provider.mufiles.ui_hooks.service', $this->view, 'hooks/edit.tpl'));
     }

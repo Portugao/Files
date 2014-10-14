@@ -82,15 +82,22 @@ class MUFiles_Api_User extends MUFiles_Api_Base_User
 
         // if there is an entry and form fields are empty we delete the entry
         if ($hookObject && $mufilescollections == '' && $mufilesfiles == '') {
-            //$hookObject->setCollectionhook(NULL);
-            //$hookObject->setFilehook(NULL);
-            //$this->entityManager->flush();            
+            $collectionHooks = $hookObject->getCollectionhook();
+            foreach ($collectionHooks as $collectionHook) {
+                $hookObject->removeCollectionHook($collectionHook);
+            }
+            $fileHooks = $hookObject->getFilehook();
+            foreach ($fileHooks as $fileHook) {
+                $hookObject->removeFileHook($fileHook);
+            }
+            $this->entityManager->flush();           
             $this->entityManager->remove($hookObject);
             $this->entityManager->flush();
 
         } else {
              
             if ($mufilescollections != '' || $mufilesfiles != '') {
+                if (!$hookObject) {
                 $hookedObject = new MUFiles_Entity_Hookobject('approved', $hookdata);
                 $hookedObject->setObjectId($objectid);
                 $hookedObject->setAreaId($areaid);
@@ -98,10 +105,18 @@ class MUFiles_Api_User extends MUFiles_Api_Base_User
                 $hookedObject->setHookedObject('collectionfile');
                 $hookedObject->setUrl($url);
                 $hookedObject->initWorkflow(true);
-              /*  $hookedObject->setUrlObject($urlObject);
-                if ($hookdata) {
-                    $hookedObject->setUrlObject($hookdata);
-                }*/
+                } else {
+                    $hookedObject = $hookObject;
+                    $selectedCollections = $hookedObject->getCollectionhook();
+                    foreach ($selectedCollections as $selectedSingleCollection) {
+                        $hookedObject->removeCollectionhook($selectedSingleCollection);
+                    }
+                    $selectedFiles = $hookedObject->getFilehook();
+                    foreach ($selectedFiles as $selectedSingleFiles) {
+                        $hookedObject->removeFilehook($selectedSingleFiles);
+                    }
+                    $this->entityManager->flush();
+                }
 
                 if (is_array($mufilescollections)) {
                     foreach ($mufilescollections as $mufilescollection) {
@@ -122,17 +137,10 @@ class MUFiles_Api_User extends MUFiles_Api_Base_User
                 $hookedObject->setCollectionhook($hookcollections);
                 $hookedObject->setFilehook($hookfiles);
                 $this->entityManager->persist($hookedObject);
-                $this->entityManager->flush();
-                
-               /* $obj['__WORKFLOW__']['obj_table'] = 'hookobject';
-                $obj['__WORKFLOW__']['obj_idcolumn'] = 'id';
-                $obj['id'] = $album['id'];
-                $workflowHelper->registerWorkflow($obj, 'approved');*/
-                
+                $this->entityManager->flush();                
             }
             return true;
         }
-
     }
     
     /**
