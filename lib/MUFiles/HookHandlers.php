@@ -61,7 +61,7 @@ class MUFiles_HookHandlers extends Zikula_Hook_AbstractHandler
             $collections = '';
         }
         if (is_object($hookObject['filehook'])) {
-        $files = $hookObject['filehook'];
+        $files[] = $hookObject['filehook'];
         } else {
             $files = '';
         }
@@ -121,8 +121,10 @@ class MUFiles_HookHandlers extends Zikula_Hook_AbstractHandler
         // we build array of selected collections ids if there
         // else we set this var to false
         $selectedCollections = $hookObject[0]['collectionhook'];
-        if (is_array($selectedCollections)) {
+
+        if (is_object($selectedCollections) === true) {
             foreach ($selectedCollections as $selectedSingleCollection) {
+                LogUtil::registerStatus($selectedSingleCollection['id']);
                 $selectedCollectionIds[] = $selectedSingleCollection['id'];
             }
         } else {
@@ -132,8 +134,8 @@ class MUFiles_HookHandlers extends Zikula_Hook_AbstractHandler
         // we build array of selected files ids if there
         // else we set this var to false        
         $selectedFiles = $hookObject[0]['filehook'];
-        LogUtil::registerError('Achtung: ' . $selectedFiles[0]['id']);
-        if (is_array($selectedFiles)) {
+        
+        if (is_object($selectedFiles) === true) {
             foreach ($selectedFiles as $selectedSingleFile) {
                 $selectedFileIds[] = $selectedSingleFile['id'];
             }
