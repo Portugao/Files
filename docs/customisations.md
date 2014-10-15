@@ -12,6 +12,8 @@ Changes by hand on the model to change in MOST
 
 Changed Files
 
+*javascript/MUFiles_finder.js
+
 *templates/external/file/display.tpl
 *templates/user/header.tpl
 *templates/user/collection/display.tpl

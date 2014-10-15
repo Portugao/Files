@@ -90,12 +90,22 @@ mufiles.finder.handleCancel = function ()
 
 function getPasteSnippet(mode, itemId)
 {
-    var itemUrl, itemTitle, itemDescription, pasteMode;
+    var itemTitle, itemUrl, giveUrl, itemObject, itemDescription, pasteMode;
 
     itemUrl = $F('url' + itemId);
+    giveUrl = $F('giveurl' + itemId);
+    itemObject = $F('object');
     itemTitle = $F('title' + itemId);
     itemDescription = $F('desc' + itemId);
     pasteMode = $F('mUFilesPasteAs');
+    
+    if (pasteMode === '3' && itemObject == 'collection') {
+    	return '<a href="' + giveUrl + '">' + itemTitle + '</a>';
+    }
+    
+    if (pasteMode === '3' && itemObject == 'file') {
+    	return '<a href="' + giveUrl + '">' + itemTitle + '</a>';
+    }
 
     if (pasteMode === '2' || pasteMode !== '1') {
         return itemId;
