@@ -160,3 +160,8 @@ div.mufiles-view form.mufiles-quicknav fieldset #num {
 .mufileshook ul li {
 	margin: 0;
 }
+
+.mufileshook h2 {
+	margin: 0 0 0.5em 20px;
+	}
+}
