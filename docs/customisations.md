@@ -37,6 +37,8 @@ Implemented Classes
 
 *lib/MUFiles/Controller/User.php
 
+*lib/MUFiles/Entity/Collection.php
+*lib/MUFiles/Entity/File.php
 *lib/MUFiles/Entity/Hookobject.php
 *lib/MUFiles/Entity/Repository/Collection.php
 
