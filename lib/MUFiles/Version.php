@@ -69,27 +69,8 @@ class MUFiles_Version extends MUFiles_Base_Version
      */
     protected function setupHookBundles()
     {
-        $bundle = new Zikula_HookManager_ProviderBundle($this->name, 'provider.mufiles.ui_hooks.service', 'ui_hooks', $this->__('MUFiles - Embed collection or file'));
-        // form_edit hook is used to add smiley selector and other code to new object form (validate and process hooks unneeded)
-        $bundle->addServiceHandler('display_view', 'MUFiles_HookHandlers', 'uiView', 'mufiles.file');
-        $bundle->addServiceHandler('form_edit', 'MUFiles_HookHandlers', 'uiEdit', 'mufiles.file');
-        $bundle->addServiceHandler('validate_edit', 'MUFiles_HookHandlers', 'validateEdit', 'mufiles.file');
-        $bundle->addServiceHandler('process_edit', 'MUFiles_HookHandlers', 'processEdit', 'mufiles.file');
-        $bundle->addServiceHandler('process_delete', 'MUFiles_HookHandlers', 'processDelete', 'mufiles.file');
-        
-        $this->registerHookProviderBundle($bundle);
-         
-        parent::setupHookBundles();
-    }
-    
-    /**
-     * Define hook subscriber bundles.
-     */
-    protected function setupHookBundles()
-    {
-    
         $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'subscriber.mufiles.ui_hooks.collections', 'ui_hooks', __('mufiles Collections Display Hooks'));
-    
+        
         // Display hook for view/display templates.
         $bundle->addEvent('display_view', 'mufiles.ui_hooks.collections.display_view');
         // Display hook for create/edit forms.
@@ -105,14 +86,14 @@ class MUFiles_Version extends MUFiles_Base_Version
         // Perform the final delete actions for a ui form.
         $bundle->addEvent('process_delete', 'mufiles.ui_hooks.collections.process_delete');
         $this->registerHookSubscriberBundle($bundle);
-    
+        
         $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'subscriber.mufiles.filter_hooks.collections', 'filter_hooks', __('mufiles Collections Filter Hooks'));
         // A filter applied to the given area.
         $bundle->addEvent('filter', 'mufiles.filter_hooks.collections.filter');
         $this->registerHookSubscriberBundle($bundle);
-    
+        
         $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'subscriber.mufiles.ui_hooks.files', 'ui_hooks', __('mufiles Files Display Hooks'));
-    
+        
         // Display hook for view/display templates.
         $bundle->addEvent('display_view', 'mufiles.ui_hooks.files.display_view');
         // Display hook for create/edit forms.
@@ -128,35 +109,22 @@ class MUFiles_Version extends MUFiles_Base_Version
         // Perform the final delete actions for a ui form.
         $bundle->addEvent('process_delete', 'mufiles.ui_hooks.files.process_delete');
         $this->registerHookSubscriberBundle($bundle);
-    
+        
         $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'subscriber.mufiles.filter_hooks.files', 'filter_hooks', __('mufiles Files Filter Hooks'));
         // A filter applied to the given area.
         $bundle->addEvent('filter', 'mufiles.filter_hooks.files.filter');
         $this->registerHookSubscriberBundle($bundle);
-    
-       /* $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'subscriber.mufiles.ui_hooks.hookobjects', 'ui_hooks', __('mufiles Hookobjects Display Hooks'));
-    
-        // Display hook for view/display templates.
-        $bundle->addEvent('display_view', 'mufiles.ui_hooks.hookobjects.display_view');
-        // Display hook for create/edit forms.
-        $bundle->addEvent('form_edit', 'mufiles.ui_hooks.hookobjects.form_edit');
-        // Display hook for delete dialogues.
-        $bundle->addEvent('form_delete', 'mufiles.ui_hooks.hookobjects.form_delete');
-        // Validate input from an ui create/edit form.
-        $bundle->addEvent('validate_edit', 'mufiles.ui_hooks.hookobjects.validate_edit');
-        // Validate input from an ui create/edit form (generally not used).
-        $bundle->addEvent('validate_delete', 'mufiles.ui_hooks.hookobjects.validate_delete');
-        // Perform the final update actions for a ui create/edit form.
-        $bundle->addEvent('process_edit', 'mufiles.ui_hooks.hookobjects.process_edit');
-        // Perform the final delete actions for a ui form.
-        $bundle->addEvent('process_delete', 'mufiles.ui_hooks.hookobjects.process_delete');
-        $this->registerHookSubscriberBundle($bundle);
-    
-        $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'subscriber.mufiles.filter_hooks.hookobjects', 'filter_hooks', __('mufiles Hookobjects Filter Hooks'));
-        // A filter applied to the given area.
-        $bundle->addEvent('filter', 'mufiles.filter_hooks.hookobjects.filter');
-        $this->registerHookSubscriberBundle($bundle);*/
-    
-    
+        
+        $bundle = new Zikula_HookManager_ProviderBundle($this->name, 'provider.mufiles.ui_hooks.service', 'ui_hooks', $this->__('MUFiles - Embed collection or file'));
+        // form_edit hook is used to add smiley selector and other code to new object form (validate and process hooks unneeded)
+        $bundle->addServiceHandler('display_view', 'MUFiles_HookHandlers', 'uiView', 'mufiles.file');
+        $bundle->addServiceHandler('form_edit', 'MUFiles_HookHandlers', 'uiEdit', 'mufiles.file');
+        $bundle->addServiceHandler('validate_edit', 'MUFiles_HookHandlers', 'validateEdit', 'mufiles.file');
+        $bundle->addServiceHandler('process_edit', 'MUFiles_HookHandlers', 'processEdit', 'mufiles.file');
+        $bundle->addServiceHandler('process_delete', 'MUFiles_HookHandlers', 'processDelete', 'mufiles.file');
+        
+        $this->registerHookProviderBundle($bundle);
+         
+        parent::setupHookBundles();
     }
 }
