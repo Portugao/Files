@@ -83,7 +83,7 @@
                 </th>
                 {/if}
                 <th id="hAliascollection" scope="col" class="z-left">
-                    {sortlink __linktext='Aliascollection' currentsort=$sort modname='MUFiles' type=$lct func='view' sort='aliascollection' sortdir=$sdir all=$all own=$own aliascollection=$aliascollection workflowState=$workflowState searchterm=$searchterm pageSize=$pageSize ot='file'}
+                    {gt text='Collection'}
                 </th>
                 <th id="hItemActions" scope="col" class="z-right z-order-unsorted">{gt text='Actions'}</th>
             </tr>
