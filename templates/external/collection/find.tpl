@@ -23,7 +23,7 @@
 <body>
     <p>{gt text='Switch to'}:
     <a href="{modurl modname='MUFiles' type='external' func='finder' objectType='file' editor=$editorName}" title="{gt text='Search and select file'}">{gt text='Files'}</a> {*| 
-    <a href="{modurl modname='MUFiles' type='external' func='finder' objectType='hookobject' editor=$editorName}" title="{gt text='Search and select hookobject'}">{gt text='Hookobjects'}</a> *}
+   {* <a href="{modurl modname='MUFiles' type='external' func='finder' objectType='hookobject' editor=$editorName}" title="{gt text='Search and select hookobject'}">{gt text='Hookobjects'}</a> *}
     </p>
     <form action="{$ourEntry|default:'index.php'}" id="mUFilesSelectorForm" method="get" class="z-form">
     <div>
@@ -66,6 +66,7 @@
                     <select id="mUFilesPasteAs" name="pasteas">
                         <option value="1">{gt text='Link to the collection'}</option>
                         <option value="2">{gt text='ID of collection'}</option>
+                        <option value="3">{gt text='Files of collection to display or save'}</option>
                     </select>
             </div>
             <br />
@@ -78,6 +79,8 @@
                             <li>
                                 <a href="#" onclick="mufiles.finder.selectItem({$collection.id})" onkeypress="mufiles.finder.selectItem({$collection.id})">{$collection->getTitleFromDisplayPattern()}</a>
                                 <input type="hidden" id="url{$collection.id}" value="{modurl modname='MUFiles' type='user' func='display' ot='collection'  id=$collection.id fqurl=true}" />
+                                <input type="hidden" id="giveurl{$collection.id}" value="{modurl modname='MUFiles' type='user' func='giveFile' id=$file.id fqurl=true}" />
+                                <input type="hidden" id="object" value="collection" />
                                 <input type="hidden" id="title{$collection.id}" value="{$collection->getTitleFromDisplayPattern()|replace:"\"":""}" />
                                 <input type="hidden" id="desc{$collection.id}" value="{capture assign='description'}{if $collection.description ne ''}{$collection.description}{/if}
                                 {/capture}{$description|strip_tags|replace:"\"":""}" />

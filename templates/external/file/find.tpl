@@ -23,7 +23,7 @@
 <body>
     <p>{gt text='Switch to'}:
     <a href="{modurl modname='MUFiles' type='external' func='finder' objectType='collection' editor=$editorName}" title="{gt text='Search and select collection'}">{gt text='Collections'}</a>{* | 
-    <a href="{modurl modname='MUFiles' type='external' func='finder' objectType='hookobject' editor=$editorName}" title="{gt text='Search and select hookobject'}">{gt text='Hookobjects'}</a> *}
+   {* <a href="{modurl modname='MUFiles' type='external' func='finder' objectType='hookobject' editor=$editorName}" title="{gt text='Search and select hookobject'}">{gt text='Hookobjects'}</a> *}
     </p>
     <form action="{$ourEntry|default:'index.php'}" id="mUFilesSelectorForm" method="get" class="z-form">
     <div>
@@ -41,6 +41,7 @@
                     <select id="mUFilesPasteAs" name="pasteas">
                         <option value="1">{gt text='Link to the file'}</option>
                         <option value="2">{gt text='ID of file'}</option>
+                        <option value="3">{gt text='File to open or save'}</option>
                     </select>
             </div>
             <br />
@@ -53,6 +54,8 @@
                             <li>
                                 <a href="#" onclick="mufiles.finder.selectItem({$file.id})" onkeypress="mufiles.finder.selectItem({$file.id})">{$file->getTitleFromDisplayPattern()}</a>
                                 <input type="hidden" id="url{$file.id}" value="{modurl modname='MUFiles' type='user' func='display' ot='file'  id=$file.id fqurl=true}" />
+                                <input type="hidden" id="giveurl{$file.id}" value="{modurl modname='MUFiles' type='user' func='giveFile' id=$file.id fqurl=true}" />
+                                <input type="hidden" id="object" value="file" />
                                 <input type="hidden" id="title{$file.id}" value="{$file->getTitleFromDisplayPattern()|replace:"\"":""}" />
                                 <input type="hidden" id="desc{$file.id}" value="{capture assign='description'}{if $file.description ne ''}{$file.description}{/if}
                                 {/capture}{$description|strip_tags|replace:"\"":""}" />
