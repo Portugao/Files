@@ -8,7 +8,7 @@
     {checkpermissionblock component='MUFiles:Collection:' instance='`$singlecollection.id`::' level='ACCESS_COMMENT'}
         <li class='hookcollection'>
         {* <a href='{modurl modname='MUFiles' type='user' func='view' tag=$tag.slug|safetext}'><span class='taghole'>&bull;</span>{$collection.name|safetext}</a> *}
-            <h2><a href="{modurl modname='MUFiles' type='user' func='display' ot='collection' id=$singlecollection.id}">{$singlecollection.name}</a></h2>
+            <h2><a title="{gt text='See the complete collection'}" href="{modurl modname='MUFiles' type='user' func='display' ot='collection' id=$singlecollection.id}">{$singlecollection.name}</a></h2>
             {if $singlecollection.alilasfile ne NULL}
                 {foreach item='file' from=$singlecollection.alilasfile}
                     <a href="{modurl modname='MUFiles' type='user' func='giveFile' id=$file.id}">{$file.title}</a>
@@ -22,7 +22,7 @@
 </ul>
 </div>
 {/if}
-{if count($files) > 0 && is_array($files)}
+{if $files ne ''}
 <div class='mufileshook'>
 <h2>{gt text='Files'}</h2>
 <ul>

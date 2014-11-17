@@ -54,16 +54,15 @@ class MUFiles_HookHandlers extends Zikula_Hook_AbstractHandler
         $hookObject = $this->entityManager->getRepository('MUFiles_Entity_Hookobject')->findOneBy(array('hookedModule' => $module, 'hookedObject' => 'collectionfile', 'areaId' => $areaId, 'objectId' => $objectId));
 
         $collectionrepository = MUFiles_Util_Model::getCollectionsRepository();
-
-        if (is_object($hookObject['collectionhook'])) {
+        
+        $collections = '';
+        if (is_object($hookObject['collectionhook']) && count($hookObject['collectionhook']) > 0) {
         $collections[] = $hookObject['collectionhook'];
-        } else {
-            $collections = '';
         }
-        if (is_object($hookObject['filehook'])) {
+        
+        $files = '';
+        if (is_object($hookObject['filehook']) && count($hookObject['filehook']) > 0) {
         $files[] = $hookObject['filehook'];
-        } else {
-            $files = '';
         }
 
         $this->view->assign('collections', $collections);
@@ -124,7 +123,7 @@ class MUFiles_HookHandlers extends Zikula_Hook_AbstractHandler
 
         if (is_object($selectedCollections) === true) {
             foreach ($selectedCollections as $selectedSingleCollection) {
-                LogUtil::registerStatus($selectedSingleCollection['id']);
+                //LogUtil::registerStatus($selectedSingleCollection['id']);
                 $selectedCollectionIds[] = $selectedSingleCollection['id'];
             }
         } else {
