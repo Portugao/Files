@@ -3,7 +3,7 @@
  * MUFiles.
  *
  * @copyright Michael Ueberschaer (MU)
- * @license 
+ * @license
  * @package MUFiles
  * @author Michael Ueberschaer <kontakt@webdesign-in-bremen.com>.
  * @link http://webdesign-in-bremen.com
@@ -16,41 +16,40 @@
  */
 class MUFiles_Installer extends MUFiles_Base_Installer
 {
-     /**
-* Install the MUFiles application.
-*
-* @return boolean True on success, or false.
-*/
+    /**
+     * Install the MUFiles application.
+     *
+     * @return boolean True on success, or false.
+     */
     public function install()
     {
         parent::install();
-        
+
         // Set up module hooks
         HookUtil::registerProviderBundles($this->version->getHookProviderBundles()); //TODO next version
-        
+
         return true;
     }
-    
+
     public function uninstall()
     {
         parent::uninstall();
-        
+
         // unregister hook providers
         HookUtil::unregisterProviderBundles($this->version->getHookProviderBundles()); //TODO next version
         return true;
     }
-    
-        /**
-         * Register persistent event handlers.
-         * These are listeners for external events of the core and other modules.
-         */
-        protected function registerPersistentEventHandlers()
-        {
-    
-            parent::registerPersistentEventHandlers();
-    
-            EventUtil::registerPersistentModuleHandler('MUFiles', 'module.scribite.editorhelpers', array('MUFiles_Listener_ThirdParty', 'getEditorHelpers'));
-            EventUtil::registerPersistentModuleHandler('MUFiles', 'moduleplugin.tinymce.externalplugins', array('MUFiles_Listener_ThirdParty', 'getTinyMcePlugins'));
-            EventUtil::registerPersistentModuleHandler('MUFiles', 'moduleplugin.ckeditor.externalplugins', array('MUFiles_Listener_ThirdParty', 'getCKEditorPlugins'));
-        }
+
+    /**
+     * Register persistent event handlers.
+     * These are listeners for external events of the core and other modules.
+     */
+    protected function registerPersistentEventHandlers()
+    {
+        parent::registerPersistentEventHandlers();
+
+        EventUtil::registerPersistentModuleHandler('MUFiles', 'module.scribite.editorhelpers', array('MUFiles_Listener_ThirdParty', 'getEditorHelpers'));
+        EventUtil::registerPersistentModuleHandler('MUFiles', 'moduleplugin.tinymce.externalplugins', array('MUFiles_Listener_ThirdParty', 'getTinyMcePlugins'));
+        EventUtil::registerPersistentModuleHandler('MUFiles', 'moduleplugin.ckeditor.externalplugins', array('MUFiles_Listener_ThirdParty', 'getCKEditorPlugins'));
+    }
 }
