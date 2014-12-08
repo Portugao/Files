@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Zikula 1.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-10-20 16:48+0000\n"
-"PO-Revision-Date: 2014-11-17 22:17+0100\n"
+"PO-Revision-Date: 2014-12-08 14:12+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -39,6 +39,8 @@ msgstr "Initial"
 #: workflows/function.none_permissioncheck.php:61
 msgid "Pseudo-state for content which is just created and not persisted yet."
 msgstr ""
+"Pseudostaus für Inhalt der gerade erstellt wurde und noch nicht gesichert "
+"wurde."
 
 #: workflows/function.standard_permissioncheck.php:62
 #: lib/MUFiles/Util/Base/ListEntries.php:186
@@ -51,7 +53,7 @@ msgstr "Wartend"
 #: lib/MUFiles/Util/Base/ListEntries.php:187
 #: lib/MUFiles/Util/Base/ListEntries.php:219
 msgid "Content has been submitted and waits for approval."
-msgstr ""
+msgstr "Inhalt wurde eingereicht und wartet auf Freigabe."
 
 #: workflows/function.standard_permissioncheck.php:63
 #: workflows/function.none_permissioncheck.php:62
@@ -68,7 +70,7 @@ msgstr "Genehmigt"
 #: lib/MUFiles/Util/Base/ListEntries.php:224
 #: lib/MUFiles/Util/Base/ListEntries.php:251
 msgid "Content has been approved and is available online."
-msgstr ""
+msgstr "Inhalt wurde freigegeben und ist online verfügbar."
 
 #: workflows/function.standard_permissioncheck.php:64
 #: workflows/function.none_permissioncheck.php:63
@@ -79,7 +81,7 @@ msgstr "Gelöscht"
 #: workflows/function.standard_permissioncheck.php:64
 #: workflows/function.none_permissioncheck.php:63
 msgid "Pseudo-state for content which has been deleted from the database."
-msgstr ""
+msgstr "Pseudostatus für Inhalt der aus der Datenbank gelöscht wurde."
 
 #: workflows/function.standard_permissioncheck.php:70
 #: workflows/function.none_permissioncheck.php:69 templates/file/view.tpl:176
@@ -119,7 +121,7 @@ msgstr "Genehmigen"
 #: workflows/function.standard_permissioncheck.php:76
 #: templates/file/view.tpl:173 templates/collection/view.tpl:188
 msgid "Update content and approve for immediate publishing."
-msgstr ""
+msgstr "Inhalt aktualisieren und freigeben für direkte Veröffentlichung."
 
 #: workflows/function.standard_permissioncheck.php:77
 #: workflows/function.standard_permissioncheck.php:82
@@ -157,6 +159,8 @@ msgid ""
 "This is like a non-existing workflow. Everything is online immediately after "
 "creation."
 msgstr ""
+"Dies ist wie ein nicht existierender Workflow. Alles ist direkt online nach "
+"der Erstellung."
 
 #: workflows/function.none_permissioncheck.php:69
 msgid "Submit content."
@@ -167,7 +171,7 @@ msgstr "Inhalt abschicken."
 #: lib/MUFiles/Form/Plugin/Base/AbstractObjectSelector.php:129
 #, php-format
 msgid "Error! in %1$s: the %2$s parameter must be specified."
-msgstr ""
+msgstr "Fehler! In %1$s: Der Parameter %2$s muss spezifiziert werden."
 
 #: templates/plugins/function.mufilesTemplateHeaders.php:31
 #, php-format
@@ -212,7 +216,7 @@ msgstr "Dateien"
 #: templates/hookobject/include_selectMany.tpl:9
 #: templates/hookobject/include_selectMany.tpl:14
 msgid "Hookobjects"
-msgstr ""
+msgstr "Hook Objekte"
 
 #: templates/plugins/function.mufilesValidationError.php:36
 msgid "This is a required field."
@@ -226,17 +230,19 @@ msgstr "Bitte geben Sie eine gültige Zahl ein."
 msgid ""
 "Please use numbers only in this field. please avoid spaces or other "
 "characters such as dots or commas."
-msgstr ""
+msgstr "Nutze bitte nur Ziffern. Vermeide Leerzeichen und andere Zeichen!"
 
 #: templates/plugins/function.mufilesValidationError.php:39
 msgid "Please use letters only (a-z) in this field."
-msgstr ""
+msgstr "Bitte nutzen Sie Buchstaben (a-z) in diesem Feld."
 
 #: templates/plugins/function.mufilesValidationError.php:40
 msgid ""
 "Please use only letters (a-z) or numbers (0-9) only in this field. No spaces "
 "or other characters are allowed."
 msgstr ""
+"Bitte nutzen Sie nur Buchstaben (a-z) oder Ziffern (0-9) in diesem Feld. "
+"Keine Leerzeichen oder andere Zeichen sind erlaubt."
 
 #: templates/plugins/function.mufilesValidationError.php:41
 msgid "Please enter a valid date."
@@ -245,6 +251,7 @@ msgstr "Bitte geben Sie ein gültiges Datum ein."
 #: templates/plugins/function.mufilesValidationError.php:42
 msgid "Please enter a valid email address. For example yourname@example.com ."
 msgstr ""
+"Bitte gib eine gültige mailadresse an: Zum Beispiel: ihrname@beispiel.com."
 
 #: templates/plugins/function.mufilesValidationError.php:43
 msgid "Please enter a valid URL."
@@ -255,10 +262,12 @@ msgid ""
 "Please use this date format: dd/mm/yyyy. For example 17/03/2010 for the 17th "
 "of March, 2010."
 msgstr ""
+"Bitte nutze ein gültiges Format für das Datum: dd/mm/yyyy. Zum Beispiel: "
+"17/03/2010 für den 17. März 2010."
 
 #: templates/plugins/function.mufilesValidationError.php:45
 msgid "Please enter a valid $ amount. For example $100.00 ."
-msgstr ""
+msgstr "Bitte gib einen gültigen $ Betrag an. Zum Beispile $100.00 ."
 
 #: templates/plugins/function.mufilesValidationError.php:46
 msgid "Please make a selection."
@@ -266,7 +275,7 @@ msgstr "Bitte treffen Sie eine Auswahl."
 
 #: templates/plugins/function.mufilesValidationError.php:47
 msgid "Please select one of the above options."
-msgstr ""
+msgstr "Bitte wähle eine der obigen Optionen."
 
 #: templates/plugins/function.mufilesValidationError.php:50
 msgid "This value must not contain spaces."
@@ -274,23 +283,25 @@ msgstr "Dieser Wert darf keinen Leerraum beinhalten."
 
 #: templates/plugins/function.mufilesValidationError.php:51
 msgid "Please select an allowed file type."
-msgstr ""
+msgstr "Bitte wähle einen erlaubten Dateitypen."
 
 #: templates/plugins/function.mufilesValidationError.php:52
 #: templates/plugins/function.mufilesValidationError.php:54
 #: templates/plugins/function.mufilesValidationError.php:56
 msgid "Please select a value in the past."
-msgstr ""
+msgstr "Bitte wähle einen Wert in der Vergangenheit."
 
 #: templates/plugins/function.mufilesValidationError.php:53
 #: templates/plugins/function.mufilesValidationError.php:55
 #: templates/plugins/function.mufilesValidationError.php:57
 msgid "Please select a value in the future."
-msgstr ""
+msgstr "Bitte wähle einen Wert in der Zukunft."
 
 #: templates/plugins/function.mufilesValidationError.php:58
 msgid "This value is already assigned, but must be unique. Please change it."
 msgstr ""
+"Dieser Wert ist schon vergeben, er muss allerdings eindeutig sein. Bitte "
+"ändere ihn."
 
 #: templates/plugins/function.mufilesTemplateSelector.php:30
 #: templates/block/itemlist_modify.tpl:54
@@ -341,6 +352,8 @@ msgid ""
 "Sorry, but an unknown error occured during the %s action. Please apply the "
 "changes again!"
 msgstr ""
+"Entschuldigung, aber ein unbekannter Fehler ist während der Aktion %s "
+"aufgetreten. Bitte bestätige die Änderungen erneut!"
 
 #: lib/MUFiles/Form/Handler/Admin/Base/Edit.php:228
 #: lib/MUFiles/Form/Handler/Admin/Base/Edit.php:311
@@ -469,7 +482,7 @@ msgstr "Erledigt! Hookobjekt gelöscht."
 
 #: lib/MUFiles/Form/Plugin/Base/ColourInput.php:96
 msgid "Close"
-msgstr ""
+msgstr "Schliessen"
 
 #: lib/MUFiles/Form/Plugin/Base/ColourInput.php:140
 msgid "Error! Invalid colour."
@@ -540,7 +553,7 @@ msgstr "MUFiles Detail Ansicht"
 
 #: lib/MUFiles/ContentType/Base/Item.php:64
 msgid "Display or link a single MUFiles object."
-msgstr ""
+msgstr "Zeige oder verlinke ein einzelnes Objekt von MUFiles."
 
 #: lib/MUFiles/ContentType/Base/Item.php:119
 msgid "No item selected."
@@ -575,18 +588,21 @@ msgstr "Doctrine Ausnahmefehler:"
 #, php-format
 msgid ""
 "An error was encountered while creating the tables for the %s extension."
-msgstr ""
+msgstr "Ein Fehler ist während des Erstellens der Tabellen für %s aufgetreten."
 
 #: lib/MUFiles/Base/Installer.php:42
 msgid ""
 "Please enable the development mode by editing the /config/config.php file in "
 "order to reveal the error details."
 msgstr ""
+"Bitte schalte den Entwicklermodus durch Bearbeiten der Datei /config/config."
+"php ein."
 
 #: lib/MUFiles/Base/Installer.php:68
 #, php-format
 msgid "Error! Could not create a category registry for the %s entity."
 msgstr ""
+"Fehler! Konnte keine Kategorie Registrierung für den Eintrag %s erstellen."
 
 #: lib/MUFiles/Base/Installer.php:129
 #, php-format
@@ -594,20 +610,24 @@ msgid ""
 "An error was encountered while removing stored object workflows for the %s "
 "extension."
 msgstr ""
+"Während des Entfernens gespeicherter Objekt Arbeitsabläufe für das Modul %s "
+"ist ein Fehler aufgetreten."
 
 #: lib/MUFiles/Base/Installer.php:138
 #, php-format
 msgid "An error was encountered while dropping tables for the %s extension."
 msgstr ""
+"Ein Fehler ist während des Löschens der Tabellen für das Modul %s "
+"aufgetreten."
 
 #: lib/MUFiles/Base/Installer.php:162
 #, php-format
 msgid "The upload directories at [%s] can be removed manually."
-msgstr ""
+msgstr "Die Upload Ordner in [%s] können manuell gelöscht werden."
 
 #: lib/MUFiles/Base/UploadHandler.php:97
 msgid "Error! Could not move your file to the destination folder."
-msgstr ""
+msgstr "Fehler! Verschieben Deiner Datei in den Zielordner nicht möglich."
 
 #: lib/MUFiles/Base/UploadHandler.php:127
 msgid "Error! No file found."
@@ -617,20 +637,23 @@ msgstr "Fehler! Keine Datei gefunden."
 msgid ""
 "Error! This file type is not allowed. Please choose another file format."
 msgstr ""
+"Fehler! Dieser Dateityp ist nicht erlaubt. Bitte wähle ein gültiges Format!"
 
 #: lib/MUFiles/Base/UploadHandler.php:150
 #, php-format
 msgid "Error! Your file is too big. Please keep it smaller than %s kilobytes."
 msgstr ""
+"Fehler! Deine Datei ist zu gross. Bitte mache sie kleiner als %s Kilobytes."
 
 #: lib/MUFiles/Base/UploadHandler.php:154
 #, php-format
 msgid "Error! Your file is too big. Please keep it smaller than %s megabytes."
 msgstr ""
+"Fehler! Deine Datei ist zu gross. Bitte mache sie kleiner als %s Megabytes."
 
 #: lib/MUFiles/Base/UploadHandler.php:163
 msgid "Error! This file type seems not to be a valid image."
-msgstr ""
+msgstr "Fehler! Diese Datei scheint keine gültige Bilddatei zu sein."
 
 #: lib/MUFiles/Base/UploadHandler.php:324
 #: lib/MUFiles/Base/UploadHandler.php:342
@@ -693,18 +716,16 @@ msgid "mufiles Hookobjects Display Hooks"
 msgstr "mufiles Hookobjekte Ansicht Hooks"
 
 #: lib/MUFiles/Base/Version.php:139
-#, fuzzy
 msgid "mufiles Hookobjects Filter Hooks"
-msgstr "mufiles Kollektionen Filter Ansicht"
+msgstr "mufiles Hookobjekte Filter Hooks"
 
 #: lib/MUFiles/Block/Base/ItemList.php:46
 #: lib/MUFiles/Block/Base/Moderation.php:37
-#, fuzzy
 msgid ""
 "Notice: This block will not be displayed until you activate the MUFiles "
 "module."
 msgstr ""
-"Hinweis: Dieser Block wird erst angezeigt, wenn das Modul MUEvent aktiviert "
+"Hinweis: Dieser Block wird erst angezeigt, wenn das Modul MUFiles aktiviert "
 "ist."
 
 #: lib/MUFiles/Block/Base/ItemList.php:184
@@ -714,11 +735,11 @@ msgstr "MUFiles Elemente"
 #: lib/MUFiles/Block/Base/Moderation.php:41
 #: lib/MUFiles/Block/Base/Moderation.php:87 templates/admin/config.tpl:34
 msgid "Moderation"
-msgstr ""
+msgstr "Moderation"
 
 #: lib/MUFiles/Block/Base/Moderation.php:42
 msgid "Show a list of pending tasks to moderators."
-msgstr ""
+msgstr "Zeige eine Liste wartender Aufgaben für Moderatoren."
 
 #: lib/MUFiles/Version.php:30 templates/user/header.tpl:12
 #: templates/hooks/edit.tpl:2
@@ -731,7 +752,7 @@ msgstr "MUFiles ist ein Modul zur Verwaltung von Dateien"
 
 #: lib/MUFiles/Version.php:72
 msgid "MUFiles - Embed collection or file"
-msgstr ""
+msgstr "MUFiles - Kollektion oder Datei einbinden"
 
 #: lib/MUFiles/Util/Base/ListEntries.php:196
 #: lib/MUFiles/Util/Base/ListEntries.php:228
@@ -741,7 +762,7 @@ msgstr "Alle ausgenommen wartende"
 #: lib/MUFiles/Util/Base/ListEntries.php:197
 #: lib/MUFiles/Util/Base/ListEntries.php:229
 msgid "Shows all items except these which are waiting"
-msgstr ""
+msgstr "Zeigt alle Elemente ausgenommen die warten"
 
 #: lib/MUFiles/Util/Base/ListEntries.php:201
 #: lib/MUFiles/Util/Base/ListEntries.php:233
@@ -753,7 +774,7 @@ msgstr "Alle ausgenommen genehmigte"
 #: lib/MUFiles/Util/Base/ListEntries.php:234
 #: lib/MUFiles/Util/Base/ListEntries.php:256
 msgid "Shows all items except these which are approved"
-msgstr ""
+msgstr "Zeigt alle Elemente ausgenommen die freigegeben wurden"
 
 #: lib/MUFiles/Util/Base/View.php:220
 msgid "Bytes"
@@ -778,6 +799,9 @@ msgid ""
 "create it yourself and make sure that this folder is accessible via the web "
 "and writable by the webserver."
 msgstr ""
+"Der Upload Ordner \"%s\" existiert nicht und konnte nicht erstellt werden. "
+"Versuche ihn selbst zu erstellen und stelle sicher, dass er erreichbar und "
+"beschreibbar ist."
 
 #: lib/MUFiles/Util/Base/Controller.php:239
 #, php-format
@@ -785,11 +809,12 @@ msgid ""
 "Warning! The upload directory at \"%s\" exists but is not writable by the "
 "webserver."
 msgstr ""
+"Warnung! Der Upload Ordner in \"%s\" existiert, ist aber nicht beschreibbar."
 
 #: lib/MUFiles/Util/Base/Controller.php:250
 #, php-format
 msgid "Warning! Could not write the .htaccess file at \"%s\"."
-msgstr ""
+msgstr "Warnung! Konnte die .htaccess Datei in \"%s\" nicht schreiben."
 
 #: lib/MUFiles/Util/Base/Workflow.php:223
 msgid "Collections pending approval"
@@ -799,8 +824,8 @@ msgstr "Auf Freigabe wartende Kollektionen"
 #, php-format
 msgid "One collection is waiting for approval."
 msgid_plural "%s collections are waiting for approval."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Eine Kollektion wartet auf Freigabe."
+msgstr[1] "%s Kollektionen warten auf Freigabe."
 
 #: lib/MUFiles/Util/Base/Workflow.php:237
 msgid "Files pending approval"
@@ -810,8 +835,8 @@ msgstr "Auf Freigabe wartende Dateien"
 #, php-format
 msgid "One file is waiting for approval."
 msgid_plural "%s files are waiting for approval."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Eine Datei wartet auf Freigabe."
+msgstr[1] "%s Dateien warten auf Freigabe."
 
 #: lib/MUFiles/Entity/Validator/Base/File.php:31
 #: lib/MUFiles/Entity/Validator/Base/File.php:39
@@ -824,7 +849,7 @@ msgstr[1] ""
 #: lib/MUFiles/Entity/Validator/Base/Collection.php:39
 #, php-format
 msgid "Error! Field value must not be empty (%s)."
-msgstr ""
+msgstr "Fehler! Der Wert des Feldes darf nicht leer (%s) sein."
 
 #: lib/MUFiles/Entity/Validator/Base/File.php:35
 #: lib/MUFiles/Entity/Validator/Base/File.php:43
@@ -838,24 +863,25 @@ msgstr ""
 #: lib/MUFiles/Entity/Validator/Base/Collection.php:43
 #, php-format
 msgid "Error! Length of field value must not be higher than %2$s (%1$s)."
-msgstr ""
+msgstr "Fehler! Die Länge des Feldes darf nicht höher als %2$s (%1$s) sein."
 
 #: lib/MUFiles/Entity/Validator/Base/Hookobject.php:51
 #: lib/MUFiles/Entity/Validator/Base/Hookobject.php:71
 #, php-format
 msgid "Error! Field value may only contain digits (%s)."
-msgstr ""
+msgstr "Fehler! Der Wert des Feldes darf nur Ziffern beinhalten (%s)."
 
 #: lib/MUFiles/Entity/Validator/Base/Hookobject.php:55
 #: lib/MUFiles/Entity/Validator/Base/Hookobject.php:75
 #, php-format
 msgid "Error! Field value must not be 0 (%s)."
-msgstr ""
+msgstr "Fehler! Der Wert des Feldes darf nicht 0 (%s) sein."
 
 #: lib/MUFiles/Entity/Validator/Base/Collection.php:47
 #, php-format
 msgid "Error! Field value must be a valid boolean (%s)."
 msgstr ""
+"Fehler! Der Wert des Feldes muss ein gültiger logischer Wert (%s) sein. "
 
 #: lib/MUFiles/Entity/Repository/Base/File.php:253
 #: lib/MUFiles/Entity/Repository/Base/File.php:280
@@ -896,6 +922,8 @@ msgstr "Ja"
 #: lib/MUFiles/Entity/Base/Collection.php:869
 msgid "Error! Could not remove stored workflow. Deletion has been aborted."
 msgstr ""
+"Fehler! Konnte den gespeicherten Workflow nicht entfernen. Löschen wurde "
+"abgebrochen."
 
 #: lib/MUFiles/Entity/Base/File.php:959
 #: lib/MUFiles/Entity/Base/Hookobject.php:973
@@ -1015,15 +1043,15 @@ msgstr ""
 
 #: lib/MUFiles/Api/Base/Notification.php:182
 msgid "New content has been submitted"
-msgstr ""
+msgstr "Neuer Inhalt wurde eingereicht."
 
 #: lib/MUFiles/Api/Base/Notification.php:184
 msgid "Content has been updated"
-msgstr ""
+msgstr "Inhalt wurde aktualisiert"
 
 #: lib/MUFiles/Api/Base/Notification.php:187
 msgid "Your submission has been updated"
-msgstr ""
+msgstr "Deine Einreichung wurde aktualisiert"
 
 #: lib/MUFiles/Api/Base/Selection.php:170
 msgid "Invalid object type received."
@@ -1031,7 +1059,7 @@ msgstr "Ungültiger Objekttyp erkannt."
 
 #: lib/MUFiles/Api/Base/Search.php:150
 msgid "Error! Could not save the search results."
-msgstr ""
+msgstr "Fehler! Konnte das Suchergebnis nicht speichern."
 
 #: lib/MUFiles/Api/Base/Mailz.php:32
 msgid "3 newest collections"
@@ -1115,7 +1143,7 @@ msgstr "Fahler! Es ist nicht erlaubt diese Datei zu löschen."
 
 #: lib/MUFiles/Controller/Base/Hookobject.php:401
 msgid "Error! It is not allowed to delete this hookobject."
-msgstr ""
+msgstr "Fehler! Es ist nicht erlaubt dieses Hookobjekt zu löschen."
 
 #: lib/MUFiles/Controller/Base/Collection.php:401
 msgid "Error! It is not allowed to delete this collection."
@@ -1131,7 +1159,7 @@ msgstr "Fehler: Ungültige Eingabe."
 
 #: lib/MUFiles/Controller/Collection.php:79
 msgid "Sorry! No access to this collection."
-msgstr ""
+msgstr "Entschuldigung! Kein Zugriff zu dieser Kollektion."
 
 #: templates/emailnotifycollectionCreator.tpl:1
 #: templates/emailnotifyfileCreator.tpl:1
@@ -1144,7 +1172,7 @@ msgstr "Hallo %s"
 #: templates/emailnotifycollectionCreator.tpl:3
 #, php-format
 msgid "Your collection \"%s\" has been changed."
-msgstr ""
+msgstr "Deine Kollektion \"%s\" wurde geändert."
 
 #: templates/emailnotifycollectionCreator.tpl:5
 #: templates/emailnotifyfileCreator.tpl:5
@@ -1176,7 +1204,7 @@ msgstr "Deine Kollektion bearbeiten:"
 #: templates/emailnotifyfileModerator.tpl:14
 #, php-format
 msgid "This mail has been sent automatically by %s."
-msgstr ""
+msgstr "Diese mail wurde automatisch versendet von %s."
 
 #: templates/plugin_config/ItemList.tpl:14
 #: templates/contenttype/itemlist_edit.tpl:38
@@ -1233,7 +1261,7 @@ msgstr "Keine Objekttypen gefunden."
 #: templates/emailnotifyfileCreator.tpl:3
 #, php-format
 msgid "Your file \"%s\" has been changed."
-msgstr ""
+msgstr "Deine Date \"%s\" wurde geändert."
 
 #: templates/emailnotifyfileCreator.tpl:12
 #: templates/emailnotifyfileModerator.tpl:11
@@ -1497,7 +1525,7 @@ msgstr "ID der Kollektion"
 
 #: templates/external/collection/find.tpl:69
 msgid "Files of collection to display or save"
-msgstr ""
+msgstr "Dateien der Kollektion zum Anzeigen oder Speichern"
 
 #: templates/external/collection/find.tpl:75
 #: templates/external/collection/select.tpl:39 templates/file/display.tpl:20
@@ -1522,7 +1550,7 @@ msgstr "Name"
 #: templates/collection/view_quickNav.tpl:70 templates/collection/view.tpl:84
 #: templates/collection/view.csv.tpl:3
 msgid "Parentid"
-msgstr ""
+msgstr "Eltern-Id"
 
 #: templates/external/collection/find.tpl:103
 #: templates/external/collection/select.tpl:57
@@ -1601,24 +1629,22 @@ msgid "Url object"
 msgstr "Url Objekt"
 
 #: templates/external/hookobject/select.tpl:4
-#, fuzzy
 msgid "Hookobject information"
-msgstr "Veranstaltungsinformation"
+msgstr "Hookobjekt Information"
 
 #: templates/emailnotifycollectionModerator.tpl:3
 #, php-format
 msgid "A user changed his collection \"%s\"."
-msgstr ""
+msgstr "Ein Benutzer hat seine Kollektion \"%s\" geändert."
 
 #: templates/emailnotifycollectionModerator.tpl:12
-#, fuzzy
 msgid "Edit the collection:"
-msgstr "Bearbeiten"
+msgstr "Kollektion bearbeiten:"
 
 #: templates/emailnotifyfileModerator.tpl:3
 #, php-format
 msgid "A user changed his file \"%s\"."
-msgstr ""
+msgstr "Ein Benutzer hat seine Datei \"%s\" geändert."
 
 #: templates/emailnotifyfileModerator.tpl:12
 msgid "Edit the file:"
@@ -1638,7 +1664,7 @@ msgstr "Hier kannst Du sämtliche Einstellungen für dieses Modul vornehmen."
 
 #: templates/admin/config.tpl:24
 msgid "A list of the allowed extensions; comma seperated."
-msgstr ""
+msgstr "Eine Liste erlaubter Dateiendungen; kommasepariert."
 
 #: templates/admin/config.tpl:25
 msgid "Allowed extensions"
@@ -1666,24 +1692,20 @@ msgid ""
 msgstr ""
 
 #: templates/admin/config.tpl:43
-#, fuzzy
 msgid "Moderation group for collections"
-msgstr "Kollektionen"
+msgstr "Moderatorengruppe für Kollektionen"
 
 #: templates/admin/config.tpl:44
-#, fuzzy
 msgid "Choose the moderation group for collections"
-msgstr "Kollektionen wählen"
+msgstr "Wähle die Moderatorengruppe für Kollektionen"
 
 #: templates/admin/config.tpl:48
-#, fuzzy
 msgid "Moderation group for files"
-msgstr "Dateien"
+msgstr "Moderatorengruppe für Dateien"
 
 #: templates/admin/config.tpl:49
-#, fuzzy
 msgid "Choose the moderation group for files"
-msgstr "Wähle die Dateien"
+msgstr "Wähle die Moderatorengruppe für Dateien"
 
 #: templates/admin/config.tpl:56
 msgid "Update configuration"
@@ -1752,7 +1774,7 @@ msgstr "OK"
 
 #: templates/file/main.tpl:7
 msgid "Welcome to the file section of the M u files application."
-msgstr ""
+msgstr "Willkommen im Bereich Dateien von MUFiles."
 
 #: templates/file/view.tpl:31 templates/collection/view.tpl:31
 #: templates/hookobject/view.tpl:31
@@ -1770,7 +1792,7 @@ msgstr "Status"
 
 #: templates/file/view.tpl:86 templates/file/view.csv.tpl:4
 msgid "Aliascollection"
-msgstr ""
+msgstr "Alias Kollektion"
 
 #: templates/file/view.tpl:106 templates/collection/view.tpl:112
 msgid "View detail page"
@@ -1799,9 +1821,8 @@ msgid "Content"
 msgstr "Inhalt"
 
 #: templates/file/edit.tpl:30
-#, fuzzy
 msgid "Enter the title of the file"
-msgstr "Gib den Titel des Teils ein"
+msgstr "Gib den Titel der Datei ein"
 
 #: templates/file/edit.tpl:36
 msgid "Enter the description of the file"
@@ -1842,21 +1863,19 @@ msgid "Delete file"
 msgstr "Datei löschen"
 
 #: templates/file/delete.tpl:19
-#, fuzzy
 msgid "Do you really want to delete this file ?"
-msgstr "Möchten Sie diese Buchung wirklich löschen?"
+msgstr "Möchten Sie diese Datei wirklich löschen?"
 
 #: templates/file/delete.tpl:26 templates/collection/delete.tpl:26
 #: templates/hookobject/delete.tpl:26
 msgid "Confirmation prompt"
-msgstr ""
+msgstr "Sicherheitsabfrage"
 
 #: templates/file/view.csv.tpl:5
 msgid "Hookfile"
-msgstr ""
+msgstr "Hokkdatei"
 
 #: templates/file/include_selectEditMany.tpl:17
-#, fuzzy
 msgid "Choose files"
 msgstr "Wähle die Dateien"
 
@@ -1886,6 +1905,8 @@ msgid ""
 "If you change this please save the element once to reload the parameters "
 "below."
 msgstr ""
+"Wenn Du dies änderst speichere dieses Element um die Parameter unten neu zu "
+"laden."
 
 #: templates/contenttype/item_edit.tpl:11
 msgid ""
@@ -1893,6 +1914,9 @@ msgid ""
 "it's entries by applying filters. On the right side you will see a preview "
 "of the selected entry."
 msgstr ""
+"Bitte wähle Dein Element hier. Du kannst die Dropdownliste umsortieren und "
+"ihre Elemente mit Filtern reduzieren. Auf der rechten Seite siehst Du eine "
+"Vorschau des gewählten Eintrags."
 
 #: templates/contenttype/item_edit.tpl:17
 msgid "Link to object"
@@ -1914,18 +1938,19 @@ msgstr "Beispiel"
 
 #: templates/collection/display.tpl:103 templates/collection/display.tpl:106
 #: templates/collection/view.tpl:125 templates/collection/view.tpl:128
+#, fuzzy
 msgid "This setting is enabled. Click here to disable it."
-msgstr ""
+msgstr "Diese Einstellung ist deaktiviert. Klicke um sie zu aktivieren."
 
 #: templates/collection/display.tpl:104 templates/collection/display.tpl:107
 #: templates/collection/view.tpl:126 templates/collection/view.tpl:129
 msgid "This setting is disabled. Click here to enable it."
-msgstr ""
+msgstr "Diese Einstellung ist deaktiviert. Klicke um sie zu aktivieren."
 
 #: templates/collection/display.tpl:114 templates/collection/view.tpl:90
 #: templates/collection/view.csv.tpl:4
 msgid "Parent"
-msgstr ""
+msgstr "Eltern"
 
 #: templates/collection/include_selectOne.tpl:17
 #: templates/collection/include_selectEditOne.tpl:17
@@ -1936,67 +1961,60 @@ msgstr "Wähle Kollektion"
 #: templates/collection/include_selectOne.tpl:24
 #: templates/collection/include_selectEditOne.tpl:18
 #: templates/collection/include_selectEditOne.tpl:24
-#, fuzzy
 msgid "Choose the collection"
-msgstr "Wähle Kollektion"
+msgstr "Wähle die Kollektion"
 
 #: templates/collection/main.tpl:7
 msgid "Welcome to the collection section of the M u files application."
-msgstr ""
+msgstr "Willkommen im Bereich Kollektionen von MUFiles."
 
 #: templates/collection/view.tpl:73
 msgid "In frontend?"
 msgstr "Im Frontend?"
 
 #: templates/collection/view.tpl:172
-#, fuzzy
 msgid "No collections found."
-msgstr "Kollektionen"
+msgstr "Keine Kollektionen gefunden."
 
 #: templates/collection/view.tpl:185
-#, fuzzy
 msgid "With selected collections"
-msgstr "Kollektionen"
+msgstr "Gewählte Kollektionen"
 
 #: templates/collection/edit.tpl:11 templates/collection/edit.tpl:21
-#, fuzzy
 msgid "Edit collection"
-msgstr "Bearbeiten"
+msgstr "Kollektion bearbeiten"
 
 #: templates/collection/edit.tpl:42
 msgid "Fields"
 msgstr "Felder"
 
 #: templates/collection/edit.tpl:49
-#, fuzzy
 msgid "Enter the name of the collection"
-msgstr "Geben Sie den Nachnamen für die Buchung ein"
+msgstr "Gib den Namen für die Kollektion ein"
 
 #: templates/collection/edit.tpl:55
-#, fuzzy
 msgid "Enter the description of the collection"
-msgstr "Geben Sie die Beschreibung für die Veranstaltung ein"
+msgstr "Gib die Beschreibung für die Kollektion ein"
 
 #: templates/collection/edit.tpl:61 templates/collection/edit.tpl:66
-#, fuzzy
 msgid "in frontend ?"
-msgstr "Frontend"
+msgstr "Im Frontend?"
 
 #: templates/collection/edit.tpl:97
 msgid "Communication"
-msgstr ""
+msgstr "Kommunikation"
 
 #: templates/collection/edit.tpl:100
 msgid "Additional remarks"
-msgstr ""
+msgstr "Zusätzliche Hinweise"
 
 #: templates/collection/edit.tpl:101
 msgid "Enter any additions about your changes"
-msgstr ""
+msgstr "Gib Ergänzungen zu Deinen Veränderungen ein"
 
 #: templates/collection/edit.tpl:103
 msgid "Enter any additions about your content"
-msgstr ""
+msgstr "Gib Ergänzungen zu Deinem Inhalt ein"
 
 #: templates/collection/edit.tpl:107
 msgid ""
@@ -2011,22 +2029,20 @@ msgid ""
 msgstr ""
 
 #: templates/collection/edit.tpl:132
-#, fuzzy
 msgid "Really delete this collection?"
-msgstr "Kollektion löschen"
+msgstr "Diese Kollektion wirklich löschen?"
 
 #: templates/collection/delete.tpl:8
 msgid "Delete collection"
 msgstr "Kollektion löschen"
 
 #: templates/collection/delete.tpl:19
-#, fuzzy
 msgid "Do you really want to delete this collection ?"
-msgstr "Möchten Sie diese Buchung wirklich löschen?"
+msgstr "Möchtest Du diese Kollektion wirklich löschen?"
 
 #: templates/collection/view.csv.tpl:5
 msgid "Hookcollection"
-msgstr ""
+msgstr "Hookkollektion"
 
 #: templates/collection/view.csv.tpl:6
 msgid "Alilasfile"
@@ -2034,7 +2050,7 @@ msgstr "Datei"
 
 #: templates/collection/view.csv.tpl:6
 msgid "Children"
-msgstr ""
+msgstr "Kinder"
 
 #: templates/collection/include_selectEditMany.tpl:17
 msgid "Choose collections"
@@ -2102,80 +2118,72 @@ msgstr "Wähle eine Datei!"
 msgid ""
 "If you change this please save the block once to reload the parameters below."
 msgstr ""
+"Wenn Du dies änderst speichere bitte den Block erneut um die Parameter "
+"unterhalb wieder zu laden."
 
 #: templates/hookobject/main.tpl:7
 msgid "Welcome to the hookobject section of the M u files application."
-msgstr ""
+msgstr "Willkommen im Bereich Hookobjekt von MUFiles."
 
 #: templates/hookobject/view.tpl:126
-#, fuzzy
 msgid "No hookobjects found."
-msgstr "Keine teile gefunden."
+msgstr "Keine Hook Objekte gefunden."
 
 #: templates/hookobject/view.tpl:139
-#, fuzzy
 msgid "With selected hookobjects"
-msgstr "Gewählte Veranstaltungen"
+msgstr "Gewählte Hook Objekte"
 
 #: templates/hookobject/include_selectMany.tpl:17
-#, fuzzy
 msgid "Choose hookobjects"
-msgstr "Wähle Veranstaltung"
+msgstr "Hook Objekt wählen"
 
 #: templates/hookobject/include_selectMany.tpl:18
 #: templates/hookobject/include_selectMany.tpl:24
-#, fuzzy
 msgid "Choose the hookobjects"
-msgstr "Wähle Veranstaltung"
+msgstr "Wähle das Hook Objekt"
 
 #: templates/hookobject/edit.tpl:11 templates/hookobject/edit.tpl:21
-#, fuzzy
 msgid "Edit hookobject"
-msgstr "Bearbeiten"
+msgstr "Hookobjekt bearbeiten"
 
 #: templates/hookobject/edit.tpl:46
 msgid "Enter the hooked module of the hookobject"
-msgstr ""
+msgstr "Gib das zu hookende Modul für das Hookobjekt ein"
 
 #: templates/hookobject/edit.tpl:52
 #, fuzzy
 msgid "Enter the hooked object of the hookobject"
-msgstr "Hooked Objekt"
+msgstr "Gib das zu hookende Modul für das Hookobjekt ein"
 
 #: templates/hookobject/edit.tpl:58
 #, fuzzy
 msgid "Enter the area id of the hookobject"
-msgstr "Area Id"
+msgstr "Objekt ID des Hookobjekts eingeben"
 
 #: templates/hookobject/edit.tpl:65
-#, fuzzy
 msgid "Enter the url of the hookobject"
-msgstr "Bitte geben Sie eine gültige URL ein."
+msgstr "Bitte gib die Url für das Hookobjekt ein"
 
 #: templates/hookobject/edit.tpl:71
-#, fuzzy
 msgid "Enter the object id of the hookobject"
-msgstr "Objekt Id"
+msgstr "Objekt ID des Hookobjekts eingeben"
 
 #: templates/hookobject/edit.tpl:117
-#, fuzzy
 msgid "Really delete this hookobject?"
-msgstr "Buchung wirklich löschen?"
+msgstr "Hookobjekt wirklich löschen?"
 
 #: templates/hookobject/delete.tpl:8
-#, fuzzy
 msgid "Delete hookobject"
-msgstr "Löschen"
+msgstr "Hookobjekt löschen"
 
 #: templates/hookobject/delete.tpl:19
-#, fuzzy
 msgid "Do you really want to delete this hookobject ?"
-msgstr "Möchten Sie diese Buchung wirklich löschen?"
+msgstr "Möchten Sie dieses Hookobjekt wirklich löschen?"
 
 #: templates/hookobject/view.csv.tpl:4
 msgid "Collectionhook"
-msgstr ""
+msgstr "Kollektionenhook"
 
 #: templates/hookobject/view.csv.tpl:4
 msgid "Filehook"
-msgstr ""
+msgstr "Dateihook"
