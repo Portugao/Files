@@ -33,11 +33,13 @@ class MUFiles_Entity_Hookobject extends MUFiles_Entity_Base_Hookobject
 {
     /**
      * url object
-     * @ORM\Column(type="object")
      * @var ModUrl
+     *
+     * @ORM\Column(type="object")
+     *
      */
     protected $urlObject = null;
-    
+
     /**
      * Constructor.
      * Will not be called by Doctrine and can therefore be used
@@ -57,7 +59,7 @@ class MUFiles_Entity_Hookobject extends MUFiles_Entity_Base_Hookobject
         $this->filehook = new ArrayCollection();
         $this->setUrlObject($urlObject);
     }
-    
+
     /**
      * set the hooked object UrlObject
      * @param ModUrl $urlObject
