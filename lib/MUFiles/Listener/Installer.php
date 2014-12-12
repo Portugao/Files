@@ -91,6 +91,9 @@ class MUFiles_Listener_Installer extends MUFiles_Listener_Base_Installer
     public static function moduleUninstalled(Zikula_Event $event)
     {
         parent::moduleUninstalled($event);
+        
+        $hookHelper = new MUFiles_HookHandlers();
+        $hookHelper->moduleDelete($event);
     
         // you can access general data available in the event
         
@@ -123,6 +126,9 @@ class MUFiles_Listener_Installer extends MUFiles_Listener_Base_Installer
     public static function subscriberAreaUninstalled(Zikula_Event $event)
     {
         parent::subscriberAreaUninstalled($event);
+        
+        $hookHelper = new MUFiles_HookHandlers();
+        $hookHelper->moduleDeleteByArea($event);
     
         // you can access general data available in the event
         

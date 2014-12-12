@@ -216,9 +216,65 @@ class MUFiles_HookHandlers extends Zikula_Hook_AbstractHandler
                 'hookedModule' => $hook->getCaller(),
                 'objectId' => $hook->getId(),
                 'areaId' => $hook->getAreaId(),
-                'url' => $hook->getUrl(),
+                'urlObject' => $hook->getUrl(),
                 'hookdata' => $this->validation->getObject(),
         );
         ModUtil::apiFunc('MUFiles', 'user', 'hookedObject', $args);
+    }
+    
+    /**
+     * Handle module uninstall event "installer.module.uninstalled".
+     * Receives $modinfo as $args
+     *
+     * @param Zikula_Event $event
+     *
+     * @return void
+     */
+    public static function moduleDelete(Zikula_Event $event)
+    {
+        $modargs = $event->getArgs();
+
+        // get service manager
+        $serviceManager = ServiceUtil::getManager();
+        // get module helper
+        $moduleHelper = new MUFiles_Util_Model($serviceManager);
+        $entityManager = $serviceManager->getService('doctrine.entitymanager');
+        $em = ServiceUtil::getService('doctrine.entitymanager');
+
+        $hookObjects = $em->getRepository('MUFiles_Entity_Hookobject')
+        ->findBy(array('hookedModule' => $modargs['name']));
+        // better to do it this way than DQL because removes related objects also
+        if (count($hookObjects) > 0) {
+            foreach ($hookObjects as $hookObject) {
+                $em->remove($hookObject);
+            }
+            $em->flush();
+            LogUtil::registerStatus(__('Hooked content in MUFiles removed.', ZLanguage::getModuleDomain('MUFiles')));
+        }
+    }
+    
+    /**
+     * Handle hook uninstall event "installer.subscriberarea.uninstalled".
+     * Receives $areaId in $args
+     *
+     * @param Zikula_Event $event
+     *
+     * @return void
+     */
+    public static function moduleDeleteByArea(Zikula_Event $event)
+    {
+        $areaId = $event['areaid'];
+
+        $em = ServiceUtil::getService('doctrine.entitymanager');
+        $hookObjects = $em->getRepository('MUFiles_Entity_Hookobject')
+        ->findBy(array('areaId' => $areaId));
+        // better to do it this way than DQL because removes related objects also
+        if (count($hookObjects) > 0) {
+            foreach ($hookObjects as $hookObject) {
+                $em->remove($hookObject);
+            }
+            $em->flush();
+            LogUtil::registerStatus(__f('Hooked content in MUFiles removed for area %s.', $areaId, ZLanguage::getModuleDomain('Tag')));
+        }
     }
 }

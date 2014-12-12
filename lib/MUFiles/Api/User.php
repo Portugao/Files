@@ -69,6 +69,7 @@ class MUFiles_Api_User extends MUFiles_Api_Base_User
         $objectid = $args['objectId'];
         $areaid = $args['areaId'];
         $url = $args['url'];
+        $urlObject = $args['urlObject'];
         $hookdata = $args['hookdata'];
         $hookdata = DataUtil::cleanVar($hookdata);
         
@@ -98,12 +99,12 @@ class MUFiles_Api_User extends MUFiles_Api_Base_User
              
             if ($mufilescollections != '' || $mufilesfiles != '') {
                 if (!$hookObject) {
-                $hookedObject = new MUFiles_Entity_Hookobject('approved', $hookdata);
+                $hookedObject = new MUFiles_Entity_Hookobject('approved', $urlObject);
                 $hookedObject->setObjectId($objectid);
                 $hookedObject->setAreaId($areaid);
                 $hookedObject->setHookedModule($module);
                 $hookedObject->setHookedObject('collectionfile');
-                $hookedObject->setUrl($url);
+                $hookedObject->setUrl($urlObject->getUrl(null, null, false, false));
                 $hookedObject->initWorkflow(true);
                 } else {
                     $hookedObject = $hookObject;
