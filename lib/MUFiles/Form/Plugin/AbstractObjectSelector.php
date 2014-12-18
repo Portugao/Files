@@ -16,37 +16,5 @@
  */
 abstract class MUFiles_Form_Plugin_AbstractObjectSelector extends MUFiles_Form_Plugin_Base_AbstractObjectSelector
 {
-    /**
-     * Load event handler.
-     *
-     * @param Zikula_Form_View $view    Reference to Zikula_Form_View object.
-     * @param array            &$params Parameters passed from the Smarty plugin function.
-     *
-     * @return void
-     */
-    public function load(Zikula_Form_View $view, &$params)
-    {
-        if (!$this->mandatory) {
-            $this->addItem('', 0);
-        }
-        if ($this->showEmptyValue != false) {
-            $this->addItem('- - -', 0);
-        }
-    
-        $fetchItemsDuringLoad = isset($params['fetchItemsDuringLoad']) ? $params['fetchItemsDuringLoad'] : true;
-    
-        if ($fetchItemsDuringLoad) {
-            $items = $this->loadItems($params);
-    
-            foreach ($items as $item) {
-                if (!$this->isIncluded($item)) {
-                    continue;
-                }
-    
-                $itemLabel = $this->createItemLabel($item);
-                $itemId = $this->createItemIdentifier($item);
-                $this->addItem($itemLabel, $itemId);
-            }
-        }
-    }
+   // for own code
 }

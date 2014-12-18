@@ -45,8 +45,6 @@ Implemented Classes
 *lib/MUFiles/Form/Handler/Admin/Config.php
 *lib/MUFiles/Form/Handler/User/File/Edit.php
 
-*lib/MUFiles/Form/Plugin/AbstractObjectSelector.php
-
 *lib/MUFiles/Util/Controller.php
 *lib/MUFiles/Util/Model.php
 *lib/MUFiles/Util/View.php
