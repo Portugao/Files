@@ -126,7 +126,7 @@
 
             <div class="z-formrow">
                 <label for="mUFilesSearchTerm">{gt text='Search for'}:</label>
-                    <input type="text" id="mUFilesSearchTerm" name="searchterm" style="width: 150px" class="z-floatleft" style="margin-right: 10px" />
+                    <input type="text" id="mUFilesSearchTerm" name="q" style="width: 150px" class="z-floatleft" style="margin-right: 10px" />
                     <input type="button" id="mUFilesSearchGo" name="gosearch" value="{gt text='Filter'}" style="width: 80px" />
             </div>
             
