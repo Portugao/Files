@@ -36,7 +36,7 @@
         <a href="{modurl modname='MUFiles' type=$lct func='view' ot='collection' all=1}" title="{$linkTitle}" class="z-icon-es-view">{$linkTitle}</a>
     {/if}
 
-   {* {include file='collection/view_quickNav.tpl' all=$all own=$own}{* see template file for available options *}
+    {include file='collection/view_quickNav.tpl' all=$all own=$own}{* see template file for available options *}
 
     {if $lct eq 'admin'}
     <form action="{modurl modname='MUFiles' type='collection' func='handleSelectedEntries' lct=$lct}" method="post" id="collectionsViewForm" class="z-form">
@@ -170,7 +170,7 @@
             </tr>
         {foreachelse}
             <tr class="z-{if $lct eq 'admin'}admin{else}data{/if}tableempty">
-              <td class="z-left" colspan="{if $lct eq 'admin'}5{else}3{/if}">
+              <td class="z-left" colspan="{if $lct eq 'admin'}7{else}4{/if}">
             {gt text='No collections found.'}
               </td>
             </tr>

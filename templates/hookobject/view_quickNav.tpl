@@ -22,14 +22,13 @@
         {/if}
         {if !isset($searchFilter) || $searchFilter eq true}
                 <label for="searchTerm">{gt text='Search'}</label>
-                <input type="text" id="searchTerm" name="searchterm" value="{$searchterm}" />
+                <input type="text" id="searchTerm" name="q" value="{$q}" />
         {/if}
         {if !isset($sorting) || $sorting eq true}
                 <label for="sortBy">{gt text='Sort by'}</label>
                 &nbsp;
                 <select id="sortBy" name="sort">
                     <option value="id"{if $sort eq 'id'} selected="selected"{/if}>{gt text='Id'}</option>
-                    <option value="workflowState"{if $sort eq 'workflowState'} selected="selected"{/if}>{gt text='Workflow state'}</option>
                     <option value="hookedModule"{if $sort eq 'hookedModule'} selected="selected"{/if}>{gt text='Hooked module'}</option>
                     <option value="hookedObject"{if $sort eq 'hookedObject'} selected="selected"{/if}>{gt text='Hooked object'}</option>
                     <option value="areaId"{if $sort eq 'areaId'} selected="selected"{/if}>{gt text='Area id'}</option>

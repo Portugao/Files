@@ -1,5 +1,5 @@
 {* Purpose of this template: Display search options *}
-<input type="hidden" id="mUFilesActive" name="active[MUFiles]" value="1" checked="checked" />
+<input type="hidden" id="mUFilesActive" name="active[MUFiles]" value="1" />
 <div>
     <input type="checkbox" id="active_mUFilesCollections" name="mUFilesSearchTypes[]" value="collection"{if $active_collection} checked="checked"{/if} />
     <label for="active_mUFilesCollections">{gt text='Collections' domain='module_mufiles'}</label>

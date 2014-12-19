@@ -63,19 +63,19 @@
                     </th>
                 {/if}
                 <th id="hHookedModule" scope="col" class="z-left">
-                    {sortlink __linktext='Hooked module' currentsort=$sort modname='MUFiles' type=$lct func='view' sort='hookedModule' sortdir=$sdir all=$all own=$own workflowState=$workflowState searchterm=$searchterm pageSize=$pageSize ot='hookobject'}
+                    {sortlink __linktext='Hooked module' currentsort=$sort modname='MUFiles' type=$lct func='view' sort='hookedModule' sortdir=$sdir all=$all own=$own workflowState=$workflowState q=$q pageSize=$pageSize ot='hookobject'}
                 </th>
                 <th id="hHookedObject" scope="col" class="z-left">
-                    {sortlink __linktext='Hooked object' currentsort=$sort modname='MUFiles' type=$lct func='view' sort='hookedObject' sortdir=$sdir all=$all own=$own workflowState=$workflowState searchterm=$searchterm pageSize=$pageSize ot='hookobject'}
+                    {sortlink __linktext='Hooked object' currentsort=$sort modname='MUFiles' type=$lct func='view' sort='hookedObject' sortdir=$sdir all=$all own=$own workflowState=$workflowState q=$q pageSize=$pageSize ot='hookobject'}
                 </th>
                 <th id="hAreaId" scope="col" class="z-right">
-                    {sortlink __linktext='Area id' currentsort=$sort modname='MUFiles' type=$lct func='view' sort='areaId' sortdir=$sdir all=$all own=$own workflowState=$workflowState searchterm=$searchterm pageSize=$pageSize ot='hookobject'}
+                    {sortlink __linktext='Area id' currentsort=$sort modname='MUFiles' type=$lct func='view' sort='areaId' sortdir=$sdir all=$all own=$own workflowState=$workflowState q=$q pageSize=$pageSize ot='hookobject'}
                 </th>
                 <th id="hUrl" scope="col" class="z-left">
-                    {sortlink __linktext='Url' currentsort=$sort modname='MUFiles' type=$lct func='view' sort='url' sortdir=$sdir all=$all own=$own workflowState=$workflowState searchterm=$searchterm pageSize=$pageSize ot='hookobject'}
+                    {sortlink __linktext='Url' currentsort=$sort modname='MUFiles' type=$lct func='view' sort='url' sortdir=$sdir all=$all own=$own workflowState=$workflowState q=$q pageSize=$pageSize ot='hookobject'}
                 </th>
                 <th id="hObjectId" scope="col" class="z-right">
-                    {sortlink __linktext='Object id' currentsort=$sort modname='MUFiles' type=$lct func='view' sort='objectId' sortdir=$sdir all=$all own=$own workflowState=$workflowState searchterm=$searchterm pageSize=$pageSize ot='hookobject'}
+                    {sortlink __linktext='Object id' currentsort=$sort modname='MUFiles' type=$lct func='view' sort='objectId' sortdir=$sdir all=$all own=$own workflowState=$workflowState q=$q pageSize=$pageSize ot='hookobject'}
                 </th>
                 <th id="hItemActions" scope="col" class="z-right z-order-unsorted">{gt text='Actions'}</th>
             </tr>
@@ -133,7 +133,7 @@
         </table>
         
         {if !isset($showAllEntries) || $showAllEntries ne 1}
-            {pager rowcount=$pager.numitems limit=$pager.itemsperpage display='page' modname='MUFiles' type='hookobject' func='view' lct=$lct}
+            {pager rowcount=$pager.numitems limit=$pager.itemsperpage display='page' modname='MUFiles' type=$lct func='view' ot='hookobject'}
         {/if}
     {if $lct eq 'admin'}
             <fieldset>

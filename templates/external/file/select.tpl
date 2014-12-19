@@ -41,7 +41,7 @@
 </p>
 <p>
     <label for="{$baseID}SearchTerm"{$leftSide}>{gt text='Search for'}:</label>
-    <input type="text" id="{$baseID}SearchTerm" name="searchterm"{$rightSide} />
+    <input type="text" id="{$baseID}SearchTerm" name="q"{$rightSide} />
     <input type="button" id="mUFilesSearchGo" name="gosearch" value="{gt text='Filter'}" />
     <br{$break} />
 </p>
