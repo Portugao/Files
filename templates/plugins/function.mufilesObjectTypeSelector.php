@@ -29,7 +29,7 @@ function smarty_function_mufilesObjectTypeSelector($params, $view)
 
     $result[] = array('text' => __('Collections', $dom), 'value' => 'collection');
     $result[] = array('text' => __('Files', $dom), 'value' => 'file');
-    $result[] = array('text' => __('Hookobjects', $dom), 'value' => 'hookobject');
+   /* $result[] = array('text' => __('Hookobjects', $dom), 'value' => 'hookobject');*/
 
     if (array_key_exists('assign', $params)) {
         $view->assign($params['assign'], $result);
