@@ -160,7 +160,7 @@ class MUFiles_Api_Base_Notification extends Zikula_AbstractApi
                  ->assign('mailData', $mailData);
     
             $mailArgs = array(
-                'fromname' => $siteName),
+                'fromname' => $siteName,
                 'toname' => $recipient['name'],
                 'toaddress' => $recipient['email'],
                 'subject' => $this->getMailSubject(),
