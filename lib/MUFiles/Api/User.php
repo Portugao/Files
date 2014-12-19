@@ -166,8 +166,5 @@ class MUFiles_Api_User extends MUFiles_Api_Base_User
         } else {
             return false;
         }
-
-
-
     }
 }
