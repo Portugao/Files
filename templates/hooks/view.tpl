@@ -7,11 +7,10 @@
     {checkpermissionblock component='MUFiles:Collection:' instance='::' level='ACCESS_COMMENT'}
     {checkpermissionblock component='MUFiles:Collection:' instance='`$singlecollection.id`::' level='ACCESS_COMMENT'}
         <li class='hookcollection'>
-        {* <a href='{modurl modname='MUFiles' type='user' func='view' tag=$tag.slug|safetext}'><span class='taghole'>&bull;</span>{$collection.name|safetext}</a> *}
             <h2><a title="{gt text='See the complete collection'}" href="{modurl modname='MUFiles' type='user' func='display' ot='collection' id=$singlecollection.id}">{$singlecollection.name}</a></h2>
             {if $singlecollection.alilasfile ne NULL}
                 {foreach item='file' from=$singlecollection.alilasfile}
-                    <a href="{modurl modname='MUFiles' type='user' func='giveFile' id=$file.id}">{$file.title}</a>
+                    <a href="{modurl modname='MUFiles' type='user' func='giveFile' ot='file' id=$file.id}">{$file.title}</a>
                 {/foreach}                
             {/if}
         </li>
@@ -30,7 +29,7 @@
     {foreach item='singlefile' from=$file}
     {checkpermissionblock component='MUFiles:File:' instance='::' level='ACCESS_COMMENT'}
         <li class='hookfile'>
-            <a href="{modurl modname='MUFiles' type='user' func='giveFile' id=$singlefile.id}">{$singlefile.title}</a>         
+            <a href="{modurl modname='MUFiles' type='user' func='giveFile' ot='file' id=$singlefile.id}">{$singlefile.title}</a>         
         </li>
     {/checkpermissionblock}
     {/foreach}
