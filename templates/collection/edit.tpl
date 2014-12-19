@@ -92,7 +92,14 @@
                     {$hook}
                 </fieldset>
             {/foreach}
-        {/if}
+        {/if} 
+      {*  {if is_array($hooks) && count($hooks)}
+        {foreach key='providerArea' item='hook' from=$hooks}
+            <fieldset>
+                {$hook}
+            </fieldset>
+        {/foreach}
+        {/if} *}
         
         <fieldset>
             <legend>{gt text='Communication'}</legend>
