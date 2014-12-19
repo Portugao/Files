@@ -145,7 +145,7 @@ div.mufiles-view form.mufiles-quicknav fieldset #num {
 
 .mucollectionshook ul {
 	list-style: none;
-	margin: 0 0 0 20px;
+	margin: 0;
 }
 
 .mucollectionshook ul li {
@@ -154,7 +154,7 @@ div.mufiles-view form.mufiles-quicknav fieldset #num {
 
 .mufileshook ul {
 	list-style: none;
-	margin: 0 0 0 20px;
+	margin: 0;
 }
 
 .mufileshook ul li {
@@ -162,6 +162,6 @@ div.mufiles-view form.mufiles-quicknav fieldset #num {
 }
 
 .mufileshook h2 {
-	margin: 0 0 0.5em 20px;
+	margin: 0 0 0.5em 0;
 	}
 }
