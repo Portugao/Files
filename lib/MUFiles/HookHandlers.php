@@ -81,13 +81,15 @@ class MUFiles_HookHandlers extends Zikula_Hook_AbstractHandler
     public function uiEdit(Zikula_DisplayHook $hook)
     {
         // Security check
-        if (!SecurityUtil::checkPermission('Tag::', '::', ACCESS_ADD)) {
+        if (!SecurityUtil::checkPermission('MUFiles::', '::', ACCESS_ADD)) {
             return;
         }
         $module = $hook->getCaller();
         $hookObjectId = $hook->getId();
         $objectId = isset($hookObjectId) ? $hookObjectId : 0;
         $areaId = $hook->getAreaId();
+        LogUtil::registerError($areaId);
+        LogUtil::registerError($module);
 
         $modelHelper = new MUFiles_Util_Model($this->view->getServicemanager());
         // we get a collection repository
@@ -220,6 +222,30 @@ class MUFiles_HookHandlers extends Zikula_Hook_AbstractHandler
                 'hookdata' => $this->validation->getObject(),
         );
         ModUtil::apiFunc('MUFiles', 'user', 'hookedObject', $args);
+    }
+    
+    /**
+     * delete process hook handler.
+     *
+     * @param Zikula_ProcessHook $event
+     *
+     * @return void
+     */
+    public function processDelete(Zikula_ProcessHook $hook)
+    {
+        $module = $hook->getCaller();
+        $objectId = $hook->getId();
+        $areaId = $hook->getAreaId();
+        $hookObject = $this->entityManager
+        ->getRepository('MUFiles_Entity_Hookobject')
+        ->findOneBy(array(
+                'hookedModule' => $module,
+                'objectId' => $objectId,
+                'areaId' => $areaId));
+        if (!empty($hookObject)) {
+            $this->entityManager->remove($hookObject);
+            $this->entityManager->flush();
+        }
     }
     
     /**
