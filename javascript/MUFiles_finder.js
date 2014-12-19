@@ -90,24 +90,17 @@ mufiles.finder.handleCancel = function ()
 
 function getPasteSnippet(mode, itemId)
 {
-    var itemTitle, itemUrl, giveUrl, itemObject, itemDescription, pasteMode;
+    var quoteFinder, itemUrl, giveUrl, itemObject, itemTitle, itemDescription, pasteMode;
 
-    itemUrl = $F('url' + itemId);
-    giveUrl = $F('giveurl' + itemId);
-    itemObject = $F('object');
-    itemTitle = $F('title' + itemId);
-    itemDescription = $F('desc' + itemId);
+    quoteFinder = new RegExp('"', 'g');
+    itemUrl = $F('url' + itemId).replace(quoteFinder, '');
+    giveUrl = $F('giveurl' + itemId).replace(quoteFinder, '');
+    itemObject = $F('object').replace(quoteFinder, '');
+    itemTitle = $F('title' + itemId).replace(quoteFinder, '');
+    itemDescription = $F('desc' + itemId).replace(quoteFinder, '');
     pasteMode = $F('mUFilesPasteAs');
-    
-    if (pasteMode === '3' && itemObject == 'collection') {
-    	return '<a href="' + giveUrl + '">' + itemTitle + '</a>';
-    }
-    
-    if (pasteMode === '3' && itemObject == 'file') {
-    	return '<a href="' + giveUrl + '">' + itemTitle + '</a>';
-    }
 
-    if (pasteMode === '2' || pasteMode !== '1') {
+    if (pasteMode === '2') {
         return itemId;
     }
 
@@ -115,6 +108,14 @@ function getPasteSnippet(mode, itemId)
     if (mode === 'url') {
         // plugin mode
         return itemUrl;
+    }
+    
+    if (pasteMode === '3' && itemObject == 'collection') {
+    	return '<a href="' + itemUrl + '">' + itemTitle + '</a>';
+    }
+    
+    if (pasteMode === '3' && itemObject == 'file') {
+    	return '<a href="' + giveUrl + '">' + itemTitle + '</a>';
     }
 
     // editor mode
@@ -162,7 +163,7 @@ mufiles.finder.selectItem = function (itemId)
         }
     } else if (editor === 'tinymce') {
         html = getPasteSnippet('html', itemId);
-        window.opener.tinyMCE.activeEditor.execCommand('mceInsertContent', false, html);
+        tinyMCE.activeEditor.execCommand('mceInsertContent', false, html);
         // other tinymce commands: mceImage, mceInsertLink, mceReplaceContent, see http://www.tinymce.com/wiki.php/Command_identifiers
     } else if (editor === 'ckeditor') {
         if (window.opener.currentMUFilesEditor !== null) {
@@ -237,7 +238,7 @@ mufiles.itemSelector.getItemList = function ()
     }
     params += 'sort=' + $F(baseId + 'Sort') + '&' +
               'sortdir=' + $F(baseId + 'SortDir') + '&' +
-              'searchterm=' + $F(baseId + 'SearchTerm');
+              'q=' + $F(baseId + 'SearchTerm');
 
     request = new Zikula.Ajax.Request(
         Zikula.Config.baseURL + 'ajax.php?module=MUFiles&func=getItemListFinder',

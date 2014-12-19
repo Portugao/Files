@@ -60,11 +60,14 @@ function mufilesResetUploadField(fieldName)
  */
 function mufilesInitUploadField(fieldName)
 {
-    if ($('reset' + fieldName.capitalize() + 'Val') != null) {
-        $('reset' + fieldName.capitalize() + 'Val').observe('click', function (evt) {
+    var fieldNameCapitalised;
+
+    fieldNameCapitalised = fieldName.charAt(0).toUpperCase() + fieldName.substring(1);
+    if ($('reset' + fieldNameCapitalised + 'Val') != null) {
+        $('reset' + fieldNameCapitalised + 'Val').observe('click', function (evt) {
             evt.preventDefault();
             mufilesResetUploadField(fieldName);
-        }).removeClassName('z-hide');
+        }).removeClassName('z-hide').setStyle({ display: 'block' });
     }
 }
 

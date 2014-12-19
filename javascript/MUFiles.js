@@ -88,7 +88,7 @@ function mufilesInitItemActions(objectType, func, containerId)
 
 function mufilesCapitaliseFirstLetter(string)
 {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+    return string.charAt(0).toUpperCase() + string.substring(1);
 }
 
 /**
@@ -202,7 +202,7 @@ function mufilesInitToggle(objectType, fieldName, itemId)
  */
 function mufilesToggleFlag(objectType, fieldName, itemId)
 {
-    fieldName = mufilesCapitaliseFirstLetter(fieldName);
+    var fieldNameCapitalised = mufilesCapitaliseFirstLetter(fieldName);
     var params = 'ot=' + objectType + '&field=' + fieldName + '&id=' + itemId;
 
     new Zikula.Ajax.Request(
@@ -211,7 +211,7 @@ function mufilesToggleFlag(objectType, fieldName, itemId)
             method: 'post',
             parameters: params,
             onComplete: function(req) {
-                var idSuffix = fieldName + '_' + itemId;
+                var idSuffix = fieldNameCapitalised + '_' + itemId;
                 if (!req.isSuccess()) {
                     Zikula.UI.Alert(req.getMessage(), Zikula.__('Error', 'module_mufiles_js'));
                     return;
