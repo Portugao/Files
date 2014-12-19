@@ -112,7 +112,7 @@
                     <a href="{modurl modname='MUFiles' type=$lct func='display' ot='collection'  id=$collection.id}" title="{gt text='View detail page'}">{$collection.name|notifyfilters:'mufiles.filterhook.collections'}</a>
                 </td>
                 <td headers="hDescription" class="z-left">
-                    {$collection.description}
+                    {$collection.description|truncate:100}
                 </td>
                 {*
                 <td headers="hParentid" class="z-right">
