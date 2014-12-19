@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Zikula 1.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-10-20 16:48+0000\n"
-"PO-Revision-Date: 2014-12-08 14:12+0100\n"
+"PO-Revision-Date: 2014-12-19 18:02+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -28,6 +28,9 @@ msgid ""
 "finally approved publications. It does not allow corrections of non-editors "
 "to published pages."
 msgstr ""
+"Dies ist ein 2 Stati-Workflow mit Stati für vertrauensunwürdige "
+"Einreichungen und endgültig freigegebene Publikationen. Er erlaubt nicht, "
+"dass Benutzer, die keine Editor sind, veröffentlichte Seiten, bearbeiten."
 
 #: workflows/function.standard_permissioncheck.php:61
 #: workflows/function.none_permissioncheck.php:61
@@ -1040,6 +1043,8 @@ msgid ""
 "Could not inform other persons about your amendments, because the Mailer "
 "module is not available - please contact an administrator about that!"
 msgstr ""
+"Konnte andere Personen nicht über Deine Ergänzungen informieren, weil das "
+"Mailer Modul nicht zur Verfügung steht - bitte kontaktiere den Administrator!"
 
 #: lib/MUFiles/Api/Base/Notification.php:182
 msgid "New content has been submitted"
@@ -1152,6 +1157,7 @@ msgstr "Fehler! Es ist nicht erlaubt diese Kollektion zu löschen."
 #: lib/MUFiles/Controller/Base/External.php:152
 msgid "Error: Invalid editor context given for external controller action."
 msgstr ""
+"Fehler: Ungültiger Editor-Kontext gegeben für externe Controller Aktion."
 
 #: lib/MUFiles/Controller/Base/Ajax.php:232
 msgid "Error: invalid input."
@@ -1680,16 +1686,18 @@ msgstr "Maximale Größe"
 
 #: templates/admin/config.tpl:30
 msgid "Enter the max size. Only digits are allowed."
-msgstr ""
+msgstr "Gib die maximale Größe ein. Nur Ziffern sind erlaubt."
 
 #: templates/admin/config.tpl:39
 msgid "Here you can assign moderation groups for enhanced workflow actions."
-msgstr ""
+msgstr "Hier kannst Du Moderatorengruppen Workflow Aktionen zuweisen."
 
 #: templates/admin/config.tpl:42 templates/admin/config.tpl:47
 msgid ""
 "Used to determine moderator user accounts for sending email notifications."
 msgstr ""
+"Benutzt um Moderator Benutzerkonten für das Senden von email Anzeigen zu "
+"bestimmen."
 
 #: templates/admin/config.tpl:43
 msgid "Moderation group for collections"
@@ -1938,9 +1946,8 @@ msgstr "Beispiel"
 
 #: templates/collection/display.tpl:103 templates/collection/display.tpl:106
 #: templates/collection/view.tpl:125 templates/collection/view.tpl:128
-#, fuzzy
 msgid "This setting is enabled. Click here to disable it."
-msgstr "Diese Einstellung ist deaktiviert. Klicke um sie zu aktivieren."
+msgstr "Diese Einstellung ist aktiviert. Klicke um sie zu deaktivieren."
 
 #: templates/collection/display.tpl:104 templates/collection/display.tpl:107
 #: templates/collection/view.tpl:126 templates/collection/view.tpl:129
@@ -1950,7 +1957,7 @@ msgstr "Diese Einstellung ist deaktiviert. Klicke um sie zu aktivieren."
 #: templates/collection/display.tpl:114 templates/collection/view.tpl:90
 #: templates/collection/view.csv.tpl:4
 msgid "Parent"
-msgstr "Eltern"
+msgstr "Ursprung"
 
 #: templates/collection/include_selectOne.tpl:17
 #: templates/collection/include_selectEditOne.tpl:17
@@ -2021,12 +2028,16 @@ msgid ""
 "These remarks (like a reason for deny) are not stored, but added to any "
 "notification emails send to the creator."
 msgstr ""
+"Diese Bemerkungen (wie ein Grund für eine Ablehnung) werden nicht "
+"gespeichert, aber zu jeder an den Ersteller gesendeten email hinzugefügt."
 
 #: templates/collection/edit.tpl:109
 msgid ""
 "These remarks (like questions about conformance) are not stored, but added "
 "to any notification emails send to our moderators."
 msgstr ""
+"Diese Bemerkungen (wie Fragen zur Performance) werden nicht gespeichert, "
+"aber zu jeder unseren Moderatoren gesendeten Anzeige hinzugefügt."
 
 #: templates/collection/edit.tpl:132
 msgid "Really delete this collection?"
@@ -2151,14 +2162,12 @@ msgid "Enter the hooked module of the hookobject"
 msgstr "Gib das zu hookende Modul für das Hookobjekt ein"
 
 #: templates/hookobject/edit.tpl:52
-#, fuzzy
 msgid "Enter the hooked object of the hookobject"
-msgstr "Gib das zu hookende Modul für das Hookobjekt ein"
+msgstr "Gib das zu hookende Objekt für das Hookobjekt ein"
 
 #: templates/hookobject/edit.tpl:58
-#, fuzzy
 msgid "Enter the area id of the hookobject"
-msgstr "Objekt ID des Hookobjekts eingeben"
+msgstr "Gib den Bereichs-ID des Hookobjekts ein"
 
 #: templates/hookobject/edit.tpl:65
 msgid "Enter the url of the hookobject"
