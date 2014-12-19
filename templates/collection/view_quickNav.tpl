@@ -37,14 +37,7 @@
         {/if}
         {if !isset($collectionFilter) || $collectionFilter eq true}
                 <label for="parent">{gt text='Collections'}</label>
-                {php}
-                    $mainSearchTerm = '';
-                    if (isset($_GET['q'])) {
-                        $mainSearchTerm = $_GET['q'];
-                        unset($_GET['q']);
-                    }
-                {/php}
-                {modapifunc modname='MUFiles' type='selection' func='getEntities' ot='collection' assign='listEntries'}
+                {modapifunc modname='MUFiles' type='selection' func='getEntities' ot='collection' useJoins=false assign='listEntries'}
                 <select id="parent" name="parent">
                     <option value="">{$lblDefault}</option>
                 {foreach item='option' from=$listEntries}
@@ -52,11 +45,6 @@
                     <option value="{$entryId}"{if $entryId eq $parent} selected="selected"{/if}>{$option->getTitleFromDisplayPattern()}</option>
                 {/foreach}
                 </select>
-                {php}
-                    if (!empty($mainSearchTerm)) {
-                        $_GET['q'] = $mainSearchTerm;
-                    }
-                {/php}
         {/if}
         {if !isset($workflowStateFilter) || $workflowStateFilter eq true}
                 <label for="workflowState">{gt text='Workflow state'}</label>
@@ -69,7 +57,7 @@
         {/if}
         {if !isset($searchFilter) || $searchFilter eq true}
                 <label for="searchTerm">{gt text='Search'}</label>
-                <input type="text" id="searchTerm" name="q" value="{$q}" />
+                <input type="text" id="searchTerm" name="searchterm" value="{$searchterm}" />
         {/if}
         {if !isset($sorting) || $sorting eq true}
                 <label for="sortBy">{gt text='Sort by'}</label>
@@ -80,7 +68,7 @@
                     <option value="name"{if $sort eq 'name'} selected="selected"{/if}>{gt text='Name'}</option>
                     <option value="description"{if $sort eq 'description'} selected="selected"{/if}>{gt text='Description'}</option>
                     <option value="parentid"{if $sort eq 'parentid'} selected="selected"{/if}>{gt text='Parentid'}</option>
-                    <option value="inFrontend"{if $sort eq 'inFrontend'} selected="selected"{/if}>{gt text='In frontend'}</option>
+                   {* <option value="inFrontend"{if $sort eq 'inFrontend'} selected="selected"{/if}>{gt text='In frontend'}</option> *}
                     <option value="createdDate"{if $sort eq 'createdDate'} selected="selected"{/if}>{gt text='Creation date'}</option>
                     <option value="createdUserId"{if $sort eq 'createdUserId'} selected="selected"{/if}>{gt text='Creator'}</option>
                     <option value="updatedDate"{if $sort eq 'updatedDate'} selected="selected"{/if}>{gt text='Update date'}</option>
@@ -105,7 +93,7 @@
                     <option value="100"{if $pageSize eq 100} selected="selected"{/if}>100</option>
                 </select>
         {/if}
-        {if !isset($inFrontendFilter) || $inFrontendFilter eq true}
+       {* {if !isset($inFrontendFilter) || $inFrontendFilter eq true}
                 <label for="inFrontend">{gt text='In frontend'}</label>
                 <select id="inFrontend" name="inFrontend">
                     <option value="">{$lblDefault}</option>
@@ -113,7 +101,7 @@
                     <option value="{$option.value}"{if $option.value eq $inFrontend} selected="selected"{/if}>{$option.text|safetext}</option>
                 {/foreach}
                 </select>
-        {/if}
+        {/if} *}
         <input type="submit" name="updateview" id="quicknavSubmit" value="{gt text='OK'}" />
     </fieldset>
 </form>
