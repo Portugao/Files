@@ -12,9 +12,9 @@
  */
 
 /**
- * Category api implementation class.
+ * Notification api implementation class.
  */
-class MUFiles_Api_Category extends MUFiles_Api_Base_Category
+class MUFiles_Api_Notification extends MUFiles_Api_Base_Notification
 {
-    // feel free to extend the category api at this place
+    // feel free to extend the notification api here
 }

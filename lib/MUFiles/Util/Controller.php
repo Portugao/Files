@@ -47,4 +47,36 @@ class MUFiles_Util_Controller extends MUFiles_Util_Base_Controller
 
         return $result;
     }
+    
+    public function getCollections()
+    {
+        $objectType = $this->request->query->filter('ot', 'collection', FILTER_SANITIZE_STRING);
+        $id = $this->request->query->filter('id', 0, FILTER_SANITIZE_NUMBER_INT);
+        
+        $modelHelper= new MUFiles_Util_Model($this->serviceManager);
+        $collectionRepository = $modelHelper->getCollectionsRepository();
+        $filesRepository = $modelHelper->getFilesRepository();
+        if ($objectType == 'collection') {
+            
+        } else {
+            $thisfile = $filesRepository->selectById($id);
+        }
+        
+        $uid = UserUtil::getVar('uid');
+        if ($objectType == 'collection') {
+        
+        } else {
+            $collections = $collectionRepository->selectWhere();
+            foreach ($collections as $collection) {
+                if ($thisfile['aliascollection'] == $collection['id']) {
+                    $selected = 'selected="selected"';
+                } else {
+                    $selected = '';
+                }
+                $collectionsout .= '<option ' . $selected . ' value="' . $collection['id'] . '"> ' . $collection['name'] . ' </option>';
+            }
+        }
+        
+        return $collectionsout;
+    }
 }

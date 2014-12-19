@@ -246,7 +246,7 @@ class MUFiles_Entity_File extends MUFiles_Entity_Base_File
      * @return void.
      */
     public function preUpdateCallback()
-    {
+    {       
         $this->performPreUpdateCallback();
     }
     
@@ -258,7 +258,7 @@ class MUFiles_Entity_File extends MUFiles_Entity_Base_File
      * @return void.
      */
     public function postUpdateCallback()
-    {
+    {        
         $this->performPostUpdateCallback();
     }
     
@@ -271,7 +271,14 @@ class MUFiles_Entity_File extends MUFiles_Entity_Base_File
      * @return void.
      */
     public function preSaveCallback()
-    {
+    {  
+        $request = new Zikula_Request_Http();
+        $collectionId = $request->request->filter('aliascollection', 0, FILTER_SANITIZE_NUMBER_INT);
+        $serviceManager = ServiceUtil::getManager();
+        $modelHelper = new MUFiles_Util_Model($serviceManager);
+        $collectionRepository = $modelHelper->getCollectionsRepository();
+        $collection = $collectionRepository->selectById($collectionId[0]);
+        $this->setAliascollection($collection);     
         $this->performPreSaveCallback();
     }
     
