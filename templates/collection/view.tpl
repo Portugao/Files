@@ -197,12 +197,12 @@
     {/if}
 
     
-    {if $lct ne 'admin'}
+   {* {if $lct ne 'admin'}
         {notifydisplayhooks eventname='mufiles.ui_hooks.collections.display_view' urlobject=$currentUrlObject assign='hooks'}
         {foreach key='providerArea' item='hook' from=$hooks}
             {$hook}
         {/foreach}
-    {/if}
+    {/if} *}
 </div>
 {include file="`$lct`/footer.tpl"}
 
