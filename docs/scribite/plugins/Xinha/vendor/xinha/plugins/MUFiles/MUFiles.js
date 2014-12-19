@@ -34,7 +34,7 @@ MUFiles._pluginInfo = {
     version       : '1.0.0',
     developer     : 'Michael Ueberschaer',
     developer_url : 'http://webdesign-in-bremen.com',
-    sponsor       : 'ModuleStudio 0.6.2',
+    sponsor       : 'ModuleStudio 0.7.0',
     sponsor_url   : 'http://modulestudio.de',
     license       : 'htmlArea'
 };
