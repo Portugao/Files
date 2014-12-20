@@ -66,13 +66,11 @@
                     {formcheckbox group='collection' id='inFrontend' readOnly=false __title='in frontend ?' cssClass='' }
                 </div>
                 {/if}
-                
             </fieldset>
         </div>
         
         {include file='helper/include_categories_edit.tpl' obj=$collection groupName='collectionObj' panel=true}
         {include file='collection/include_selectOne.tpl' group='collection' alias='parent' aliasReverse='children' mandatory=false idPrefix='mufilesCollection_Parent' linkingItem=$collection panel=true displayMode='dropdown' allowEditing=false}
-       {* {$aliascollection}*}
        {* {include file='hookobject/include_selectMany.tpl' group='collection' alias='hookcollection' aliasReverse='collectionhook' mandatory=false idPrefix='mufilesCollection_Hookcollection' linkingItem=$collection panel=true displayMode='dropdown' allowEditing=false} *}
         {if $mode ne 'create'}
             {include file='helper/include_standardfields_edit.tpl' obj=$collection panel=true}
@@ -88,18 +86,11 @@
         {if is_array($hooks) && count($hooks)}
             {foreach name='hookLoop' key='providerArea' item='hook' from=$hooks}
                 <h3 class="hook z-panel-header z-panel-indicator z-pointer">{$providerArea}</h3>
-                <fieldset class="hook z-panel-content" style="display: none">{$hook}</div>
+                <fieldset class="hook z-panel-content" style="display: none">
                     {$hook}
                 </fieldset>
             {/foreach}
-        {/if} 
-      {*  {if is_array($hooks) && count($hooks)}
-        {foreach key='providerArea' item='hook' from=$hooks}
-            <fieldset>
-                {$hook}
-            </fieldset>
-        {/foreach}
-        {/if} *}
+        {/if}
         
         <fieldset>
             <legend>{gt text='Communication'}</legend>
