@@ -1,8 +1,8 @@
-{if count($collections) > 0 && is_array($collections)}
 {pageaddvar name='stylesheet' value='modules/MUFiles/style/style.css'}
+{if count($hookcollections) > 0 && is_array($hookcollections)}
 <div class='mucollectionshook'>
 <ul>
-{foreach item='collection' from=$collections }
+{foreach item='collection' from=$hookcollections }
     {foreach item='singlecollection' from=$collection}
     {checkpermissionblock component='MUFiles:Collection:' instance='::' level='ACCESS_COMMENT'}
     {checkpermissionblock component='MUFiles:Collection:' instance='`$singlecollection.id`::' level='ACCESS_COMMENT'}
@@ -21,15 +21,15 @@
 </ul>
 </div>
 {/if}
-{if $files ne ''}
+{if $hookfiles ne ''}
 <div class='mufileshook'>
 <h2>{gt text='Files'}</h2>
 <ul>
-{foreach item='file' from=$files }
+{foreach item='file' from=$hookfiles }
     {foreach item='singlefile' from=$file}
     {checkpermissionblock component='MUFiles:File:' instance='::' level='ACCESS_COMMENT'}
         <li class='hookfile'>
-            <a href="{modurl modname='MUFiles' type='user' func='giveFile' ot='file' id=$singlefile.id}">{$singlefile.title}</a>         
+            <a href="{modurl modname='MUFiles' type='user' func='giveFile' id=$singlefile.id}">{$singlefile.title}</a>         
         </li>
     {/checkpermissionblock}
     {/foreach}
