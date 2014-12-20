@@ -44,8 +44,10 @@ class MUFiles_Entity_Repository_Collection extends MUFiles_Entity_Repository_Bas
             // per default we show approved collections only
             $onlineStates = array('approved');
             $qb->andWhere('tbl.workflowState IN (:onlineStates)')
-               ->setParameter('onlineStates', $onlineStates)
-               ->andWhere('tbl.inFrontend = :state')
+               ->setParameter('onlineStates', $onlineStates);
+        }
+        if ($currentModule == 'MUFiles') {
+            $qb->andWhere('tbl.inFrontend = :state')
                ->setParameter('state', 1);
         }
     
