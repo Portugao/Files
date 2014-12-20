@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Zikula 1.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-20 16:48+0000\n"
+"POT-Creation-Date: 2014-12-20 20:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -123,20 +123,15 @@ msgstr ""
 #: workflows/function.standard_permissioncheck.php:77
 #: workflows/function.standard_permissioncheck.php:82
 #: workflows/function.none_permissioncheck.php:74
-#: lib/MUFiles/Entity/Base/File.php:1068 lib/MUFiles/Entity/Base/File.php:1069
-#: lib/MUFiles/Entity/Base/File.php:1133 lib/MUFiles/Entity/Base/File.php:1134
-#: lib/MUFiles/Entity/Base/Hookobject.php:1082
-#: lib/MUFiles/Entity/Base/Hookobject.php:1083
-#: lib/MUFiles/Entity/Base/Hookobject.php:1161
-#: lib/MUFiles/Entity/Base/Hookobject.php:1162
-#: lib/MUFiles/Entity/Base/Collection.php:1130
-#: lib/MUFiles/Entity/Base/Collection.php:1131
-#: lib/MUFiles/Entity/Base/Collection.php:1223
-#: lib/MUFiles/Entity/Base/Collection.php:1224 templates/file/view.tpl:174
-#: templates/file/delete.tpl:12 templates/file/delete.tpl:28
-#: templates/collection/view.tpl:189 templates/collection/delete.tpl:12
-#: templates/collection/delete.tpl:28 templates/hookobject/view.tpl:142
-#: templates/hookobject/delete.tpl:12 templates/hookobject/delete.tpl:28
+#: lib/MUFiles/Entity/File.php:78 lib/MUFiles/Entity/File.php:79
+#: lib/MUFiles/Entity/File.php:143 lib/MUFiles/Entity/File.php:144
+#: lib/MUFiles/Entity/Collection.php:87 lib/MUFiles/Entity/Collection.php:88
+#: lib/MUFiles/Entity/Collection.php:180 lib/MUFiles/Entity/Collection.php:181
+#: templates/file/view.tpl:174 templates/file/delete.tpl:12
+#: templates/file/delete.tpl:28 templates/collection/view.tpl:189
+#: templates/collection/delete.tpl:12 templates/collection/delete.tpl:28
+#: templates/hookobject/view.tpl:142 templates/hookobject/delete.tpl:12
+#: templates/hookobject/delete.tpl:28
 msgid "Delete"
 msgstr ""
 
@@ -174,7 +169,7 @@ msgid "%1$s: missing parameter '%2$s'"
 msgstr ""
 
 #: templates/plugins/function.mufilesObjectTypeSelector.php:30
-#: lib/MUFiles/Api/Base/User.php:42 lib/MUFiles/Api/Base/Admin.php:42
+#: lib/MUFiles/Api/Base/User.php:46 lib/MUFiles/Api/Base/Admin.php:46
 #: lib/MUFiles/Api/User.php:42 lib/MUFiles/Api/Admin.php:42
 #: templates/external/file/find.tpl:25
 #: templates/external/hookobject/find.tpl:25
@@ -189,28 +184,17 @@ msgid "Collections"
 msgstr ""
 
 #: templates/plugins/function.mufilesObjectTypeSelector.php:31
-#: lib/MUFiles/Api/Base/User.php:48 lib/MUFiles/Api/Base/Admin.php:48
+#: lib/MUFiles/Api/Base/User.php:52 lib/MUFiles/Api/Base/Admin.php:52
 #: lib/MUFiles/Api/User.php:48 lib/MUFiles/Api/Admin.php:48
 #: templates/external/collection/find.tpl:25
 #: templates/external/hookobject/find.tpl:26
 #: templates/file/include_selectEditMany.tpl:9
 #: templates/file/include_selectEditMany.tpl:14
 #: templates/collection/display.tpl:25 templates/collection/display.tpl:27
-#: templates/search/options.tpl:9 templates/hooks/view.tpl:27
+#: templates/search/options.tpl:9 templates/hooks/view.tpl:26
 #: templates/block/itemlist_modify.tpl:6 templates/hookobject/display.tpl:46
 #: templates/hookobject/display.tpl:48
 msgid "Files"
-msgstr ""
-
-#: templates/plugins/function.mufilesObjectTypeSelector.php:32
-#: lib/MUFiles/Api/Base/User.php:54 lib/MUFiles/Api/Base/Admin.php:54
-#: templates/external/file/find.tpl:26
-#: templates/external/collection/find.tpl:26
-#: templates/collection/display.tpl:67 templates/collection/display.tpl:69
-#: templates/search/options.tpl:13 templates/block/itemlist_modify.tpl:7
-#: templates/hookobject/include_selectMany.tpl:9
-#: templates/hookobject/include_selectMany.tpl:14
-msgid "Hookobjects"
 msgstr ""
 
 #: templates/plugins/function.mufilesValidationError.php:36
@@ -308,31 +292,31 @@ msgstr ""
 msgid "Custom template"
 msgstr ""
 
-#: lib/MUFiles/Form/Handler/File/Base/Edit.php:60
+#: lib/MUFiles/Form/Handler/File/Base/Edit.php:63
 msgid ""
 "Sorry, but you can not create the file yet as other items are required which "
 "must be created before!"
 msgstr ""
 
-#: lib/MUFiles/Form/Handler/File/Base/Edit.php:210
+#: lib/MUFiles/Form/Handler/File/Base/Edit.php:213
 msgid "Done! File created."
 msgstr ""
 
-#: lib/MUFiles/Form/Handler/File/Base/Edit.php:212
-#: lib/MUFiles/Form/Handler/File/Base/Edit.php:219
+#: lib/MUFiles/Form/Handler/File/Base/Edit.php:215
+#: lib/MUFiles/Form/Handler/File/Base/Edit.php:222
 msgid "Done! File updated."
 msgstr ""
 
-#: lib/MUFiles/Form/Handler/File/Base/Edit.php:216
+#: lib/MUFiles/Form/Handler/File/Base/Edit.php:219
 msgid "Done! File deleted."
 msgstr ""
 
-#: lib/MUFiles/Form/Handler/File/Base/Edit.php:245
-#: lib/MUFiles/Form/Handler/Collection/Base/Edit.php:235
-#: lib/MUFiles/Form/Handler/Hookobject/Base/Edit.php:226
-#: lib/MUFiles/Controller/Base/File.php:517
-#: lib/MUFiles/Controller/Base/Hookobject.php:517
-#: lib/MUFiles/Controller/Base/Collection.php:517
+#: lib/MUFiles/Form/Handler/File/Base/Edit.php:248
+#: lib/MUFiles/Form/Handler/Collection/Base/Edit.php:238
+#: lib/MUFiles/Form/Handler/Hookobject/Base/Edit.php:229
+#: lib/MUFiles/Controller/Base/File.php:406
+#: lib/MUFiles/Controller/Base/Hookobject.php:406
+#: lib/MUFiles/Controller/Base/Collection.php:406
 #, php-format
 msgid ""
 "Sorry, but an unknown error occured during the %s action. Please apply the "
@@ -345,27 +329,19 @@ msgstr ""
 #: lib/MUFiles/Form/Handler/User/Base/Edit.php:228
 #: lib/MUFiles/Form/Handler/User/Base/Edit.php:311
 #: lib/MUFiles/Form/Handler/User/Base/Edit.php:343
-#: lib/MUFiles/Form/Handler/Common/Base/Edit.php:229
 #: lib/MUFiles/Form/Handler/Common/Base/Edit.php:296
 #: lib/MUFiles/Form/Handler/Common/Base/Edit.php:328
-#: lib/MUFiles/Controller/File.php:81 lib/MUFiles/Controller/Base/File.php:272
-#: lib/MUFiles/Controller/Base/File.php:379
+#: lib/MUFiles/Controller/Base/File.php:272
 #: lib/MUFiles/Controller/Base/Hookobject.php:272
-#: lib/MUFiles/Controller/Base/Hookobject.php:379
 #: lib/MUFiles/Controller/Base/Collection.php:272
-#: lib/MUFiles/Controller/Base/Collection.php:379
 #: lib/MUFiles/Controller/Base/External.php:92
 #: lib/MUFiles/Controller/Base/Ajax.php:238
-#: lib/MUFiles/Controller/Collection.php:74
 msgid "No such item."
 msgstr ""
 
 #: lib/MUFiles/Form/Handler/Admin/Base/Edit.php:259
 #: lib/MUFiles/Form/Handler/User/Base/Edit.php:259
 #: lib/MUFiles/Form/Handler/Common/Base/Edit.php:260
-#: lib/MUFiles/Controller/Base/File.php:387
-#: lib/MUFiles/Controller/Base/Hookobject.php:387
-#: lib/MUFiles/Controller/Base/Collection.php:387
 msgid "Error! Could not determine workflow actions."
 msgstr ""
 
@@ -384,9 +360,9 @@ msgstr ""
 #: lib/MUFiles/Form/Handler/Admin/Base/Edit.php:533
 #: lib/MUFiles/Form/Handler/User/Base/Edit.php:533
 #: lib/MUFiles/Form/Handler/Common/Base/Edit.php:506
-#: lib/MUFiles/Controller/Base/File.php:527
-#: lib/MUFiles/Controller/Base/Hookobject.php:527
-#: lib/MUFiles/Controller/Base/Collection.php:527
+#: lib/MUFiles/Controller/Base/File.php:416
+#: lib/MUFiles/Controller/Base/Hookobject.php:416
+#: lib/MUFiles/Controller/Base/Collection.php:416
 msgid "Done! Item updated."
 msgstr ""
 
@@ -399,12 +375,9 @@ msgstr ""
 #: lib/MUFiles/Form/Handler/Admin/Base/Edit.php:540
 #: lib/MUFiles/Form/Handler/User/Base/Edit.php:540
 #: lib/MUFiles/Form/Handler/Common/Base/Edit.php:513
-#: lib/MUFiles/Controller/Base/File.php:417
-#: lib/MUFiles/Controller/Base/File.php:525
-#: lib/MUFiles/Controller/Base/Hookobject.php:417
-#: lib/MUFiles/Controller/Base/Hookobject.php:525
-#: lib/MUFiles/Controller/Base/Collection.php:417
-#: lib/MUFiles/Controller/Base/Collection.php:525
+#: lib/MUFiles/Controller/Base/File.php:414
+#: lib/MUFiles/Controller/Base/Hookobject.php:414
+#: lib/MUFiles/Controller/Base/Collection.php:414
 msgid "Done! Item deleted."
 msgstr ""
 
@@ -422,41 +395,41 @@ msgstr ""
 msgid "Done! Module configuration updated."
 msgstr ""
 
-#: lib/MUFiles/Form/Handler/Collection/Base/Edit.php:58
+#: lib/MUFiles/Form/Handler/Collection/Base/Edit.php:61
 msgid ""
 "Sorry, but you can not create the collection yet as other items are required "
 "which must be created before!"
 msgstr ""
 
-#: lib/MUFiles/Form/Handler/Collection/Base/Edit.php:200
+#: lib/MUFiles/Form/Handler/Collection/Base/Edit.php:203
 msgid "Done! Collection created."
 msgstr ""
 
-#: lib/MUFiles/Form/Handler/Collection/Base/Edit.php:202
-#: lib/MUFiles/Form/Handler/Collection/Base/Edit.php:209
+#: lib/MUFiles/Form/Handler/Collection/Base/Edit.php:205
+#: lib/MUFiles/Form/Handler/Collection/Base/Edit.php:212
 msgid "Done! Collection updated."
 msgstr ""
 
-#: lib/MUFiles/Form/Handler/Collection/Base/Edit.php:206
+#: lib/MUFiles/Form/Handler/Collection/Base/Edit.php:209
 msgid "Done! Collection deleted."
 msgstr ""
 
-#: lib/MUFiles/Form/Handler/Hookobject/Base/Edit.php:58
+#: lib/MUFiles/Form/Handler/Hookobject/Base/Edit.php:61
 msgid ""
 "Sorry, but you can not create the hookobject yet as other items are required "
 "which must be created before!"
 msgstr ""
 
-#: lib/MUFiles/Form/Handler/Hookobject/Base/Edit.php:191
+#: lib/MUFiles/Form/Handler/Hookobject/Base/Edit.php:194
 msgid "Done! Hookobject created."
 msgstr ""
 
-#: lib/MUFiles/Form/Handler/Hookobject/Base/Edit.php:193
-#: lib/MUFiles/Form/Handler/Hookobject/Base/Edit.php:200
+#: lib/MUFiles/Form/Handler/Hookobject/Base/Edit.php:196
+#: lib/MUFiles/Form/Handler/Hookobject/Base/Edit.php:203
 msgid "Done! Hookobject updated."
 msgstr ""
 
-#: lib/MUFiles/Form/Handler/Hookobject/Base/Edit.php:197
+#: lib/MUFiles/Form/Handler/Hookobject/Base/Edit.php:200
 msgid "Done! Hookobject deleted."
 msgstr ""
 
@@ -518,7 +491,7 @@ msgstr ""
 #: templates/external/collection/find.tpl:137
 #: templates/external/hookobject/find.tpl:111 templates/admin/config.tpl:57
 #: templates/file/edit.tpl:117 templates/file/delete.tpl:30
-#: templates/collection/edit.tpl:138 templates/collection/delete.tpl:30
+#: templates/collection/edit.tpl:137 templates/collection/delete.tpl:30
 #: templates/hookobject/edit.tpl:123 templates/hookobject/delete.tpl:30
 msgid "Cancel"
 msgstr ""
@@ -656,10 +629,9 @@ msgid "M u files"
 msgstr ""
 
 #: lib/MUFiles/Base/Version.php:32
-msgid "M u files module generated by ModuleStudio 0.6.2."
+msgid "M u files module generated by ModuleStudio 0.7.0."
 msgstr ""
 
-#. ! url version of name, should be in lowercase without space
 #. ! url version of name, should be in lowercase without space
 #: lib/MUFiles/Base/Version.php:34 lib/MUFiles/Version.php:34
 msgid "mufiles"
@@ -780,22 +752,22 @@ msgstr ""
 msgid "Warning! Could not write the .htaccess file at \"%s\"."
 msgstr ""
 
-#: lib/MUFiles/Util/Base/Workflow.php:223
+#: lib/MUFiles/Util/Base/Workflow.php:230
 msgid "Collections pending approval"
 msgstr ""
 
-#: lib/MUFiles/Util/Base/Workflow.php:227
+#: lib/MUFiles/Util/Base/Workflow.php:234
 #, php-format
 msgid "One collection is waiting for approval."
 msgid_plural "%s collections are waiting for approval."
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/MUFiles/Util/Base/Workflow.php:237
+#: lib/MUFiles/Util/Base/Workflow.php:244
 msgid "Files pending approval"
 msgstr ""
 
-#: lib/MUFiles/Util/Base/Workflow.php:241
+#: lib/MUFiles/Util/Base/Workflow.php:248
 #, php-format
 msgid "One file is waiting for approval."
 msgid_plural "%s files are waiting for approval."
@@ -846,24 +818,107 @@ msgstr ""
 msgid "Error! Field value must be a valid boolean (%s)."
 msgstr ""
 
-#: lib/MUFiles/Entity/Repository/Base/File.php:253
-#: lib/MUFiles/Entity/Repository/Base/File.php:280
-#: lib/MUFiles/Entity/Repository/Base/File.php:305
-#: lib/MUFiles/Entity/Repository/Base/File.php:330
-#: lib/MUFiles/Entity/Repository/Base/Hookobject.php:252
-#: lib/MUFiles/Entity/Repository/Base/Hookobject.php:279
-#: lib/MUFiles/Entity/Repository/Base/Hookobject.php:304
-#: lib/MUFiles/Entity/Repository/Base/Hookobject.php:329
-#: lib/MUFiles/Entity/Repository/Base/Collection.php:258
-#: lib/MUFiles/Entity/Repository/Base/Collection.php:285
-#: lib/MUFiles/Entity/Repository/Base/Collection.php:310
-#: lib/MUFiles/Entity/Repository/Base/Collection.php:335
+#: lib/MUFiles/Entity/File.php:47 lib/MUFiles/Entity/Base/File.php:1019
+#: lib/MUFiles/Entity/Base/Hookobject.php:1033
+#: lib/MUFiles/Entity/Base/Collection.php:1087
+#: lib/MUFiles/Entity/Collection.php:56
+msgid "Open preview page"
+msgstr ""
+
+#: lib/MUFiles/Entity/File.php:48 lib/MUFiles/Entity/Base/File.php:1020
+#: lib/MUFiles/Entity/Base/Hookobject.php:1034
+#: lib/MUFiles/Entity/Base/Collection.php:1088
+#: lib/MUFiles/Entity/Collection.php:57
+msgid "Preview"
+msgstr ""
+
+#: lib/MUFiles/Entity/File.php:54 lib/MUFiles/Entity/File.php:119
+#: lib/MUFiles/Entity/Base/File.php:1026 lib/MUFiles/Entity/Base/File.php:1083
+#: lib/MUFiles/Entity/Base/Hookobject.php:1040
+#: lib/MUFiles/Entity/Base/Hookobject.php:1111
+#: lib/MUFiles/Entity/Base/Collection.php:1094
+#: lib/MUFiles/Entity/Base/Collection.php:1179
+#: lib/MUFiles/Entity/Collection.php:63 lib/MUFiles/Entity/Collection.php:156
+#: templates/collection/display.tpl:13 templates/hookobject/display.tpl:13
+msgid "Details"
+msgstr ""
+
+#: lib/MUFiles/Entity/File.php:64 lib/MUFiles/Entity/File.php:65
+#: lib/MUFiles/Entity/File.php:129 lib/MUFiles/Entity/File.php:130
+#: lib/MUFiles/Entity/Base/File.php:1036 lib/MUFiles/Entity/Base/File.php:1037
+#: lib/MUFiles/Entity/Base/File.php:1093 lib/MUFiles/Entity/Base/File.php:1094
+#: lib/MUFiles/Entity/Base/Hookobject.php:1050
+#: lib/MUFiles/Entity/Base/Hookobject.php:1051
+#: lib/MUFiles/Entity/Base/Hookobject.php:1121
+#: lib/MUFiles/Entity/Base/Hookobject.php:1122
+#: lib/MUFiles/Entity/Base/Collection.php:1104
+#: lib/MUFiles/Entity/Base/Collection.php:1105
+#: lib/MUFiles/Entity/Base/Collection.php:1189
+#: lib/MUFiles/Entity/Base/Collection.php:1190
+#: lib/MUFiles/Entity/Collection.php:73 lib/MUFiles/Entity/Collection.php:74
+#: lib/MUFiles/Entity/Collection.php:166 lib/MUFiles/Entity/Collection.php:167
+#: templates/emailnotifycollectionCreator.tpl:13
+#: templates/emailnotifyfileCreator.tpl:13
+#: templates/emailnotifycollectionModerator.tpl:12
+#: templates/emailnotifyfileModerator.tpl:12
+msgid "Edit"
+msgstr ""
+
+#: lib/MUFiles/Entity/File.php:70 lib/MUFiles/Entity/File.php:135
+#: lib/MUFiles/Entity/Base/File.php:1042 lib/MUFiles/Entity/Base/File.php:1099
+#: lib/MUFiles/Entity/Base/Hookobject.php:1056
+#: lib/MUFiles/Entity/Base/Hookobject.php:1127
+#: lib/MUFiles/Entity/Base/Collection.php:1110
+#: lib/MUFiles/Entity/Base/Collection.php:1195
+#: lib/MUFiles/Entity/Collection.php:79 lib/MUFiles/Entity/Collection.php:172
+msgid "Reuse for new item"
+msgstr ""
+
+#: lib/MUFiles/Entity/File.php:71 lib/MUFiles/Entity/File.php:136
+#: lib/MUFiles/Entity/Base/File.php:1043 lib/MUFiles/Entity/Base/File.php:1100
+#: lib/MUFiles/Entity/Base/Hookobject.php:1057
+#: lib/MUFiles/Entity/Base/Hookobject.php:1128
+#: lib/MUFiles/Entity/Base/Collection.php:1111
+#: lib/MUFiles/Entity/Base/Collection.php:1196
+#: lib/MUFiles/Entity/Collection.php:80 lib/MUFiles/Entity/Collection.php:173
+msgid "Reuse"
+msgstr ""
+
+#: lib/MUFiles/Entity/File.php:87 lib/MUFiles/Entity/File.php:88
+#: lib/MUFiles/Entity/File.php:152 lib/MUFiles/Entity/File.php:153
+#: lib/MUFiles/Entity/Base/File.php:1051 lib/MUFiles/Entity/Base/File.php:1052
+#: lib/MUFiles/Entity/Base/File.php:1108 lib/MUFiles/Entity/Base/File.php:1109
+#: lib/MUFiles/Entity/Base/Hookobject.php:1065
+#: lib/MUFiles/Entity/Base/Hookobject.php:1066
+#: lib/MUFiles/Entity/Base/Hookobject.php:1136
+#: lib/MUFiles/Entity/Base/Hookobject.php:1137
+#: lib/MUFiles/Entity/Base/Collection.php:1119
+#: lib/MUFiles/Entity/Base/Collection.php:1120
+#: lib/MUFiles/Entity/Base/Collection.php:1204
+#: lib/MUFiles/Entity/Base/Collection.php:1205
+#: lib/MUFiles/Entity/Collection.php:96 lib/MUFiles/Entity/Collection.php:97
+#: lib/MUFiles/Entity/Collection.php:189 lib/MUFiles/Entity/Collection.php:190
+msgid "Back to overview"
+msgstr ""
+
+#: lib/MUFiles/Entity/Repository/Base/File.php:256
+#: lib/MUFiles/Entity/Repository/Base/File.php:283
+#: lib/MUFiles/Entity/Repository/Base/File.php:308
+#: lib/MUFiles/Entity/Repository/Base/File.php:333
+#: lib/MUFiles/Entity/Repository/Base/Hookobject.php:255
+#: lib/MUFiles/Entity/Repository/Base/Hookobject.php:282
+#: lib/MUFiles/Entity/Repository/Base/Hookobject.php:307
+#: lib/MUFiles/Entity/Repository/Base/Hookobject.php:332
+#: lib/MUFiles/Entity/Repository/Base/Collection.php:261
+#: lib/MUFiles/Entity/Repository/Base/Collection.php:288
+#: lib/MUFiles/Entity/Repository/Base/Collection.php:313
+#: lib/MUFiles/Entity/Repository/Base/Collection.php:338
 msgid "Invalid user identifier received."
 msgstr ""
 
-#: lib/MUFiles/Entity/Repository/Base/File.php:370
-#: lib/MUFiles/Entity/Repository/Base/Hookobject.php:369
-#: lib/MUFiles/Entity/Repository/Base/Collection.php:375
+#: lib/MUFiles/Entity/Repository/Base/File.php:373
+#: lib/MUFiles/Entity/Repository/Base/Hookobject.php:372
+#: lib/MUFiles/Entity/Repository/Base/Collection.php:378
 #: lib/MUFiles/Api/Base/Selection.php:68
 msgid "Invalid identifier received."
 msgstr ""
@@ -880,120 +935,66 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: lib/MUFiles/Entity/Base/File.php:793
-#: lib/MUFiles/Entity/Base/Hookobject.php:821
-#: lib/MUFiles/Entity/Base/Collection.php:869
+#: lib/MUFiles/Entity/Base/File.php:776
+#: lib/MUFiles/Entity/Base/Hookobject.php:804
+#: lib/MUFiles/Entity/Base/Collection.php:858
 msgid "Error! Could not remove stored workflow. Deletion has been aborted."
 msgstr ""
 
-#: lib/MUFiles/Entity/Base/File.php:959
-#: lib/MUFiles/Entity/Base/Hookobject.php:973
-#: lib/MUFiles/Entity/Base/Collection.php:1021
+#: lib/MUFiles/Entity/Base/File.php:941
+#: lib/MUFiles/Entity/Base/Hookobject.php:955
+#: lib/MUFiles/Entity/Base/Collection.php:1009
 msgid "Error! Could not load the associated workflow."
 msgstr ""
 
-#: lib/MUFiles/Entity/Base/File.php:1037
-#: lib/MUFiles/Entity/Base/Hookobject.php:1051
-#: lib/MUFiles/Entity/Base/Collection.php:1099
-msgid "Open preview page"
-msgstr ""
-
-#: lib/MUFiles/Entity/Base/File.php:1038
-#: lib/MUFiles/Entity/Base/Hookobject.php:1052
-#: lib/MUFiles/Entity/Base/Collection.php:1100
-msgid "Preview"
-msgstr ""
-
-#: lib/MUFiles/Entity/Base/File.php:1044 lib/MUFiles/Entity/Base/File.php:1109
-#: lib/MUFiles/Entity/Base/Hookobject.php:1058
-#: lib/MUFiles/Entity/Base/Hookobject.php:1137
-#: lib/MUFiles/Entity/Base/Collection.php:1106
-#: lib/MUFiles/Entity/Base/Collection.php:1199
-#: templates/collection/display.tpl:13 templates/hookobject/display.tpl:13
-msgid "Details"
-msgstr ""
-
-#: lib/MUFiles/Entity/Base/File.php:1054 lib/MUFiles/Entity/Base/File.php:1055
-#: lib/MUFiles/Entity/Base/File.php:1119 lib/MUFiles/Entity/Base/File.php:1120
-#: lib/MUFiles/Entity/Base/Hookobject.php:1068
-#: lib/MUFiles/Entity/Base/Hookobject.php:1069
-#: lib/MUFiles/Entity/Base/Hookobject.php:1147
-#: lib/MUFiles/Entity/Base/Hookobject.php:1148
-#: lib/MUFiles/Entity/Base/Collection.php:1116
-#: lib/MUFiles/Entity/Base/Collection.php:1117
-#: lib/MUFiles/Entity/Base/Collection.php:1209
-#: lib/MUFiles/Entity/Base/Collection.php:1210
-#: templates/emailnotifycollectionCreator.tpl:13
-#: templates/emailnotifyfileCreator.tpl:13
-#: templates/emailnotifycollectionModerator.tpl:12
-#: templates/emailnotifyfileModerator.tpl:12
-msgid "Edit"
-msgstr ""
-
-#: lib/MUFiles/Entity/Base/File.php:1060 lib/MUFiles/Entity/Base/File.php:1125
-#: lib/MUFiles/Entity/Base/Hookobject.php:1074
-#: lib/MUFiles/Entity/Base/Hookobject.php:1153
-#: lib/MUFiles/Entity/Base/Collection.php:1122
-#: lib/MUFiles/Entity/Base/Collection.php:1215
-msgid "Reuse for new item"
-msgstr ""
-
-#: lib/MUFiles/Entity/Base/File.php:1061 lib/MUFiles/Entity/Base/File.php:1126
-#: lib/MUFiles/Entity/Base/Hookobject.php:1075
-#: lib/MUFiles/Entity/Base/Hookobject.php:1154
-#: lib/MUFiles/Entity/Base/Collection.php:1123
-#: lib/MUFiles/Entity/Base/Collection.php:1216
-msgid "Reuse"
-msgstr ""
-
-#: lib/MUFiles/Entity/Base/File.php:1077 lib/MUFiles/Entity/Base/File.php:1078
-#: lib/MUFiles/Entity/Base/File.php:1142 lib/MUFiles/Entity/Base/File.php:1143
-#: lib/MUFiles/Entity/Base/Hookobject.php:1091
-#: lib/MUFiles/Entity/Base/Hookobject.php:1092
-#: lib/MUFiles/Entity/Base/Hookobject.php:1170
-#: lib/MUFiles/Entity/Base/Hookobject.php:1171
-#: lib/MUFiles/Entity/Base/Collection.php:1139
-#: lib/MUFiles/Entity/Base/Collection.php:1140
-#: lib/MUFiles/Entity/Base/Collection.php:1232
-#: lib/MUFiles/Entity/Base/Collection.php:1233
-msgid "Back to overview"
-msgstr ""
-
-#: lib/MUFiles/Entity/Base/File.php:1098 lib/MUFiles/Entity/Base/File.php:1099
-#: lib/MUFiles/Entity/Base/File.php:1163 lib/MUFiles/Entity/Base/File.php:1164
-#: lib/MUFiles/Entity/Base/Collection.php:1188
-#: lib/MUFiles/Entity/Base/Collection.php:1189
-#: lib/MUFiles/Entity/Base/Collection.php:1281
-#: lib/MUFiles/Entity/Base/Collection.php:1282
+#: lib/MUFiles/Entity/Base/File.php:1072 lib/MUFiles/Entity/Base/File.php:1073
+#: lib/MUFiles/Entity/Base/File.php:1129 lib/MUFiles/Entity/Base/File.php:1130
+#: lib/MUFiles/Entity/Base/Collection.php:1168
+#: lib/MUFiles/Entity/Base/Collection.php:1169
+#: lib/MUFiles/Entity/Base/Collection.php:1253
+#: lib/MUFiles/Entity/Base/Collection.php:1254
 #: templates/collection/display.tpl:83 templates/hookobject/view.tpl:21
 #: templates/hookobject/edit.tpl:16
 msgid "Create hookobject"
 msgstr ""
 
-#: lib/MUFiles/Entity/Base/Hookobject.php:1112
-#: lib/MUFiles/Entity/Base/Hookobject.php:1113
-#: lib/MUFiles/Entity/Base/Hookobject.php:1191
-#: lib/MUFiles/Entity/Base/Hookobject.php:1192
-#: lib/MUFiles/Entity/Base/Collection.php:1174
-#: lib/MUFiles/Entity/Base/Collection.php:1175
-#: lib/MUFiles/Entity/Base/Collection.php:1267
-#: lib/MUFiles/Entity/Base/Collection.php:1268
+#: lib/MUFiles/Entity/Base/Hookobject.php:1086
+#: lib/MUFiles/Entity/Base/Hookobject.php:1087
+#: lib/MUFiles/Entity/Base/Hookobject.php:1157
+#: lib/MUFiles/Entity/Base/Hookobject.php:1158
+#: lib/MUFiles/Entity/Base/Collection.php:1154
+#: lib/MUFiles/Entity/Base/Collection.php:1155
+#: lib/MUFiles/Entity/Base/Collection.php:1239
+#: lib/MUFiles/Entity/Base/Collection.php:1240
+#: lib/MUFiles/Entity/Collection.php:131 lib/MUFiles/Entity/Collection.php:132
+#: lib/MUFiles/Entity/Collection.php:224 lib/MUFiles/Entity/Collection.php:225
 #: templates/collection/display.tpl:62 templates/collection/view.tpl:21
 #: templates/collection/edit.tpl:16 templates/hookobject/display.tpl:41
 msgid "Create collection"
 msgstr ""
 
-#: lib/MUFiles/Entity/Base/Hookobject.php:1126
-#: lib/MUFiles/Entity/Base/Hookobject.php:1127
-#: lib/MUFiles/Entity/Base/Hookobject.php:1205
-#: lib/MUFiles/Entity/Base/Hookobject.php:1206
-#: lib/MUFiles/Entity/Base/Collection.php:1160
-#: lib/MUFiles/Entity/Base/Collection.php:1161
-#: lib/MUFiles/Entity/Base/Collection.php:1253
-#: lib/MUFiles/Entity/Base/Collection.php:1254 templates/file/view.tpl:21
-#: templates/file/edit.tpl:13 templates/collection/display.tpl:41
-#: templates/hookobject/display.tpl:62
+#: lib/MUFiles/Entity/Base/Hookobject.php:1100
+#: lib/MUFiles/Entity/Base/Hookobject.php:1101
+#: lib/MUFiles/Entity/Base/Hookobject.php:1171
+#: lib/MUFiles/Entity/Base/Hookobject.php:1172
+#: lib/MUFiles/Entity/Base/Collection.php:1140
+#: lib/MUFiles/Entity/Base/Collection.php:1141
+#: lib/MUFiles/Entity/Base/Collection.php:1225
+#: lib/MUFiles/Entity/Base/Collection.php:1226
+#: lib/MUFiles/Entity/Collection.php:117 lib/MUFiles/Entity/Collection.php:118
+#: lib/MUFiles/Entity/Collection.php:210 lib/MUFiles/Entity/Collection.php:211
+#: templates/file/view.tpl:21 templates/file/edit.tpl:13
+#: templates/collection/display.tpl:41 templates/hookobject/display.tpl:62
 msgid "Create file"
+msgstr ""
+
+#: lib/MUFiles/HookHandlers.php:275
+msgid "Hooked content in MUFiles removed."
+msgstr ""
+
+#: lib/MUFiles/HookHandlers.php:300
+#, php-format
+msgid "Hooked content in MUFiles removed for area %s."
 msgstr ""
 
 #: lib/MUFiles/Api/Base/Notification.php:78
@@ -1018,7 +1019,7 @@ msgstr ""
 msgid "Invalid object type received."
 msgstr ""
 
-#: lib/MUFiles/Api/Base/Search.php:150
+#: lib/MUFiles/Api/Base/Search.php:159
 msgid "Error! Could not save the search results."
 msgstr ""
 
@@ -1046,24 +1047,34 @@ msgstr ""
 msgid "Switch to administration area."
 msgstr ""
 
-#: lib/MUFiles/Api/Base/User.php:43 lib/MUFiles/Api/Base/Admin.php:43
+#: lib/MUFiles/Api/Base/User.php:47 lib/MUFiles/Api/Base/Admin.php:47
 #: lib/MUFiles/Api/User.php:43 lib/MUFiles/Api/Admin.php:43
 #: templates/collection/view.tpl:8
 msgid "Collection list"
 msgstr ""
 
-#: lib/MUFiles/Api/Base/User.php:49 lib/MUFiles/Api/Base/Admin.php:49
+#: lib/MUFiles/Api/Base/User.php:53 lib/MUFiles/Api/Base/Admin.php:53
 #: lib/MUFiles/Api/User.php:49 lib/MUFiles/Api/Admin.php:49
 #: templates/file/view.tpl:8
 msgid "File list"
 msgstr ""
 
-#: lib/MUFiles/Api/Base/User.php:55 lib/MUFiles/Api/Base/Admin.php:55
+#: lib/MUFiles/Api/Base/User.php:58 lib/MUFiles/Api/Base/Admin.php:58
+#: templates/external/file/find.tpl:26
+#: templates/external/collection/find.tpl:26
+#: templates/collection/display.tpl:67 templates/collection/display.tpl:69
+#: templates/search/options.tpl:13 templates/block/itemlist_modify.tpl:7
+#: templates/hookobject/include_selectMany.tpl:9
+#: templates/hookobject/include_selectMany.tpl:14
+msgid "Hookobjects"
+msgstr ""
+
+#: lib/MUFiles/Api/Base/User.php:59 lib/MUFiles/Api/Base/Admin.php:59
 #: templates/hookobject/view.tpl:8
 msgid "Hookobject list"
 msgstr ""
 
-#: lib/MUFiles/Api/Base/User.php:72 lib/MUFiles/Api/Base/User.php:214
+#: lib/MUFiles/Api/Base/User.php:76 lib/MUFiles/Api/Base/User.php:218
 msgid "Invalid arguments array received."
 msgstr ""
 
@@ -1075,11 +1086,11 @@ msgstr ""
 msgid "Switch to user area."
 msgstr ""
 
-#: lib/MUFiles/Api/Base/Admin.php:59 lib/MUFiles/Api/Admin.php:59
+#: lib/MUFiles/Api/Base/Admin.php:63 lib/MUFiles/Api/Admin.php:59
 msgid "Configuration"
 msgstr ""
 
-#: lib/MUFiles/Api/Base/Admin.php:60 lib/MUFiles/Api/Admin.php:60
+#: lib/MUFiles/Api/Base/Admin.php:64 lib/MUFiles/Api/Admin.php:60
 msgid "Manage settings for this application"
 msgstr ""
 
@@ -1087,27 +1098,11 @@ msgstr ""
 msgid "M u files Backend"
 msgstr ""
 
-#: lib/MUFiles/Controller/File.php:65 lib/MUFiles/Controller/Base/File.php:267
-#: lib/MUFiles/Controller/Base/File.php:374
+#: lib/MUFiles/Controller/Base/File.php:267
 #: lib/MUFiles/Controller/Base/Hookobject.php:267
-#: lib/MUFiles/Controller/Base/Hookobject.php:374
 #: lib/MUFiles/Controller/Base/Collection.php:267
-#: lib/MUFiles/Controller/Base/Collection.php:374
 #: lib/MUFiles/Controller/Base/External.php:86
-#: lib/MUFiles/Controller/Collection.php:69
 msgid "Error! Invalid identifier received."
-msgstr ""
-
-#: lib/MUFiles/Controller/Base/File.php:401
-msgid "Error! It is not allowed to delete this file."
-msgstr ""
-
-#: lib/MUFiles/Controller/Base/Hookobject.php:401
-msgid "Error! It is not allowed to delete this hookobject."
-msgstr ""
-
-#: lib/MUFiles/Controller/Base/Collection.php:401
-msgid "Error! It is not allowed to delete this collection."
 msgstr ""
 
 #: lib/MUFiles/Controller/Base/External.php:152
@@ -1116,10 +1111,6 @@ msgstr ""
 
 #: lib/MUFiles/Controller/Base/Ajax.php:232
 msgid "Error: invalid input."
-msgstr ""
-
-#: lib/MUFiles/Controller/Collection.php:79
-msgid "Sorry! No access to this collection."
 msgstr ""
 
 #: templates/emailnotifycollectionCreator.tpl:1
@@ -1303,8 +1294,8 @@ msgstr ""
 #: templates/external/collection/select.tpl:50
 #: templates/external/hookobject/find.tpl:68
 #: templates/external/hookobject/select.tpl:25
-#: templates/file/view_quickNav.tpl:39
-#: templates/collection/view_quickNav.tpl:63
+#: templates/file/view_quickNav.tpl:49
+#: templates/collection/view_quickNav.tpl:73
 #: templates/hookobject/view_quickNav.tpl:28
 msgid "Sort by"
 msgstr ""
@@ -1314,8 +1305,8 @@ msgstr ""
 #: templates/external/collection/select.tpl:52
 #: templates/external/hookobject/find.tpl:70
 #: templates/external/hookobject/select.tpl:27
-#: templates/file/view_quickNav.tpl:42
-#: templates/collection/view_quickNav.tpl:66
+#: templates/file/view_quickNav.tpl:52
+#: templates/collection/view_quickNav.tpl:76
 #: templates/hookobject/view_quickNav.tpl:31
 msgid "Id"
 msgstr ""
@@ -1325,18 +1316,17 @@ msgstr ""
 #: templates/external/collection/select.tpl:53
 #: templates/external/hookobject/find.tpl:71
 #: templates/external/hookobject/select.tpl:28
-#: templates/file/view_quickNav.tpl:26 templates/file/view_quickNav.tpl:43
-#: templates/file/view.csv.tpl:3 templates/collection/view_quickNav.tpl:50
-#: templates/collection/view_quickNav.tpl:67
+#: templates/file/view_quickNav.tpl:36 templates/file/view_quickNav.tpl:53
+#: templates/file/view.csv.tpl:3 templates/collection/view_quickNav.tpl:60
+#: templates/collection/view_quickNav.tpl:77
 #: templates/collection/view.csv.tpl:3
 #: templates/hookobject/view_quickNav.tpl:15
-#: templates/hookobject/view_quickNav.tpl:32
 #: templates/hookobject/view.csv.tpl:3
 msgid "Workflow state"
 msgstr ""
 
 #: templates/external/file/find.tpl:75 templates/external/file/select.tpl:29
-#: templates/file/view_quickNav.tpl:44 templates/file/view.tpl:75
+#: templates/file/view_quickNav.tpl:54 templates/file/view.tpl:75
 #: templates/file/edit.tpl:29 templates/file/view.csv.tpl:3
 msgid "Title"
 msgstr ""
@@ -1344,16 +1334,16 @@ msgstr ""
 #: templates/external/file/find.tpl:76 templates/external/file/select.tpl:30
 #: templates/external/collection/find.tpl:101
 #: templates/external/collection/select.tpl:55 templates/file/display.tpl:14
-#: templates/file/view_quickNav.tpl:45 templates/file/view.tpl:78
+#: templates/file/view_quickNav.tpl:55 templates/file/view.tpl:78
 #: templates/file/edit.tpl:35 templates/file/view.csv.tpl:3
 #: templates/collection/display.tpl:95
-#: templates/collection/view_quickNav.tpl:69 templates/collection/view.tpl:80
+#: templates/collection/view_quickNav.tpl:79 templates/collection/view.tpl:80
 #: templates/collection/edit.tpl:54 templates/collection/view.csv.tpl:3
 msgid "Description"
 msgstr ""
 
 #: templates/external/file/find.tpl:77 templates/external/file/select.tpl:31
-#: templates/file/view_quickNav.tpl:46 templates/file/view.tpl:82
+#: templates/file/view_quickNav.tpl:56 templates/file/view.tpl:82
 #: templates/file/edit.tpl:44 templates/file/view.csv.tpl:3
 msgid "Upload file"
 msgstr ""
@@ -1363,9 +1353,9 @@ msgstr ""
 #: templates/external/collection/select.tpl:58
 #: templates/external/hookobject/find.tpl:78
 #: templates/external/hookobject/select.tpl:35
-#: templates/file/view_quickNav.tpl:47
-#: templates/collection/view_quickNav.tpl:72
-#: templates/hookobject/view_quickNav.tpl:39
+#: templates/file/view_quickNav.tpl:57
+#: templates/collection/view_quickNav.tpl:82
+#: templates/hookobject/view_quickNav.tpl:38
 msgid "Creation date"
 msgstr ""
 
@@ -1374,9 +1364,9 @@ msgstr ""
 #: templates/external/collection/select.tpl:59
 #: templates/external/hookobject/find.tpl:79
 #: templates/external/hookobject/select.tpl:36
-#: templates/file/view_quickNav.tpl:48
-#: templates/collection/view_quickNav.tpl:73
-#: templates/hookobject/view_quickNav.tpl:40
+#: templates/file/view_quickNav.tpl:58
+#: templates/collection/view_quickNav.tpl:83
+#: templates/hookobject/view_quickNav.tpl:39
 msgid "Creator"
 msgstr ""
 
@@ -1385,9 +1375,9 @@ msgstr ""
 #: templates/external/collection/select.tpl:60
 #: templates/external/hookobject/find.tpl:80
 #: templates/external/hookobject/select.tpl:37
-#: templates/file/view_quickNav.tpl:49
-#: templates/collection/view_quickNav.tpl:74
-#: templates/hookobject/view_quickNav.tpl:41
+#: templates/file/view_quickNav.tpl:59
+#: templates/collection/view_quickNav.tpl:84
+#: templates/hookobject/view_quickNav.tpl:40
 msgid "Update date"
 msgstr ""
 
@@ -1396,9 +1386,9 @@ msgstr ""
 #: templates/external/collection/select.tpl:63
 #: templates/external/hookobject/find.tpl:83
 #: templates/external/hookobject/select.tpl:40
-#: templates/file/view_quickNav.tpl:52
-#: templates/collection/view_quickNav.tpl:77
-#: templates/hookobject/view_quickNav.tpl:44
+#: templates/file/view_quickNav.tpl:62
+#: templates/collection/view_quickNav.tpl:87
+#: templates/hookobject/view_quickNav.tpl:43
 msgid "ascending"
 msgstr ""
 
@@ -1407,18 +1397,18 @@ msgstr ""
 #: templates/external/collection/select.tpl:64
 #: templates/external/hookobject/find.tpl:84
 #: templates/external/hookobject/select.tpl:41
-#: templates/file/view_quickNav.tpl:53
-#: templates/collection/view_quickNav.tpl:78
-#: templates/hookobject/view_quickNav.tpl:45
+#: templates/file/view_quickNav.tpl:63
+#: templates/collection/view_quickNav.tpl:88
+#: templates/hookobject/view_quickNav.tpl:44
 msgid "descending"
 msgstr ""
 
 #: templates/external/file/find.tpl:89
 #: templates/external/collection/find.tpl:115
 #: templates/external/hookobject/find.tpl:89
-#: templates/file/view_quickNav.tpl:60
-#: templates/collection/view_quickNav.tpl:85
-#: templates/hookobject/view_quickNav.tpl:52
+#: templates/file/view_quickNav.tpl:70
+#: templates/collection/view_quickNav.tpl:95
+#: templates/hookobject/view_quickNav.tpl:51
 msgid "Page size"
 msgstr ""
 
@@ -1490,7 +1480,7 @@ msgstr ""
 
 #: templates/external/collection/find.tpl:75
 #: templates/external/collection/select.tpl:39 templates/file/display.tpl:20
-#: templates/collection/display.tpl:8
+#: templates/file/view.tpl:86 templates/collection/display.tpl:8
 #: templates/collection/include_selectOne.tpl:9
 #: templates/collection/include_selectOne.tpl:14
 #: templates/collection/include_selectEditOne.tpl:9
@@ -1501,14 +1491,14 @@ msgstr ""
 #: templates/external/collection/find.tpl:100
 #: templates/external/collection/select.tpl:54
 #: templates/collection/display.tpl:93
-#: templates/collection/view_quickNav.tpl:68 templates/collection/view.tpl:77
+#: templates/collection/view_quickNav.tpl:78 templates/collection/view.tpl:77
 #: templates/collection/edit.tpl:48 templates/collection/view.csv.tpl:3
 msgid "Name"
 msgstr ""
 
 #: templates/external/collection/find.tpl:102
 #: templates/external/collection/select.tpl:56
-#: templates/collection/view_quickNav.tpl:70 templates/collection/view.tpl:84
+#: templates/collection/view_quickNav.tpl:80 templates/collection/view.tpl:84
 #: templates/collection/view.csv.tpl:3
 msgid "Parentid"
 msgstr ""
@@ -1516,8 +1506,8 @@ msgstr ""
 #: templates/external/collection/find.tpl:103
 #: templates/external/collection/select.tpl:57
 #: templates/collection/display.tpl:99
-#: templates/collection/view_quickNav.tpl:71
-#: templates/collection/view_quickNav.tpl:97 templates/collection/view.tpl:87
+#: templates/collection/view_quickNav.tpl:81
+#: templates/collection/view_quickNav.tpl:107 templates/collection/view.tpl:87
 #: templates/collection/edit.tpl:60 templates/collection/edit.tpl:65
 #: templates/collection/view.csv.tpl:3
 msgid "In frontend"
@@ -1544,7 +1534,7 @@ msgstr ""
 #: templates/external/hookobject/find.tpl:72
 #: templates/external/hookobject/select.tpl:29
 #: templates/hookobject/display.tpl:70
-#: templates/hookobject/view_quickNav.tpl:33 templates/hookobject/view.tpl:66
+#: templates/hookobject/view_quickNav.tpl:32 templates/hookobject/view.tpl:66
 #: templates/hookobject/edit.tpl:45 templates/hookobject/view.csv.tpl:3
 msgid "Hooked module"
 msgstr ""
@@ -1552,7 +1542,7 @@ msgstr ""
 #: templates/external/hookobject/find.tpl:73
 #: templates/external/hookobject/select.tpl:30
 #: templates/hookobject/display.tpl:72
-#: templates/hookobject/view_quickNav.tpl:34 templates/hookobject/view.tpl:69
+#: templates/hookobject/view_quickNav.tpl:33 templates/hookobject/view.tpl:69
 #: templates/hookobject/edit.tpl:51 templates/hookobject/view.csv.tpl:3
 msgid "Hooked object"
 msgstr ""
@@ -1560,7 +1550,7 @@ msgstr ""
 #: templates/external/hookobject/find.tpl:74
 #: templates/external/hookobject/select.tpl:31
 #: templates/hookobject/display.tpl:74
-#: templates/hookobject/view_quickNav.tpl:35 templates/hookobject/view.tpl:72
+#: templates/hookobject/view_quickNav.tpl:34 templates/hookobject/view.tpl:72
 #: templates/hookobject/edit.tpl:57 templates/hookobject/view.csv.tpl:3
 msgid "Area id"
 msgstr ""
@@ -1568,7 +1558,7 @@ msgstr ""
 #: templates/external/hookobject/find.tpl:75
 #: templates/external/hookobject/select.tpl:32
 #: templates/hookobject/display.tpl:76
-#: templates/hookobject/view_quickNav.tpl:36 templates/hookobject/view.tpl:75
+#: templates/hookobject/view_quickNav.tpl:35 templates/hookobject/view.tpl:75
 #: templates/hookobject/edit.tpl:64 templates/hookobject/view.csv.tpl:3
 msgid "Url"
 msgstr ""
@@ -1576,7 +1566,7 @@ msgstr ""
 #: templates/external/hookobject/find.tpl:76
 #: templates/external/hookobject/select.tpl:33
 #: templates/hookobject/display.tpl:78
-#: templates/hookobject/view_quickNav.tpl:37 templates/hookobject/view.tpl:78
+#: templates/hookobject/view_quickNav.tpl:36 templates/hookobject/view.tpl:78
 #: templates/hookobject/edit.tpl:70 templates/hookobject/view.csv.tpl:3
 msgid "Object id"
 msgstr ""
@@ -1584,7 +1574,7 @@ msgstr ""
 #: templates/external/hookobject/find.tpl:77
 #: templates/external/hookobject/select.tpl:34
 #: templates/hookobject/display.tpl:80
-#: templates/hookobject/view_quickNav.tpl:38
+#: templates/hookobject/view_quickNav.tpl:37
 #: templates/hookobject/view.csv.tpl:3
 msgid "Url object"
 msgstr ""
@@ -1721,15 +1711,15 @@ msgstr ""
 msgid "Quick navigation"
 msgstr ""
 
-#: templates/file/view_quickNav.tpl:35
-#: templates/collection/view_quickNav.tpl:59
+#: templates/file/view_quickNav.tpl:45
+#: templates/collection/view_quickNav.tpl:69
 #: templates/hookobject/view_quickNav.tpl:24
 msgid "Search"
 msgstr ""
 
-#: templates/file/view_quickNav.tpl:71
-#: templates/collection/view_quickNav.tpl:105
-#: templates/hookobject/view_quickNav.tpl:63
+#: templates/file/view_quickNav.tpl:81
+#: templates/collection/view_quickNav.tpl:115
+#: templates/hookobject/view_quickNav.tpl:62
 msgid "OK"
 msgstr ""
 
@@ -1749,10 +1739,6 @@ msgstr ""
 
 #: templates/file/view.tpl:71 templates/collection/view.tpl:70
 msgid "State"
-msgstr ""
-
-#: templates/file/view.tpl:86 templates/file/view.csv.tpl:4
-msgid "Aliascollection"
 msgstr ""
 
 #: templates/file/view.tpl:106 templates/collection/view.tpl:112
@@ -1805,12 +1791,12 @@ msgstr ""
 msgid "Current file"
 msgstr ""
 
-#: templates/file/edit.tpl:96 templates/collection/edit.tpl:117
+#: templates/file/edit.tpl:96 templates/collection/edit.tpl:116
 #: templates/hookobject/edit.tpl:102
 msgid "Return control"
 msgstr ""
 
-#: templates/file/edit.tpl:98 templates/collection/edit.tpl:119
+#: templates/file/edit.tpl:98 templates/collection/edit.tpl:118
 #: templates/hookobject/edit.tpl:104
 msgid "Create another item after save"
 msgstr ""
@@ -1830,6 +1816,10 @@ msgstr ""
 #: templates/file/delete.tpl:26 templates/collection/delete.tpl:26
 #: templates/hookobject/delete.tpl:26
 msgid "Confirmation prompt"
+msgstr ""
+
+#: templates/file/view.csv.tpl:4
+msgid "Aliascollection"
 msgstr ""
 
 #: templates/file/view.csv.tpl:5
@@ -1955,35 +1945,35 @@ msgstr ""
 msgid "in frontend ?"
 msgstr ""
 
-#: templates/collection/edit.tpl:97
+#: templates/collection/edit.tpl:96
 msgid "Communication"
 msgstr ""
 
-#: templates/collection/edit.tpl:100
+#: templates/collection/edit.tpl:99
 msgid "Additional remarks"
 msgstr ""
 
-#: templates/collection/edit.tpl:101
+#: templates/collection/edit.tpl:100
 msgid "Enter any additions about your changes"
 msgstr ""
 
-#: templates/collection/edit.tpl:103
+#: templates/collection/edit.tpl:102
 msgid "Enter any additions about your content"
 msgstr ""
 
-#: templates/collection/edit.tpl:107
+#: templates/collection/edit.tpl:106
 msgid ""
 "These remarks (like a reason for deny) are not stored, but added to any "
 "notification emails send to the creator."
 msgstr ""
 
-#: templates/collection/edit.tpl:109
+#: templates/collection/edit.tpl:108
 msgid ""
 "These remarks (like questions about conformance) are not stored, but added "
 "to any notification emails send to our moderators."
 msgstr ""
 
-#: templates/collection/edit.tpl:132
+#: templates/collection/edit.tpl:131
 msgid "Really delete this collection?"
 msgstr ""
 
@@ -2061,11 +2051,15 @@ msgstr ""
 msgid "Updated by %1$s on %2$s"
 msgstr ""
 
+#: templates/hooks/view.tpl:10
+msgid "See the complete collection"
+msgstr ""
+
 #: templates/hooks/edit.tpl:5
 msgid "Select a collection!"
 msgstr ""
 
-#: templates/hooks/edit.tpl:12
+#: templates/hooks/edit.tpl:11
 msgid "Select a file!"
 msgstr ""
 
