@@ -50,23 +50,26 @@ class MUFiles_HookHandlers extends Zikula_Hook_AbstractHandler
         if (!$objectId) {
             return;
         }
-
+        
         $hookObject = $this->entityManager->getRepository('MUFiles_Entity_Hookobject')->findOneBy(array('hookedModule' => $module, 'hookedObject' => 'collectionfile', 'areaId' => $areaId, 'objectId' => $objectId));
+
+        // Set caching to false by default.
+        $this->view->setCaching(Zikula_View::CACHE_DISABLED);
 
         $collectionrepository = MUFiles_Util_Model::getCollectionsRepository();
         
         $collections = '';
         if (is_object($hookObject['collectionhook']) && count($hookObject['collectionhook']) > 0) {
-        $collections[] = $hookObject['collectionhook'];
-        }
-        
-        $files = '';
-        if (is_object($hookObject['filehook']) && count($hookObject['filehook']) > 0) {
-        $files[] = $hookObject['filehook'];
+        $collections = $hookObject['collectionhook'];
         }
 
-        $this->view->assign('collections', $collections);
-        $this->view->assign('files', $files);
+        $files = '';
+        if (is_object($hookObject['filehook']) && count($hookObject['filehook']) > 0) {
+        $files = $hookObject['filehook'];
+        }
+
+        $this->view->assign('hookcollections', $collections);
+        $this->view->assign('hookfiles', $files);
 
         // add this response to the event stack
         $area = 'provider.mufiles.ui_hooks.service';
@@ -88,8 +91,6 @@ class MUFiles_HookHandlers extends Zikula_Hook_AbstractHandler
         $hookObjectId = $hook->getId();
         $objectId = isset($hookObjectId) ? $hookObjectId : 0;
         $areaId = $hook->getAreaId();
-        LogUtil::registerError($areaId);
-        LogUtil::registerError($module);
 
         $modelHelper = new MUFiles_Util_Model($this->view->getServicemanager());
         // we get a collection repository
@@ -112,7 +113,7 @@ class MUFiles_HookHandlers extends Zikula_Hook_AbstractHandler
         $where .= ' AND ';
         $where .= 'tbl.hookedObject = \'' . DataUtil::formatForStore('collectionfile') . '\'';
 
-        // we look if there is a hookoobject saved for this object
+        // we look if there is a hookobject saved for this object
         $hookObject = $hookobjectrepository->selectWhere($where);
 
         // instanciate vars
@@ -125,7 +126,6 @@ class MUFiles_HookHandlers extends Zikula_Hook_AbstractHandler
 
         if (is_object($selectedCollections) === true) {
             foreach ($selectedCollections as $selectedSingleCollection) {
-                //LogUtil::registerStatus($selectedSingleCollection['id']);
                 $selectedCollectionIds[] = $selectedSingleCollection['id'];
             }
         } else {
