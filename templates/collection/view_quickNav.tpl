@@ -37,7 +37,14 @@
         {/if}
         {if !isset($collectionFilter) || $collectionFilter eq true}
                 <label for="parent">{gt text='Collections'}</label>
-                {modapifunc modname='MUFiles' type='selection' func='getEntities' ot='collection' useJoins=false assign='listEntries'}
+                {php}
+                    $mainSearchTerm = '';
+                    if (isset($_GET['q'])) {
+                        $mainSearchTerm = $_GET['q'];
+                        unset($_GET['q']);
+                    }
+                {/php}
+                {modapifunc modname='MUFiles' type='selection' func='getEntities' ot='collection' assign='listEntries'}
                 <select id="parent" name="parent">
                     <option value="">{$lblDefault}</option>
                 {foreach item='option' from=$listEntries}
@@ -45,6 +52,11 @@
                     <option value="{$entryId}"{if $entryId eq $parent} selected="selected"{/if}>{$option->getTitleFromDisplayPattern()}</option>
                 {/foreach}
                 </select>
+                {php}
+                    if (!empty($mainSearchTerm)) {
+                        $_GET['q'] = $mainSearchTerm;
+                    }
+                {/php}
         {/if}
         {if !isset($workflowStateFilter) || $workflowStateFilter eq true}
                 <label for="workflowState">{gt text='Workflow state'}</label>
@@ -57,7 +69,7 @@
         {/if}
         {if !isset($searchFilter) || $searchFilter eq true}
                 <label for="searchTerm">{gt text='Search'}</label>
-                <input type="text" id="searchTerm" name="searchterm" value="{$searchterm}" />
+                <input type="text" id="searchTerm" name="q" value="{$q}" />
         {/if}
         {if !isset($sorting) || $sorting eq true}
                 <label for="sortBy">{gt text='Sort by'}</label>
