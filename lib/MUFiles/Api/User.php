@@ -137,6 +137,7 @@ class MUFiles_Api_User extends MUFiles_Api_Base_User
                 }
                 $hookedObject->setCollectionhook($hookcollections);
                 $hookedObject->setFilehook($hookfiles);
+                $hookedObject->setUrlObject($urlObject);
                 $this->entityManager->persist($hookedObject);
                 $this->entityManager->flush();                
             }
