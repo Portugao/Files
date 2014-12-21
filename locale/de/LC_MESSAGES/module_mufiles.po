@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Zikula 1.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-20 20:59+0000\n"
-"PO-Revision-Date: 2014-12-20 22:10+0100\n"
+"PO-Revision-Date: 2014-12-20 23:23+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -1424,7 +1424,7 @@ msgstr "Ersteller"
 #: templates/collection/view_quickNav.tpl:84
 #: templates/hookobject/view_quickNav.tpl:40
 msgid "Update date"
-msgstr "Datum aktualisieren"
+msgstr "Aktualisierungsdatum"
 
 #: templates/external/file/find.tpl:83 templates/external/file/select.tpl:37
 #: templates/external/collection/find.tpl:109
