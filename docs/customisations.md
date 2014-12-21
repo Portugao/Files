@@ -12,6 +12,8 @@ Changes by hand on the model to change in MOST
 
 Changed Files
 
+README.md
+
 *javascript/MUFiles_finder.js
 
 *templates/external/file/display.tpl
