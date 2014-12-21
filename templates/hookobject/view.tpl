@@ -149,12 +149,13 @@
     {/if}
 
     
-    {if $lct ne 'admin'}
+    {* here you can activate calling display hooks for the view page if you need it *}
+    {*if $lct ne 'admin'}
         {notifydisplayhooks eventname='mufiles.ui_hooks.hookobjects.display_view' urlobject=$currentUrlObject assign='hooks'}
         {foreach key='providerArea' item='hook' from=$hooks}
             {$hook}
         {/foreach}
-    {/if}
+    {/if*}
 </div>
 {include file="`$lct`/footer.tpl"}
 
