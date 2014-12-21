@@ -42,12 +42,15 @@
                 title : 'mufiles.desc',
                 cmd : 'mceMUFiles',
              // image : url + '/img/MUFiles.gif'
-                image : '/modules/MUFiles/images/mufiles.png'
-            });
+                image : '/images/icons/extrasmall/favorites.png',
+                onPostRender: function() {
+                    var ctrl = this;
 
-            // Add a node change handler, selects the button in the UI when a image is selected
-            ed.onNodeChange.add(function (ed, cm, n) {
-                cm.setActive('mufiles', n.nodeName === 'IMG');
+                    // Add a node change handler, selects the button in the UI when an anchor or an image is selected
+                    ed.on('NodeChange', function(e) {
+                        ctrl.active(e.element.nodeName == 'A' || e.element.nodeName == 'IMG');
+                    });
+                }
             });
         },
 

@@ -19,7 +19,7 @@ function MUFiles(editor) {
         id       : 'MUFiles',
         tooltip  : 'Insert MUFiles object',
      // image    : _editor_url + 'plugins/MUFiles/img/ed_MUFiles.gif',
-        image    : '/modules/MUFiles/images/mufiles.png',
+        image    : '/images/icons/extrasmall/favorites.png',
         textMode : false,
         action   : function (editor) {
             var url = Zikula.Config.baseURL + 'index.php'/*Zikula.Config.entrypoint*/ + '?module=MUFiles&type=external&func=finder&editor=xinha';
