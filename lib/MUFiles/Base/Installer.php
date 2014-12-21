@@ -285,5 +285,8 @@ class MUFiles_Base_Installer extends Zikula_AbstractInstaller
         // special purposes and 3rd party api support -> MUFiles_Listener_ThirdParty
         EventUtil::registerPersistentModuleHandler('MUFiles', 'get.pending_content', array('MUFiles_Listener_ThirdParty', 'pendingContentListener'));
         EventUtil::registerPersistentModuleHandler('MUFiles', 'module.content.gettypes', array('MUFiles_Listener_ThirdParty', 'contentGetTypes'));
+        EventUtil::registerPersistentModuleHandler('MUFiles', 'module.scribite.editorhelpers', array('MUFiles_Listener_ThirdParty', 'getEditorHelpers'));
+        EventUtil::registerPersistentModuleHandler('MUFiles', 'moduleplugin.tinymce.externalplugins', array('MUFiles_Listener_ThirdParty', 'getTinyMcePlugins'));
+        EventUtil::registerPersistentModuleHandler('MUFiles', 'moduleplugin.ckeditor.externalplugins', array('MUFiles_Listener_ThirdParty', 'getCKEditorPlugins'));
     }
 }
