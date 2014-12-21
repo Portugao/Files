@@ -142,7 +142,7 @@ class MUFiles_Listener_Base_ThirdParty
         
         $plugins->add(
             array('name' => 'mufiles',
-                  'path' => 'modules/MUFiles/docs/scribite/plugins/CKEditor/plugins/mufiles/',
+                  'path' => 'modules/MUFiles/docs/scribite/plugins/CKEditor/vendor/ckeditor/plugins/mufiles/',
                   'file' => 'plugin.js',
                   'img'  => 'ed_mufiles.gif'
             )
