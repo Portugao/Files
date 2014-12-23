@@ -85,10 +85,12 @@
         {/if}
         {if is_array($hooks) && count($hooks)}
             {foreach name='hookLoop' key='providerArea' item='hook' from=$hooks}
+            {if $providerArea ne 'provider.scribite.ui_hooks.editor'}
                 <h3 class="hook z-panel-header z-panel-indicator z-pointer">{$providerArea}</h3>
                 <fieldset class="hook z-panel-content" style="display: none">
                     {$hook}
                 </fieldset>
+            {/if}
             {/foreach}
         {/if}
         
