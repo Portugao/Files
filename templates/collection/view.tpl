@@ -96,6 +96,7 @@
             <tbody>
         
         {foreach item='collection' from=$items}
+            {checkpermissionblock component='MUFiles:Collection:' instance="`$collection.id`::" level='ACCESS_READ'}
             <tr class="{cycle values='z-odd, z-even'}">
                 {if $lct eq 'admin'}
                     <td headers="hselect" align="center" valign="top">
@@ -168,6 +169,7 @@
                     {/if}
                 </td>
             </tr>
+            {/checkpermissionblock}
         {foreachelse}
             <tr class="z-{if $lct eq 'admin'}admin{else}data{/if}tableempty">
               <td class="z-left" colspan="{if $lct eq 'admin'}7{else}4{/if}">
