@@ -44,6 +44,22 @@ class MUFiles_Util_View extends MUFiles_Util_Base_View
             case 'xls': // word excel
                 $mime = 'application/msexcel';
                 break;
+                
+            case 'ppt': // microsoft powerpoint
+                $mime = 'application/mspowerpoint';
+                break;
+                
+            case 'gz':
+                $mime = 'application/gzip';
+                break;
+                
+            case 'zip':
+                $mime = 'application/zip';
+                break;
+                
+            case 'tar':
+                $mime = 'application/x-tar';
+                break;
         }
         
         return $mime;
