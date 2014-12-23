@@ -117,7 +117,7 @@
     <script type="text/javascript">
     /* <![CDATA[ */
         document.observe('dom:loaded', function() {
-            mufiles.finder.onLoad();
+            mUFiles.finder.onLoad();
         });
     /* ]]> */
     </script>

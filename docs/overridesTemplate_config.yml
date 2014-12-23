@@ -3,6 +3,7 @@ src/modules/MUFiles/templates/collection/view.tpl: config/templates/MUFiles/coll
 src/modules/MUFiles/templates/collection/view_quickNav.tpl: config/templates/MUFiles/collection/view_quickNav.tpl
 src/modules/MUFiles/templates/collection/view.csv.tpl: config/templates/MUFiles/collection/view.csv.tpl
 src/modules/MUFiles/templates/collection/display.tpl: config/templates/MUFiles/collection/display.tpl
+src/modules/MUFiles/templates/collection/delete.tpl: config/templates/MUFiles/collection/delete.tpl
 src/modules/MUFiles/templates/collection/include_displayItemListOne.tpl: config/templates/MUFiles/collection/include_displayItemListOne.tpl
 src/modules/MUFiles/templates/collection/include_displayItemListMany.tpl: config/templates/MUFiles/collection/include_displayItemListMany.tpl
 src/modules/MUFiles/templates/file/main.tpl: config/templates/MUFiles/file/main.tpl
@@ -10,6 +11,7 @@ src/modules/MUFiles/templates/file/view.tpl: config/templates/MUFiles/file/view.
 src/modules/MUFiles/templates/file/view_quickNav.tpl: config/templates/MUFiles/file/view_quickNav.tpl
 src/modules/MUFiles/templates/file/view.csv.tpl: config/templates/MUFiles/file/view.csv.tpl
 src/modules/MUFiles/templates/file/display.tpl: config/templates/MUFiles/file/display.tpl
+src/modules/MUFiles/templates/file/delete.tpl: config/templates/MUFiles/file/delete.tpl
 src/modules/MUFiles/templates/file/include_displayItemListOne.tpl: config/templates/MUFiles/file/include_displayItemListOne.tpl
 src/modules/MUFiles/templates/file/include_displayItemListMany.tpl: config/templates/MUFiles/file/include_displayItemListMany.tpl
 src/modules/MUFiles/templates/hookobject/main.tpl: config/templates/MUFiles/hookobject/main.tpl
@@ -17,6 +19,7 @@ src/modules/MUFiles/templates/hookobject/view.tpl: config/templates/MUFiles/hook
 src/modules/MUFiles/templates/hookobject/view_quickNav.tpl: config/templates/MUFiles/hookobject/view_quickNav.tpl
 src/modules/MUFiles/templates/hookobject/view.csv.tpl: config/templates/MUFiles/hookobject/view.csv.tpl
 src/modules/MUFiles/templates/hookobject/display.tpl: config/templates/MUFiles/hookobject/display.tpl
+src/modules/MUFiles/templates/hookobject/delete.tpl: config/templates/MUFiles/hookobject/delete.tpl
 src/modules/MUFiles/templates/hookobject/include_displayItemListOne.tpl: config/templates/MUFiles/hookobject/include_displayItemListOne.tpl
 src/modules/MUFiles/templates/hookobject/include_displayItemListMany.tpl: config/templates/MUFiles/hookobject/include_displayItemListMany.tpl
 src/modules/MUFiles/templates/admin/header.tpl: config/templates/MUFiles/admin/header.tpl

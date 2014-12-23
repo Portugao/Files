@@ -1,6 +1,6 @@
 'use strict';
 
-function mufilesToday(format)
+function mUMUFilesToday(format)
 {
     var timestamp, todayDate, month, day, hours, minutes, seconds;
 
@@ -39,7 +39,7 @@ function mufilesToday(format)
 }
 
 // returns YYYY-MM-DD even if date is in DD.MM.YYYY
-function mufilesReadDate(val, includeTime)
+function mUMUFilesReadDate(val, includeTime)
 {
     // look if we have YYYY-MM-DD
     if (val.substr(4, 1) === '-' && val.substr(7, 1) === '-') {
@@ -56,7 +56,7 @@ function mufilesReadDate(val, includeTime)
     }
 }
 
-function mufilesValidateNoSpace(val)
+function mUMUFilesValidateNoSpace(val)
 {
     var valStr;
     valStr = new String(val);
@@ -64,7 +64,7 @@ function mufilesValidateNoSpace(val)
     return (valStr.indexOf(' ') === -1);
 }
 
-function mufilesValidateUploadExtension(val, elem)
+function mUMUFilesValidateUploadExtension(val, elem)
 {
     var fileExtension, allowedExtensions;
     if (val === '') {
@@ -81,14 +81,14 @@ function mufilesValidateUploadExtension(val, elem)
 /**
  * Adds special validation rules.
  */
-function mufilesAddCommonValidationRules(objectType, id)
+function mUMUFilesAddCommonValidationRules(objectType, id)
 {
     Validation.addAllThese([
         ['validate-nospace', Zikula.__('No spaces', 'module_mufiles_js'), function(val, elem) {
-            return mufilesValidateNoSpace(val);
+            return mUMUFilesValidateNoSpace(val);
         }],
         ['validate-upload', Zikula.__('Please select a valid file extension.', 'module_mufiles_js'), function(val, elem) {
-            return mufilesValidateUploadExtension(val, elem);
+            return mUMUFilesValidateUploadExtension(val, elem);
         }],
     ]);
 }

@@ -1,8 +1,8 @@
 'use strict';
 
-var mufilesContextMenu;
+var mUMUFilesContextMenu;
 
-mufilesContextMenu = Class.create(Zikula.UI.ContextMenu, {
+mUMUFilesContextMenu = Class.create(Zikula.UI.ContextMenu, {
     selectMenuItem: function ($super, event, item, item_container) {
         // open in new tab / window when right-clicked
         if (event.isRightClick()) {
@@ -18,14 +18,14 @@ mufilesContextMenu = Class.create(Zikula.UI.ContextMenu, {
 /**
  * Initialises the context menu for item actions.
  */
-function mufilesInitItemActions(objectType, func, containerId)
+function mUMUFilesInitItemActions(objectType, func, containerId)
 {
     var triggerId, contextMenu, icon;
 
     triggerId = containerId + 'Trigger';
 
     // attach context menu
-    contextMenu = new mufilesContextMenu(triggerId, { leftClick: true, animation: false });
+    contextMenu = new mUMUFilesContextMenu(triggerId, { leftClick: true, animation: false });
 
     // process normal links
     $$('#' + containerId + ' a').each(function (elem) {
@@ -86,7 +86,7 @@ function mufilesInitItemActions(objectType, func, containerId)
     $(triggerId).removeClassName('z-hide');
 }
 
-function mufilesCapitaliseFirstLetter(string)
+function mUMUFilesCapitaliseFirstLetter(string)
 {
     return string.charAt(0).toUpperCase() + string.substring(1);
 }
@@ -94,56 +94,56 @@ function mufilesCapitaliseFirstLetter(string)
 /**
  * Submits a quick navigation form.
  */
-function mufilesSubmitQuickNavForm(objectType)
+function mUMUFilesSubmitQuickNavForm(objectType)
 {
-    $('mufiles' + mufilesCapitaliseFirstLetter(objectType) + 'QuickNavForm').submit();
+    $('mufiles' + mUMUFilesCapitaliseFirstLetter(objectType) + 'QuickNavForm').submit();
 }
 
 /**
  * Initialise the quick navigation panel in list views.
  */
-function mufilesInitQuickNavigation(objectType)
+function mUMUFilesInitQuickNavigation(objectType)
 {
-    if ($('mufiles' + mufilesCapitaliseFirstLetter(objectType) + 'QuickNavForm') == undefined) {
+    if ($('mufiles' + mUMUFilesCapitaliseFirstLetter(objectType) + 'QuickNavForm') == undefined) {
         return;
     }
 
     if ($('catid') != undefined) {
-        $('catid').observe('change', function () { mufilesSubmitQuickNavForm(objectType); });
+        $('catid').observe('change', function () { mUMUFilesSubmitQuickNavForm(objectType); });
     }
     if ($('sortby') != undefined) {
-        $('sortby').observe('change', function () { mufilesSubmitQuickNavForm(objectType); });
+        $('sortby').observe('change', function () { mUMUFilesSubmitQuickNavForm(objectType); });
     }
     if ($('sortdir') != undefined) {
-        $('sortdir').observe('change', function () { mufilesSubmitQuickNavForm(objectType); });
+        $('sortdir').observe('change', function () { mUMUFilesSubmitQuickNavForm(objectType); });
     }
     if ($('num') != undefined) {
-        $('num').observe('change', function () { mufilesSubmitQuickNavForm(objectType); });
+        $('num').observe('change', function () { mUMUFilesSubmitQuickNavForm(objectType); });
     }
 
     switch (objectType) {
     case 'collection':
         if ($('parent') != undefined) {
-            $('parent').observe('change', function () { mufilesSubmitQuickNavForm(objectType); });
+            $('parent').observe('change', function () { mUMUFilesSubmitQuickNavForm(objectType); });
         }
         if ($('workflowState') != undefined) {
-            $('workflowState').observe('change', function () { mufilesSubmitQuickNavForm(objectType); });
+            $('workflowState').observe('change', function () { mUMUFilesSubmitQuickNavForm(objectType); });
         }
         if ($('inFrontend') != undefined) {
-            $('inFrontend').observe('change', function () { mufilesSubmitQuickNavForm(objectType); });
+            $('inFrontend').observe('change', function () { mUMUFilesSubmitQuickNavForm(objectType); });
         }
         break;
     case 'file':
         if ($('aliascollection') != undefined) {
-            $('aliascollection').observe('change', function () { mufilesSubmitQuickNavForm(objectType); });
+            $('aliascollection').observe('change', function () { mUMUFilesSubmitQuickNavForm(objectType); });
         }
         if ($('workflowState') != undefined) {
-            $('workflowState').observe('change', function () { mufilesSubmitQuickNavForm(objectType); });
+            $('workflowState').observe('change', function () { mUMUFilesSubmitQuickNavForm(objectType); });
         }
         break;
     case 'hookobject':
         if ($('workflowState') != undefined) {
-            $('workflowState').observe('change', function () { mufilesSubmitQuickNavForm(objectType); });
+            $('workflowState').observe('change', function () { mUMUFilesSubmitQuickNavForm(objectType); });
         }
         break;
     default:
@@ -156,7 +156,7 @@ function mufilesInitQuickNavigation(objectType)
  * For edit forms we use "iframe: true" to ensure file uploads work without problems.
  * For all other windows we use "iframe: false" because we want the escape key working.
  */
-function mufilesInitInlineWindow(containerElem, title)
+function mUMUFilesInitInlineWindow(containerElem, title)
 {
     var newWindow;
 
@@ -185,24 +185,24 @@ function mufilesInitInlineWindow(containerElem, title)
 /**
  * Initialise ajax-based toggle for boolean fields.
  */
-function mufilesInitToggle(objectType, fieldName, itemId)
+function mUMUFilesInitToggle(objectType, fieldName, itemId)
 {
-    var idSuffix = mufilesCapitaliseFirstLetter(fieldName) + itemId;
+    var idSuffix = mUMUFilesCapitaliseFirstLetter(fieldName) + itemId;
     if ($('toggle' + idSuffix) == undefined) {
         return;
     }
     $('toggle' + idSuffix).observe('click', function() {
-        mufilesToggleFlag(objectType, fieldName, itemId);
+        mUMUFilesToggleFlag(objectType, fieldName, itemId);
     }).removeClassName('z-hide');
 }
 
 
 /**
- * Toggle a certain flag for a given item.
+ * Toggles a certain flag for a given item.
  */
-function mufilesToggleFlag(objectType, fieldName, itemId)
+function mUMUFilesToggleFlag(objectType, fieldName, itemId)
 {
-    var fieldNameCapitalised = mufilesCapitaliseFirstLetter(fieldName);
+    var fieldNameCapitalised = mUMUFilesCapitaliseFirstLetter(fieldName);
     var params = 'ot=' + objectType + '&field=' + fieldName + '&id=' + itemId;
 
     new Zikula.Ajax.Request(

@@ -99,7 +99,7 @@
             <script type="text/javascript">
             /* <![CDATA[ */
                 document.observe('dom:loaded', function() {
-                    mufilesInitItemActions('hookobject', 'display', 'itemActions{{$hookobject.id}}');
+                    mUMUFilesInitItemActions('hookobject', 'display', 'itemActions{{$hookobject.id}}');
                 });
             /* ]]> */
             </script>

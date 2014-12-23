@@ -74,7 +74,7 @@
 {pageaddvar name='javascript' value='prototype'}
 <script type="text/javascript">
 /* <![CDATA[ */
-    function mufilesToggleCustomTemplate() {
+    function mUMUFilesToggleCustomTemplate() {
         if ($F('mUFilesTemplate') == 'custom') {
             $('customTemplateArea').removeClassName('z-hide');
         } else {
@@ -83,9 +83,9 @@
     }
 
     document.observe('dom:loaded', function() {
-        mufilesToggleCustomTemplate();
+        mUMUFilesToggleCustomTemplate();
         $('mUFilesTemplate').observe('change', function(e) {
-            mufilesToggleCustomTemplate();
+            mUMUFilesToggleCustomTemplate();
         });
     });
 /* ]]> */

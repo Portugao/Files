@@ -26,8 +26,11 @@ function MUFiles_operation_notify(&$entity, $params)
     // initialise the result flag
     $result = false;
 
+    // workflow parameters are always lower-cased (#656)
+    $recipientType = isset($params['recipientType']) ? $params['recipientType'] : $params['recipienttype'];
+    
     $notifyArgs = array(
-        'recipientType' => $params['recipientType'],
+        'recipientType' => $recipientType,
         'action' => $params['action'],
         'entity' => $entity
     );

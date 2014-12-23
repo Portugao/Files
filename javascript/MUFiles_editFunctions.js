@@ -47,7 +47,7 @@ Ajax.Autocompleter.prototype.updateChoices = function (choices)
 /**
  * Resets the value of an upload / file input field.
  */
-function mufilesResetUploadField(fieldName)
+function mUMUFilesResetUploadField(fieldName)
 {
     if ($(fieldName) != null) {
         $(fieldName).setAttribute('type', 'input');
@@ -58,7 +58,7 @@ function mufilesResetUploadField(fieldName)
 /**
  * Initialises the reset button for a certain upload input.
  */
-function mufilesInitUploadField(fieldName)
+function mUMUFilesInitUploadField(fieldName)
 {
     var fieldNameCapitalised;
 
@@ -66,7 +66,7 @@ function mufilesInitUploadField(fieldName)
     if ($('reset' + fieldNameCapitalised + 'Val') != null) {
         $('reset' + fieldNameCapitalised + 'Val').observe('click', function (evt) {
             evt.preventDefault();
-            mufilesResetUploadField(fieldName);
+            mUMUFilesResetUploadField(fieldName);
         }).removeClassName('z-hide').setStyle({ display: 'block' });
     }
 }
@@ -74,7 +74,7 @@ function mufilesInitUploadField(fieldName)
 /**
  * Toggles the fields of an auto completion field.
  */
-function mufilesToggleRelatedItemForm(idPrefix)
+function mUMUFilesToggleRelatedItemForm(idPrefix)
 {
     // if we don't have a toggle link do nothing
     if ($(idPrefix + 'AddLink') === null) {
@@ -91,10 +91,10 @@ function mufilesToggleRelatedItemForm(idPrefix)
 /**
  * Resets an auto completion field.
  */
-function mufilesResetRelatedItemForm(idPrefix)
+function mUMUFilesResetRelatedItemForm(idPrefix)
 {
     // hide the sub form
-    mufilesToggleRelatedItemForm(idPrefix);
+    mUMUFilesToggleRelatedItemForm(idPrefix);
 
     // reset value of the auto completion field
     $(idPrefix + 'Selector').value = '';
@@ -105,7 +105,7 @@ function mufilesResetRelatedItemForm(idPrefix)
  * For edit forms we use "iframe: true" to ensure file uploads work without problems.
  * For all other windows we use "iframe: false" because we want the escape key working.
  */
-function mufilesCreateRelationWindowInstance(containerElem, useIframe)
+function mUMUFilesCreateRelationWindowInstance(containerElem, useIframe)
 {
     var newWindow;
 
@@ -133,7 +133,7 @@ function mufilesCreateRelationWindowInstance(containerElem, useIframe)
 /**
  * Observe a link for opening an inline window
  */
-function mufilesinitInlineRelationWindow(objectType, containerID)
+function mUMUFilesInitInlineRelationWindow(objectType, containerID)
 {
     var found, newItem;
 
@@ -152,7 +152,7 @@ function mufilesinitInlineRelationWindow(objectType, containerID)
                 relationHandler.windowInstance.destroy();
             }
             // create and assign the new window instance
-            relationHandler.windowInstance = mufilesCreateRelationWindowInstance($(containerID), true);
+            relationHandler.windowInstance = mUMUFilesCreateRelationWindowInstance($(containerID), true);
         }
     });
 
@@ -164,7 +164,7 @@ function mufilesinitInlineRelationWindow(objectType, containerID)
         newItem.alias = '';
         newItem.prefix = containerID;
         newItem.acInstance = null;
-        newItem.windowInstance = mufilesCreateRelationWindowInstance($(containerID), true);
+        newItem.windowInstance = mUMUFilesCreateRelationWindowInstance($(containerID), true);
 
         // add it to the list of handlers
         relationHandler.push(newItem);
@@ -174,7 +174,7 @@ function mufilesinitInlineRelationWindow(objectType, containerID)
 /**
  * Removes a related item from the list of selected ones.
  */
-function mufilesRemoveRelatedItem(idPrefix, removeId)
+function mUMUFilesRemoveRelatedItem(idPrefix, removeId)
 {
     var itemIds, itemIdsArr;
 
@@ -192,7 +192,7 @@ function mufilesRemoveRelatedItem(idPrefix, removeId)
 /**
  * Adds a related item to selection which has been chosen by auto completion.
  */
-function mufilesSelectRelatedItem(objectType, idPrefix, inputField, selectedListItem)
+function mUMUFilesSelectRelatedItem(objectType, idPrefix, inputField, selectedListItem)
 {
     var newItemId, newTitle, includeEditing, editLink, removeLink, elemPrefix, itemPreview, li, editHref, fldPreview, itemIds, itemIdsArr;
 
@@ -212,7 +212,7 @@ function mufilesSelectRelatedItem(objectType, idPrefix, inputField, selectedList
         editLink = Builder.node('a', {id: elemPrefix + 'Edit', href: editHref}, 'edit');
         li.appendChild(editLink);
     }
-    removeLink = Builder.node('a', {id: elemPrefix + 'Remove', href: 'javascript:mufilesRemoveRelatedItem(\'' + idPrefix + '\', ' + newItemId + ');'}, 'remove');
+    removeLink = Builder.node('a', {id: elemPrefix + 'Remove', href: 'javascript:mUMUFilesRemoveRelatedItem(\'' + idPrefix + '\', ' + newItemId + ');'}, 'remove');
     li.appendChild(removeLink);
     if (itemPreview !== '') {
         fldPreview = Builder.node('div', {id: elemPrefix + 'preview', name: idPrefix + 'preview'}, '');
@@ -226,7 +226,7 @@ function mufilesSelectRelatedItem(objectType, idPrefix, inputField, selectedList
         editLink.update(' ' + editImage);
 
         $(elemPrefix + 'Edit').observe('click', function (e) {
-            mufilesinitInlineRelationWindow(objectType, idPrefix + 'Reference_' + newItemId + 'Edit');
+            mUMUFilesInitInlineRelationWindow(objectType, idPrefix + 'Reference_' + newItemId + 'Edit');
             e.stop();
         });
     }
@@ -238,7 +238,7 @@ function mufilesSelectRelatedItem(objectType, idPrefix, inputField, selectedList
             itemIdsArr = itemIds.split(',');
             itemIdsArr.each(function (existingId) {
                 if (existingId) {
-                    mufilesRemoveRelatedItem(idPrefix, existingId);
+                    mUMUFilesRemoveRelatedItem(idPrefix, existingId);
                 }
             });
             itemIds = '';
@@ -249,30 +249,30 @@ function mufilesSelectRelatedItem(objectType, idPrefix, inputField, selectedList
     itemIds += newItemId;
     $(idPrefix + 'ItemList').value = itemIds;
 
-    mufilesResetRelatedItemForm(idPrefix);
+    mUMUFilesResetRelatedItemForm(idPrefix);
 }
 
 /**
  * Initialise a relation field section with autocompletion and optional edit capabilities
  */
-function mufilesInitRelationItemsForm(objectType, idPrefix, includeEditing)
+function mUMUFilesInitRelationItemsForm(objectType, idPrefix, includeEditing)
 {
     var acOptions, itemIds, itemIdsArr;
 
     // add handling for the toggle link if existing
     if ($(idPrefix + 'AddLink') !== null) {
         $(idPrefix + 'AddLink').observe('click', function (e) {
-            mufilesToggleRelatedItemForm(idPrefix);
+            mUMUFilesToggleRelatedItemForm(idPrefix);
         });
     }
     // add handling for the cancel button
     if ($(idPrefix + 'SelectorDoCancel') !== null) {
         $(idPrefix + 'SelectorDoCancel').observe('click', function (e) {
-            mufilesResetRelatedItemForm(idPrefix);
+            mUMUFilesResetRelatedItemForm(idPrefix);
         });
     }
     // clear values and ensure starting state
-    mufilesResetRelatedItemForm(idPrefix);
+    mUMUFilesResetRelatedItemForm(idPrefix);
 
     acOptions = {
         paramName: 'fragment',
@@ -296,7 +296,7 @@ function mufilesInitRelationItemsForm(objectType, idPrefix, includeEditing)
         afterUpdateElement: function (inputField, selectedListItem) {
             // Called after the input element has been updated (i.e. when the user has selected an entry).
             // This function is called after the built-in function that adds the list item text to the input field.
-            mufilesSelectRelatedItem(objectType, idPrefix, inputField, selectedListItem);
+            mUMUFilesSelectRelatedItem(objectType, idPrefix, inputField, selectedListItem);
         }
     };
     relationHandler.each(function (relationHandler) {
@@ -317,7 +317,7 @@ function mufilesInitRelationItemsForm(objectType, idPrefix, includeEditing)
     // from here inline editing will be handled
     $(idPrefix + 'SelectorDoNew').href += '&theme=Printer&idp=' + idPrefix + 'SelectorDoNew';
     $(idPrefix + 'SelectorDoNew').observe('click', function(e) {
-        mufilesinitInlineRelationWindow(objectType, idPrefix + 'SelectorDoNew');
+        mUMUFilesInitInlineRelationWindow(objectType, idPrefix + 'SelectorDoNew');
         e.stop();
     });
 
@@ -330,7 +330,7 @@ function mufilesInitRelationItemsForm(objectType, idPrefix, includeEditing)
             elemPrefix = idPrefix + 'Reference_' + existingId + 'Edit';
             $(elemPrefix).href += '&theme=Printer&idp=' + elemPrefix;
             $(elemPrefix).observe('click', function (e) {
-                mufilesinitInlineRelationWindow(objectType, elemPrefix);
+                mUMUFilesInitInlineRelationWindow(objectType, elemPrefix);
                 e.stop();
             });
         }
@@ -340,7 +340,7 @@ function mufilesInitRelationItemsForm(objectType, idPrefix, includeEditing)
 /**
  * Closes an iframe from the document displayed in it
  */
-function mufilesCloseWindowFromInside(idPrefix, itemId)
+function mUMUFilesCloseWindowFromInside(idPrefix, itemId)
 {
     // if there is no parent window do nothing
     if (window.parent === '') {

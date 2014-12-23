@@ -46,7 +46,7 @@
     {if !isset($smarty.get.theme) || $smarty.get.theme ne 'Printer'}
         {* include display hooks *}
         {notifydisplayhooks eventname='mufiles.ui_hooks.files.display_view' id=$file.id urlobject=$currentUrlObject assign='hooks'}
-        {foreach key='providerArea' item='hook' from=$hooks}
+        {foreach name='hookLoop' key='providerArea' item='hook' from=$hooks}
             {$hook}
         {/foreach}
         {if count($file._actions) gt 0}
@@ -58,7 +58,7 @@
             <script type="text/javascript">
             /* <![CDATA[ */
                 document.observe('dom:loaded', function() {
-                    mufilesInitItemActions('file', 'display', 'itemActions');
+                    mUMUFilesInitItemActions('file', 'display', 'itemActions');
                 });
             /* ]]> */
             </script>

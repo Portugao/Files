@@ -1057,6 +1057,14 @@ abstract class MUFiles_Entity_Base_Hookobject extends Zikula_EntityAccess
                         'linkText' => __('Reuse', $dom)
                     );
                 }
+                if (SecurityUtil::checkPermission($component, $instance, ACCESS_DELETE)) {
+                    $this->_actions[] = array(
+                        'url' => array('type' => 'admin', 'func' => 'delete', 'arguments' => array('ot' => 'hookobject', 'id' => $this['id'])),
+                        'icon' => 'delete',
+                        'linkTitle' => __('Delete', $dom),
+                        'linkText' => __('Delete', $dom)
+                    );
+                }
             }
             if ($currentFunc == 'display') {
                 $this->_actions[] = array(
@@ -1128,6 +1136,14 @@ abstract class MUFiles_Entity_Base_Hookobject extends Zikula_EntityAccess
                         'linkText' => __('Reuse', $dom)
                     );
                 }
+                if (SecurityUtil::checkPermission($component, $instance, ACCESS_DELETE)) {
+                    $this->_actions[] = array(
+                        'url' => array('type' => 'user', 'func' => 'delete', 'arguments' => array('ot' => 'hookobject', 'id' => $this['id'])),
+                        'icon' => 'delete',
+                        'linkTitle' => __('Delete', $dom),
+                        'linkText' => __('Delete', $dom)
+                    );
+                }
             }
             if ($currentFunc == 'display') {
                 $this->_actions[] = array(
@@ -1186,7 +1202,7 @@ abstract class MUFiles_Entity_Base_Hookobject extends Zikula_EntityAccess
     
         $args['id'] = $this['id'];
     
-        if (isset($this['slug'])) {
+        if (property_exists($this, 'slug')) {
             $args['slug'] = $this['slug'];
         }
     

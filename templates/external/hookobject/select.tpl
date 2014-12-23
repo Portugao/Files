@@ -54,7 +54,7 @@
 <script type="text/javascript">
 /* <![CDATA[ */
     document.observe('dom:loaded', function() {
-        mufiles.itemSelector.onLoad('{{$baseID}}', {{$selectedId|default:0}});
+        mUFiles.itemSelector.onLoad('{{$baseID}}', {{$selectedId|default:0}});
     });
 /* ]]> */
 </script>

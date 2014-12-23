@@ -114,7 +114,7 @@
                         <script type="text/javascript">
                         /* <![CDATA[ */
                             document.observe('dom:loaded', function() {
-                                mufilesInitItemActions('hookobject', 'view', 'itemActions{{$hookobject.id}}');
+                                mUMUFilesInitItemActions('hookobject', 'view', 'itemActions{{$hookobject.id}}');
                             });
                         /* ]]> */
                         </script>

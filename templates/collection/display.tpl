@@ -154,7 +154,7 @@
             <script type="text/javascript">
             /* <![CDATA[ */
                 document.observe('dom:loaded', function() {
-                    mufilesInitItemActions('collection', 'display', 'itemActions{{$collection.id}}');
+                    mUMUFilesInitItemActions('collection', 'display', 'itemActions{{$collection.id}}');
                 });
             /* ]]> */
             </script>
@@ -169,7 +169,7 @@
     /* <![CDATA[ */
         document.observe('dom:loaded', function() {
             {{assign var='itemid' value=$collection.id}}
-            mufilesInitToggle('collection', 'inFrontend', '{{$itemid}}');
+            mUMUFilesInitToggle('collection', 'inFrontend', '{{$itemid}}');
         });
     /* ]]> */
     </script>

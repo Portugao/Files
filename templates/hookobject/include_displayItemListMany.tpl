@@ -29,7 +29,7 @@
 <script type="text/javascript">
 /* <![CDATA[ */
     document.observe('dom:loaded', function() {
-        mufilesInitInlineWindow($('hookobjectItem{{$item.id}}Display'), '{{$item->getTitleFromDisplayPattern()|replace:"'":""}}');
+        mUMUFilesInitInlineWindow($('hookobjectItem{{$item.id}}Display'), '{{$item->getTitleFromDisplayPattern()|replace:"'":""}}');
     });
 /* ]]> */
 </script>

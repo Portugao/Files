@@ -146,7 +146,7 @@
                         <script type="text/javascript">
                         /* <![CDATA[ */
                             document.observe('dom:loaded', function() {
-                                mufilesInitItemActions('file', 'view', 'itemActions{{$file.id}}');
+                                mUMUFilesInitItemActions('file', 'view', 'itemActions{{$file.id}}');
                             });
                         /* ]]> */
                         </script>

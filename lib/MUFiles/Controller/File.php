@@ -16,5 +16,53 @@
  */
 class MUFiles_Controller_File extends MUFiles_Controller_Base_File
 {
-    // feel free to add your own controller methods here
+    /**
+     * This method provides a handling of edit requests.
+     *
+     * @param string  $tpl          Name of alternative template (to be used instead of the default template).
+     * @param boolean $raw          Optional way to display a template instead of fetching it (required for standalone output).
+     *
+     * @return mixed Output.
+     */
+    public function edit()
+    {
+        $legacyControllerType = $this->request->query->filter('lct', 'user', FILTER_SANITIZE_STRING);
+        System::queryStringSetVar('type', $legacyControllerType);
+        $this->request->query->set('type', $legacyControllerType);
+
+        $id = $this->request->query->filter('id', 0, FILTER_SANITIZE_NUMBER_INT);
+        if ($id > 0) {
+            $fileRepository = $this->entityManager->getRepository('MUFiles_Entity_File');
+            $collectionRepository = $this->entityManager->getRepository('MUFiles_Entity_Collection');
+            $file = $fileRepository->findOneBy(array('id' => $id));
+            $collection = $file->getAliasCollection();
+        }
+
+
+        $controllerHelper = new MUFiles_Util_Controller($this->serviceManager);
+
+        // parameter specifying which type of objects we are treating
+        $objectType = 'file';
+        $utilArgs = array('controller' => 'file', 'action' => 'edit');
+        $permLevel = $legacyControllerType == 'admin' ? ACCESS_ADMIN : ACCESS_EDIT;
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . ':' . ucfirst($objectType) . ':', '::', $permLevel), LogUtil::getErrorMsgPermission());
+
+        if ($id == 0) {
+            $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . ':' . 'Collection' . ':File',  $collection['id'] . ':.*:', $permLevel), LogUtil::getErrorMsgPermission());
+        } else {           
+            $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . ':' . 'Collection' . ':File',  $collection['id'] . ':' . $file['id'] . ':', $permLevel), LogUtil::getErrorMsgPermission());
+         }
+        // create new Form reference
+        $view = FormUtil::newForm($this->name, $this);
+
+        // build form handler class name
+        $handlerClass = $this->name . '_Form_Handler_File_Edit';
+
+        // determine the output template
+        $viewHelper = new MUFiles_Util_View($this->serviceManager);
+        $template = $viewHelper->getViewTemplate($this->view, $objectType, 'edit', array());
+
+        // execute form using supplied template and page event handler
+        return $view->execute($template, new $handlerClass());
+    }
 }

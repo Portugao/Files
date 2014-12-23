@@ -144,6 +144,38 @@ class MUFiles_Controller_Base_Admin extends Zikula_AbstractController
         return ModUtil::func($this->name, $objectType, 'edit', array('lct' => 'admin'));
     }
     
+    /**
+     * This method provides a handling of simple delete requests.
+     *
+     * @param string  $ot           Treated object type.
+     * @param int     $id           Identifier of entity to be shown.
+     * @param boolean $confirmation Confirm the deletion, else a confirmation page is displayed.
+     * @param string  $tpl          Name of alternative template (to be used instead of the default template).
+     * @param boolean $raw          Optional way to display a template instead of fetching it (required for standalone output).
+     *
+     * @return mixed Output.
+     */
+    public function delete()
+    {
+        $controllerHelper = new MUFiles_Util_Controller($this->serviceManager);
+        
+        // parameter specifying which type of objects we are treating
+        $objectType = $this->request->query->filter('ot', 'collection', FILTER_SANITIZE_STRING);
+        $utilArgs = array('controller' => 'admin', 'action' => 'delete');
+        if (!in_array($objectType, $controllerHelper->getObjectTypes('controllerAction', $utilArgs))) {
+            $objectType = $controllerHelper->getDefaultObjectType('controllerAction', $utilArgs);
+        }
+        $permLevel = ACCESS_ADMIN;
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . ':' . ucfirst($objectType) . ':', '::', $permLevel), LogUtil::getErrorMsgPermission());
+        
+        // redirect to entity controller
+        
+        System::queryStringSetVar('lct', 'admin');
+        $this->request->query->set('lct', 'admin');
+        
+        return ModUtil::func($this->name, $objectType, 'delete', array('lct' => 'admin'));
+    }
+    
 
     /**
      * This method cares for a redirect within an inline frame.
@@ -183,7 +215,7 @@ class MUFiles_Controller_Base_Admin extends Zikula_AbstractController
         $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . '::', '::', ACCESS_ADMIN));
         
         // Create new Form reference
-        $view = FormUtil::newForm($this->name, $this);
+        $view = \FormUtil::newForm($this->name, $this);
         
         $templateName = 'admin/config.tpl';
         

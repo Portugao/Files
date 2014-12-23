@@ -161,7 +161,7 @@
                         <script type="text/javascript">
                         /* <![CDATA[ */
                             document.observe('dom:loaded', function() {
-                                mufilesInitItemActions('collection', 'view', 'itemActions{{$collection.id}}');
+                                mUMUFilesInitItemActions('collection', 'view', 'itemActions{{$collection.id}}');
                             });
                         /* ]]> */
                         </script>
@@ -211,7 +211,7 @@
     document.observe('dom:loaded', function() {
         {{foreach item='collection' from=$items}}
             {{assign var='itemid' value=$collection.id}}
-            mufilesInitToggle('collection', 'inFrontend', '{{$itemid}}');
+            mUMUFilesInitToggle('collection', 'inFrontend', '{{$itemid}}');
         {{/foreach}}
         {{if $lct eq 'admin'}}
             {{* init the "toggle all" functionality *}}

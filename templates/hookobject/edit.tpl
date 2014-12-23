@@ -153,7 +153,7 @@
     
     document.observe('dom:loaded', function() {
     
-        mufilesAddCommonValidationRules('hookobject', '{{if $mode ne 'create'}}{{$hookobject.id}}{{/if}}');
+        mUMUFilesAddCommonValidationRules('hookobject', '{{if $mode ne 'create'}}{{$hookobject.id}}{{/if}}');
         {{* observe validation on button events instead of form submit to exclude the cancel command *}}
         formValidator = new Validation('{{$__formid}}', {onSubmit: false, immediate: true, focusOnError: false});
         {{if $mode ne 'create'}}

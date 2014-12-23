@@ -3,6 +3,7 @@ src/modules/MUFiles/templates/collection/view.tpl: themes/YourTheme/templates/mo
 src/modules/MUFiles/templates/collection/view_quickNav.tpl: themes/YourTheme/templates/modules/MUFiles/collection/view_quickNav.tpl
 src/modules/MUFiles/templates/collection/view.csv.tpl: themes/YourTheme/templates/modules/MUFiles/collection/view.csv.tpl
 src/modules/MUFiles/templates/collection/display.tpl: themes/YourTheme/templates/modules/MUFiles/collection/display.tpl
+src/modules/MUFiles/templates/collection/delete.tpl: themes/YourTheme/templates/modules/MUFiles/collection/delete.tpl
 src/modules/MUFiles/templates/collection/include_displayItemListOne.tpl: themes/YourTheme/templates/modules/MUFiles/collection/include_displayItemListOne.tpl
 src/modules/MUFiles/templates/collection/include_displayItemListMany.tpl: themes/YourTheme/templates/modules/MUFiles/collection/include_displayItemListMany.tpl
 src/modules/MUFiles/templates/file/main.tpl: themes/YourTheme/templates/modules/MUFiles/file/main.tpl
@@ -10,6 +11,7 @@ src/modules/MUFiles/templates/file/view.tpl: themes/YourTheme/templates/modules/
 src/modules/MUFiles/templates/file/view_quickNav.tpl: themes/YourTheme/templates/modules/MUFiles/file/view_quickNav.tpl
 src/modules/MUFiles/templates/file/view.csv.tpl: themes/YourTheme/templates/modules/MUFiles/file/view.csv.tpl
 src/modules/MUFiles/templates/file/display.tpl: themes/YourTheme/templates/modules/MUFiles/file/display.tpl
+src/modules/MUFiles/templates/file/delete.tpl: themes/YourTheme/templates/modules/MUFiles/file/delete.tpl
 src/modules/MUFiles/templates/file/include_displayItemListOne.tpl: themes/YourTheme/templates/modules/MUFiles/file/include_displayItemListOne.tpl
 src/modules/MUFiles/templates/file/include_displayItemListMany.tpl: themes/YourTheme/templates/modules/MUFiles/file/include_displayItemListMany.tpl
 src/modules/MUFiles/templates/hookobject/main.tpl: themes/YourTheme/templates/modules/MUFiles/hookobject/main.tpl
@@ -17,6 +19,7 @@ src/modules/MUFiles/templates/hookobject/view.tpl: themes/YourTheme/templates/mo
 src/modules/MUFiles/templates/hookobject/view_quickNav.tpl: themes/YourTheme/templates/modules/MUFiles/hookobject/view_quickNav.tpl
 src/modules/MUFiles/templates/hookobject/view.csv.tpl: themes/YourTheme/templates/modules/MUFiles/hookobject/view.csv.tpl
 src/modules/MUFiles/templates/hookobject/display.tpl: themes/YourTheme/templates/modules/MUFiles/hookobject/display.tpl
+src/modules/MUFiles/templates/hookobject/delete.tpl: themes/YourTheme/templates/modules/MUFiles/hookobject/delete.tpl
 src/modules/MUFiles/templates/hookobject/include_displayItemListOne.tpl: themes/YourTheme/templates/modules/MUFiles/hookobject/include_displayItemListOne.tpl
 src/modules/MUFiles/templates/hookobject/include_displayItemListMany.tpl: themes/YourTheme/templates/modules/MUFiles/hookobject/include_displayItemListMany.tpl
 src/modules/MUFiles/templates/admin/header.tpl: themes/YourTheme/templates/modules/MUFiles/admin/header.tpl

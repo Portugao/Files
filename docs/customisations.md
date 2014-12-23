@@ -14,6 +14,8 @@ Changed Files
 
 README.md
 
+*images/admin.png
+
 *javascript/MUFiles_finder.js
 
 *templates/external/file/display.tpl
@@ -25,8 +27,6 @@ README.md
 *templates/user/file/edit.tpl
 *templates/user/file/view.tpl
 
-*images/admin.png
-
 
 Implemented Classes
 
@@ -37,6 +37,7 @@ Implemented Classes
 *lib/MUFiles/Api/Admin.php
 *lib/MUFiles/Api/User.php
 
+*lib/MUFiles/Controller/File.php
 *lib/MUFiles/Controller/User.php
 
 *lib/MUFiles/Entity/Collection.php

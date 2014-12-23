@@ -147,7 +147,7 @@
 
     document.observe('dom:loaded', function() {
 
-        mufilesAddCommonValidationRules('file', '{{if $mode ne 'create'}}{{$file.id}}{{/if}}');
+        mUMUFilesAddCommonValidationRules('file', '{{if $mode ne 'create'}}{{$file.id}}{{/if}}');
         {{* observe validation on button events instead of form submit to exclude the cancel command *}}
         formValidator = new Validation('{{$__formid}}', {onSubmit: false, immediate: true, focusOnError: false});
         {{if $mode ne 'create'}}
@@ -163,7 +163,7 @@
         });
 
         Zikula.UI.Tooltips($$('.mufiles-form-tooltips'));
-        mufilesInitUploadField('uploadFile');
+        mUMUFilesInitUploadField('uploadFile');
     });
 
 /* ]]> */

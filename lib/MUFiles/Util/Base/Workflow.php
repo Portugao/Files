@@ -124,8 +124,8 @@ class MUFiles_Util_Base_Workflow extends Zikula_AbstractBase
             $entity['__WORKFLOW__'] = $workflow;
         }
     
-        $idcolumn = $entity['__WORKFLOW__']['obj_idcolumn'];
-        $wfActions = Zikula_Workflow_Util::getActionsForObject($entity, $objectType, $idcolumn, $this->name);
+        $idColumn = $entity['__WORKFLOW__']['obj_idcolumn'];
+        $wfActions = Zikula_Workflow_Util::getActionsForObject($entity, $objectType, $idColumn, $this->name);
     
         // as we use the workflows for multiple object types we must maybe filter out some actions
         $listHelper = new MUFiles_Util_ListEntries($this->serviceManager);
@@ -194,9 +194,9 @@ class MUFiles_Util_Base_Workflow extends Zikula_AbstractBase
         $schemaName = $this->getWorkflowName($objectType);
     
         $entity->initWorkflow(true);
-        $idcolumn = $entity['__WORKFLOW__']['obj_idcolumn'];
+        $idColumn = $entity['__WORKFLOW__']['obj_idcolumn'];
     
-        $result = Zikula_Workflow_Util::executeAction($schemaName, $entity, $actionId, $objectType, $this->name, $idcolumn);
+        $result = Zikula_Workflow_Util::executeAction($schemaName, $entity, $actionId, $objectType, $this->name, $idColumn);
     
         if ($result !== false && !$recursive) {
             $entities = $entity->getRelatedObjectsToPersist();

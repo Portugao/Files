@@ -15,7 +15,7 @@
         /* <![CDATA[ */
             // close window from parent document
             document.observe('dom:loaded', function() {
-                mufilesCloseWindowFromInside('{{$idPrefix}}', {{if $commandName eq 'create'}}{{$itemId}}{{else}}0{{/if}});
+                mUMUFilesCloseWindowFromInside('{{$idPrefix}}', {{if $commandName eq 'create'}}{{$itemId}}{{else}}0{{/if}});
             });
         /* ]]> */
         </script>

@@ -219,7 +219,7 @@ class MUFiles_Api_Base_User extends Zikula_AbstractApi
         }
     
         // define the available user functions
-        $funcs = array('main', 'view', 'display', 'edit', 'view', 'display', 'edit');
+        $funcs = array('main', 'view', 'display', 'edit', 'delete', 'view', 'display', 'edit', 'delete');
     
         // return if function url scheme is not being customised
         $customFuncs = array('view', 'display');
