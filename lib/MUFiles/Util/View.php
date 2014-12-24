@@ -27,41 +27,45 @@ class MUFiles_Util_View extends MUFiles_Util_Base_View
             case 'pdf':   //PDF
                 $mime = 'application/pdf';
                 break;
-            
+
             case 'doc':  // DOC
                 $mime = 'application/msword';
                 break;
-                
+
+            case 'docx':  // DOC
+                $mime = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+                break;
+
             case 'odt':  // Libre Office text document
                 $mime = 'application/vnd.oasis.opendocument.text';
                 break;
-                
+
             case 'txt': // text file
                 $mime = 'text/plain';
                 break;
-                
-            // we have mime types for tables
+
+                // we have mime types for tables
             case 'xls': // word excel
                 $mime = 'application/msexcel';
                 break;
-                
+
             case 'ppt': // microsoft powerpoint
                 $mime = 'application/mspowerpoint';
                 break;
-                
+
             case 'gz':
                 $mime = 'application/gzip';
                 break;
-                
+
             case 'zip':
                 $mime = 'application/zip';
                 break;
-                
+
             case 'tar':
                 $mime = 'application/x-tar';
                 break;
         }
-        
+
         return $mime;
     }
 }
