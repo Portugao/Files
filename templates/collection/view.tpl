@@ -55,6 +55,7 @@
                 {*
                 <col id="cParentid" />
                 <col id="cInFrontend" /> *}
+                <col id="cAmountFiles" />
                 <col id="cParent" />           
                 <col id="cItemActions" />
             </colgroup>
@@ -86,8 +87,11 @@
                 <th id="hInFrontend" scope="col" class="z-center">
                     {sortlink __linktext='In frontend' currentsort=$sort modname='MUFiles' type=$lct func='view' sort='inFrontend' sortdir=$sdir all=$all own=$own catidMain=$catIdListMainString parent=$parent workflowState=$workflowState searchterm=$searchterm pageSize=$pageSize inFrontend=$inFrontend ot='collection'}
                 </th> *}
+                <th id="hAmountFiles" scope="col" class="z-left">
+                    {gt text='Amount of files'}
+                </th>
                 <th id="hParent" scope="col" class="z-left">
-                    {sortlink __linktext='Parent' currentsort=$sort modname='MUFiles' type=$lct func='view' sort='parent' sortdir=$sdir all=$all own=$own catidMain=$catIdListMainString parent=$parent workflowState=$workflowState searchterm=$searchterm pageSize=$pageSize inFrontend=$inFrontend ot='collection'}
+                    {gt text='Parent'}
                 </th>
                 
                 <th id="hItemActions" scope="col" class="z-right z-order-unsorted">{gt text='Actions'}</th>
@@ -134,6 +138,9 @@
                         {$collection.inFrontend|yesno:true}
                     </div></noscript>
                 </td> *}
+                <td headers="hAmountFiles" class="z-left">
+                    {$collection.alilasfile|@count}
+                </td>
                 <td headers="hParent" class="z-left">
                     {if isset($collection.Parent) && $collection.Parent ne null}
                         <a href="{modurl modname='MUFiles' type=$lct func='display' ot='collection'  id=$collection.Parent.id}">{strip}
