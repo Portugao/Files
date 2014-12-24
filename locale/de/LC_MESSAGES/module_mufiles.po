@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Zikula 1.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-20 20:59+0000\n"
-"PO-Revision-Date: 2014-12-20 23:23+0100\n"
+"PO-Revision-Date: 2014-12-24 18:13+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -2190,6 +2190,12 @@ msgstr "Kollektionenhook"
 #: templates/hookobject/view.csv.tpl:4
 msgid "Filehook"
 msgstr "Dateihook"
+
+msgid "Possible extensions"
+msgstr "Mögliche Dateiendungen"
+
+msgid "Amount of files"
+msgstr "Anzahl der Dateien"
 
 #~ msgid "Error! It is not allowed to delete this file."
 #~ msgstr "Fahler! Es ist nicht erlaubt diese Datei zu löschen."

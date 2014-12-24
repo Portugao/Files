@@ -2132,3 +2132,9 @@ msgstr ""
 #: templates/hookobject/view.csv.tpl:4
 msgid "Filehook"
 msgstr ""
+
+msgid "Possible extensions"
+msgstr ""
+
+msgid "Amount of files"
+msgstr ""
