@@ -24,6 +24,7 @@
                             {gt text='A list of the allowed extensions; comma seperated.' assign='toolTip'}
                             {formlabel for='allowedExtensions' __text='Allowed extensions' cssClass='mufiles-form-tooltips ' title=$toolTip}
                                 {formtextinput id='allowedExtensions' group='config' maxLength=255 __title='Enter the allowed extensions.'}
+                                <p class="z-sub z-warningmsg z-formnote">{gt text='Possible extensions'}: pdf, doc, docx, odt, txt, xls, ppt, gz, zip, tar</p>
                         </div>
                         <div class="z-formrow">
                             {formlabel for='maxSize' __text='Max size' cssClass=''}
