@@ -36,7 +36,7 @@ class MUFiles_Util_View extends MUFiles_Util_Base_View
                 $mime = 'application/vnd.oasis.opendocument.text';
                 break;
                 
-            case 'text': // text file
+            case 'txt': // text file
                 $mime = 'text/plain';
                 break;
                 
