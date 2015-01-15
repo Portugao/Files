@@ -1,0 +1,16 @@
+{
+    "name": "portugao/mufiles-module",
+    "description": "MUFiles will handle files",
+    "type": "zikula-module",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Michael Ueberschaer",
+            "role": "owner",
+            "homepage": "http://www.webdesign-in-bremen.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    }
+}
