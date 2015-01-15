@@ -13,7 +13,7 @@ CKEDITOR.plugins.add('mufiles', {
             label: editor.lang.mufiles.title,
             command: 'insertMUFiles',
          // icon: this.path + 'images/ed_mufiles.png'
-            icon: '/images/icons/extrasmall/favorites.png'
+            icon: '/modules/MUFiles/images/mufiles.png'
         });
     }
 });

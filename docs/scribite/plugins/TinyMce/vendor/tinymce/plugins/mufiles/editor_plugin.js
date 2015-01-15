@@ -42,7 +42,7 @@
                 title : 'mufiles.desc',
                 cmd : 'mceMUFiles',
              // image : url + '/img/MUFiles.gif'
-                image : '/images/icons/extrasmall/favorites.png',
+                image : '/modules/MUFiles/images/mufiles.png',
                 onPostRender: function() {
                     var ctrl = this;
 
