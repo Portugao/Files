@@ -49,6 +49,8 @@ class MUFiles_Base_Installer extends Zikula_AbstractInstaller
         $this->setVar('maxSize', 102400);
         $this->setVar('moderationGroupForCollections', 2);
         $this->setVar('moderationGroupForFiles', 2);
+        $this->setVar('itemsPerPage', 10);
+        $this->setVar('itemsPerPageBackend', 10);
     
         $categoryRegistryIdsPerEntity = array();
     

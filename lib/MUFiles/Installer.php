@@ -31,6 +31,38 @@ class MUFiles_Installer extends MUFiles_Base_Installer
         return true;
     }
 
+    /**
+     * Upgrade the MUFiles application from an older version.
+     *
+     * If the upgrade fails at some point, it returns the last upgraded version.
+     *
+     * @param integer $oldVersion Version to upgrade from.
+     *
+     * @return boolean True on success, false otherwise.
+     */
+    public function upgrade($oldVersion)
+    {
+        // Upgrade dependent on old version number
+        switch ($oldVersion) {
+            case '1.0.0':
+                // set two new mod vars
+                $this->setVar('itemsPerPage', 10);
+                $this->setVar('itemsPerPageBackend', 10);
+                // update the database schema
+                try {
+                    DoctrineHelper::updateSchema($this->entityManager, $this->listEntityClasses());
+                } catch (\Exception $e) {
+                    if (System::isDevelopmentMode()) {
+                        return LogUtil::registerError($this->__('Doctrine Exception: ') . $e->getMessage());
+                    }
+                    return LogUtil::registerError($this->__f('An error was encountered while updating tables for the %s extension.', array($this->getName())));
+                }
+        }
+
+        // update successful
+        return true;
+    }
+
     public function uninstall()
     {
         parent::uninstall();
