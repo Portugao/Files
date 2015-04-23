@@ -27,6 +27,14 @@
                                 <p class="z-sub z-warningmsg z-formnote">{gt text='Possible extensions'}: pdf, doc, docx, odt, txt, xls, ppt, gz, zip, tar</p>
                         </div>
                         <div class="z-formrow">
+                            {formlabel for='itemsPerPageBackend' __text='Items per page in backend' cssClass=''}
+                                {formintinput id='itemsPerPageBackend' group='config' maxLength=255 __title='Enter the max size. Only digits are allowed.'}
+                        </div>
+                        <div class="z-formrow">
+                            {formlabel for='itemsPerPage' __text='Items per page' cssClass=''}
+                                {formintinput id='itemsPerPage' group='config' maxLength=255 __title='Enter the max size. Only digits are allowed.'}
+                        </div>
+                        <div class="z-formrow">
                             {formlabel for='maxSize' __text='Max size' cssClass=''}
                                 {formintinput id='maxSize' group='config' maxLength=255 __title='Enter the max size. Only digits are allowed.'}
                         </div>

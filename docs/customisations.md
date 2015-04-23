@@ -37,6 +37,7 @@ Implemented Classes
 *lib/MUFiles/Api/Admin.php
 *lib/MUFiles/Api/User.php
 
+*lib/MUFiles/Controller/Collection.php
 *lib/MUFiles/Controller/File.php
 *lib/MUFiles/Controller/User.php
 
