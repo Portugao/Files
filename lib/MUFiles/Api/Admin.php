@@ -52,7 +52,7 @@ class MUFiles_Api_Admin extends MUFiles_Api_Base_Admin
                 && SecurityUtil::checkPermission($this->name . '::', '::', ACCESS_ADMIN)) {
             $links[] = array('url' => ModUtil::url($this->name, 'admin', 'import'),
                     'text' => $this->__('Import'),
-                    'title' => $this->__('Import categories and files of download module'));
+                    'title' => $this->__('Import categories and files of downloads module'));
         }
         /*if (in_array('hookobject', $allowedObjectTypes)
             && SecurityUtil::checkPermission($this->name . ':Hookobject:', '::', ACCESS_ADMIN)) {
