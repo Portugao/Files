@@ -16,5 +16,19 @@
  */
 class MUFiles_Controller_Admin extends MUFiles_Controller_Base_Admin
 {
-    // feel free to add your own controller methods here
+	/**
+	 * This method takes care of the application configuration.
+	 *
+	 * @return string Output
+	 */
+	public function import()
+	{
+		$this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . '::', '::', ACCESS_ADMIN));
+
+		// Create new Form reference
+		$view = FormUtil::newForm($this->name, $this);
+
+		// Execute form using supplied template and page event handler
+		return $view->execute('admin/import.tpl', new MUFiles_Form_Handler_Admin_Base_Import());
+	}
 }
