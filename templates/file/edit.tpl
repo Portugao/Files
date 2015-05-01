@@ -69,7 +69,7 @@
             {mufilesValidationError id='uploadFile' class='validate-upload'}
         </div>
     </fieldset>
-    {include file='collection/include_selectEditOne.tpl' group='file' alias='aliascollection' aliasReverse='alilasfile' mandatory=false idPrefix='mufilesFile_Aliascollection' linkingItem=$file displayMode='dropdown' allowEditing=true} 
+    {include file='collection/include_selectEditOne.tpl' group='file' alias='aliascollection' aliasReverse='alilasfile' mandatory=true idPrefix='mufilesFile_Aliascollection' linkingItem=$file displayMode='dropdown' allowEditing=true} 
 
     {if $mode ne 'create'}
         {include file='helper/include_standardfields_edit.tpl' obj=$file}
