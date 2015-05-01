@@ -179,7 +179,7 @@
             {/checkpermissionblock}
         {foreachelse}
             <tr class="z-{if $lct eq 'admin'}admin{else}data{/if}tableempty">
-              <td class="z-left" colspan="{if $lct eq 'admin'}7{else}4{/if}">
+              <td class="z-left" colspan="{if $lct eq 'admin'}8{else}5{/if}">
             {gt text='No collections found.'}
               </td>
             </tr>
