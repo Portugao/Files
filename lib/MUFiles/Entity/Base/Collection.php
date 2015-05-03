@@ -165,7 +165,7 @@ abstract class MUFiles_Entity_Base_Collection extends Zikula_EntityAccess
      *      joinColumns={@ORM\JoinColumn(name="parentid", referencedColumnName="id" )},
      *      inverseJoinColumns={@ORM\JoinColumn(name="id", referencedColumnName="id" )}
      * )
-     * @ORM\OrderBy({"title" = "ASC"})
+     * @ORM\OrderBy({"name" = "ASC"})
      * @var MUFiles_Entity_Collection[] $children.
      */
     protected $children = null;
