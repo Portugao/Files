@@ -114,7 +114,7 @@
                     </td>                     
                 {/if}
                 <td headers="hName" class="z-left">
-                    <a href="{modurl modname='MUFiles' type=$lct func='display' ot='collection'  id=$collection.id}" title="{gt text='View detail page'}">{$collection.name|notifyfilters:'mufiles.filterhook.collections'}</a>
+                    <a href="{modurl modname='MUFiles' type=$lct func='display' ot='collection'  id=$collection.id}" title="{gt text='View detail page'}">{$collection.name|@html_entity_decode|notifyfilters:'mufiles.filterhook.collections'}</a>
                 </td>
                 <td headers="hDescription" class="z-left">
                     {$collection.description|truncate:150}
