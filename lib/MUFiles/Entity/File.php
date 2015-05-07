@@ -3,7 +3,7 @@
  * MUFiles.
  *
  * @copyright Michael Ueberschaer (MU)
- * @license 
+ * @license
  * @package MUFiles
  * @author Michael Ueberschaer <kontakt@webdesign-in-bremen.com>.
  * @link http://webdesign-in-bremen.com
@@ -21,163 +21,163 @@ use DoctrineExtensions\StandardFields\Mapping\Annotation as ZK;
  *
  * This is the concrete entity class for file entities.
  * @ORM\Entity(repositoryClass="MUFiles_Entity_Repository_File")
-  * @ORM\Table(name="mufiles_file",
-  *     indexes={
+ * @ORM\Table(name="mufiles_file",
+ *     indexes={
  *         @ORM\Index(name="workflowstateindex", columns={"workflowState"})
-  *     }
-  * )
+ *     }
+ * )
  * @ORM\HasLifecycleCallbacks
  */
 class MUFiles_Entity_File extends MUFiles_Entity_Base_File
 {
-        protected function prepareItemActions()
-        {
-            if (!empty($this->_actions)) {
-                return;
-            }
-        
-            $currentLegacyControllerType = FormUtil::getPassedValue('lct', 'user', 'GETPOST', FILTER_SANITIZE_STRING);
-            $currentFunc = FormUtil::getPassedValue('func', 'main', 'GETPOST', FILTER_SANITIZE_STRING);
-            $dom = ZLanguage::getModuleDomain('MUFiles');
-            if ($currentLegacyControllerType == 'admin') {
-                if (in_array($currentFunc, array('main', 'view'))) {
-                    $this->_actions[] = array(
+    protected function prepareItemActions()
+    {
+        if (!empty($this->_actions)) {
+            return;
+        }
+
+        $currentLegacyControllerType = FormUtil::getPassedValue('lct', 'user', 'GETPOST', FILTER_SANITIZE_STRING);
+        $currentFunc = FormUtil::getPassedValue('func', 'main', 'GETPOST', FILTER_SANITIZE_STRING);
+        $dom = ZLanguage::getModuleDomain('MUFiles');
+        if ($currentLegacyControllerType == 'admin') {
+            if (in_array($currentFunc, array('main', 'view'))) {
+                $this->_actions[] = array(
                         'url' => array('type' => 'user', 'func' => 'display', 'arguments' => array('ot' => 'file', 'id' => $this['id'])),
                         'icon' => 'preview',
                         'linkTitle' => __('Open preview page', $dom),
                         'linkText' => __('Preview', $dom)
-                    );
-                    $this->_actions[] = array(
+                );
+                $this->_actions[] = array(
                         'url' => array('type' => 'admin', 'func' => 'display', 'arguments' => array('ot' => 'file', 'id' => $this['id'])),
                         'icon' => 'display',
                         'linkTitle' => str_replace('"', '', $this->getTitleFromDisplayPattern()),
                         'linkText' => __('Details', $dom)
-                    );
-                }
-                if (in_array($currentFunc, array('main', 'view', 'display'))) {
-                    $component = 'MUFiles:File:';
-                    $instance = $this->id . '::';
-                    if (SecurityUtil::checkPermission($component, $instance, ACCESS_EDIT)) {
-                        $this->_actions[] = array(
+                );
+            }
+            if (in_array($currentFunc, array('main', 'view', 'display'))) {
+                $component = 'MUFiles:File:';
+                $instance = $this->id . '::';
+                if (SecurityUtil::checkPermission($component, $instance, ACCESS_EDIT)) {
+                    $this->_actions[] = array(
                             'url' => array('type' => 'admin', 'func' => 'edit', 'arguments' => array('ot' => 'file', 'id' => $this['id'])),
                             'icon' => 'edit',
                             'linkTitle' => __('Edit', $dom),
                             'linkText' => __('Edit', $dom)
-                        );
-                        $this->_actions[] = array(
+                    );
+                    $this->_actions[] = array(
                             'url' => array('type' => 'admin', 'func' => 'edit', 'arguments' => array('ot' => 'file', 'astemplate' => $this['id'])),
                             'icon' => 'saveas',
                             'linkTitle' => __('Reuse for new item', $dom),
                             'linkText' => __('Reuse', $dom)
-                        );
-                    }
-                    if (SecurityUtil::checkPermission($component, $instance, ACCESS_DELETE)) {
-                        $this->_actions[] = array(
+                    );
+                }
+                if (SecurityUtil::checkPermission($component, $instance, ACCESS_DELETE)) {
+                    $this->_actions[] = array(
                             'url' => array('type' => 'admin', 'func' => 'delete', 'arguments' => array('ot' => 'file', 'id' => $this['id'])),
                             'icon' => 'delete',
                             'linkTitle' => __('Delete', $dom),
                             'linkText' => __('Delete', $dom)
-                        );
-                    }
+                    );
                 }
-                if ($currentFunc == 'display') {
-                    $this->_actions[] = array(
+            }
+            if ($currentFunc == 'display') {
+                $this->_actions[] = array(
                         'url' => array('type' => 'admin', 'func' => 'view', 'arguments' => array('ot' => 'file')),
                         'icon' => 'back',
                         'linkTitle' => __('Back to overview', $dom),
                         'linkText' => __('Back to overview', $dom)
-                    );
+                );
+            }
+
+            // more actions for adding new related items
+            $authAdmin = SecurityUtil::checkPermission($component, $instance, ACCESS_ADMIN);
+
+            $uid = UserUtil::getVar('uid');
+            if ($authAdmin || (isset($uid) && isset($this->createdUserId) && $this->createdUserId == $uid)) {
+
+                $urlArgs = array('ot' => 'hookobject',
+                        'filehook' => $this->id);
+                if ($currentFunc == 'view') {
+                    $urlArgs['returnTo'] = 'adminViewFile';
+                } elseif ($currentFunc == 'display') {
+                    $urlArgs['returnTo'] = 'adminDisplayFile';
                 }
-                
-                // more actions for adding new related items
-                $authAdmin = SecurityUtil::checkPermission($component, $instance, ACCESS_ADMIN);
-                
-                $uid = UserUtil::getVar('uid');
-                if ($authAdmin || (isset($uid) && isset($this->createdUserId) && $this->createdUserId == $uid)) {
-                
-                    $urlArgs = array('ot' => 'hookobject',
-                                     'filehook' => $this->id);
-                    if ($currentFunc == 'view') {
-                        $urlArgs['returnTo'] = 'adminViewFile';
-                    } elseif ($currentFunc == 'display') {
-                        $urlArgs['returnTo'] = 'adminDisplayFile';
-                    }
-                   /* $this->_actions[] = array(
-                        'url' => array('type' => 'admin', 'func' => 'edit', 'arguments' => $urlArgs),
+                /* $this->_actions[] = array(
+                 'url' => array('type' => 'admin', 'func' => 'edit', 'arguments' => $urlArgs),
                         'icon' => 'add',
                         'linkTitle' => __('Create hookobject', $dom),
                         'linkText' => __('Create hookobject', $dom)
-                    );*/
-                }
+                );*/
             }
-            if ($currentLegacyControllerType == 'user') {
-                if (in_array($currentFunc, array('main', 'view'))) {
-                    $this->_actions[] = array(
+        }
+        if ($currentLegacyControllerType == 'user') {
+            if (in_array($currentFunc, array('main', 'view'))) {
+                $this->_actions[] = array(
                         'url' => array('type' => 'user', 'func' => 'display', 'arguments' => array('ot' => 'file', 'id' => $this['id'])),
                         'icon' => 'display',
                         'linkTitle' => str_replace('"', '', $this->getTitleFromDisplayPattern()),
                         'linkText' => __('Details', $dom)
-                    );
-                }
-                if (in_array($currentFunc, array('main', 'view', 'display'))) {
-                    $component = 'MUFiles:File:';
-                    $instance = $this->id . '::';
-                    if (SecurityUtil::checkPermission($component, $instance, ACCESS_EDIT)) {
-                        $this->_actions[] = array(
+                );
+            }
+            if (in_array($currentFunc, array('main', 'view', 'display'))) {
+                $component = 'MUFiles:File:';
+                $instance = $this->id . '::';
+                if (SecurityUtil::checkPermission($component, $instance, ACCESS_EDIT)) {
+                    $this->_actions[] = array(
                             'url' => array('type' => 'user', 'func' => 'edit', 'arguments' => array('ot' => 'file', 'id' => $this['id'])),
                             'icon' => 'edit',
                             'linkTitle' => __('Edit', $dom),
                             'linkText' => __('Edit', $dom)
-                        );
-                        $this->_actions[] = array(
+                    );
+                    $this->_actions[] = array(
                             'url' => array('type' => 'user', 'func' => 'edit', 'arguments' => array('ot' => 'file', 'astemplate' => $this['id'])),
                             'icon' => 'saveas',
                             'linkTitle' => __('Reuse for new item', $dom),
                             'linkText' => __('Reuse', $dom)
-                        );
-                    }
-                    if (SecurityUtil::checkPermission($component, $instance, ACCESS_DELETE)) {
-                        $this->_actions[] = array(
+                    );
+                }
+                if (SecurityUtil::checkPermission($component, $instance, ACCESS_DELETE)) {
+                    $this->_actions[] = array(
                             'url' => array('type' => 'user', 'func' => 'delete', 'arguments' => array('ot' => 'file', 'id' => $this['id'])),
                             'icon' => 'delete',
                             'linkTitle' => __('Delete', $dom),
                             'linkText' => __('Delete', $dom)
-                        );
-                    }
+                    );
                 }
-                if ($currentFunc == 'display') {
-                    $this->_actions[] = array(
+            }
+            if ($currentFunc == 'display') {
+                $this->_actions[] = array(
                         'url' => array('type' => 'user', 'func' => 'view', 'arguments' => array('ot' => 'file')),
                         'icon' => 'back',
                         'linkTitle' => __('Back to overview', $dom),
                         'linkText' => __('Back to overview', $dom)
-                    );
+                );
+            }
+
+            // more actions for adding new related items
+            $authAdmin = SecurityUtil::checkPermission($component, $instance, ACCESS_ADMIN);
+
+            $uid = UserUtil::getVar('uid');
+            if ($authAdmin || (isset($uid) && isset($this->createdUserId) && $this->createdUserId == $uid)) {
+
+                $urlArgs = array('ot' => 'hookobject',
+                        'filehook' => $this->id);
+                if ($currentFunc == 'view') {
+                    $urlArgs['returnTo'] = 'userViewFile';
+                } elseif ($currentFunc == 'display') {
+                    $urlArgs['returnTo'] = 'userDisplayFile';
                 }
-                
-                // more actions for adding new related items
-                $authAdmin = SecurityUtil::checkPermission($component, $instance, ACCESS_ADMIN);
-                
-                $uid = UserUtil::getVar('uid');
-                if ($authAdmin || (isset($uid) && isset($this->createdUserId) && $this->createdUserId == $uid)) {
-                
-                    $urlArgs = array('ot' => 'hookobject',
-                                     'filehook' => $this->id);
-                    if ($currentFunc == 'view') {
-                        $urlArgs['returnTo'] = 'userViewFile';
-                    } elseif ($currentFunc == 'display') {
-                        $urlArgs['returnTo'] = 'userDisplayFile';
-                    }
-                   /* $this->_actions[] = array(
-                        'url' => array('type' => 'user', 'func' => 'edit', 'arguments' => $urlArgs),
+                /* $this->_actions[] = array(
+                 'url' => array('type' => 'user', 'func' => 'edit', 'arguments' => $urlArgs),
                         'icon' => 'add',
                         'linkTitle' => __('Create hookobject', $dom),
                         'linkText' => __('Create hookobject', $dom)
-                    );*/
-                }
+                );*/
             }
         }
+    }
 
-    
+
     /**
      * Post-Process the data after the entity has been constructed by the entity manager.
      *
@@ -189,7 +189,7 @@ class MUFiles_Entity_File extends MUFiles_Entity_Base_File
     {
         $this->performPostLoadCallback();
     }
-    
+
     /**
      * Pre-Process the data prior to an insert operation.
      *
@@ -201,7 +201,7 @@ class MUFiles_Entity_File extends MUFiles_Entity_Base_File
     {
         $this->performPrePersistCallback();
     }
-    
+
     /**
      * Post-Process the data after an insert operation.
      *
@@ -213,7 +213,7 @@ class MUFiles_Entity_File extends MUFiles_Entity_Base_File
     {
         $this->performPostPersistCallback();
     }
-    
+
     /**
      * Pre-Process the data prior a delete operation.
      *
@@ -225,7 +225,7 @@ class MUFiles_Entity_File extends MUFiles_Entity_Base_File
     {
         $this->performPreRemoveCallback();
     }
-    
+
     /**
      * Post-Process the data after a delete.
      *
@@ -237,7 +237,7 @@ class MUFiles_Entity_File extends MUFiles_Entity_Base_File
     {
         $this->performPostRemoveCallback();
     }
-    
+
     /**
      * Pre-Process the data prior to an update operation.
      *
@@ -246,10 +246,10 @@ class MUFiles_Entity_File extends MUFiles_Entity_Base_File
      * @return void.
      */
     public function preUpdateCallback()
-    {       
+    {
         $this->performPreUpdateCallback();
     }
-    
+
     /**
      * Post-Process the data after an update operation.
      *
@@ -258,10 +258,10 @@ class MUFiles_Entity_File extends MUFiles_Entity_Base_File
      * @return void.
      */
     public function postUpdateCallback()
-    {        
+    {
         $this->performPostUpdateCallback();
     }
-    
+
     /**
      * Pre-Process the data prior to a save operation.
      *
@@ -271,17 +271,20 @@ class MUFiles_Entity_File extends MUFiles_Entity_Base_File
      * @return void.
      */
     public function preSaveCallback()
-    {  
+    {
         $request = new Zikula_Request_Http();
-        $collectionId = $request->request->filter('aliascollection', 0, FILTER_SANITIZE_NUMBER_INT);
-        $serviceManager = ServiceUtil::getManager();
-        $modelHelper = new MUFiles_Util_Model($serviceManager);
-        $collectionRepository = $modelHelper->getCollectionsRepository();
-        $collection = $collectionRepository->selectById($collectionId[0]);
-        $this->setAliascollection($collection);     
+        $func = $request->query->filter('func', 'main', FILTER_SANITIZE_STRING);
+        if ($func != 'import') {
+            $collectionId = $request->request->filter('aliascollection', 0, FILTER_SANITIZE_NUMBER_INT);
+            $serviceManager = ServiceUtil::getManager();
+            $modelHelper = new MUFiles_Util_Model($serviceManager);
+            $collectionRepository = $modelHelper->getCollectionsRepository();
+            $collection = $collectionRepository->selectById($collectionId[0]);
+            $this->setAliascollection($collection);
+        }
         $this->performPreSaveCallback();
     }
-    
+
     /**
      * Post-Process the data after a save operation.
      *
@@ -294,5 +297,5 @@ class MUFiles_Entity_File extends MUFiles_Entity_Base_File
     {
         $this->performPostSaveCallback();
     }
-    
+
 }
