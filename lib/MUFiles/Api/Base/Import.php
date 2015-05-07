@@ -78,7 +78,7 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
 
                 $entityManager->persist($newCollection);
                 $success = $entityManager->flush();
-                
+
                 if ($success) {
                     $status .= __('Collection', $dom) . ' ' . $collectionName . ' ' . __('created', $dom) . '<br />';
                 }
@@ -127,6 +127,30 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
 
         $downloads = $this->getFiles($module);
         if ($downloads) {
+            // we create placeholder collection
+            $placeholderCollection = new MUFiles_Entity_Collection();
+
+            $placeholderCollection->setName(__('Placeholder', $dom));
+            $placeholderCollection->setDescription(__('This collection is for items having no category or a category that not exists.', $dom));
+            $placeholderCollection->setWorkflowState('approved');
+            $entityManager->persist($placeholderCollection);
+            $entityManager->flush();
+
+            // we get the just created new collection with the relevant name
+            $searchTerm3 = __('Placeholder', $dom);
+            $where3 = 'tbl.name = \'' . DataUtil::formatForStore($searchTerm3) . '\'';
+
+            $thisPlaceholderCollection = $collectionsRepository->selectWhere($where3);
+            if ($thisPlaceholderCollection) {
+                $thisPlaceholderCollectionObject = $collectionsRepository->selectById($thisPlaceholderCollection[0]['id']);
+                // we set the datas into the workflow table
+                $obj['__WORKFLOW__']['obj_table'] = 'collection';
+                $obj['__WORKFLOW__']['obj_idcolumn'] = 'id';
+                $obj['id'] = $thisPlaceholderCollectionObject['id'];
+                $workflowHelper->registerWorkflow($obj, 'approved');
+            }
+
+            // we create file for each download
             foreach ($downloads as $download) {
                 $files[] = $download;
             }
@@ -225,23 +249,25 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
                         $newFile->setUploadFileMeta($metaData);
 
                         if ($file['pn_cid'] > 0) {
-                         $parentCollections = $this->getParentCollection($module, $file['pn_cid']);
-                        if ($parentCollections) {
-                        foreach ($parentCollections as $parentCollection) {
-                        $oneParentCollection[] = $parentCollection;
-                        }
+                            $parentCollections = $this->getParentCollection($module, $file['pn_cid']);
+                            if ($parentCollections) {
+                                foreach ($parentCollections as $parentCollection) {
+                                    $oneParentCollection[] = $parentCollection;
+                                }
 
-                        $searchTerm3 = $oneParentCollection[0]['pn_title'] . ' - ' . $file['pn_cid'];
-                        unset($oneParentCollection);
-                        $where3 = 'tbl.name = \'' . DataUtil::formatForStore($searchTerm3) . '\'';
-                        $thisParentCollection = $collectionsRepository->selectWhere($where3);
-                        if ($thisParentCollection) {
-                        $thisParentCollectionObject = $collectionsRepository->selectById($thisParentCollection[0]['id']);
+                                $searchTerm4 = $oneParentCollection[0]['pn_title'] . ' - ' . $file['pn_cid'];
+                                unset($oneParentCollection);
+                                $where4 = 'tbl.name = \'' . DataUtil::formatForStore($searchTerm4) . '\'';
+                                $thisParentCollection = $collectionsRepository->selectWhere($where4);
+                                if ($thisParentCollection) {
+                                    $thisParentCollectionObject = $collectionsRepository->selectById($thisParentCollection[0]['id']);
 
-                        $newFile->setAliascollection($thisParentCollectionObject);
+                                    $newFile->setAliascollection($thisParentCollectionObject);
 
-                        }
-                        }
+                                } else {
+                                    $newFile->setAliascollection($thisPlaceholderCollectionObject);
+                                }
+                            }
                         }
 
                         $entityManager->persist($newFile);
@@ -349,8 +375,8 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
     private function buildArrayForCollection($module , $result)
     {
         if ($module == 'Downloads') {
-           /* $result['pn_title'] = utf8_encode($result['pn_title']);
-            $result['pn_title'] = html_entity_decode($result['pn_title'], ENT_COMPAT);*/
+            $result['pn_title'] = utf8_encode($result['pn_title']);
+            $result['pn_title'] = html_entity_decode($result['pn_title'], ENT_COMPAT);
             $result['pn_description'] = utf8_encode($result['pn_description']);
             $data[] = array('id' => $result['pn_cid'],
                     'parent_id' => $result['pn_pid'],
