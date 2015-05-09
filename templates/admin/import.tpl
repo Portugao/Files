@@ -13,29 +13,16 @@
         {mufilesFormFrame}
             {formsetinitialfocus inputId='allowedExtensions'}
             {formtabbedpanelset}
-                {gt text='Import of categories' assign='tabTitle'}
+                {gt text='Import of downloads module' assign='tabTitle'}
                 {formtabbedpanel title=$tabTitle}
                     <fieldset>
                         <legend>{$tabTitle}</legend>
                     
-                        <p class="z-confirmationmsg">{gt text='Here you can import the categories of download module to collections of MUFiles.'}</p>
+                        <p class="z-confirmationmsg">{gt text='Here you can import the categories and downloads of downloads module to collections and files of MUFiles.'}</p>
                     
                     </fieldset>
                 <div class="z-buttons z-formbuttons">
-                	{formbutton commandName='importCats' __text='Import categories' class='z-bt-save'}
-                	{formbutton commandName='cancel' __text='Cancel' class='z-bt-cancel'}
-            	</div>
-                {/formtabbedpanel}
-                {gt text='Import of files' assign='tabTitle'}
-                {formtabbedpanel title=$tabTitle}
-                    <fieldset>
-                        <legend>{$tabTitle}</legend>
-                    
-                        <p class="z-confirmationmsg">{gt text='Here you can import files of module Downloads to files of MUFiles.'|nl2br}</p>
-                    
-                    </fieldset>
-                <div class="z-buttons z-formbuttons">
-                	{formbutton commandName='importFiles' __text='Import files' class='z-bt-save'}
+                	{formbutton commandName='importCats' __text='Import datas of module' class='z-bt-save'}
                 	{formbutton commandName='cancel' __text='Cancel' class='z-bt-cancel'}
             	</div>
                 {/formtabbedpanel}
