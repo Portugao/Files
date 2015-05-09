@@ -167,4 +167,211 @@ class MUFiles_Controller_Collection extends MUFiles_Controller_Base_Collection
         // fetch and return the appropriate template
         return $viewHelper->processTemplate($this->view, $objectType, 'view', array(), $templateFile);
     }
+    
+    /**
+     * This method provides a handling of simple delete requests.
+     *
+     * @param int     $id           Identifier of entity to be shown.
+     * @param boolean $confirmation Confirm the deletion, else a confirmation page is displayed.
+     * @param string  $tpl          Name of alternative template (to be used instead of the default template).
+     * @param boolean $raw          Optional way to display a template instead of fetching it (required for standalone output).
+     *
+     * @return mixed Output.
+     */
+    public function delete()
+    {
+        $legacyControllerType = $this->request->query->filter('lct', 'user', FILTER_SANITIZE_STRING);
+        System::queryStringSetVar('type', $legacyControllerType);
+        $this->request->query->set('type', $legacyControllerType);
+    
+        $controllerHelper = new MUFiles_Util_Controller($this->serviceManager);
+    
+        // parameter specifying which type of objects we are treating
+        $objectType = 'collection';
+        $utilArgs = array('controller' => 'collection', 'action' => 'delete');
+        $permLevel = $legacyControllerType == 'admin' ? ACCESS_ADMIN : ACCESS_DELETE;
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission($this->name . ':' . ucfirst($objectType) . ':', '::', $permLevel), LogUtil::getErrorMsgPermission());
+        $idFields = ModUtil::apiFunc($this->name, 'selection', 'getIdFields', array('ot' => $objectType));
+    
+        // retrieve identifier of the object we wish to delete
+        $idValues = $controllerHelper->retrieveIdentifier($this->request, array(), $objectType, $idFields);
+        $hasIdentifier = $controllerHelper->isValidIdentifier($idValues);
+    
+        $this->throwNotFoundUnless($hasIdentifier, $this->__('Error! Invalid identifier received.'));
+    
+        $selectionArgs = array('ot' => $objectType, 'id' => $idValues);
+    
+        $entity = ModUtil::apiFunc($this->name, 'selection', 'getEntity', $selectionArgs);
+        $this->throwNotFoundUnless($entity != null, $this->__('No such item.'));
+    
+        $entity->initWorkflow();
+    
+        // determine available workflow actions
+        $workflowHelper = new MUFiles_Util_Workflow($this->serviceManager);
+        $actions = $workflowHelper->getActionsForObject($entity);
+        if ($actions === false || !is_array($actions)) {
+            return LogUtil::registerError($this->__('Error! Could not determine workflow actions.'));
+        }
+    
+        // check whether deletion is allowed
+        $deleteActionId = 'delete';
+        $deleteAllowed = false;
+        foreach ($actions as $actionId => $action) {
+            if ($actionId != $deleteActionId) {
+                continue;
+            }
+            $deleteAllowed = true;
+            break;
+        }
+        if (!$deleteAllowed) {
+            return LogUtil::registerError($this->__('Error! It is not allowed to delete this collection.'));
+        }
+    
+        $confirmation = (bool) $this->request->request->filter('confirmation', false, FILTER_VALIDATE_BOOLEAN);
+        if ($confirmation && $deleteAllowed) {
+            $this->checkCsrfToken();
+    
+            $hookAreaPrefix = $entity->getHookAreaPrefix();
+            $hookType = 'validate_delete';
+            // Let any hooks perform additional validation actions
+            $hook = new Zikula_ValidationHook($hookAreaPrefix . '.' . $hookType, new Zikula_Hook_ValidationProviders());
+            $validators = $this->notifyHooks($hook)->getValidators();
+            if (!$validators->hasErrors()) {
+                // execute the workflow action
+                $success = $workflowHelper->executeAction($entity, $deleteActionId);
+                if ($success) {
+                    $this->registerStatus($this->__('Done! Item deleted.'));
+                }
+    
+                // Let any hooks know that we have created, updated or deleted the collection
+                $hookType = 'process_delete';
+                $hook = new Zikula_ProcessHook($hookAreaPrefix . '.' . $hookType, $entity->createCompositeIdentifier());
+                $this->notifyHooks($hook);
+    
+                // The collection was deleted, so we clear all cached pages this item.
+                $cacheArgs = array('ot' => $objectType, 'item' => $entity);
+                ModUtil::apiFunc($this->name, 'cache', 'clearItemCache', $cacheArgs);
+    
+                if ($legacyControllerType == 'admin') {
+                    // redirect to the list of collections
+                    $redirectUrl = ModUtil::url($this->name, 'admin', 'view', array('ot' => 'Colletion', 'lct' => $legacyControllerType));
+                } else {
+                    // redirect to the list of collections
+                    $redirectUrl = ModUtil::url($this->name, 'collection', 'view', array('lct' => $legacyControllerType));
+                }
+                return $this->redirect($redirectUrl);
+            }
+        }
+    
+        $entityClass = $this->name . '_Entity_' . ucfirst($objectType);
+        $repository = $this->entityManager->getRepository($entityClass);
+    
+        // set caching id
+        $this->view->setCaching(Zikula_View::CACHE_DISABLED);
+    
+        // assign the object we loaded above
+        $this->view->assign($objectType, $entity)
+        ->assign($repository->getAdditionalTemplateParameters('controllerAction', $utilArgs));
+    
+        // fetch and return the appropriate template
+        $viewHelper = new MUFiles_Util_View($this->serviceManager);
+    
+        return $viewHelper->processTemplate($this->view, $objectType, 'delete', array());
+    }
+    
+    /**
+     * Process status changes for multiple items.
+     *
+     * This function processes the items selected in the admin view page.
+     * Multiple items may have their state changed or be deleted.
+     *
+     * @param string $action The action to be executed.
+     * @param array  $items  Identifier list of the items to be processed.
+     *
+     * @return bool true on sucess, false on failure.
+     */
+    public function handleSelectedEntries()
+    {
+        $this->checkCsrfToken();
+    
+        $redirectUrl = ModUtil::url($this->name, 'admin', 'main', array('ot' => 'collection'));
+    
+        $objectType = 'collection';
+    
+        // Get parameters
+        $action = $this->request->request->get('action', null);
+        $items = $this->request->request->get('items', null);
+    
+        $action = strtolower($action);
+    
+        $workflowHelper = new MUFiles_Util_Workflow($this->serviceManager);
+    
+        // process each item
+        foreach ($items as $itemid) {
+            // check if item exists, and get record instance
+            $selectionArgs = array('ot' => $objectType,
+                    'id' => $itemid,
+                    'useJoins' => false);
+            $entity = ModUtil::apiFunc($this->name, 'selection', 'getEntity', $selectionArgs);
+    
+            if ($entity > 0) {
+                $entity->initWorkflow();
+    
+                // check if $action can be applied to this entity (may depend on it's current workflow state)
+                $allowedActions = $workflowHelper->getActionsForObject($entity);
+                $actionIds = array_keys($allowedActions);
+                if (!in_array($action, $actionIds)) {
+                    // action not allowed, skip this object
+                    continue;
+                }
+    
+                $hookAreaPrefix = $entity->getHookAreaPrefix();
+    
+                // Let any hooks perform additional validation actions
+                $hookType = $action == 'delete' ? 'validate_delete' : 'validate_edit';
+                $hook = new Zikula_ValidationHook($hookAreaPrefix . '.' . $hookType, new Zikula_Hook_ValidationProviders());
+                $validators = $this->notifyHooks($hook)->getValidators();
+                if ($validators->hasErrors()) {
+                    continue;
+                }
+    
+                $success = false;
+                try {
+                    // execute the workflow action
+                    $success = $workflowHelper->executeAction($entity, $action);
+                } catch(\Exception $e) {
+                    LogUtil::registerError($this->__f('Sorry, but an unknown error occured during the %s action. Please apply the changes again!', array($action)));
+                }
+    
+                if (!$success) {
+                    continue;
+                }
+    
+                if ($action == 'delete') {
+                    LogUtil::registerStatus($this->__('Done! Item deleted.'));
+                } else {
+                    LogUtil::registerStatus($this->__('Done! Item updated.'));
+                }
+    
+                // Let any hooks know that we have updated or deleted an item
+                $hookType = $action == 'delete' ? 'process_delete' : 'process_edit';
+                $url = null;
+                if ($action != 'delete') {
+                    $urlArgs = $entity->createUrlArgs();
+                    $url = new Zikula_ModUrl($this->name, 'collection', 'display', ZLanguage::getLanguageCode(), $urlArgs);
+                }
+                $hook = new Zikula_ProcessHook($hookAreaPrefix . '.' . $hookType, $entity->createCompositeIdentifier(), $url);
+                $this->notifyHooks($hook);
+    
+                // An item was updated or deleted, so we clear all cached pages for this item.
+                $cacheArgs = array('ot' => $objectType, 'item' => $entity);
+                ModUtil::apiFunc($this->name, 'cache', 'clearItemCache', $cacheArgs);
+            }
+        }
+    
+        // clear view cache to reflect our changes
+        $this->view->clear_cache();
+    
+        return $this->redirect($redirectUrl);
+    }
 }
