@@ -46,6 +46,7 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
         $status = '';
 
         $collectionsRepository = MUFiles_Util_Model::getCollectionsRepository();
+        $filesRepository = MUFiles_Util_Model::getFilesRepository();
 
         $results = $this->getCategories($module);
 
@@ -112,17 +113,26 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
                             }
                         }
                     }
-                    // we set the datas into the workflow table
-                    $obj['__WORKFLOW__']['obj_table'] = 'collection';
-                    $obj['__WORKFLOW__']['obj_idcolumn'] = 'id';
-                    $obj['id'] = $thisNewCollectionObject['id'];
-                    $workflowHelper->registerWorkflow($obj, 'approved');
                 }
             }
         }
         else {
             $status = __('There is no category of downloads module to import!', $dom);
             return $status;
+        }
+
+        // we set all new collections into workflow table
+        $collections = $collectionsRepository->selectWhere();
+        foreach ($collections as $collection) {
+            $collectionObject = $collectionsRepository->selectById($collection['id']);
+            $workflowState = WorkflowUtil::getWorkflowState($collectionObject, 'mufiles_collection');
+            if ($workflowState == 'initial' || $workflowState === false) {
+                // we set the datas into the workflow table
+                $obj['__WORKFLOW__']['obj_table'] = 'collection';
+                $obj['__WORKFLOW__']['obj_idcolumn'] = 'id';
+                $obj['id'] = $collection['id'];
+                $workflowHelper->registerWorkflow($obj, 'approved');
+            }
         }
 
         $downloads = $this->getFiles($module);
@@ -167,7 +177,6 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
                 foreach ($files as $file) {
                     if ($count <=5) {
                         $data2 = $this->buildArrayForFile($module, $file);
-
 
                         //handle upload
                         $fileNameParts = explode('.', $data2[0]['uploadFile']);
@@ -274,6 +283,20 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
                         $entityManager->flush();
                         $count++;
                     }
+                }
+            }
+
+            // we set all new files into workflow table
+            $files = $filesRepository->selectWhere();
+            foreach ($files as $file) {
+                $fileObject = $filesRepository->selectById($file['id']);
+                $workflowState = WorkflowUtil::getWorkflowState($fileObject, 'mufiles_file');
+                if ($workflowState == 'initial' || $workflowState === false) {
+                    // we set the datas into the workflow table
+                    $obj['__WORKFLOW__']['obj_table'] = 'file';
+                    $obj['__WORKFLOW__']['obj_idcolumn'] = 'id';
+                    $obj['id'] = $file['id'];
+                    $workflowHelper->registerWorkflow($obj, 'approved');
                 }
             }
         }
