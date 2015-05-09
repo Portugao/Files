@@ -68,7 +68,7 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
             foreach ($categories as $category) {
 
                 $data = $this->buildArrayForCollection($module, $category);
-                $data[0]['name'] .= ' - ' . $data[0]['id'];
+                $data[0]['name'] = $data[0]['id'] . '-' . $data[0]['name'];
 
                 // we build new collection
                 $newCollection = new MUFiles_Entity_Collection();
@@ -87,7 +87,7 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
 
             foreach ($categories as $category) {
                 // we get the just created new collection with the relevant name
-                $searchTerm = $category['pn_title'] . ' - ' . $category['pn_cid'];
+                $searchTerm = $category['pn_cid'] . '-' . $category['pn_title'];
                 $where = 'tbl.name = \'' . DataUtil::formatForStore($searchTerm) . '\'';
 
                 $thisNewCollection = $collectionsRepository->selectWhere($where);
@@ -101,7 +101,7 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
                                 $oneParentCollection[] = $parentCollection;
                             }
 
-                            $searchTerm2 = $oneParentCollection[0]['pn_title'] . ' - ' . $category['pn_pid'];
+                            $searchTerm2 = $category['pn_pid'] . '-' . $oneParentCollection[0]['pn_title'];
                             unset($oneParentCollection);
                             $where2 = 'tbl.name = \'' . DataUtil::formatForStore($searchTerm2) . '\'';
                             $thisParentCollection = $collectionsRepository->selectWhere($where2);
@@ -173,9 +173,8 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
 
                 $basePath = $controllerHelper->getFileBaseFolder('file', 'fileUpload');
 
-                $count = 0;
                 foreach ($files as $file) {
-                    if ($count <=5) {
+
                         $data2 = $this->buildArrayForFile($module, $file);
 
                         //handle upload
@@ -264,7 +263,7 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
                                     $oneParentCollection[] = $parentCollection;
                                 }
 
-                                $searchTerm4 = $oneParentCollection[0]['pn_title'] . ' - ' . $file['pn_cid'];
+                                $searchTerm4 = $file['pn_cid'] . '-' . $oneParentCollection[0]['pn_title'];
                                 unset($oneParentCollection);
                                 $where4 = 'tbl.name = \'' . DataUtil::formatForStore($searchTerm4) . '\'';
                                 $thisParentCollection = $collectionsRepository->selectWhere($where4);
@@ -281,8 +280,7 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
 
                         $entityManager->persist($newFile);
                         $entityManager->flush();
-                        $count++;
-                    }
+                    
                 }
             }
 
@@ -299,6 +297,16 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
                     $workflowHelper->registerWorkflow($obj, 'approved');
                 }
             }
+        }
+        
+        // we set the name to the original
+        foreach ($collections as $collection) {
+            $collectionObject = $collectionsRepository->selectById($collection['id']);
+            $positionOfChar = strpos($collection['name'], '-');
+            $newName = substr($collection['name'], $positionOfChar + 1);
+            $newName = html_entity_decode($newName);            
+            $collectionObject->setName($newName);
+            $entityManager->flush();
         }
 
         return $status;
