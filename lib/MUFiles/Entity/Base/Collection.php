@@ -153,6 +153,7 @@ abstract class MUFiles_Entity_Base_Collection extends Zikula_EntityAccess
      *
      * @ORM\OneToMany(targetEntity="MUFiles_Entity_File", mappedBy="aliascollection")
      * @ORM\JoinTable(name="mufiles_aliascollectionalilasfile")
+     * @ORM\OrderBy({"title" = "ASC"})
      * @var MUFiles_Entity_File[] $alilasfile.
      */
     protected $alilasfile = null;
