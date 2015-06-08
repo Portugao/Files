@@ -274,7 +274,7 @@ class MUFiles_Entity_File extends MUFiles_Entity_Base_File
     {
         $request = new Zikula_Request_Http();
         $func = $request->query->filter('func', 'main', FILTER_SANITIZE_STRING);
-        if ($func != 'import') {
+        if ($func != 'import' && $func != 'handleSelectedEntries') {
             $collectionId = $request->request->filter('aliascollection', 0, FILTER_SANITIZE_NUMBER_INT);
             $serviceManager = ServiceUtil::getManager();
             $modelHelper = new MUFiles_Util_Model($serviceManager);
