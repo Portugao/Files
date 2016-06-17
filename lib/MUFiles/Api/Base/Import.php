@@ -87,21 +87,21 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
 
             foreach ($categories as $category) {
                 // we get the just created new collection with the relevant name
-                $searchTerm = $category['pn_cid'] . '-' . $category['pn_title'];
+                $searchTerm = $category['cid'] . '-' . $category['title'];
                 $where = 'tbl.name = \'' . DataUtil::formatForStore($searchTerm) . '\'';
 
                 $thisNewCollection = $collectionsRepository->selectWhere($where);
                 if ($thisNewCollection) {
                     $thisNewCollectionObject = $collectionsRepository->selectById($thisNewCollection[0]['id']);
 
-                    if ($category['pn_pid'] > 0) {
-                        $parentCollections = $this->getParentCollection($module, $category['pn_pid']);
+                    if ($category['pid'] > 0) {
+                        $parentCollections = $this->getParentCollection($module, $category['pid']);
                         if ($parentCollections) {
                             foreach ($parentCollections as $parentCollection) {
                                 $oneParentCollection[] = $parentCollection;
                             }
 
-                            $searchTerm2 = $category['pn_pid'] . '-' . $oneParentCollection[0]['pn_title'];
+                            $searchTerm2 = $category['pid'] . '-' . $oneParentCollection[0]['title'];
                             unset($oneParentCollection);
                             $where2 = 'tbl.name = \'' . DataUtil::formatForStore($searchTerm2) . '\'';
                             $thisParentCollection = $collectionsRepository->selectWhere($where2);
@@ -256,14 +256,14 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
                         $newFile->setUploadFile($fileName);
                         $newFile->setUploadFileMeta($metaData);
 
-                        if ($file['pn_cid'] > 0) {
-                            $parentCollections = $this->getParentCollection($module, $file['pn_cid']);
+                        if ($file['cid'] > 0) {
+                            $parentCollections = $this->getParentCollection($module, $file['cid']);
                             if ($parentCollections) {
                                 foreach ($parentCollections as $parentCollection) {
                                     $oneParentCollection[] = $parentCollection;
                                 }
 
-                                $searchTerm4 = $file['pn_cid'] . '-' . $oneParentCollection[0]['pn_title'];
+                                $searchTerm4 = $file['cid'] . '-' . $oneParentCollection[0]['title'];
                                 unset($oneParentCollection);
                                 $where4 = 'tbl.name = \'' . DataUtil::formatForStore($searchTerm4) . '\'';
                                 $thisParentCollection = $collectionsRepository->selectWhere($where4);
@@ -330,7 +330,7 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
         // ask the DB for entries in the module table
         // handle the access to the module category table
         // build sql
-        $query = "SELECT * FROM " . $table . " ORDER by pn_cid";
+        $query = "SELECT * FROM " . $table . " ORDER by cid";
 
         // prepare the sql query
         $sql = $connect->query($query);
@@ -358,7 +358,7 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
         // ask the DB for entries in the module table
         // handle the access to the module file table
         // build sql
-        $query = "SELECT * FROM " . $table . " ORDER by pn_lid";
+        $query = "SELECT * FROM " . $table . " ORDER by lid";
 
         // prepare the sql query
         $sql = $connect->query($query);
@@ -386,7 +386,7 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
         // ask the DB for entries in the module table
         // handle the access to the module album table
         // build sql
-        $query = "SELECT * FROM $table WHERE pn_cid = $id";
+        $query = "SELECT * FROM $table WHERE cid = $id";
 
         // prepare the sql query
         $sql = $connect->query($query);
@@ -406,14 +406,14 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
     private function buildArrayForCollection($module , $result)
     {
         if ($module == 'Downloads') {
-            $result['pn_title'] = utf8_encode($result['pn_title']);
-            $result['pn_title'] = html_entity_decode($result['pn_title'], ENT_COMPAT);
-            $result['pn_description'] = utf8_encode($result['pn_description']);
-            $data[] = array('id' => $result['pn_cid'],
-                    'parent_id' => $result['pn_pid'],
+            $result['title'] = utf8_encode($result['title']);
+            $result['title'] = html_entity_decode($result['title'], ENT_COMPAT);
+            $result['description'] = utf8_encode($result['description']);
+            $data[] = array('id' => $result['cid'],
+                    'parent_id' => $result['pid'],
                     'inFrontend' => 1,
-                    'name' => $result['pn_title'],
-                    'description' => $result['pn_description']);
+                    'name' => $result['title'],
+                    'description' => $result['description']);
         }
         return $data;
     }
@@ -427,15 +427,15 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
     private function buildArrayForFile($module , $result)
     {
         if ($module == 'Downloads') {
-            $result['pn_title'] = utf8_encode($result['pn_title']);
-            $result['pn_description'] = utf8_encode($result['pn_description']);
-            $data[] = array('id' => $result['pn_lid'],
-                    'collection' => $result['pn_cid'],
-                    'title' => $result['pn_title'],
-                    'description' => $result['pn_description'],
-                    'createdDate' => $result['pn_date'],
-                    'updatedDate' => $result['pn_update'],
-                    'uploadFile' => $result['pn_url']);
+            $result['title'] = utf8_encode($result['title']);
+            $result['description'] = utf8_encode($result['description']);
+            $data[] = array('id' => $result['lid'],
+                    'collection' => $result['cid'],
+                    'title' => $result['title'],
+                    'description' => $result['description'],
+                    'createdDate' => $result['date'],
+                    'updatedDate' => $result['update'],
+                    'uploadFile' => $result['url']);
         }
         return $data;
     }
