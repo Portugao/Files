@@ -10,6 +10,6 @@ Changes in 1.1.0
 
 #fixed #27 error message is fixed, deletion of several collections possible now
 
-#fixed #28 redirect woeking correctly now
+#fixed #28 redirect working correctly now
 
 #fixed #30 fixed issue with selected entries for files
