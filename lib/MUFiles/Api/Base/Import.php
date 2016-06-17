@@ -495,6 +495,11 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
             $this->__('Connection to database failed');
         }
 
-        return $connect;
+        if (is_object($connect)) {
+            return $connect;
+        } else {
+        	return false;
+        }
+        
     }
 }
