@@ -330,7 +330,7 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
         // ask the DB for entries in the module table
         // handle the access to the module category table
         // build sql
-        $query = "SELECT * FROM $table ORDER by pn_cid";
+        $query = "SELECT * FROM " . $table . " ORDER by pn_cid";
 
         // prepare the sql query
         $sql = $connect->query($query);
@@ -358,7 +358,7 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
         // ask the DB for entries in the module table
         // handle the access to the module file table
         // build sql
-        $query = "SELECT * FROM $table ORDER by pn_lid";
+        $query = "SELECT * FROM " . $table . " ORDER by pn_lid";
 
         // prepare the sql query
         $sql = $connect->query($query);
