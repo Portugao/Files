@@ -38,6 +38,10 @@
                             {formlabel for='maxSize' __text='Max size' cssClass=''}
                                 {formintinput id='maxSize' group='config' maxLength=255 __title='Enter the max size. Only digits are allowed.'}
                         </div>
+                        <div class="z-formrow">
+                            {formlabel for='onlyParent' __text='Show only parent collection' cssClass=''}
+                                {formcheckbox id='onlyParent' group='config' readOnly=false __title='Show only parent collections?' cssClass='' }
+                        </div>
                     </fieldset>
                 {/formtabbedpanel}
                 {gt text='Moderation' assign='tabTitle'}

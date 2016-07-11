@@ -48,6 +48,7 @@ class MUFiles_Installer extends MUFiles_Base_Installer
                 // set two new mod vars
                 $this->setVar('itemsPerPage', 10);
                 $this->setVar('itemsPerPageBackend', 10);
+                $this->setVar('onlyParent', false);
                 // update the database schema
                 try {
                     DoctrineHelper::updateSchema($this->entityManager, $this->listEntityClasses());

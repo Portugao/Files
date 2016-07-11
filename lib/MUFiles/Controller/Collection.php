@@ -63,6 +63,13 @@ class MUFiles_Controller_Collection extends MUFiles_Controller_Base_Collection
         $currentUrlArgs = array();
 
         $where = '';
+        
+        $onlyParent = ModUtil::getVar('MUFiles', 'onlyParent');
+        
+        $where = '';
+        if ($legacyControllerType == 'user' && $onlyParent == 1) {
+        	$where = 'tbl.parent IS NULL';
+        }
 
         $selectionArgs = array(
                 'ot' => $objectType,
