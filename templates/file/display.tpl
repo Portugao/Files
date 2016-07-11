@@ -65,6 +65,6 @@
         {/if}
     {/if}
 </div>
-</div>
+
 {include file='user/footer.tpl'}
 
