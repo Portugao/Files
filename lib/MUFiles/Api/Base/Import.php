@@ -234,7 +234,7 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
                         }
                         while (file_exists($basePath . $fileName)); // repeat until we have a new name
 
-                        $source = 'ztemp/downloads_upload/' . $data2[0]['uploadFile'];
+                        $source = 'userdata/Downloads/' . $data2[0]['uploadFile'];
                         $destination = $basePath . $fileName;
 
                         copy($source, $destination);
