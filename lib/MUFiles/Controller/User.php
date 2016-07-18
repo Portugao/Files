@@ -52,11 +52,6 @@ class MUFiles_Controller_User extends MUFiles_Controller_Base_User
     
     public function giveFile()
     {
-        // for guests no access
-        if (UserUtil::isLoggedIn() == false) {
-            return LogUtil::registerPermissionError();
-        }
-
         // we get the id of the relevant file
         $id = $this->request->query->filter('id' , 0, FILTER_SANITIZE_NUMBER_INT);
 
@@ -85,7 +80,7 @@ class MUFiles_Controller_User extends MUFiles_Controller_Base_User
             // we clean the output buffer
             ob_clean();
             flush();
-            // we read the file if give it out
+            // we read the file and give it out
             readfile('userdata/MUFiles/files/uploadfile/' . $file['uploadFile']);
             exit();
         }
