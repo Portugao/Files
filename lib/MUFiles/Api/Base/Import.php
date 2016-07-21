@@ -190,9 +190,10 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
                         $objectType = 'file';
                         $fieldName = 'uploadFile';
                         $fileName = $data2[0]['uploadFile'];
+                        $fileName = str_replace('userdata/Downloads/', '', $fileName);
 
                         // detect fileName
-                        $backupFileName = $data2[0]['uploadFile'];
+                        $backupFileName = $fileName;
 
                         $namingScheme = 0;
 
@@ -234,12 +235,13 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
                         }
                         while (file_exists($basePath . $fileName)); // repeat until we have a new name
 
-                        $source = 'userdata/Downloads/' . $data2[0]['uploadFile'];
+                        $source = $data2[0]['uploadFile'];
                         $destination = $basePath . $fileName;
 
                         copy($source, $destination);
                         $uploadHandler = new MUFiles_UploadHandler();
                         $metaData = $uploadHandler->readMetaDataForFile($fileName, $basePath . $fileName);
+                        $metaData['originalName'] = $backupFileName;
 
                         if (!is_array($metaData)) {
                             continue;
