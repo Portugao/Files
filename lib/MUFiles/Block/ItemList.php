@@ -16,5 +16,42 @@
  */
 class MUFiles_Block_ItemList extends MUFiles_Block_Base_ItemList
 {
-    // feel free to extend the item list block here
+    /**
+     * Determines the order by parameter for item selection.
+     *
+     * @param array               $vars       List of block variables.
+     * @param Doctrine_Repository $repository The repository used for data fetching.
+     *
+     * @return string the sorting clause.
+     */
+    protected function getSortParam($vars, $repository)
+    {
+        if ($vars['sorting'] == 'random') {
+            return 'RAND()';
+        }
+    
+        $sortParam = '';
+        if ($vars['sorting'] == 'newest') {
+            $idFields = ModUtil::apiFunc('MUFiles', 'selection', 'getIdFields', array('ot' => $vars['objectType']));
+            if (count($idFields) == 1) {
+                $sortParam = $idFields[0] . ' DESC';
+            } else {
+                foreach ($idFields as $idField) {
+                    if (!empty($sortParam)) {
+                        $sortParam .= ', ';
+                    }
+                    $sortParam .= $idField . ' DESC';
+                }
+            }
+        } 
+        
+        if ($vars['sorting'] == 'updated') {
+        	$sortParam = 'updatedDate DESC';
+        }
+        if ($vars['sorting'] == 'default') {
+            $sortParam = $repository->getDefaultSortingField() . ' ASC';
+        }
+    
+        return $sortParam;
+    }
 }

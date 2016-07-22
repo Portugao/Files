@@ -39,7 +39,8 @@
         <select id="mUFilesSorting" name="sorting">
             <option value="random"{if $sorting eq 'random'} selected="selected"{/if}>{gt text='Random'}</option>
             <option value="newest"{if $sorting eq 'newest'} selected="selected"{/if}>{gt text='Newest'}</option>
-            <option value="alpha"{if $sorting eq 'default' || ($sorting != 'random' && $sorting != 'newest')} selected="selected"{/if}>{gt text='Default'}</option>
+            <option value="updated"{if $sorting eq 'updated'} selected="selected"{/if}>{gt text='Updated'}</option>
+            <option value="alpha"{if $sorting eq 'default' || ($sorting != 'random' && $sorting != 'newest' && $sorting != 'updated')} selected="selected"{/if}>{gt text='Default'}</option>
         </select>
 </div>
 
