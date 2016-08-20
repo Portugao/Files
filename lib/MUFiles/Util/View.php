@@ -35,6 +35,10 @@ class MUFiles_Util_View extends MUFiles_Util_Base_View
             case 'docx':  // DOC
                 $mime = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
                 break;
+                
+            case 'dotx':  // DOC
+                $mime = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+                break;
 
             case 'odt':  // Libre Office text document
                 $mime = 'application/vnd.oasis.opendocument.text';
@@ -48,7 +52,11 @@ class MUFiles_Util_View extends MUFiles_Util_Base_View
             case 'xls': // word excel
                 $mime = 'application/msexcel';
                 break;
-
+                
+            case 'xlsx': // word excel
+                $mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+                break;
+                	
             case 'ppt': // microsoft powerpoint
                 $mime = 'application/mspowerpoint';
                 break;
