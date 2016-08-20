@@ -87,8 +87,8 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
 
             foreach ($categories as $category) {
                 // we get the just created new collection with the relevant name
-                $searchTerm = $category['cid'] . '-' . $category['title'];
-                $where = 'tbl.name = \'' . DataUtil::formatForStore($searchTerm) . '\'';
+                $searchTerm = $category['cid'] . '%';
+                $where = 'tbl.name LIKE \'' . DataUtil::formatForStore($searchTerm) . '\'';
 
                 $thisNewCollection = $collectionsRepository->selectWhere($where);
                 if ($thisNewCollection) {
@@ -101,9 +101,9 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
                                 $oneParentCollection[] = $parentCollection;
                             }
 
-                            $searchTerm2 = $category['pid'] . '-' . $oneParentCollection[0]['title'];
+                            $searchTerm2 = $category['pid'] . '%';
                             unset($oneParentCollection);
-                            $where2 = 'tbl.name = \'' . DataUtil::formatForStore($searchTerm2) . '\'';
+                            $where2 = 'tbl.name LIKE \'' . DataUtil::formatForStore($searchTerm2) . '\'';
                             $thisParentCollection = $collectionsRepository->selectWhere($where2);
                             if ($thisParentCollection) {
                                 $thisParentCollectionObject = $collectionsRepository->selectById($thisParentCollection[0]['id']);
@@ -243,11 +243,11 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
                         $metaData = $uploadHandler->readMetaDataForFile($fileName, $basePath . $fileName);
                         $metaData['originalName'] = $backupFileName;
 
-                        if (!is_array($metaData)) {
+                        /*if (!is_array($metaData)) {
                             continue;
-                        }
+                        }*/
 
-                        // we build new collection
+                        // we build new file
                         $newFile = new MUFiles_Entity_File();
 
                         $newFile->setTitle($data2[0]['title']);
@@ -256,6 +256,9 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
                         //$newFile->setCreatedDate($data2[0]['createdDate']);
                         //$newFile->setUpdatedDate($data2[0]['updatedDate']);
                         $newFile->setUploadFile($fileName);
+                        if (!is_array($metaData)) {
+                        	$metaData = array();
+                        }
                         $newFile->setUploadFileMeta($metaData);
 
                         if ($file['cid'] > 0) {
@@ -265,9 +268,9 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
                                     $oneParentCollection[] = $parentCollection;
                                 }
 
-                                $searchTerm4 = $file['cid'] . '-' . $oneParentCollection[0]['title'];
+                                $searchTerm4 = $file['cid'] . '%';
                                 unset($oneParentCollection);
-                                $where4 = 'tbl.name = \'' . DataUtil::formatForStore($searchTerm4) . '\'';
+                                $where4 = 'tbl.name LIKE \'' . DataUtil::formatForStore($searchTerm4) . '\'';
                                 $thisParentCollection = $collectionsRepository->selectWhere($where4);
                                 if ($thisParentCollection) {
                                     $thisParentCollectionObject = $collectionsRepository->selectById($thisParentCollection[0]['id']);
