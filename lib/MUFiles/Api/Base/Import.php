@@ -238,70 +238,70 @@ class MUFiles_Api_Base_Import extends Zikula_AbstractApi
                         $source = $data2[0]['uploadFile'];
                         $destination = $basePath . $fileName;
 
-                        copy($source, $destination);
-                        $uploadHandler = new MUFiles_UploadHandler();
-                        $metaData = $uploadHandler->readMetaDataForFile($fileName, $basePath . $fileName);
-                        $metaData['originalName'] = $backupFileName;
-
-                        /*if (!is_array($metaData)) {
-                            continue;
-                        }*/
-
-                        // we build new file
-                        $newFile = new MUFiles_Entity_File();
-
-                        $newFile->setTitle($data2[0]['title']);
-                        $newFile->setDescription($data2[0]['description']);
-                        $newFile->setWorkflowState('approved');
-                        //$newFile->setCreatedDate($data2[0]['createdDate']);
-                        //$newFile->setUpdatedDate($data2[0]['updatedDate']);
-                        $newFile->setUploadFile($fileName);
-                        if (!is_array($metaData)) {
-                        	$metaData = array();
-                        }
-                        $newFile->setUploadFileMeta($metaData);
-
-                        if ($file['cid'] > 0) {
-                            $parentCollections = $this->getParentCollection($module, $file['cid']);
-                            if ($parentCollections) {
-                                foreach ($parentCollections as $parentCollection) {
-                                    $oneParentCollection[] = $parentCollection;
-                                }
-
-                                $searchTerm4 = $file['cid'] . '%';
-                                unset($oneParentCollection);
-                                $where4 = 'tbl.name LIKE \'' . DataUtil::formatForStore($searchTerm4) . '\'';
-                                $thisParentCollection = $collectionsRepository->selectWhere($where4);
-                                if ($thisParentCollection) {
-                                    $thisParentCollectionObject = $collectionsRepository->selectById($thisParentCollection[0]['id']);
-
-                                    $newFile->setAliascollection($thisParentCollectionObject);
-
-                                } else {
-                                    $newFile->setAliascollection($thisPlaceholderCollectionObject);
-                                }
+                        if (file_exists($source)) {
+                            copy($source, $destination);
+                            $uploadHandler = new MUFiles_UploadHandler();
+                            $metaData = $uploadHandler->readMetaDataForFile($fileName, $basePath . $fileName);
+                            $metaData['originalName'] = $backupFileName;
+                            
+                            // we build new file
+                            $newFile = new MUFiles_Entity_File();
+                            
+                            $newFile->setTitle($data2[0]['title']);
+                            $newFile->setDescription($data2[0]['description']);
+                            $newFile->setWorkflowState('approved');
+                            $newFile->setUploadFile($fileName);
+                            $newFile->setUploadFileMeta($metaData);
+                            
+                            if ($file['cid'] > 0) {
+                            	$parentCollections = $this->getParentCollection($module, $file['cid']);
+                            	if ($parentCollections) {
+                            		foreach ($parentCollections as $parentCollection) {
+                            			$oneParentCollection[] = $parentCollection;
+                            		}
+                            
+                            		$searchTerm4 = $file['cid'] . '%';
+                            		unset($oneParentCollection);
+                            		$where4 = 'tbl.name LIKE \'' . DataUtil::formatForStore($searchTerm4) . '\'';
+                            		$thisParentCollection = $collectionsRepository->selectWhere($where4);
+                            		if ($thisParentCollection) {
+                            			$thisParentCollectionObject = $collectionsRepository->selectById($thisParentCollection[0]['id']);
+                            
+                            			$newFile->setAliascollection($thisParentCollectionObject);
+                            
+                            		} else {
+                            			$newFile->setAliascollection($thisPlaceholderCollectionObject);
+                            		}
+                            	}
                             }
-                        }
-
-                        $entityManager->persist($newFile);
-                        $entityManager->flush();
-                    
+                            
+                            $entityManager->persist($newFile);
+                            $entityManager->flush();
+                            
+                        } else {
+                        	$metaData = array();
+                        	$status .= __('File', $dom) . ' ' . $source . ' ' . __('not available', $dom) . '<br />';
+                        }          
                 }
+            } else {
+            	$status = __('There is no file of downloads module to import!', $dom);
+            	return $status;
             }
 
-            // we set all new files into workflow table
-            $files = $filesRepository->selectWhere();
-            foreach ($files as $file) {
-                $fileObject = $filesRepository->selectById($file['id']);
-                $workflowState = WorkflowUtil::getWorkflowState($fileObject, 'mufiles_file');
-                if ($workflowState == 'initial' || $workflowState === false) {
-                    // we set the datas into the workflow table
-                    $obj['__WORKFLOW__']['obj_table'] = 'file';
-                    $obj['__WORKFLOW__']['obj_idcolumn'] = 'id';
-                    $obj['id'] = $file['id'];
-                    $workflowHelper->registerWorkflow($obj, 'approved');
-                }
-            }
+        }
+        
+        // we set all new files into workflow table
+        $files = $filesRepository->selectWhere();
+        foreach ($files as $file) {
+        	$fileObject = $filesRepository->selectById($file['id']);
+        	$workflowState = WorkflowUtil::getWorkflowState($fileObject, 'mufiles_file');
+        	if ($workflowState == 'initial' || $workflowState === false) {
+        		// we set the datas into the workflow table
+        		$obj['__WORKFLOW__']['obj_table'] = 'file';
+        		$obj['__WORKFLOW__']['obj_idcolumn'] = 'id';
+        		$obj['id'] = $file['id'];
+        		$workflowHelper->registerWorkflow($obj, 'approved');
+        	}
         }
         
         // we set the name to the original
