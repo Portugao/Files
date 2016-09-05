@@ -52,6 +52,7 @@ class MUFiles_Base_Installer extends Zikula_AbstractInstaller
         $this->setVar('itemsPerPage', 10);
         $this->setVar('itemsPerPageBackend', 10);
         $this->setVar('onlyParent', false);
+        $this->setVar('specialCollectionMenue', false);
     
         $categoryRegistryIdsPerEntity = array();
     

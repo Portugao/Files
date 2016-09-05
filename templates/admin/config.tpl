@@ -42,6 +42,10 @@
                             {formlabel for='onlyParent' __text='Show only parent collection' cssClass=''}
                                 {formcheckbox id='onlyParent' group='config' readOnly=false __title='Show only parent collections?' cssClass='' }
                         </div>
+                        <div class="z-formrow">
+                            {formlabel for='specialCollectionMenue' __text='Show special collection menue?' cssClass=''}
+                                {formcheckbox id='specialCollectionMenue' group='config' readOnly=false __title='Show special collection menue?' cssClass='' }
+                        </div>
                     </fieldset>
                 {/formtabbedpanel}
                 {gt text='Moderation' assign='tabTitle'}
