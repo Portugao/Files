@@ -45,7 +45,7 @@
             {if $mode eq 'create'}
                 {formuploadinput group='file' id='uploadFile' mandatory=true readOnly=false cssClass='required validate-upload' }
             {else}
-                {formuploadinput group='file' id='uploadFile' mandatory=false readOnly=false cssClass=' validate-upload' }
+                {formuploadinput group='file' id='uploadFile' mandatory=false readOnly=false cssClass=' validate-upload' }<br /><br />
                 <span class="z-formnote"><a id="resetUploadFileVal" href="javascript:void(0);" class="z-hide">{gt text='Reset to empty value'}</a></span>
             {/if}
             
@@ -69,8 +69,11 @@
             {mufilesValidationError id='uploadFile' class='validate-upload'}
         </div>
     </fieldset>
-    {include file='collection/include_selectEditOne.tpl' group='file' alias='aliascollection' aliasReverse='alilasfile' mandatory=true idPrefix='mufilesFile_Aliascollection' linkingItem=$file displayMode='dropdown' allowEditing=true} 
-
+    {if $coredata.MUFiles.specialCollectionMenue eq false}
+        {include file='collection/include_selectEditOne.tpl' group='file' alias='aliascollection' aliasReverse='alilasfile' mandatory=true idPrefix='mufilesFile_Aliascollection' linkingItem=$file displayMode='dropdown' allowEditing=true} 
+    {else}
+        {mufilesSpecialCollectionMenue fileId=$file.id}
+    {/if}
     {if $mode ne 'create'}
         {include file='helper/include_standardfields_edit.tpl' obj=$file}
     {/if}

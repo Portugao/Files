@@ -18,20 +18,27 @@ class MUFiles_Util_Base_Menue extends Zikula_AbstractBase {
 	/**
 	 * Retrieve the base path for given object type and upload field combination.
 	 *
-	 * @param string $objectType
-	 *        	Name of treated entity type.
-	 * @param string $fieldName
-	 *        	Name of upload field.
+	 * @param integer $collectionId
+	 *        	id of collection
+	 * @param integer $fileId
+	 *        	id of file.
 	 *        	
 	 * @return mixed Output.
 	 * @throws Exception if invalid object type is given.
 	 */
-	public function getCollectionMenue($collectionId = 0) {
-		// we get a collection repository
-		$collectionRepository = MUFiles_Util_Model::getCollectionsRepository ();
+	public function getCollectionMenue($collectionId = 0, $fileId = 0) {
+		// we get a collection repository		
+		$collectionRepository = MUFiles_Util_Model::getCollectionsRepository();
+		
 		// we get the current collection we want to edit
-		if ($collectionId > 0) {
-		    $currentCollection = $collectionRepository->selectById ( $collectionId );
+		if ($collectionId > 0) {		
+		    $currentCollection = $collectionRepository->selectById($collectionId);
+		}
+		// we get the current file
+		if ($fileId > 0) {
+			// we get a file repository
+			$fileRepository = MUFiles_Util_Model::getFilesRepository();
+			$currentFile = $fileRepository->selectById($fileId);
 		}
 		
 		$dom = ZLanguage::getModuleDomain('MUFiles');
@@ -43,9 +50,10 @@ class MUFiles_Util_Base_Menue extends Zikula_AbstractBase {
 		
 		// initial
 		$where = '';
-		// where clause to get the collections without parent
+
+	    // where clause to get the collections without parent
 		$where = 'tbl.id != \'' . $currentCollection ['id'] . '\'';
-		$where .= ' AND ';
+		$where .= ' AND ';	
 		$where .= 'tbl.parent IS NULL';
 		
 		// initial
@@ -63,34 +71,55 @@ class MUFiles_Util_Base_Menue extends Zikula_AbstractBase {
 		$collections = ModUtil::apiFunc ( 'MUFiles', 'selection', 'getEntities', $selectionArgs );
 		// if count collections gt 0 we set html tags
 		if (count ( $collections ) > 0) {
-			$menue = '<h3 class="categories z-panel-header z-panel-indicator z-pointer">' . __('Collections', $dom) . '</h3>' . "\n";
+			$menue = '<h3 class="collections z-panel-header z-panel-indicator z-pointer">' . __('Collections', $dom) . '</h3>' . "\n";
 			$menue .= '<fieldset class="form-control">' . "\n";
 			$menue .= '<div class="z-formrow">' . "\n";
 			$menue .= '<label for="parent">' . __('Collections', $dom) . '</label>' . "\n";
-			$menue .= '<select id="parent" name="parent[]">' . "\n";
+			if ($collectionId > 0 && $fileId == 0) {
+			    $menue .= '<select id="parent" name="parent" class="z-form-dropdownlist  z-form-relationlist collection validation-passed">' . "\n";
+			} else {
+				$menue .= '<select id="aliascollection" name="aliascollection" class="z-form-dropdownlist  z-form-relationlist collection validation-passed">' . "\n";
+									
+			}
+			$menue .= '<option value=""></option>';
 		}
-		LogUtil::registerError ( 'Aktuelle Kollektion Id, Name : ' . $currentCollection ['id'] . ', ' . $currentCollection ['name'] );
 		
+		$thereIsSelectedOption = 0;
+	
 		// for each collection we set an option tag
 		foreach ( $collections as $collection ) {
-			$thisCollection = $collectionRepository->selectById ( $collection ['id'] );
-			LogUtil::registerError ( 'Schleife diese Kollektion Id, Name : ' . $thisCollection ['id'] . ', ' . $thisCollection ['name'] );
+			$thisCollection = $collectionRepository->selectById ($collection['id'] );
+			//LogUtil::registerError ( 'Schleife diese Kollektion Id, Name : ' . $thisCollection ['id'] . ', ' . $thisCollection ['name'] );
 			if (is_object($currentCollection)) {
-			if ($currentCollection ['parent'] == $collection ['id']) {
+			if ($currentCollection['parent']['id'] === $thisCollection['id']) {
+				LogUtil::registerError('Foreach Kollektion: ' . $thisCollection['id'] . ', Aktuelle Kollektion: ' . $currentCollection['parent']['id']);
 				$selected = ' selected=selected';
+				$thereIsSelectedOption = 1;
 			} else {
 				$selected = '';
 			}
 			} else {
-				$selected = '';
+				if (is_object($currentFile)) {
+					if ($currentFile['aliascollection'] != NULL && $currentFile['aliascollection']['id'] == $thisCollection['id']) {
+				        $selected = ' selected=selected';
+				        $thereIsSelectedOption = 1;
+					} else {
+						$selected = '';
+					}
+				} else {
+					
+				}
 			}
 			$name .= $thisCollection ['name'];
 			$menue .= '<option value="' . $thisCollection ['id'] . '"' . $selected . '>' . $name . '</option>' . "\n";
 			
 			$menue = self::getParentPath ( $thisCollection ['id'], $currentCollection, $menue, $name, $collectionRepository );
 		    $name = '';
+
 		}
-		
+		if ($thereIsSelectedOption == 0) {
+			$menue = str_replace('<option value=""></option>', '<option selected=selected value=""></option>', $menue);
+		}
 		if (count ( $collections ) > 0) {
 			$menue .= '</select>' . "\n" . '</div>' . "\n" . '</fieldset>' . "\n";
 		}
@@ -102,10 +131,10 @@ class MUFiles_Util_Base_Menue extends Zikula_AbstractBase {
 	 *
 	 */
 	private function getParentPath($collectionId, $currentCollection = 0, $menue, $name, $collectionRepository) {
-		//$where2 = '';
+
 		$where2 = 'tbl.parent = \'' . $collectionId . '\'';
 		
-		//$selectionArgs2 = array ();
+
 		$selectionArgs2 = array (
 				'ot' => 'collection',
 				'where' => $where2,
@@ -115,16 +144,13 @@ class MUFiles_Util_Base_Menue extends Zikula_AbstractBase {
 		$childrenCollections = '';
 		$childrenCollections = ModUtil::apiFunc ( 'MUFiles', 'selection', 'getEntities', $selectionArgs2 );
 		
-		LogUtil::registerError('Anzahl Children ' . count($childrenCollections));
-		LogUtil::registerError($menue);
-		
 		if (count ( $childrenCollections ) > 0 && is_array ( $childrenCollections )) {
 			foreach ( $childrenCollections as $childrenCollection ) {
 				// $name = self::getParentPath($childrenCollection['id'], $collectionName);
 				$thisChildrenCollection = $collectionRepository->selectById ( $childrenCollection ['id'] );
 				// if this collection is the parent of the current collection we set selected=selected
 				if (is_object($currentCollection)) {
-				if ($childrenCollection ['id'] == $currentCollection ['parent']) {
+				if ($childrenCollection ['id'] == $currentCollection ['parent']['id']) {
 					$selected = ' selected=selected';
 				} else {
 					$selected = '';
@@ -132,11 +158,9 @@ class MUFiles_Util_Base_Menue extends Zikula_AbstractBase {
 				} else {
 					$selected = '';
 				}
-				//if ($thisChildrenCollection['parent'] == NULL) {
-				    $name .= ' : ' . $thisChildrenCollection ['name'];
-				/*} else {
-					$name = ' : ' . $thisChildrenCollection ['name'];
-				}*/
+
+				$name .= ' : ' . $thisChildrenCollection ['name'];
+
 				if ($currentCollection['id'] != $thisChildrenCollection['id']) {
 				    $menue .= '<option value="' . $childrenCollection['id'] . '"' . $selected . '>' . $name . '</option>';
 				}

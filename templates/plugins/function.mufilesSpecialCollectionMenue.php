@@ -15,8 +15,8 @@
  * The mufilesSpecialCollectionMenue plugin provides a special menue of collections.
  *
  * Available parameters:
- *   - collectionid:     Optional id of element as part of unique error message element.
- *   - imageid:
+ *   - collectionId:     Optional id of element as part of unique error message element.
+ *   - fileId:
  *   - assign: If set, the results are assigned to the corresponding variable instead of printed out.
  *
  * @param  array            $params All attributes passed to this function from the template.
@@ -27,19 +27,18 @@
 function smarty_function_mufilesSpecialCollectionMenue($params, $view)
 {
 	if ($params['collectionId']) {
-    $collectionId = $params['collectionId'];
+        $collectionId = $params['collectionId'];
 	} else {
 		$collectionId = 0;
 	}
 	
-	if ($params['imageId']) {
-		$imageId = $params['imageId'];
+	if ($params['fileId']) {
+		$fileId = $params['fileId'];
 	} else {
-		$imageId = 0;
+		$fileId = 0;
 	}
 	
-	$menue = MUFiles_Util_Menue::getCollectionMenue($collectionId);
-
+    $menue = MUFiles_Util_Menue::getCollectionMenue($collectionId ,$fileId);		
 
     if (array_key_exists('assign', $params)) {
         $view->assign($params['assign'], $menue);
