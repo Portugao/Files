@@ -128,7 +128,7 @@ class MUFiles_Util_Base_Menue extends Zikula_AbstractBase {
 	 *
 	 */
 	private function getParentPath($collectionId, $currentCollection = 0, $currentFile = 0, $menue, $name, $collectionRepository) {
-
+        
 		$where2 = 'tbl.parent = \'' . $collectionId . '\'';
 		
 		$selectionArgs2 = array (
@@ -162,15 +162,17 @@ class MUFiles_Util_Base_Menue extends Zikula_AbstractBase {
 					}
 				}
 
-				$name .= ' : ' . $thisChildrenCollection ['name'];
+				$menueName = $name . ' : ' . $thisChildrenCollection ['name'];
 
 				if ($currentCollection['id'] != $thisChildrenCollection['id']) {
-				    $menue .= '<option value="' . $childrenCollection['id'] . '"' . $selected . '>' . $name . '</option>';
+				    $menue .= '<option value="' . $childrenCollection['id'] . '"' . $selected . '>' . $menueName . '</option>';
+				} else {
+                    // nothing to do
 				}
 				if ($thisChildrenCollection['parent'] != NULL) {
-				    $menue = self::getParentPath ( $thisChildrenCollection['id'], $currentCollection, $currentFile, $menue, $name, $collectionRepository );                  
+				    $menue = self::getParentPath ( $thisChildrenCollection['id'], $currentCollection, $currentFile, $menue, $menueName, $collectionRepository );                  
 			    } else {
-			    	
+			    	// nothing to do
 			    }
 			}
 		} else {
