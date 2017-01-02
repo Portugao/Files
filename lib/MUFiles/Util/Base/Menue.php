@@ -27,6 +27,9 @@ class MUFiles_Util_Base_Menue extends Zikula_AbstractBase {
 	 * @throws Exception if invalid object type is given.
 	 */
 	public function getCollectionMenue($collectionId = 0, $fileId = 0) {
+		// we get the objectType
+		$request = new Zikula_Request_Http();
+		$objectType = $request->query->filter('ot', 'collection', FILTER_SANITIZE_STRING);
 		// we get a collection repository
 		$collectionRepository = MUFiles_Util_Model::getCollectionsRepository();	
 		
@@ -76,10 +79,10 @@ class MUFiles_Util_Base_Menue extends Zikula_AbstractBase {
 			$menue .= '<fieldset class="form-control">' . "\n";
 			$menue .= '<div class="z-formrow">' . "\n";
 			$menue .= '<label for="parent">' . __('Collections', $dom) . '</label>' . "\n";
-			if ($collectionId > 0 && $fileId == 0) {
+			if (($collectionId > 0 && $fileId == 0) || ($collectionId == 0 && $fileId == 0 && $objectType == 'collection')) {
 			    $menue .= '<select id="parent" name="parent" class="z-form-dropdownlist  z-form-relationlist collection validation-passed">' . "\n";
 			} 
-			if ($collectionId == 0 && $fileId > 0) {
+			if (($collectionId == 0 && $fileId > 0) || ($collectionId == 0 && $fileId == 0 && $objectType == 'file')) {
 				$menue .= '<select id="aliascollection" name="aliascollection" class="z-form-dropdownlist  z-form-relationlist collection validation-passed">' . "\n";							
 			}
 			$menue .= '<option value=""></option>';
