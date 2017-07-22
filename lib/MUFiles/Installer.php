@@ -59,6 +59,7 @@ class MUFiles_Installer extends MUFiles_Base_Installer
                     }
                     return LogUtil::registerError($this->__f('An error was encountered while updating tables for the %s extension.', array($this->getName())));
                 }
+            case '1.1.0': // current version
         }
 
         // update successful
