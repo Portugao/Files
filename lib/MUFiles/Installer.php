@@ -45,7 +45,7 @@ class MUFiles_Installer extends MUFiles_Base_Installer
         // Upgrade dependent on old version number
         switch ($oldVersion) {
             case '1.0.0':
-                // set two new mod vars
+                // set 4 new mod vars
                 $this->setVar('itemsPerPage', 10);
                 $this->setVar('itemsPerPageBackend', 10);
                 $this->setVar('onlyParent', false);
