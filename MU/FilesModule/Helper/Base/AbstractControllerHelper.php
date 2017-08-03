@@ -323,11 +323,11 @@ abstract class AbstractControllerHelper
         if (in_array($objectType, ['collection', 'file'])) {
             $qb = $this->entityFactory->getObjectManager()->createQueryBuilder();
             $qb->select('tbl')
-               ->from($this->getHookAssignmentEntity(), 'tbl');
+               ->from('MU\FilesModule\Entity\HookAssignmentEntity', 'tbl')
                ->where('tbl.assignedEntity = :objectType')
                ->setParameter('objectType', $objectType)
                ->andWhere('tbl.assignedId = :entityId')
-               ->setParameter('entityId', $entity->getKey());
+               ->setParameter('entityId', $entity->getKey())
                ->add('orderBy', 'tbl.updatedDate DESC');
     
             $query = $qb->getQuery();

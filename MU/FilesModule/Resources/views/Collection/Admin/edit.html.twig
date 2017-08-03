@@ -1,5 +1,5 @@
-{# purpose of this template: build the user form to edit an instance of collection #}
-{% set baseTemplate = app.request.query.getBoolean('raw', false) ? 'raw' : 'base' %}
+{# purpose of this template: build the admin form to edit an instance of collection #}
+{% set baseTemplate = app.request.query.getBoolean('raw', false) ? 'raw' : 'adminBase' %}
 {% extends 'MUFilesModule::' ~ baseTemplate ~ '.html.twig' %}
 
 {% block header %}
@@ -8,6 +8,7 @@
     {{ pageAddAsset('javascript', zasset('@MUFilesModule:js/MUFilesModule.EditFunctions.js'), 99) }}
 {% endblock %}
 {% block title mode == 'create' ? __('Create collection') : __('Edit collection') %}
+{% block admin_page_icon mode == 'create' ? 'plus' : 'pencil-square-o' %}
 {% block content %}
     <div class="mufilesmodule-collection mufilesmodule-edit">
         {% form_theme form with [
@@ -53,7 +54,7 @@
                 </div>
                 
                 {{ include(
-                    '@MUFilesModule/Collection/includeSelectOne.html.twig',
+                    '@MUFilesModule/Collection/Admin/includeSelectOne.html.twig',
                     {group: 'collection', alias: 'collection', aliasReverse: 'collections', mandatory: false, idPrefix: 'filesCollection_Collection', linkingItem: collection, tabs: true, displayMode: 'choices'}
                 ) }}
                 {% if featureActivationHelper.isEnabled(constant('MU\\FilesModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'collection') %}

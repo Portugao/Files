@@ -1,12 +1,13 @@
-{# purpose of this template: collections user list view #}
-{% extends 'MUFilesModule::base.html.twig' %}
+{# purpose of this template: collections admin list view #}
+{% extends 'MUFilesModule::adminBase.html.twig' %}
 {% block title own ? __('My collections') : __('Collections list') %}
+{% block admin_page_icon 'list-alt' %}
 {% block content %}
 <div class="mufilesmodule-collection mufilesmodule-view">
 
     {{ block('page_nav_links') }}
 
-    {{ include('@MUFilesModule/Collection/viewQuickNav.html.twig') }}{# see template file for available options #}
+    {{ include('@MUFilesModule/Collection/Admin/viewQuickNav.html.twig') }}{# see template file for available options #}
 
     {% if routeArea == 'admin' %}
     <form action="{{ path('mufilesmodule_collection_' ~ routeArea ~ 'handleselectedentries') }}" method="post" id="collectionsViewForm" class="form-horizontal" role="form">

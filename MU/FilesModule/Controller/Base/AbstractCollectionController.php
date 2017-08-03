@@ -148,6 +148,7 @@ abstract class AbstractCollectionController extends AbstractController
             new Column('description'),
             new Column('parentid'),
             new Column('inFrontend'),
+            new Column('collection'),
             new Column('createdBy'),
             new Column('createdDate'),
             new Column('updatedBy'),

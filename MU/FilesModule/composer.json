@@ -28,8 +28,6 @@
         "phpmd/phpmd": "2.*",
         "sebastian/phpcpd": "*"
     },
-    "suggest": {
-    },
     "extra": {
         "zikula": {
             "core-compatibility": ">=1.5.0 <3.0",

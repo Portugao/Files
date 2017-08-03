@@ -147,6 +147,7 @@ abstract class AbstractFileController extends AbstractController
             new Column('title'),
             new Column('description'),
             new Column('uploadFile'),
+            new Column('aliascollection'),
             new Column('createdBy'),
             new Column('createdDate'),
             new Column('updatedBy'),

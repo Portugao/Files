@@ -1,9 +1,10 @@
-{# purpose of this template: collections user delete confirmation view #}
-{% extends 'MUFilesModule::base.html.twig' %}
-{% block title __('Delete collection') %}
+{# purpose of this template: files admin delete confirmation view #}
+{% extends 'MUFilesModule::adminBase.html.twig' %}
+{% block title __('Delete file') %}
+{% block admin_page_icon 'trash-o' %}
 {% block content %}
-    <div class="mufilesmodule-collection mufilesmodule-delete">
-        <p class="alert alert-warning">{{ __f('Do you really want to delete this collection: "%name%" ?', {'%name%': collection|mufilesmodule_formattedTitle}) }}</p>
+    <div class="mufilesmodule-file mufilesmodule-delete">
+        <p class="alert alert-warning">{{ __f('Do you really want to delete this file: "%name%" ?', {'%name%': file|mufilesmodule_formattedTitle}) }}</p>
 
         {% form_theme deleteForm with [
             '@MUFilesModule/Form/bootstrap_3.html.twig',
@@ -34,7 +35,7 @@
     </div>
 {% endblock %}
 {% block display_hooks %}
-    {% set hooks = notifyDisplayHooks(eventName='mufilesmodule.ui_hooks.collections.form_delete', id=collection.getKey()) %}
+    {% set hooks = notifyDisplayHooks(eventName='mufilesmodule.ui_hooks.files.form_delete', id=file.getKey()) %}
     {% if hooks is iterable and hooks|length > 0 %}
         {% for providerArea, hook in hooks %}
             <fieldset>

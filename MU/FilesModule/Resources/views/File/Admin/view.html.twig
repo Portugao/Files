@@ -1,12 +1,13 @@
-{# purpose of this template: files user list view #}
-{% extends 'MUFilesModule::base.html.twig' %}
+{# purpose of this template: files admin list view #}
+{% extends 'MUFilesModule::adminBase.html.twig' %}
 {% block title own ? __('My files') : __('Files list') %}
+{% block admin_page_icon 'list-alt' %}
 {% block content %}
 <div class="mufilesmodule-file mufilesmodule-view">
 
     {{ block('page_nav_links') }}
 
-    {{ include('@MUFilesModule/File/viewQuickNav.html.twig') }}{# see template file for available options #}
+    {{ include('@MUFilesModule/File/Admin/viewQuickNav.html.twig') }}{# see template file for available options #}
 
     {% if routeArea == 'admin' %}
     <form action="{{ path('mufilesmodule_file_' ~ routeArea ~ 'handleselectedentries') }}" method="post" id="filesViewForm" class="form-horizontal" role="form">

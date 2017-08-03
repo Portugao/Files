@@ -98,9 +98,22 @@ abstract class AbstractCollectionEntity extends EntityAccess
     protected $categories = null;
     
     /**
-     * Unidirectional - One collection [collection] has many collections [collections] (INVERSE SIDE).
+     * Bidirectional - Many collections [collections] are linked by one collection [collection] (OWNING SIDE).
      *
-     * @ORM\ManyToMany(targetEntity="MU\FilesModule\Entity\CollectionEntity")
+     * @ORM\ManyToOne(targetEntity="MU\FilesModule\Entity\CollectionEntity", inversedBy="collections")
+     * @ORM\JoinTable(name="mu_files_collection",
+     *      joinColumns={@ORM\JoinColumn(name="id", referencedColumnName="id" )},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="parentid", referencedColumnName="id" )}
+     * )
+     * @Assert\Type(type="MU\FilesModule\Entity\CollectionEntity")
+     * @var \MU\FilesModule\Entity\CollectionEntity $collection
+     */
+    protected $collection;
+    
+    /**
+     * Bidirectional - One collection [collection] has many collections [collections] (INVERSE SIDE).
+     *
+     * @ORM\OneToMany(targetEntity="MU\FilesModule\Entity\CollectionEntity", mappedBy="collection")
      * @ORM\JoinTable(name="mu_files_collectioncollections",
      *      joinColumns={@ORM\JoinColumn(name="parentid", referencedColumnName="id" )},
      *      inverseJoinColumns={@ORM\JoinColumn(name="id", referencedColumnName="id" )}
@@ -110,9 +123,9 @@ abstract class AbstractCollectionEntity extends EntityAccess
     protected $collections = null;
     
     /**
-     * Unidirectional - One aliascollection [collection] has many alilasfiles [files] (INVERSE SIDE).
+     * Bidirectional - One aliascollection [collection] has many alilasfiles [files] (INVERSE SIDE).
      *
-     * @ORM\ManyToMany(targetEntity="MU\FilesModule\Entity\FileEntity")
+     * @ORM\OneToMany(targetEntity="MU\FilesModule\Entity\FileEntity", mappedBy="aliascollection")
      * @ORM\JoinTable(name="mu_files_aliascollectionalilasfiles")
      * @var \MU\FilesModule\Entity\FileEntity[] $alilasfiles
      */
@@ -357,6 +370,28 @@ abstract class AbstractCollectionEntity extends EntityAccess
     }
     
     /**
+     * Returns the collection.
+     *
+     * @return \MU\FilesModule\Entity\CollectionEntity
+     */
+    public function getCollection()
+    {
+        return $this->collection;
+    }
+    
+    /**
+     * Sets the collection.
+     *
+     * @param \MU\FilesModule\Entity\CollectionEntity $collection
+     *
+     * @return void
+     */
+    public function setCollection($collection = null)
+    {
+        $this->collection = $collection;
+    }
+    
+    /**
      * Returns the collections.
      *
      * @return \MU\FilesModule\Entity\CollectionEntity[]
@@ -393,6 +428,7 @@ abstract class AbstractCollectionEntity extends EntityAccess
     public function addCollections(\MU\FilesModule\Entity\CollectionEntity $collection)
     {
         $this->collections->add($collection);
+        $collection->setCollection($this);
     }
     
     /**
@@ -405,6 +441,7 @@ abstract class AbstractCollectionEntity extends EntityAccess
     public function removeCollections(\MU\FilesModule\Entity\CollectionEntity $collection)
     {
         $this->collections->removeElement($collection);
+        $collection->setCollection(null);
     }
     
     /**
@@ -444,6 +481,7 @@ abstract class AbstractCollectionEntity extends EntityAccess
     public function addAlilasfiles(\MU\FilesModule\Entity\FileEntity $file)
     {
         $this->alilasfiles->add($file);
+        $file->setAliascollection($this);
     }
     
     /**
@@ -456,6 +494,7 @@ abstract class AbstractCollectionEntity extends EntityAccess
     public function removeAlilasfiles(\MU\FilesModule\Entity\FileEntity $file)
     {
         $this->alilasfiles->removeElement($file);
+        $file->setAliascollection(null);
     }
     
     

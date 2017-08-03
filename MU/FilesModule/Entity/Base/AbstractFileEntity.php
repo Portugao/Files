@@ -88,6 +88,7 @@ abstract class AbstractFileEntity extends EntityAccess
      * @Assert\NotBlank()
      * @Assert\Length(min="0", max="255")
      * @Assert\File(
+     *    maxSize = "200k",
      *    mimeTypes = {"application/*"}
      * )
      * @var string $uploadFile
@@ -102,6 +103,16 @@ abstract class AbstractFileEntity extends EntityAccess
      */
     protected $uploadFileUrl = '';
     
+    
+    /**
+     * Bidirectional - Many alilasfiles [files] are linked by one aliascollection [collection] (OWNING SIDE).
+     *
+     * @ORM\ManyToOne(targetEntity="MU\FilesModule\Entity\CollectionEntity", inversedBy="alilasfiles")
+     * @ORM\JoinTable(name="mu_files_collection")
+     * @Assert\Type(type="MU\FilesModule\Entity\CollectionEntity")
+     * @var \MU\FilesModule\Entity\CollectionEntity $aliascollection
+     */
+    protected $aliascollection;
     
     
     /**
@@ -308,6 +319,28 @@ abstract class AbstractFileEntity extends EntityAccess
         }
     }
     
+    
+    /**
+     * Returns the aliascollection.
+     *
+     * @return \MU\FilesModule\Entity\CollectionEntity
+     */
+    public function getAliascollection()
+    {
+        return $this->aliascollection;
+    }
+    
+    /**
+     * Sets the aliascollection.
+     *
+     * @param \MU\FilesModule\Entity\CollectionEntity $aliascollection
+     *
+     * @return void
+     */
+    public function setAliascollection($aliascollection = null)
+    {
+        $this->aliascollection = $aliascollection;
+    }
     
     
     

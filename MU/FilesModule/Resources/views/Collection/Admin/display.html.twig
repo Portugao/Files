@@ -1,5 +1,5 @@
-{# purpose of this template: collections user display view #}
-{% set baseTemplate = app.request.query.getBoolean('raw', false) ? 'raw' : 'base' %}
+{# purpose of this template: collections admin display view #}
+{% set baseTemplate = app.request.query.getBoolean('raw', false) ? 'raw' : 'adminBase' %}
 {% extends 'MUFilesModule::' ~ baseTemplate ~ '.html.twig' %}
 {% block pageTitle %}{{ collection|mufilesmodule_formattedTitle|default(__('Collection')) }}{% endblock %}
 {% block title %}
@@ -11,6 +11,7 @@
         {{ knp_menu_render(itemActions, {template: 'ZikulaMenuModule:Override:actions.html.twig'}) }}
     </div>
 {% endblock %}
+{% block admin_page_icon 'eye' %}
 {% block content %}
     {% set isQuickView = app.request.query.getBoolean('raw', false) %}
     <div class="mufilesmodule-collection mufilesmodule-display">
@@ -99,7 +100,7 @@
     
     {% if collection.collections|default %}
         {{ include(
-            '@MUFilesModule/Collection/includeDisplayItemListMany.html.twig',
+            '@MUFilesModule/Collection/Admin/includeDisplayItemListMany.html.twig',
             {items: collection.collections, context: 'display'}
         ) }}
     {% endif %}
@@ -119,7 +120,7 @@
     
     {% if collection.alilasfiles|default %}
         {{ include(
-            '@MUFilesModule/File/includeDisplayItemListMany.html.twig',
+            '@MUFilesModule/File/Admin/includeDisplayItemListMany.html.twig',
             {items: collection.alilasfiles, context: 'display'}
         ) }}
     {% endif %}

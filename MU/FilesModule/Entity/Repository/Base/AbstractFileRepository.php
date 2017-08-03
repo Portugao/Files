@@ -647,7 +647,7 @@ abstract class AbstractFileRepository extends EntityRepository
      */
     protected function addJoinsToSelection()
     {
-        $selection = '';
+        $selection = ', tblAliascollection';
     
         return $selection;
     }
@@ -661,6 +661,7 @@ abstract class AbstractFileRepository extends EntityRepository
      */
     protected function addJoinsToFrom(QueryBuilder $qb)
     {
+        $qb->leftJoin('tbl.aliascollection', 'tblAliascollection');
     
         return $qb;
     }

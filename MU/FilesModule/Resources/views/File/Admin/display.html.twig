@@ -1,5 +1,5 @@
-{# purpose of this template: files user display view #}
-{% set baseTemplate = app.request.query.getBoolean('raw', false) ? 'raw' : 'base' %}
+{# purpose of this template: files admin display view #}
+{% set baseTemplate = app.request.query.getBoolean('raw', false) ? 'raw' : 'adminBase' %}
 {% extends 'MUFilesModule::' ~ baseTemplate ~ '.html.twig' %}
 {% block pageTitle %}{{ file|mufilesmodule_formattedTitle|default(__('File')) }}{% endblock %}
 {% block title %}
@@ -11,6 +11,7 @@
         {{ knp_menu_render(itemActions, {template: 'ZikulaMenuModule:Override:actions.html.twig'}) }}
     </div>
 {% endblock %}
+{% block admin_page_icon 'eye' %}
 {% block content %}
     {% set isQuickView = app.request.query.getBoolean('raw', false) %}
     <div class="mufilesmodule-file mufilesmodule-display">

@@ -1,6 +1,7 @@
-{# purpose of this template: collections user delete confirmation view #}
-{% extends 'MUFilesModule::base.html.twig' %}
+{# purpose of this template: collections admin delete confirmation view #}
+{% extends 'MUFilesModule::adminBase.html.twig' %}
 {% block title __('Delete collection') %}
+{% block admin_page_icon 'trash-o' %}
 {% block content %}
     <div class="mufilesmodule-collection mufilesmodule-delete">
         <p class="alert alert-warning">{{ __f('Do you really want to delete this collection: "%name%" ?', {'%name%': collection|mufilesmodule_formattedTitle}) }}</p>

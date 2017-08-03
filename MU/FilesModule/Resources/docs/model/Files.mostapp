@@ -20,7 +20,7 @@ application "Files" {
 		generateIcsTemplates false
 		generateOnlyBaseClasses false
 		versionAllGeneratedFiles false
-        separateAdminTemplates false
+        separateAdminTemplates true
         generatePoweredByBacklinksIntoFooterTemplates false
 	generateTests false
 	markFiles ""
@@ -67,7 +67,8 @@ application "Files" {
 							allowedExtensions "pdf, doc, docx, odt"
 							namingScheme ORIGINALWITHCOUNTER
 							subFolderName ""
-							mimeTypes "application/*"
+							maxSize "200k"
+                    mimeTypes "application/*"
                 }
 						}
 					actions {
@@ -80,14 +81,14 @@ application "Files" {
         }
     }
     relations {
-        one2many {
+        one2many bidirectional {
             source "collection"
             sourceAlias "collection"
             sourceField "parentid"
             target "collection"
             targetAlias "collections"
         },
-        one2many {
+        one2many bidirectional {
             source "collection"
             sourceAlias "aliascollection"
             target "file"

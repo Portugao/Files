@@ -97,15 +97,16 @@ abstract class AbstractViewHelper
     /**
      * Determines the view template for a certain method with given parameters.
      *
-     * @param string $type Current controller (name of currently treated entity)
-     * @param string $func Current function (index, view, ...)
+     * @param string  $type    Current controller (name of currently treated entity)
+     * @param string  $func    Current function (index, view, ...)
+     * @param boolean $isAdmin Whether an admin template is desired or not
      *
      * @return string name of template file
      */
-    public function getViewTemplate($type, $func)
+    public function getViewTemplate($type, $func, $isAdmin = false)
     {
         // create the base template name
-        $template = '@MUFilesModule/' . ucfirst($type) . '/' . $func;
+        $template = '@MUFilesModule/' . ucfirst($type) . '/' . ($isAdmin ? 'Admin/' : '') . $func;
     
         // check for template extension
         $templateExtension = '.' . $this->determineExtension($type, $func);
@@ -139,7 +140,8 @@ abstract class AbstractViewHelper
     {
         $templateExtension = $this->determineExtension($type, $func);
         if (empty($template)) {
-            $template = $this->getViewTemplate($type, $func);
+            $isAdmin = isset($templateParameters['routeArea']) && $templateParameters['routeArea'] == 'admin';
+            $template = $this->getViewTemplate($type, $func, $isAdmin);
         }
     
         if ($templateExtension == 'pdf.twig') {

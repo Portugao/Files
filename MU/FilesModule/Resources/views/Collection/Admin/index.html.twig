@@ -1,6 +1,7 @@
-{# purpose of this template: collections user index view #}
-{% extends 'MUFilesModule::base.html.twig' %}
+{# purpose of this template: collections admin index view #}
+{% extends 'MUFilesModule::adminBase.html.twig' %}
 {% block title __('collections') %}
+{% block admin_page_icon 'home' %}
 {% block content %}
     <p>{{ __('Welcome to the collection section of the Files application.') }}</p>
 {% endblock %}

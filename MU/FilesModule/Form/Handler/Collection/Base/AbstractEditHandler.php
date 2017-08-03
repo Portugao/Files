@@ -67,6 +67,28 @@ abstract class AbstractEditHandler extends EditHandler
     }
     
     /**
+     * Initialises relationship presets.
+     */
+    protected function initRelationPresets()
+    {
+        $entity = $this->entityRef;
+    
+        
+        // assign identifiers of predefined incoming relationships
+        // editable relation, we store the id and assign it now to show it in UI
+        $this->relationPresets['collection'] = $this->request->get('collection', '');
+        if (!empty($this->relationPresets['collection'])) {
+            $relObj = $this->entityFactory->getRepository('collection')->selectById($this->relationPresets['collection']);
+            if (null !== $relObj) {
+                $relObj->addCollections($entity);
+            }
+        }
+    
+        // save entity reference for later reuse
+        $this->entityRef = $entity;
+    }
+    
+    /**
      * Creates the form type.
      */
     protected function createForm()

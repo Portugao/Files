@@ -5,6 +5,8 @@ services:
         class: MU\FilesModule\Form\Type\QuickNavigation\CollectionQuickNavType
         arguments:
             - "@translator.default"
+            - "@request_stack"
+            - "@mu_files_module.entity_display_helper"
             - "@mu_files_module.listentries_helper"
             - "@mu_files_module.feature_activation_helper"
         tags:
@@ -14,6 +16,8 @@ services:
         class: MU\FilesModule\Form\Type\QuickNavigation\FileQuickNavType
         arguments:
             - "@translator.default"
+            - "@request_stack"
+            - "@mu_files_module.entity_display_helper"
             - "@mu_files_module.listentries_helper"
             - "@mu_files_module.feature_activation_helper"
         tags:
