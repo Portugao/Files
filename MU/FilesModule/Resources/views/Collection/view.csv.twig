@@ -1,0 +1,22 @@
+{# purpose of this template: collections view csv view #}
+{% spaceless %}"{{ __('Name') }}";"{{ __('Description') }}";"{{ __('Parentid') }}";"{{ __('In frontend') }}";"{{ __('Workflow state') }}"
+;"{{ __('Collections') }}";"{{ __('Alilasfiles') }}"
+{% endspaceless %}
+{% for collection in items %}
+{% spaceless %}
+    "{{ collection.name }}";"{{ collection.description|safeHtml }}";"{{ collection.parentid }}";"{% if not collection.inFrontend %}0{% else %}1{% endif %}";"{{ collection.workflowState|mufilesmodule_objectState(false)|lower }}"
+    ;"
+    {% if collection.collections|default %}
+        {% for relatedItem in collection.collections %}
+        {{ relatedItem|mufilesmodule_formattedTitle }}{% if not loop.last %}, {% endif %}
+        {% endfor %}
+    {% endif %}
+    ";"
+    {% if collection.alilasfiles|default %}
+        {% for relatedItem in collection.alilasfiles %}
+        {{ relatedItem|mufilesmodule_formattedTitle }}{% if not loop.last %}, {% endif %}
+        {% endfor %}
+    {% endif %}
+    "
+{% endspaceless %}
+{% endfor %}

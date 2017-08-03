@@ -1,0 +1,107 @@
+{# purpose of this template: build the form to edit an instance of file #}
+{% set baseTemplate = app.request.query.getBoolean('raw', false) ? 'raw' : (routeArea == 'admin' ? 'adminBase' : 'base') %}
+{% extends 'MUFilesModule::' ~ baseTemplate ~ '.html.twig' %}
+
+{% block header %}
+    {{ parent() }}
+    {{ pageAddAsset('javascript', zasset('@MUFilesModule:js/MUFilesModule.Validation.js'), 98) }}
+    {{ pageAddAsset('javascript', zasset('@MUFilesModule:js/MUFilesModule.EditFunctions.js'), 99) }}
+{% endblock %}
+{% block title mode == 'create' ? __('Create file') : __('Edit file') %}
+{% block admin_page_icon mode == 'create' ? 'plus' : 'pencil-square-o' %}
+{% block content %}
+    <div class="mufilesmodule-file mufilesmodule-edit">
+        {% form_theme form with [
+            '@MUFilesModule/Form/bootstrap_3.html.twig',
+            'ZikulaFormExtensionBundle:Form:form_div_layout.html.twig'
+        ] %}
+        {{ form_start(form, {attr: {id: 'fileEditForm', class: 'mufiles-edit-form'}}) }}
+        {{ form_errors(form) }}
+        <fieldset>
+            <legend>{{ __('Content') }}</legend>
+            {{ form_row(form.title) }}
+            {{ form_row(form.description) }}
+            {{ form_row(form.uploadFile) }}
+        </fieldset>
+        
+        {% if mode != 'create' %}
+            {{ include('@MUFilesModule/Helper/includeStandardFieldsEdit.html.twig', {obj: file}) }}
+        {% endif %}
+        
+        {% if formHookTemplates|length > 0 %}
+            <fieldset>
+                {% for hookTemplate in formHookTemplates %}
+                    {{ include(hookTemplate.0, hookTemplate.1, ignore_missing = true) }}
+                {% endfor %}
+            </fieldset>
+        {% endif %}
+        
+        <fieldset>
+            <legend>{{ __('Communication') }}</legend>
+            {{ form_row(form.additionalNotificationRemarks) }}
+        </fieldset>
+        
+        {% if form.moderationSpecificCreator is defined %}
+            <fieldset id="moderationFieldsSection">
+                <legend>{{ __('Moderation') }} <i class="fa fa-expand"></i></legend>
+                <div id="moderationFieldsContent">
+                    {{ form_row(form.moderationSpecificCreator) }}
+                    {{ form_row(form.moderationSpecificCreationDate) }}
+                </div>
+            </fieldset>
+        {% endif %}
+        
+        {# include return control #}
+        {% if mode == 'create' %}
+            <fieldset>
+                <legend>{{ __('Return control') }}</legend>
+                {{ form_row(form.repeatCreation) }}
+            </fieldset>
+        {% endif %}
+        
+        {# include possible submit actions #}
+        <div class="form-group form-buttons">
+            <div class="col-sm-offset-3 col-sm-9">
+                {% for action in actions %}
+                    {{ form_widget(attribute(form, action.id)) }}
+                {% endfor %}
+                {{ form_widget(form.reset) }}
+                {{ form_widget(form.cancel) }}
+            </div>
+        </div>
+        {{ form_end(form) }}
+        {% set hookId = mode != 'create' ? file.id : null %}
+        {% set hooks = notifyDisplayHooks(eventName='mufilesmodule.ui_hooks.files.form_edit', id=hookId) %}
+        {% if hooks is iterable and hooks|length > 0 %}
+            <h3>{{ __('Hooks') }}</h3>
+            {% for providerArea, hook in hooks if providerArea != 'provider.scribite.ui_hooks.editor' %}
+                <h4>{{ providerArea }}</h4>
+                {{ hook }}
+            {% endfor %}
+        {% endif %}
+        
+    </div>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
+    {% set editImage = '<span class="fa fa-pencil-square-o"></span>' %}
+    {% set removeImage = '<span class="fa fa-trash-o"></span>' %}
+    {% set formInitScript %}
+        <script type="text/javascript">
+        /* <![CDATA[ */
+            
+            ( function($) {
+                $(document).ready(function() {
+                    // initialise auto completion for user fields
+                    {% if form.moderationSpecificCreator is defined %}
+                        initUserLiveSearch('mufilesmodule_file_moderationSpecificCreator');
+                    {% endif %}
+                    mUFilesInitEditForm('{{ mode }}', '{% if mode != 'create' %}{{ file.id }}{% endif %}');
+                    mUFilesInitUploadField('mufilesmodule_file_uploadFile_uploadFile');
+                });
+            })(jQuery);
+        /* ]]> */
+        </script>
+    {% endset %}
+    {{ pageAddAsset('footer', formInitScript) }}
+{% endblock %}

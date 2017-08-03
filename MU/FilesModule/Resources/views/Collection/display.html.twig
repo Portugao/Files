@@ -1,0 +1,129 @@
+{# purpose of this template: collections display view #}
+{% set baseTemplate = app.request.query.getBoolean('raw', false) ? 'raw' : (routeArea == 'admin' ? 'adminBase' : 'base') %}
+{% extends 'MUFilesModule::' ~ baseTemplate ~ '.html.twig' %}
+{% block pageTitle %}{{ collection|mufilesmodule_formattedTitle|default(__('Collection')) }}{% endblock %}
+{% block title %}
+    {% set templateTitle = collection|mufilesmodule_formattedTitle|default(__('Collection')) %}
+    {{ templateTitle|notifyFilters('mufilesmodule.filter_hooks.collections.filter')|safeHtml }}{% if routeArea == 'admin' %} <small>({{ collection.workflowState|mufilesmodule_objectState(false)|lower }})</small>{% endif %}
+    {% set itemActions = knp_menu_get('MUFilesModule:ItemActionsMenu:menu', [], {entity: collection, area: routeArea, context: 'display'}) %}
+    <div class="dropdown">
+        <a id="itemActions{{ collection.getKey() }}DropDownToggle" role="button" data-toggle="dropdown" data-target="#" href="javascript:void(0);" class="hidden dropdown-toggle"><i class="fa fa-tasks"></i> {{ __('Actions') }} <span class="caret"></span></a>
+        {{ knp_menu_render(itemActions, {template: 'ZikulaMenuModule:Override:actions.html.twig'}) }}
+    </div>
+{% endblock %}
+{% block admin_page_icon 'eye' %}
+{% block content %}
+    {% set isQuickView = app.request.query.getBoolean('raw', false) %}
+    <div class="mufilesmodule-collection mufilesmodule-display">
+
+    <div class="row">
+        <div class="col-sm-9">
+    <dl>
+        {% if collection.workflowState is not empty and routeArea == 'admin' %}
+            <dt>{{ __('State') }}</dt>
+            <dd>{{ collection.workflowState|mufilesmodule_listEntry('collection', 'workflowState') }}</dd>
+        {% endif %}
+        {% if collection.name is not empty %}
+            <dt>{{ __('Name') }}</dt>
+            <dd>{{ collection.name }}</dd>
+        {% endif %}
+        {% if collection.description is not empty %}
+            <dt>{{ __('Description') }}</dt>
+            <dd>{{ collection.description|safeHtml }}</dd>
+        {% endif %}
+        {% if collection.parentid is not empty %}
+            <dt>{{ __('Parentid') }}</dt>
+            <dd>{{ collection.parentid }}</dd>
+        {% endif %}
+        {% if collection.inFrontend is not empty %}
+            <dt>{{ __('In frontend') }}</dt>
+            <dd>{% set itemId = collection.getKey() %}
+            <a id="toggleInFrontend{{ itemId }}" href="javascript:void(0);" class="mufiles-ajax-toggle hidden" data-object-type="collection" data-field-name="inFrontend" data-item-id="{{ itemId }}">
+                <i class="fa fa-check{% if not collection.inFrontend %} hidden{% endif %}" id="yesInFrontend{{ itemId }}" title="{{ __('This setting is enabled. Click here to disable it.') }}"></i>
+                <i class="fa fa-times{% if collection.inFrontend %} hidden{% endif %}" id="noInFrontend{{ itemId }}" title="{{ __('This setting is disabled. Click here to enable it.') }}"></i>
+            </a>
+            <noscript><div id="noscriptInFrontend{{ itemId }}">
+                {% if collection.inFrontend %}
+                    <i class="fa fa-check" title="{{ __('Yes') }}"></i>
+                {% else %}
+                    <i class="fa fa-times" title="{{ __('No') }}"></i>
+                {% endif %}
+            </div></noscript>
+            </dd>
+        {% endif %}
+        
+    </dl>
+
+    {% if featureActivationHelper.isEnabled(constant('MU\\FilesModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'collection') %}
+        {{ include('@MUFilesModule/Helper/includeCategoriesDisplay.html.twig', {obj: collection}) }}
+    {% endif %}
+    <h3 class="hook-assignments">{{ __('Hook assignments') }}</h3>
+        {% if hookAssignments|length > 0 %}
+            <p>{{ __('This collection is assigned to the following data objects:') }}</p>
+            <ul>
+            {% for assignment in hookAssignments %}
+            	<li><a href="{{ assignment.url|e('html_attr') }}" title="{{ __('View this object')|e('html_attr') }}">{{ assignment.date|localizeddate('medium', 'short') }} - {{ assignment.text }}</a></li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>{{ __('This collection is not assigned to any data objects yet.') }}</p>
+        {% endif %}
+    {{ include('@MUFilesModule/Helper/includeStandardFieldsDisplay.html.twig', {obj: collection}) }}
+
+    {{ block('display_hooks') }}
+        </div>
+        <div class="col-sm-3">
+            {{ block('related_items') }}
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block related_items %}
+    {% if routeArea == 'admin' %}
+        <h4>{{ __('Collections') }}</h4>
+    {% else %}
+        <h3>{{ __('Collections') }}</h3>
+    {% endif %}
+    
+    {% if collection.collections|default %}
+        {{ include(
+            '@MUFilesModule/Collection/includeDisplayItemListMany.html.twig',
+            {items: collection.collections, context: 'display'}
+        ) }}
+    {% endif %}
+    
+    {% set mayManage = hasPermission('MUFilesModule:Collection:', '::', 'ACCESS_COMMENT') %}
+    {% if mayManage %}
+        <p class="managelink">
+            {% set createTitle = __('Create collection') %}
+            <a href="{{ path('mufilesmodule_collection_' ~ routeArea ~ 'edit', {collection: collection.getKey()}) }}" title="{{ createTitle|e('html_attr') }}" class="fa fa-plus">{{ createTitle }}</a>
+        </p>
+    {% endif %}
+    {% if routeArea == 'admin' %}
+        <h4>{{ __('Files') }}</h4>
+    {% else %}
+        <h3>{{ __('Files') }}</h3>
+    {% endif %}
+    
+    {% if collection.alilasfiles|default %}
+        {{ include(
+            '@MUFilesModule/File/includeDisplayItemListMany.html.twig',
+            {items: collection.alilasfiles, context: 'display'}
+        ) }}
+    {% endif %}
+    
+    {% set mayManage = hasPermission('MUFilesModule:File:', '::', 'ACCESS_COMMENT') %}
+    {% if mayManage %}
+        <p class="managelink">
+            {% set createTitle = __('Create file') %}
+            <a href="{{ path('mufilesmodule_file_' ~ routeArea ~ 'edit', {aliascollection: collection.getKey()}) }}" title="{{ createTitle|e('html_attr') }}" class="fa fa-plus">{{ createTitle }}</a>
+        </p>
+    {% endif %}
+{% endblock %}
+{% block display_hooks %}
+    {% set hooks = notifyDisplayHooks(eventName='mufilesmodule.ui_hooks.collections.display_view', id=collection.getKey(), urlObject=currentUrlObject) %}
+    {% for providerArea, hook in hooks if providerArea != 'provider.scribite.ui_hooks.editor' %}
+        <h4>{{ providerArea }}</h4>
+        {{ hook }}
+    {% endfor %}
+{% endblock %}

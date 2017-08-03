@@ -1,0 +1,5 @@
+{# Purpose of this template: Display item information for previewing from other modules #}
+<dl id="file{{ file.getKey() }}">
+<dt>{{ file|mufilesmodule_formattedTitle|notifyFilters('files.filter_hooks.files.filter')|safeHtml }}</dt>
+{% if file.description is not empty %}<dd>{{ file.description }}</dd>{% endif %}
+</dl>

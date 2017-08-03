@@ -1,0 +1,71 @@
+{# purpose of this template: files display view #}
+{% set baseTemplate = app.request.query.getBoolean('raw', false) ? 'raw' : (routeArea == 'admin' ? 'adminBase' : 'base') %}
+{% extends 'MUFilesModule::' ~ baseTemplate ~ '.html.twig' %}
+{% block pageTitle %}{{ file|mufilesmodule_formattedTitle|default(__('File')) }}{% endblock %}
+{% block title %}
+    {% set templateTitle = file|mufilesmodule_formattedTitle|default(__('File')) %}
+    {{ templateTitle|notifyFilters('mufilesmodule.filter_hooks.files.filter')|safeHtml }}{% if routeArea == 'admin' %} <small>({{ file.workflowState|mufilesmodule_objectState(false)|lower }})</small>{% endif %}
+    {% set itemActions = knp_menu_get('MUFilesModule:ItemActionsMenu:menu', [], {entity: file, area: routeArea, context: 'display'}) %}
+    <div class="dropdown">
+        <a id="itemActions{{ file.getKey() }}DropDownToggle" role="button" data-toggle="dropdown" data-target="#" href="javascript:void(0);" class="hidden dropdown-toggle"><i class="fa fa-tasks"></i> {{ __('Actions') }} <span class="caret"></span></a>
+        {{ knp_menu_render(itemActions, {template: 'ZikulaMenuModule:Override:actions.html.twig'}) }}
+    </div>
+{% endblock %}
+{% block admin_page_icon 'eye' %}
+{% block content %}
+    {% set isQuickView = app.request.query.getBoolean('raw', false) %}
+    <div class="mufilesmodule-file mufilesmodule-display">
+
+    <dl>
+        {% if file.workflowState is not empty and routeArea == 'admin' %}
+            <dt>{{ __('State') }}</dt>
+            <dd>{{ file.workflowState|mufilesmodule_listEntry('file', 'workflowState') }}</dd>
+        {% endif %}
+        {% if file.title is not empty %}
+            <dt>{{ __('Title') }}</dt>
+            <dd>{{ file.title }}</dd>
+        {% endif %}
+        {% if file.description is not empty %}
+            <dt>{{ __('Description') }}</dt>
+            <dd>{{ file.description|safeHtml }}</dd>
+        {% endif %}
+        {% if file.uploadFile is not empty %}
+            <dt>{{ __('Upload file') }}</dt>
+            <dd>{% if file.uploadFileMeta|default %}
+            <a href="{{ file.uploadFileUrl }}" title="{{ file|mufilesmodule_formattedTitle|e('html_attr') }}"{% if file.uploadFileMeta.isImage %} class="image-link"{% endif %}>
+            {% if file.uploadFileMeta.isImage %}
+                {% set thumbOptions = attribute(thumbRuntimeOptions, 'fileUploadFile') %}
+                <img src="{{ file.uploadFile.getPathname()|imagine_filter('zkroot', thumbOptions) }}" alt="{{ file|mufilesmodule_formattedTitle|e('html_attr') }}" width="{{ thumbOptions.thumbnail.size[0] }}" height="{{ thumbOptions.thumbnail.size[1] }}" class="img-thumbnail" />
+            {% else %}
+                {{ __('Download') }} ({{ file.uploadFileMeta.size|mufilesmodule_fileSize(file.uploadFile.getPathname(), false, false) }})
+            {% endif %}
+            </a>
+            {% endif %}
+            </dd>
+        {% endif %}
+        
+    </dl>
+
+    <h3 class="hook-assignments">{{ __('Hook assignments') }}</h3>
+        {% if hookAssignments|length > 0 %}
+            <p>{{ __('This file is assigned to the following data objects:') }}</p>
+            <ul>
+            {% for assignment in hookAssignments %}
+            	<li><a href="{{ assignment.url|e('html_attr') }}" title="{{ __('View this object')|e('html_attr') }}">{{ assignment.date|localizeddate('medium', 'short') }} - {{ assignment.text }}</a></li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>{{ __('This file is not assigned to any data objects yet.') }}</p>
+        {% endif %}
+    {{ include('@MUFilesModule/Helper/includeStandardFieldsDisplay.html.twig', {obj: file}) }}
+
+    {{ block('display_hooks') }}
+</div>
+{% endblock %}
+{% block display_hooks %}
+    {% set hooks = notifyDisplayHooks(eventName='mufilesmodule.ui_hooks.files.display_view', id=file.getKey(), urlObject=currentUrlObject) %}
+    {% for providerArea, hook in hooks if providerArea != 'provider.scribite.ui_hooks.editor' %}
+        <h4>{{ providerArea }}</h4>
+        {{ hook }}
+    {% endfor %}
+{% endblock %}

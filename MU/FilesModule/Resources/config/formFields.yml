@@ -1,0 +1,12 @@
+services:
+    # Form field types
+    
+    mu_files_module.form.type.field.upload:
+        class: MU\FilesModule\Form\Type\Field\UploadType
+        arguments:
+            - "@translator.default"
+            - "@request_stack"
+            - "@mu_files_module.image_helper"
+            - "@mu_files_module.upload_helper"
+        tags:
+            - { name: form.type }

@@ -1,0 +1,7 @@
+{# purpose of this template: files index view #}
+{% extends routeArea == 'admin' ? 'MUFilesModule::adminBase.html.twig' : 'MUFilesModule::base.html.twig' %}
+{% block title __('files') %}
+{% block admin_page_icon 'home' %}
+{% block content %}
+    <p>{{ __('Welcome to the file section of the Files application.') }}</p>
+{% endblock %}

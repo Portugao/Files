@@ -1,0 +1,5 @@
+mufilesmodule:
+    # define routing support for these controllers
+    resource: "@MUFilesModule/Controller"
+    # enable support for defining routes by annotations
+    type: annotation

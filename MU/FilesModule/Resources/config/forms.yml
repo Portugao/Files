@@ -1,0 +1,124 @@
+services:
+    # Form types
+    
+    mu_files_module.form.type.collectionquicknav:
+        class: MU\FilesModule\Form\Type\QuickNavigation\CollectionQuickNavType
+        arguments:
+            - "@translator.default"
+            - "@mu_files_module.listentries_helper"
+            - "@mu_files_module.feature_activation_helper"
+        tags:
+            - { name: form.type }
+    
+    mu_files_module.form.type.filequicknav:
+        class: MU\FilesModule\Form\Type\QuickNavigation\FileQuickNavType
+        arguments:
+            - "@translator.default"
+            - "@mu_files_module.listentries_helper"
+            - "@mu_files_module.feature_activation_helper"
+        tags:
+            - { name: form.type }
+    
+    mu_files_module.form.handler.collection:
+        class: MU\FilesModule\Form\Handler\Collection\EditHandler
+        arguments:
+            - "@kernel"
+            - "@translator.default"
+            - "@form.factory"
+            - "@request_stack"
+            - "@router"
+            - "@logger"
+            - "@zikula_permissions_module.api.permission"
+            - "@zikula_extensions_module.api.variable"
+            - "@zikula_users_module.current_user"
+            - "@zikula_groups_module.group_application_repository"
+            - "@mu_files_module.entity_factory"
+            - "@mu_files_module.controller_helper"
+            - "@mu_files_module.model_helper"
+            - "@mu_files_module.workflow_helper"
+            - "@mu_files_module.hook_helper"
+            - "@mu_files_module.feature_activation_helper"
+        calls:
+            - [setLockingApi, ["@?zikula_pagelock_module.api.locking"]]
+        tags:
+            - { name: form.type }
+    
+    mu_files_module.form.type.collection:
+        class: MU\FilesModule\Form\Type\CollectionType
+        arguments:
+            - "@translator.default"
+            - "@mu_files_module.entity_factory"
+            - "@mu_files_module.collection_filter_helper"
+            - "@mu_files_module.entity_display_helper"
+            - "@mu_files_module.listentries_helper"
+            - "@mu_files_module.feature_activation_helper"
+        tags:
+            - { name: form.type }
+    
+    mu_files_module.form.handler.file:
+        class: MU\FilesModule\Form\Handler\File\EditHandler
+        arguments:
+            - "@kernel"
+            - "@translator.default"
+            - "@form.factory"
+            - "@request_stack"
+            - "@router"
+            - "@logger"
+            - "@zikula_permissions_module.api.permission"
+            - "@zikula_extensions_module.api.variable"
+            - "@zikula_users_module.current_user"
+            - "@zikula_groups_module.group_application_repository"
+            - "@mu_files_module.entity_factory"
+            - "@mu_files_module.controller_helper"
+            - "@mu_files_module.model_helper"
+            - "@mu_files_module.workflow_helper"
+            - "@mu_files_module.hook_helper"
+            - "@mu_files_module.feature_activation_helper"
+        calls:
+            - [setLockingApi, ["@?zikula_pagelock_module.api.locking"]]
+        tags:
+            - { name: form.type }
+    
+    mu_files_module.form.type.file:
+        class: MU\FilesModule\Form\Type\FileType
+        arguments:
+            - "@translator.default"
+            - "@mu_files_module.entity_factory"
+            - "@mu_files_module.collection_filter_helper"
+            - "@mu_files_module.entity_display_helper"
+            - "@mu_files_module.listentries_helper"
+            - "@mu_files_module.feature_activation_helper"
+        tags:
+            - { name: form.type }
+    
+    mu_files_module.form.type.block.itemlist:
+        class: MU\FilesModule\Block\Form\Type\ItemListBlockType
+        arguments:
+            - "@translator.default"
+        tags:
+            - { name: form.type }
+    
+    mu_files_module.form.type.collectionfinder:
+        class: MU\FilesModule\Form\Type\Finder\CollectionFinderType
+        arguments:
+            - "@translator.default"
+            - "@mu_files_module.feature_activation_helper"
+        tags:
+            - { name: form.type }
+    
+    mu_files_module.form.type.filefinder:
+        class: MU\FilesModule\Form\Type\Finder\FileFinderType
+        arguments:
+            - "@translator.default"
+            - "@mu_files_module.feature_activation_helper"
+        tags:
+            - { name: form.type }
+    
+    mu_files_module.form.type.config:
+        class: MU\FilesModule\Form\Type\ConfigType
+        arguments:
+            - "@translator.default"
+            - "@=service('zikula_extensions_module.api.variable').getAll('MUFilesModule')"
+            - "@zikula_groups_module.group_repository"
+        tags:
+            - { name: form.type }

@@ -1,0 +1,15 @@
+{# Purpose of this template: Display item information for previewing from other modules #}
+<dl id="collection{{ collection.getKey() }}">
+<dt>{{ collection|mufilesmodule_formattedTitle|notifyFilters('files.filter_hooks.collections.filter')|safeHtml }}</dt>
+{% if collection.description is not empty %}<dd>{{ collection.description }}</dd>{% endif %}
+{% if featureActivationHelper.isEnabled(constant('MU\\FilesModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'collection') %}
+    <dd>
+        <dl class="category-list">
+        {% for propName, catMapping in collection.categories %}
+            <dt>{{ propName }}</dt>
+            <dd>{{ catMapping.category.display_name[app.request.locale]|default(catMapping.category.name) }}</dd>
+        {% endfor %}
+        </dl>
+    </dd>
+{% endif %}
+</dl>

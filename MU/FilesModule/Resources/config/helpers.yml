@@ -1,0 +1,127 @@
+services:
+    # Helper services
+    mu_files_module.category_helper:
+        class: MU\FilesModule\Helper\CategoryHelper
+        arguments:
+            - "@translator.default"
+            - "@request_stack"
+            - "@logger"
+            - "@zikula_users_module.current_user"
+            - "@zikula_categories_module.category_registry_repository"
+            - "@zikula_categories_module.api.category_permission"
+    
+    mu_files_module.collection_filter_helper:
+        class: MU\FilesModule\Helper\CollectionFilterHelper
+        arguments:
+            - "@request_stack"
+            - "@zikula_users_module.current_user"
+            - "@mu_files_module.category_helper"
+            - "@=service('zikula_extensions_module.api.variable').get('MUFilesModule', 'showOnlyOwnEntries', false)"
+    
+    mu_files_module.controller_helper:
+        class: MU\FilesModule\Helper\ControllerHelper
+        arguments:
+            - "@translator.default"
+            - "@request_stack"
+            - "@logger"
+            - "@router"
+            - "@form.factory"
+            - "@zikula_extensions_module.api.variable"
+            - "@mu_files_module.entity_factory"
+            - "@mu_files_module.collection_filter_helper"
+            - "@mu_files_module.model_helper"
+            - "@mu_files_module.image_helper"
+            - "@mu_files_module.feature_activation_helper"
+    
+    mu_files_module.entity_display_helper:
+        class: MU\FilesModule\Helper\EntityDisplayHelper
+        arguments:
+            - "@translator.default"
+            - "@mu_files_module.listentries_helper"
+    
+    mu_files_module.feature_activation_helper:
+        class: MU\FilesModule\Helper\FeatureActivationHelper
+    
+    mu_files_module.hook_helper:
+        class: MU\FilesModule\Helper\HookHelper
+        arguments:
+            - "@hook_dispatcher"
+    
+    mu_files_module.image_helper:
+        class: MU\FilesModule\Helper\ImageHelper
+        arguments:
+            - "@translator.default"
+            - "@session"
+            - "@zikula_extensions_module.api.variable"
+    
+    mu_files_module.listentries_helper:
+        class: MU\FilesModule\Helper\ListEntriesHelper
+        arguments:
+            - "@translator.default"
+    
+    mu_files_module.model_helper:
+        class: MU\FilesModule\Helper\ModelHelper
+        arguments:
+            - "@mu_files_module.entity_factory"
+    
+    mu_files_module.notification_helper:
+        class: MU\FilesModule\Helper\NotificationHelper
+        arguments:
+            - "@kernel"
+            - "@translator.default"
+            - "@session"
+            - "@router"
+            - "@request_stack"
+            - "@zikula_extensions_module.api.variable"
+            - "@twig"
+            - "@zikula_mailer_module.api.mailer"
+            - "@zikula_groups_module.group_repository"
+            - "@mu_files_module.entity_display_helper"
+            - "@mu_files_module.workflow_helper"
+    
+    mu_files_module.search_helper:
+        class: MU\FilesModule\Helper\SearchHelper
+        arguments:
+            - "@translator.default"
+            - "@zikula_permissions_module.api.permission"
+            - "@session"
+            - "@request_stack"
+            - "@mu_files_module.entity_factory"
+            - "@mu_files_module.controller_helper"
+            - "@mu_files_module.entity_display_helper"
+            - "@mu_files_module.feature_activation_helper"
+            - "@mu_files_module.category_helper"
+        tags:
+            - { name: zikula.searchable_module, bundleName: MUFilesModule }
+    
+    mu_files_module.upload_helper:
+        class: MU\FilesModule\Helper\UploadHelper
+        arguments:
+            - "@translator.default"
+            - "@session"
+            - "@logger"
+            - "@zikula_users_module.current_user"
+            - "@=service('zikula_extensions_module.api.variable').getAll('MUFilesModule')"
+            - "%datadir%"
+    
+    mu_files_module.view_helper:
+        class: MU\FilesModule\Helper\ViewHelper
+        arguments:
+            - "@twig"
+            - "@twig.loader"
+            - "@request_stack"
+            - "@zikula_permissions_module.api.permission"
+            - "@zikula_extensions_module.api.variable"
+            - "@zikula_core.common.theme.pagevars"
+            - "@mu_files_module.controller_helper"
+    
+    mu_files_module.workflow_helper:
+        class: MU\FilesModule\Helper\WorkflowHelper
+        arguments:
+            - "@translator.default"
+            - "@workflow.registry"
+            - "@logger"
+            - "@zikula_permissions_module.api.permission"
+            - "@zikula_users_module.current_user"
+            - "@mu_files_module.entity_factory"
+            - "@mu_files_module.listentries_helper"

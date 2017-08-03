@@ -1,0 +1,109 @@
+application "Files" {
+	vendor "MU"
+	author "Michael Ueberschaer"
+	email "info@homepages-mit-zikula.de"
+	url "https://homepages-mit-zikula.de"
+  version "1.2.0"
+	prefix "files"
+	generatorSettings {
+		settingsContainer "Einstellungen"
+		targetCoreVersion ZK15
+		generateMailzApi false
+		generateModerationBlock true
+		generateNewsletterPlugin false
+		generateModerationPanel true
+		generateRssTemplates false
+		generateAtomTemplates false
+		generateXmlTemplates false
+		generateJsonTemplates false
+		generateKmlTemplates false
+		generateIcsTemplates false
+		generateOnlyBaseClasses false
+		versionAllGeneratedFiles false
+        separateAdminTemplates false
+        generatePoweredByBacklinksIntoFooterTemplates false
+	generateTests false
+	markFiles ""
+    }
+
+			entities {
+				entity "collection" leading categorisable categorisableMultiSelection {
+					nameMultiple "collections"
+					displayPattern "#name#"
+					workflow STANDARD
+					formAwareHookProvider ENABLED
+            uiHooksProvider ENABLED
+            fields {
+						string "name",
+						text "description" {
+							mandatory false
+						},
+						integer "parentid",
+						boolean "inFrontend" ajaxTogglability {
+							mandatory false
+						}
+					}
+            actions {
+                mainAction "Main",
+                viewAction "View",
+                displayAction "Display",
+                editAction "Edit",
+                deleteAction "Delete"
+            }
+				},
+				entity "file" {
+					nameMultiple "files"
+					displayPattern "#title#"
+					workflow STANDARD
+					formAwareHookProvider ENABLED
+            uiHooksProvider ENABLED
+            fields {
+						string "title",
+						text "description" {
+							defaultValue ""
+							mandatory false
+						},
+						upload "uploadFile" {
+							allowedExtensions "pdf, doc, docx, odt"
+							namingScheme ORIGINALWITHCOUNTER
+							subFolderName ""
+							mimeTypes "application/*"
+                }
+						}
+					actions {
+                mainAction "Index",
+                viewAction "View",
+                displayAction "Display",
+                editAction "Edit",
+                deleteAction "Delete"
+            }
+        }
+    }
+    relations {
+        one2many {
+            source "collection"
+            sourceAlias "collection"
+            sourceField "parentid"
+            target "collection"
+            targetAlias "collections"
+        },
+        one2many {
+            source "collection"
+            sourceAlias "aliascollection"
+            target "file"
+            targetAlias "alilasfiles"
+        }
+    }
+    variables {
+        varContainer "GeneralSsettings" {
+            vars {
+                textVar "allowedExtensions" {
+                    value "pdf, doc, docx, odt"
+                }
+            ,
+                boolVar "onlyParent",
+                boolVar "specialCollectionMenue"
+            }
+        }
+    }
+}

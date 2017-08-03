@@ -1,0 +1,81 @@
+services:
+    mu_files_module.hook_subscriber.filter_hooks.collections:
+        class: MU\FilesModule\HookSubscriber\CollectionFilterHooksSubscriber
+        arguments:
+            - "@translator.default"
+        tags:
+            - { name: zikula.hook_subscriber, areaName: 'subscriber.mufilesmodule.filter_hooks.collections' }
+
+    mu_files_module.hook_subscriber.form_aware_hook.collections:
+        class: MU\FilesModule\HookSubscriber\CollectionFormAwareHookSubscriber
+        arguments:
+            - "@translator.default"
+        tags:
+            - { name: zikula.hook_subscriber, areaName: 'subscriber.mufilesmodule.form_aware_hook.collections' }
+
+    mu_files_module.hook_subscriber.ui_hooks.collections:
+        class: MU\FilesModule\HookSubscriber\CollectionUiHooksSubscriber
+        arguments:
+            - "@translator.default"
+        tags:
+            - { name: zikula.hook_subscriber, areaName: 'subscriber.mufilesmodule.ui_hooks.collections' }
+
+    mu_files_module.hook_subscriber.filter_hooks.files:
+        class: MU\FilesModule\HookSubscriber\FileFilterHooksSubscriber
+        arguments:
+            - "@translator.default"
+        tags:
+            - { name: zikula.hook_subscriber, areaName: 'subscriber.mufilesmodule.filter_hooks.files' }
+
+    mu_files_module.hook_subscriber.form_aware_hook.files:
+        class: MU\FilesModule\HookSubscriber\FileFormAwareHookSubscriber
+        arguments:
+            - "@translator.default"
+        tags:
+            - { name: zikula.hook_subscriber, areaName: 'subscriber.mufilesmodule.form_aware_hook.files' }
+
+    mu_files_module.hook_subscriber.ui_hooks.files:
+        class: MU\FilesModule\HookSubscriber\FileUiHooksSubscriber
+        arguments:
+            - "@translator.default"
+        tags:
+            - { name: zikula.hook_subscriber, areaName: 'subscriber.mufilesmodule.ui_hooks.files' }
+
+    mu_files_module.hook_provider.form_aware_hook.collections:
+        class: MU\FilesModule\HookProvider\CollectionFormAwareHookProvider
+        arguments:
+            - "@translator.default"
+            - "@session"
+            - "@form.factory"
+        tags:
+            - { name: zikula.hook_provider, areaName: 'provider.mufilesmodule.form_aware_hook.collections' }
+
+    mu_files_module.hook_provider.ui_hooks.collections:
+        class: MU\FilesModule\HookProvider\CollectionUiHooksProvider
+        arguments:
+            - "@translator.default"
+            - "@request_stack"
+            - "@mu_files_module.entity_factory"
+            - "@twig"
+        tags:
+            - { name: zikula.hook_provider, areaName: 'provider.mufilesmodule.ui_hooks.collections' }
+
+    mu_files_module.hook_provider.form_aware_hook.files:
+        class: MU\FilesModule\HookProvider\FileFormAwareHookProvider
+        arguments:
+            - "@translator.default"
+            - "@session"
+            - "@form.factory"
+        tags:
+            - { name: zikula.hook_provider, areaName: 'provider.mufilesmodule.form_aware_hook.files' }
+
+    mu_files_module.hook_provider.ui_hooks.files:
+        class: MU\FilesModule\HookProvider\FileUiHooksProvider
+        arguments:
+            - "@translator.default"
+            - "@request_stack"
+            - "@mu_files_module.entity_factory"
+            - "@twig"
+        tags:
+            - { name: zikula.hook_provider, areaName: 'provider.mufilesmodule.ui_hooks.files' }
+

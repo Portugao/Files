@@ -1,0 +1,6 @@
+{# Purpose of this template: Display files within an external context #}
+{% for file in items %}
+    <h3>{{ file|mufilesmodule_formattedTitle }}</h3>
+    <p><a href="{{ path('mufilesmodule_file_display', {'id': file.getId()}) }}">{{ __('Read more') }}</a>
+    </p>
+{% endfor %}
