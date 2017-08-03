@@ -13,10 +13,12 @@
 namespace MU\FilesModule\Entity;
 
 use MU\FilesModule\Entity\Base\AbstractHookAssignmentEntity;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Entity implementation class for hooked object assignments.
  *
+ * @ORM\Entity()
  * @ORM\Table(name="mu_files_hookassignment")
  */
 class HookAssignmentEntity extends AbstractHookAssignmentEntity

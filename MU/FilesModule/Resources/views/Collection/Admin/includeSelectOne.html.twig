@@ -1,0 +1,28 @@
+{# purpose of this template: inclusion template for managing related collection #}
+{% if displayMode is not defined or displayMode is empty %}
+    {% set displayMode = 'choices' %}
+{% endif %}
+{% if tabs|default(false) == true %}
+    <div role="tabpanel" class="tab-pane fade" id="tabCollection" aria-labelledby="collectionTab">
+        <h3>{{ __('Collection') }}</h3>
+{% else %}
+    <fieldset class="collection">
+{% endif %}
+    <legend>{{ __('Collection') }}</legend>
+    {% if displayMode == 'choices' %}
+        {{ form_row(attribute(form, alias)) }}
+    {% elseif displayMode == 'autocomplete' %}
+        {{ form_row(attribute(form, alias)) }}
+        <div class="mufilesmodule-relation-leftside">
+            {{ include(
+                '@MUFilesModule/Collection/Admin/includeSelectItemListOne.html.twig',
+                attribute(linkingItem, alias) is defined ? {item: attribute(linkingItem, alias)} : {}
+            ) }}
+        </div>
+        <br style="clear: both" />
+    {% endif %}
+{% if tabs|default(false) == true %}
+    </div>
+{% else %}
+    </fieldset>
+{% endif %}

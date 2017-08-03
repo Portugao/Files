@@ -20,7 +20,7 @@ use Zikula\Bundle\HookBundle\Hook\DisplayHook;
 use Zikula\Bundle\HookBundle\Hook\DisplayHookResponse;
 use Zikula\Bundle\HookBundle\Hook\ProcessHook;
 use Zikula\Bundle\HookBundle\Hook\ValidationHook;
-use Zikula\Bundle\HookBundle\HookProviderInterface
+use Zikula\Bundle\HookBundle\HookProviderInterface;
 use Zikula\Bundle\HookBundle\ServiceIdTrait;
 use Zikula\Common\Translator\TranslatorInterface;
 use MU\FilesModule\Entity\Factory\EntityFactory;

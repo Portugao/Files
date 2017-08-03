@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Zikula\Bundle\HookBundle\Category\FormAwareCategory;
 use Zikula\Bundle\HookBundle\FormAwareHook\FormAwareHook;
 use Zikula\Bundle\HookBundle\FormAwareHook\FormAwareResponse;
-use Zikula\Bundle\HookBundle\HookProviderInterface
+use Zikula\Bundle\HookBundle\HookProviderInterface;
 use Zikula\Bundle\HookBundle\ServiceIdTrait;
 use Zikula\Common\Translator\TranslatorInterface;
 use MU\FilesModule\Form\Type\Hook\DeleteCollectionType;
