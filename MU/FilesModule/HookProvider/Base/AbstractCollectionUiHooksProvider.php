@@ -18,6 +18,7 @@ use Twig_Environment;
 use Zikula\Bundle\HookBundle\Category\UiHooksCategory;
 use Zikula\Bundle\HookBundle\Hook\DisplayHook;
 use Zikula\Bundle\HookBundle\Hook\DisplayHookResponse;
+use Zikula\Bundle\HookBundle\Hook\Hook;
 use Zikula\Bundle\HookBundle\Hook\ProcessHook;
 use Zikula\Bundle\HookBundle\Hook\ValidationHook;
 use Zikula\Bundle\HookBundle\HookProviderInterface;
@@ -256,7 +257,7 @@ abstract class AbstractCollectionUiHooksProvider implements HookProviderInterfac
     {
         list ($assignments, $assignedIds) = $this->selectAssignedIds($hook);
         if (!count($assignedIds)) {
-            return [];
+            return [[], []];
         }
 
         $entities = $this->entityFactory->getRepository('collection')->selectByIdList($assignedIds);
@@ -305,7 +306,8 @@ abstract class AbstractCollectionUiHooksProvider implements HookProviderInterfac
 
         $templateParameters = [
             'items' => $assignedEntities,
-            'context' => $context
+            'context' => $context,
+            'routeArea' => ''
         ];
 
         if ($context == 'hookDisplayView') {
