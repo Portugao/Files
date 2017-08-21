@@ -121,6 +121,16 @@ abstract class AbstractConfigType extends AbstractType
                     'title' => $this->__('Enter the allowed extensions.')
                 ],
             ])
+            ->add('maxSize', TextType::class, [
+                'label' => $this->__('Max size') . ':',
+                'required' => false,
+                'data' => isset($this->moduleVars['maxSize']) ? $this->moduleVars['maxSize'] : '',
+                'empty_data' => '200k',
+                'attr' => [
+                    'maxlength' => 255,
+                    'title' => $this->__('Enter the max size.')
+                ],
+            ])
             ->add('onlyParent', CheckboxType::class, [
                 'label' => $this->__('Only parent') . ':',
                 'required' => false,
