@@ -6,6 +6,7 @@
     {{ parent() }}
     {{ pageAddAsset('javascript', zasset('@MUFilesModule:js/MUFilesModule.Validation.js'), 98) }}
     {{ pageAddAsset('javascript', zasset('@MUFilesModule:js/MUFilesModule.EditFunctions.js'), 99) }}
+    {{ pageAddAsset('javascript', zasset('@MUFilesModule:js/MUFilesModule.AutoCompletion.js'), 99) }}
 {% endblock %}
 {% block title mode == 'create' ? __('Create collection') : __('Edit collection') %}
 {% block admin_page_icon mode == 'create' ? 'plus' : 'pencil-square-o' %}
