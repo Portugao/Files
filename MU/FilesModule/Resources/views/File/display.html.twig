@@ -20,10 +20,10 @@
             <dt>{{ __('State') }}</dt>
             <dd>{{ file.workflowState|mufilesmodule_listEntry('file', 'workflowState') }}</dd>
         {% endif %}
-        {% if file.title is not empty %}
+        {#% if file.title is not empty %}
             <dt>{{ __('Title') }}</dt>
             <dd>{{ file.title }}</dd>
-        {% endif %}
+        {% endif %#}
         {% if file.description is not empty %}
             <dt>{{ __('Description') }}</dt>
             <dd>{{ file.description|safeHtml }}</dd>
@@ -31,7 +31,7 @@
         {% if file.uploadFile is not empty %}
             <dt>{{ __('Upload file') }}</dt>
             <dd>{% if file.uploadFileMeta|default %}
-            <a href="{{ file.uploadFileUrl }}" title="{{ file|mufilesmodule_formattedTitle|e('html_attr') }}"{% if file.uploadFileMeta.isImage %} class="image-link"{% endif %}>
+            <a href="{{ path('mufilesmodule_file_givefile', {'id': file.getId()}) }}" title="{{ ('Get the file as download') }}"{% if file.uploadFileMeta.isImage %} class="image-link"{% endif %}>
             {% if file.uploadFileMeta.isImage %}
                 {% set thumbOptions = attribute(thumbRuntimeOptions, 'fileUploadFile') %}
                 <img src="{{ file.uploadFile.getPathname()|imagine_filter('zkroot', thumbOptions) }}" alt="{{ file|mufilesmodule_formattedTitle|e('html_attr') }}" width="{{ thumbOptions.thumbnail.size[0] }}" height="{{ thumbOptions.thumbnail.size[1] }}" class="img-thumbnail" />
@@ -43,7 +43,7 @@
             </dd>
         {% endif %}
         {% if file.aliascollection|default %}
-            <dt>{{ __('Aliascollection') }}</dt>
+            <dt>{{ __('Collection') }}</dt>
             <dd>
               {% if not isQuickView %}
                   <a href="{{ path('mufilesmodule_collection_' ~ routeArea ~ 'display', {'id': file.aliascollection.getId()}) }}">{% spaceless %}

@@ -22,15 +22,15 @@
             <dt>{{ __('State') }}</dt>
             <dd>{{ collection.workflowState|mufilesmodule_listEntry('collection', 'workflowState') }}</dd>
         {% endif %}
-        {% if collection.name is not empty %}
+        {#% if collection.name is not empty %}
             <dt>{{ __('Name') }}</dt>
             <dd>{{ collection.name }}</dd>
-        {% endif %}
+        {% endif %#}
         {% if collection.description is not empty %}
             <dt>{{ __('Description') }}</dt>
             <dd>{{ collection.description|safeHtml }}</dd>
         {% endif %}
-        {% if collection.parentid is not empty %}
+        {#% if collection.parentid is not empty %}
             <dt>{{ __('Parentid') }}</dt>
             <dd>{{ collection.parentid }}</dd>
         {% endif %}
@@ -49,7 +49,7 @@
                 {% endif %}
             </div></noscript>
             </dd>
-        {% endif %}
+        {% endif %#}
         {% if collection.collection|default %}
             <dt>{{ __('Collection') }}</dt>
             <dd>

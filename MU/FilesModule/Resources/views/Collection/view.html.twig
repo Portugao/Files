@@ -24,8 +24,6 @@
                 {% endif %}
                 <col id="cName" />
                 <col id="cDescription" />
-                <col id="cParentid" />
-                <col id="cInFrontend" />
                 <col id="cCollection" />
             </colgroup>
             <thead>
@@ -46,12 +44,6 @@
                 </th>
                 <th id="hDescription" scope="col" class="text-left">
                     <a href="{{ sort.description.url }}" title="{{ __f('Sort by %s', {'%s': 'description'}) }}" class="{{ sort.description.class }}">{{ __('Description') }}</a>
-                </th>
-                <th id="hParentid" scope="col" class="text-right">
-                    <a href="{{ sort.parentid.url }}" title="{{ __f('Sort by %s', {'%s': 'parentid'}) }}" class="{{ sort.parentid.class }}">{{ __('Parentid') }}</a>
-                </th>
-                <th id="hInFrontend" scope="col" class="text-center">
-                    <a href="{{ sort.inFrontend.url }}" title="{{ __f('Sort by %s', {'%s': 'in frontend'}) }}" class="{{ sort.inFrontend.class }}">{{ __('In frontend') }}</a>
                 </th>
                 <th id="hCollection" scope="col" class="text-left">
                     <a href="{{ sort.collection.url }}" title="{{ __f('Sort by %s', {'%s': 'collection'}) }}" class="{{ sort.collection.class }}">{{ __('Collection') }}</a>
@@ -83,23 +75,6 @@
                 <td headers="hDescription" class="text-left">
                     {{ collection.description|striptags|truncate(50) }}
                 </td>
-                <td headers="hParentid" class="text-right">
-                    {{ collection.parentid }}
-                </td>
-                <td headers="hInFrontend" class="text-center">
-                    {% set itemId = collection.getKey() %}
-                    <a id="toggleInFrontend{{ itemId }}" href="javascript:void(0);" class="mufiles-ajax-toggle hidden" data-object-type="collection" data-field-name="inFrontend" data-item-id="{{ itemId }}">
-                        <i class="fa fa-check{% if not collection.inFrontend %} hidden{% endif %}" id="yesInFrontend{{ itemId }}" title="{{ __('This setting is enabled. Click here to disable it.') }}"></i>
-                        <i class="fa fa-times{% if collection.inFrontend %} hidden{% endif %}" id="noInFrontend{{ itemId }}" title="{{ __('This setting is disabled. Click here to enable it.') }}"></i>
-                    </a>
-                    <noscript><div id="noscriptInFrontend{{ itemId }}">
-                        {% if collection.inFrontend %}
-                            <i class="fa fa-check" title="{{ __('Yes') }}"></i>
-                        {% else %}
-                            <i class="fa fa-times" title="{{ __('No') }}"></i>
-                        {% endif %}
-                    </div></noscript>
-                </td>
                 <td headers="hCollection" class="text-left">
                     {% if collection.collection|default %}
                         <a href="{{ path('mufilesmodule_collection_' ~ routeArea ~ 'display', {'id': collection.collection.getId()}) }}">{% spaceless %}
@@ -113,7 +88,7 @@
             </tr>
         {% else %}
             <tr class="z-{{ routeArea == 'admin' ? 'admin' : 'data' }}tableempty">
-                <td class="text-left" colspan="{% if routeArea == 'admin' %}8{% else %}7{% endif %}">
+                <td class="text-left" colspan="{% if routeArea == 'admin' %}6{% else %}5{% endif %}">
             {{ __('No collections found.') }}
               </td>
             </tr>
