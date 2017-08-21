@@ -308,6 +308,25 @@ class FileController extends AbstractFileController
     {
         return parent::handleInlineRedirectAction($idPrefix, $commandName, $id);
     }
+    
+    /**
+     * @inheritDoc
+     *
+     * @Route("/givefile/{id}",
+     *        requirements = {"id" = "\d+"},
+     *        methods = {"GET"}
+     * )
+     *
+     * @param Request $request Current request instance
+     *
+     * @return Response Output
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
+     */
+    public function giveFileAction(Request $request)
+    {
+        return parent::giveFile($request);
+    }
 
     // feel free to add your own controller methods here
 }
