@@ -19,5 +19,55 @@ use MU\FilesModule\Helper\Base\AbstractViewHelper;
  */
 class ViewHelper extends AbstractViewHelper
 {
-    // feel free to add your own convenience methods here
+   /**
+     *
+     */
+    public static function getMimeTyp($extension)
+    {
+        switch ($extension)
+        {
+            // we have mime types for text documents
+            case 'pdf':   //PDF
+                $mime = 'application/pdf';
+                break;
+            case 'doc':  // DOC
+                $mime = 'application/msword';
+                break;
+            case 'docx':  // DOC
+                $mime = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+                break;
+                
+            case 'dotx':  // DOC
+                $mime = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+                break;
+            case 'odt':  // Libre Office text document
+                $mime = 'application/vnd.oasis.opendocument.text';
+                break;
+            case 'txt': // text file
+                $mime = 'text/plain';
+                break;
+                // we have mime types for tables
+            case 'xls': // word excel
+                $mime = 'application/msexcel';
+                break;
+                
+            case 'xlsx': // word excel
+                $mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+                break;
+                	
+            case 'ppt': // microsoft powerpoint
+                $mime = 'application/mspowerpoint';
+                break;
+            case 'gz':
+                $mime = 'application/gzip';
+                break;
+            case 'zip':
+                $mime = 'application/zip';
+                break;
+            case 'tar':
+                $mime = 'application/x-tar';
+                break;
+        }
+        return $mime;
+    }
 }
