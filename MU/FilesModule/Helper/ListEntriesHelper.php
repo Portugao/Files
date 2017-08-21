@@ -19,5 +19,112 @@ use MU\FilesModule\Helper\Base\AbstractListEntriesHelper;
  */
 class ListEntriesHelper extends AbstractListEntriesHelper
 {
-    // feel free to add your own convenience methods here
+	/**
+	 * Retrieve the base path for given object type and upload field combination.
+	 *
+	 * @param integer $collectionId
+	 *        	id of collection
+	 * @param integer $fileId
+	 *        	id of file.
+	 *        	
+	 * @return mixed Output.
+	 * @throws Exception if invalid object type is given.
+	 */
+	public function getCollectionMenue($collectionId = 0, $fileId = 0) {
+		// we get the objectType
+		$request = new Zikula_Request_Http();
+		$objectType = $request->query->filter('ot', 'collection', FILTER_SANITIZE_STRING);
+		// we get a collection repository
+		$collectionRepository = MUFiles_Util_Model::getCollectionsRepository();	
+		
+		// we get the current collection we want to edit
+		if ($collectionId > 0) {
+		    $currentCollection = $collectionRepository->selectById($collectionId);
+		}
+		// we get the current file we want to edit
+		if ($fileId > 0) {
+			// we get a file repository
+			$fileRepository = MUFiles_Util_Model::getFilesRepository();
+			$currentFile = $fileRepository->selectById($fileId);
+		}
+		
+		$dom = ZLanguage::getModuleDomain('MUFiles');
+		
+		// initial
+		$name = '';
+		// initial
+		$menue = '';
+		
+		// initial
+		$where = '';
+	    // where clause to get the collections without parent
+		$where = 'tbl.id != \'' . $currentCollection ['id'] . '\'';
+		$where .= ' AND ';	
+		$where .= 'tbl.parent IS NULL';
+		
+		// initial
+		$selectionArgs = array ();
+		// nessecary args
+		$selectionArgs = array (
+				'ot' => 'collection',
+				'where' => $where,
+				'orderBy' => 'name' 
+		);
+		
+		// initial
+		$collections = '';
+		// we get all collections without parent
+		$collections = ModUtil::apiFunc ( 'MUFiles', 'selection', 'getEntities', $selectionArgs );
+		// if count collections gt 0 we set html tags
+		if (count ( $collections ) > 0) {
+			$menue = '<h3 class="collections z-panel-header z-panel-indicator z-pointer">' . __('Collections', $dom) . '</h3>' . "\n";
+			$menue .= '<fieldset class="form-control">' . "\n";
+			$menue .= '<div class="z-formrow">' . "\n";
+			$menue .= '<label for="parent">' . __('Collections', $dom) . '</label>' . "\n";
+			if (($collectionId > 0 && $fileId == 0) || ($collectionId == 0 && $fileId == 0 && $objectType == 'collection')) {
+			    $menue .= '<select id="parent" name="parent" class="z-form-dropdownlist  z-form-relationlist collection validation-passed">' . "\n";
+			} 
+			if (($collectionId == 0 && $fileId > 0) || ($collectionId == 0 && $fileId == 0 && $objectType == 'file')) {
+				$menue .= '<select id="aliascollection" name="aliascollection" class="z-form-dropdownlist  z-form-relationlist collection validation-passed">' . "\n";							
+			}
+			$menue .= '<option value=""></option>';
+		}
+		
+		$thereIsSelectedOption = 0;
+	
+		// for each collection we set an option tag
+		foreach ( $collections as $collection ) {
+			$thisCollection = $collectionRepository->selectById ($collection['id'] );
+     		if (is_object($currentCollection)) {
+			    if ($currentCollection['parent']['id'] === $thisCollection['id']) {
+			        $selected = ' selected=selected';
+				    $thereIsSelectedOption = 1;
+			} else {
+				$selected = '';
+			}
+			} else {
+				if (is_object($currentFile)) {
+           		    if ($currentFile['aliascollection']['id'] != NULL && $currentFile['aliascollection']['id'] === $thisCollection['id']) {						
+				        $selected = ' selected=selected';
+				        $thereIsSelectedOption = 1;
+					} else {
+						$selected = '';
+					}
+				}
+			}
+			$name = $thisCollection ['name'];
+			$menue .= '<option value="' . $thisCollection ['id'] . '"' . $selected . '>' . $name . '</option>' . "\n";
+			
+			$menue = self::getParentPath ( $thisCollection ['id'], $currentCollection, $currentFile, $menue, $name, $collectionRepository );
+		    $name = '';
+		}
+		if ($thereIsSelectedOption == 0) {
+			$menue = str_replace('<option value=""></option>', '<option selected=selected value=""></option>', $menue);
+		}
+		if (count ( $collections ) > 0) {
+			$menue .= '</select>' . "\n" . '</div>' . "\n" . '</fieldset>' . "\n";
+		}
+		
+		return $menue;
+	}
 }
