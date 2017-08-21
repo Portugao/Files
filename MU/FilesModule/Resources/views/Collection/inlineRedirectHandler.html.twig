@@ -1,0 +1,21 @@
+{# purpose of this template: close an iframe from within this iframe #}
+<!DOCTYPE html>
+<html xml:lang="{{ app.request.locale }}" lang="{{ app.request.locale }}" dir="auto">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="{{ asset('jquery/jquery.min.js') }}"></script>
+        <script type="text/javascript" src="{{ zasset('@MUFilesModule:js/MUFilesModule.AutoCompletion.js') }}"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+        /* <![CDATA[ */
+            // close window from parent document
+            ( function($) {
+                $(document).ready(function() {
+                    mUFilesCloseWindowFromInside('{{ idPrefix|e('js') }}', {% if commandName == 'create' %}{{ itemId }}, '{{ searchTerm|default('') }}'{% else %}0, ''{% endif %});
+                });
+            })(jQuery);
+        /* ]]> */
+        </script>
+    </body>
+</html>

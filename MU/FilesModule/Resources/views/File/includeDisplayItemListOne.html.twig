@@ -1,5 +1,6 @@
 {# purpose of this template: inclusion template for display of related files or hook assignments #}
 {% set hasAdminPermission = hasPermission('MUFilesModule:File:', '::', 'ACCESS_COMMENT') %}
+{% set hasEditPermission = hasPermission('MUFilesModule:File:', '::', 'ACCESS_COMMENT') %}
 {% if noLink is not defined %}
     {% set noLink = false %}
 {% endif %}

@@ -6,15 +6,20 @@
         - 'hookDisplayEdit': list of files assigned using an UI hook (edit template)
         - 'hookDisplayDelete': list of files assigned using an UI hook (delete template)
 #}
+{% set hasAdminPermission = hasPermission('MUFilesModule:File:', '::', 'ACCESS_COMMENT') %}
+{% set hasEditPermission = hasPermission('MUFilesModule:File:', '::', 'ACCESS_COMMENT') %}
 {% if context != 'display' %}
     <h3>{{ __('Assigned files') }}</h3>
-    {% if context == 'hookDisplayView' && hasEditPermission %}
+    {% if context == 'hookDisplayView' and hasEditPermission %}
         {% set entityNameTranslated = __('file') %}
+        {{ pageAddAsset('stylesheet', asset('jquery-ui/themes/base/jquery-ui.min.css')) }}
+        {{ pageAddAsset('stylesheet', asset('bootstrap-jqueryui/bootstrap-jqueryui.min.css')) }}
+        {{ pageAddAsset('javascript', asset('jquery-ui/jquery-ui.min.js')) }}
+        {{ pageAddAsset('javascript', asset('bootstrap-jqueryui/bootstrap-jqueryui.min.js')) }}
         {{ pageAddAsset('javascript', zasset('@MUFilesModule:js/MUFilesModule.HookAssignment.js'), 99) }}
         {{ pageAddAsset('javascript', zasset('@MUFilesModule:js/MUFilesModule.AutoCompletion.js'), 99) }}
     {% endif %}
 {% endif %}
-{% set hasAdminPermission = hasPermission('MUFilesModule:File:', '::', 'ACCESS_COMMENT') %}
 {% if noLink is not defined %}
     {% set noLink = false %}
 {% endif %}
@@ -35,7 +40,7 @@
 {% endif %}
 {% endspaceless %}
 </h4>
-{% if context == 'hookDisplayView' && hasEditPermission %}
+{% if context == 'hookDisplayView' and hasEditPermission %}
     {% set assignmentId = '' %}
     {% for assignment in assignments if assignment.getAssignedId() == item.getKey() %}
         {% set assignmentId = assignment.getId() %}
@@ -49,7 +54,7 @@
 {% endfor %}
 </ul>
 {% endif %}
-{% if context == 'hookDisplayView' && hasEditPermission %}
+{% if context == 'hookDisplayView' and hasEditPermission %}
     {% set withImage = false %}
     {% set idPrefix = 'hookAssignmentFile' %}
     {% set addLinkText = __f('Attach %name%', {'%name%': entityNameTranslated}) %}
@@ -59,7 +64,7 @@
             <label for="{{ idPrefix }}Selector">{{ __f('Find %name%', {'%name%': entityNameTranslated}) }}</label>
             <br />
             <i class="fa fa-search" title="{{ __f('Search %name%', {'%name%': entityNameTranslated})|e('html_attr') }}"></i>
-            <input type="hidden" name="{{ idPrefix }} id="{{ idPrefix }}" value="{{ value }}" />
+            <input type="hidden" name="{{ idPrefix }} id="{{ idPrefix }}" value="" />
             <input type="hidden" name="{{ idPrefix }}Multiple" id="{{ idPrefix }}Multiple" value="0" />
             <input type="hidden" name="{{ idPrefix }}Mode" id="{{ idPrefix }}Mode" value="0" />
             <input type="hidden" name="{{ idPrefix }}ExcludedIds" id="{{ idPrefix }}ExcludedIds" value="{% for assignment in assignments %}{% if not loop.first %},{% endif %}{{ assignment.getAssignedId() }}{% endfor %}" />
