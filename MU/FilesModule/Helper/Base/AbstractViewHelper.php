@@ -179,6 +179,12 @@ abstract class AbstractViewHelper
                 $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
                 $response->headers->set('Content-Disposition', 'attachment; filename=' . $type . '-list.csv');
                 break;
+            case 'atom.twig':
+                $response->headers->set('Content-Type', 'application/atom+xml');
+                break;
+            case 'rss.twig':
+                $response->headers->set('Content-Type', 'application/rss+xml');
+                break;
         }
     
         return $response;
@@ -222,9 +228,9 @@ abstract class AbstractViewHelper
         $hasAdminAccess = $this->permissionApi->hasPermission('MUFilesModule:' . ucfirst($type) . ':', '::', ACCESS_ADMIN);
         if ($func == 'view') {
             if ($hasAdminAccess) {
-                $extensions = ['csv'];
+                $extensions = ['csv', 'rss', 'atom'];
             } else {
-                $extensions = [];
+                $extensions = ['rss', 'atom'];
             }
         } elseif ($func == 'display') {
             if ($hasAdminAccess) {
