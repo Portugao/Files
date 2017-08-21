@@ -15,7 +15,7 @@ namespace MU\FilesModule\Form\Handler\Collection;
 use MU\FilesModule\Form\Handler\Collection\Base\AbstractEditHandler;
 
 /**
- * This handler class handles the page events of the Form called by the mUFilesModule_collection_edit() function.
+ * This handler class handles the page events of editing forms.
  * It aims on the collection object type.
  */
 class EditHandler extends AbstractEditHandler

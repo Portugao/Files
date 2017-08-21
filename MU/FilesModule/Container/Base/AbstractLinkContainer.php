@@ -163,7 +163,7 @@ abstract class AbstractLinkContainer implements LinkContainerInterface
             $links[] = [
                 'url' => $this->router->generate('mufilesmodule_collection_' . $routeArea . 'view'),
                 'text' => $this->__('Collections', 'mufilesmodule'),
-                'title' => $this->__('Collection list', 'mufilesmodule')
+                'title' => $this->__('Collections list', 'mufilesmodule')
             ];
         }
         if (in_array('file', $allowedObjectTypes)
@@ -171,7 +171,7 @@ abstract class AbstractLinkContainer implements LinkContainerInterface
             $links[] = [
                 'url' => $this->router->generate('mufilesmodule_file_' . $routeArea . 'view'),
                 'text' => $this->__('Files', 'mufilesmodule'),
-                'title' => $this->__('File list', 'mufilesmodule')
+                'title' => $this->__('Files list', 'mufilesmodule')
             ];
         }
         if ($routeArea == 'admin' && $this->permissionApi->hasPermission($this->getBundleName() . '::', '::', ACCESS_ADMIN)) {

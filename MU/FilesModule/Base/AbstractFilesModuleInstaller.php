@@ -57,6 +57,7 @@ abstract class AbstractFilesModuleInstaller extends AbstractExtensionInstaller
     
         // set up all our vars with initial values
         $this->setVar('allowedExtensions', 'pdf, doc, docx, odt');
+        $this->setVar('maxSize', '200k');
         $this->setVar('onlyParent', false);
         $this->setVar('specialCollectionMenue', false);
         $this->setVar('moderationGroupForCollections', '2');
@@ -176,14 +177,8 @@ abstract class AbstractFilesModuleInstaller extends AbstractExtensionInstaller
      */
     protected function updateModVarsTo14()
     {
-        $dbName = $this->getDbName();
         $conn = $this->getConnection();
-    
-        $conn->executeQuery("
-            UPDATE $dbName.module_vars
-            SET modname = 'MUFilesModule'
-            WHERE modname = 'Files';
-        ");
+        $conn->update('module_vars', ['modname' => 'MUFilesModule'], ['modname' => 'Files']);
     }
     
     /**
@@ -192,14 +187,7 @@ abstract class AbstractFilesModuleInstaller extends AbstractExtensionInstaller
     protected function updateExtensionInfoFor14()
     {
         $conn = $this->getConnection();
-        $dbName = $this->getDbName();
-    
-        $conn->executeQuery("
-            UPDATE $dbName.modules
-            SET name = 'MUFilesModule',
-                directory = 'MU/FilesModule'
-            WHERE name = 'Files';
-        ");
+        $conn->update('modules', ['name' => 'MUFilesModule', 'directory' => 'MU/FilesModule'], ['name' => 'Files']);
     }
     
     /**
@@ -208,12 +196,10 @@ abstract class AbstractFilesModuleInstaller extends AbstractExtensionInstaller
     protected function renamePermissionsFor14()
     {
         $conn = $this->getConnection();
-        $dbName = $this->getDbName();
-    
         $componentLength = strlen('Files') + 1;
     
         $conn->executeQuery("
-            UPDATE $dbName.group_perms
+            UPDATE group_perms
             SET component = CONCAT('MUFilesModule', SUBSTRING(component, $componentLength))
             WHERE component LIKE 'Files%';
         ");
@@ -225,12 +211,10 @@ abstract class AbstractFilesModuleInstaller extends AbstractExtensionInstaller
     protected function renameCategoryRegistriesFor14()
     {
         $conn = $this->getConnection();
-        $dbName = $this->getDbName();
-    
         $componentLength = strlen('Files') + 1;
     
         $conn->executeQuery("
-            UPDATE $dbName.categories_registry
+            UPDATE categories_registry
             SET modname = CONCAT('MUFilesModule', SUBSTRING(modname, $componentLength))
             WHERE modname LIKE 'Files%';
         ");
@@ -242,7 +226,6 @@ abstract class AbstractFilesModuleInstaller extends AbstractExtensionInstaller
     protected function renameTablesFor14()
     {
         $conn = $this->getConnection();
-        $dbName = $this->getDbName();
     
         $oldPrefix = 'files_';
         $oldPrefixLength = strlen($oldPrefix);
@@ -259,8 +242,8 @@ abstract class AbstractFilesModuleInstaller extends AbstractExtensionInstaller
             $newTableName = str_replace($oldPrefix, $newPrefix, $tableName);
     
             $conn->executeQuery("
-                RENAME TABLE $dbName.$tableName
-                TO $dbName.$newTableName;
+                RENAME TABLE $tableName
+                TO $newTableName;
             ");
         }
     }
@@ -279,49 +262,32 @@ abstract class AbstractFilesModuleInstaller extends AbstractExtensionInstaller
     protected function updateHookNamesFor14()
     {
         $conn = $this->getConnection();
-        $dbName = $this->getDbName();
     
-        $conn->executeQuery("
-            UPDATE $dbName.hook_area
-            SET owner = 'MUFilesModule'
-            WHERE owner = 'Files';
-        ");
+        $conn->update('hook_area', ['owner' => 'MUFilesModule'], ['owner' => 'Files']);
     
         $componentLength = strlen('subscriber.files') + 1;
         $conn->executeQuery("
-            UPDATE $dbName.hook_area
+            UPDATE hook_area
             SET areaname = CONCAT('subscriber.mufilesmodule', SUBSTRING(areaname, $componentLength))
             WHERE areaname LIKE 'subscriber.files%';
         ");
     
-        $conn->executeQuery("
-            UPDATE $dbName.hook_binding
-            SET sowner = 'MUFilesModule'
-            WHERE sowner = 'Files';
-        ");
+        $conn->update('hook_binding', ['sowner' => 'MUFilesModule'], ['sowner' => 'Files']);
     
-        $conn->executeQuery("
-            UPDATE $dbName.hook_runtime
-            SET sowner = 'MUFilesModule'
-            WHERE sowner = 'Files';
-        ");
+        $conn->update('hook_runtime', ['sowner' => 'MUFilesModule'], ['sowner' => 'Files']);
     
         $componentLength = strlen('files') + 1;
         $conn->executeQuery("
-            UPDATE $dbName.hook_runtime
+            UPDATE hook_runtime
             SET eventname = CONCAT('mufilesmodule', SUBSTRING(eventname, $componentLength))
             WHERE eventname LIKE 'files%';
         ");
     
-        $conn->executeQuery("
-            UPDATE $dbName.hook_subscriber
-            SET owner = 'MUFilesModule'
-            WHERE owner = 'Files';
-        ");
+        $conn->update('hook_subscriber', ['owner' => 'MUFilesModule'], ['owner' => 'Files']);
     
         $componentLength = strlen('files') + 1;
         $conn->executeQuery("
-            UPDATE $dbName.hook_subscriber
+            UPDATE hook_subscriber
             SET eventname = CONCAT('mufilesmodule', SUBSTRING(eventname, $componentLength))
             WHERE eventname LIKE 'files%';
         ");
@@ -333,13 +299,9 @@ abstract class AbstractFilesModuleInstaller extends AbstractExtensionInstaller
     protected function updateWorkflowsFor14()
     {
         $conn = $this->getConnection();
-        $dbName = $this->getDbName();
-    
-        $conn->executeQuery("
-            UPDATE $dbName.workflows
-            SET module = 'MUFilesModule'
-            WHERE module = 'Files';
-        ");
+        $conn->update('workflows', ['module' => 'MUFilesModule'], ['module' => 'Files']);
+        $conn->update('workflows', ['obj_table' => 'CollectionEntity'], ['module' => 'MUFilesModule', 'obj_table' => 'collection']);
+        $conn->update('workflows', ['obj_table' => 'FileEntity'], ['module' => 'MUFilesModule', 'obj_table' => 'file']);
     }
     
     /**
@@ -415,6 +377,7 @@ abstract class AbstractFilesModuleInstaller extends AbstractExtensionInstaller
         $classNames[] = 'MU\FilesModule\Entity\CollectionEntity';
         $classNames[] = 'MU\FilesModule\Entity\CollectionCategoryEntity';
         $classNames[] = 'MU\FilesModule\Entity\FileEntity';
+        $classNames[] = 'MU\FilesModule\Entity\HookAssignmentEntity';
     
         return $classNames;
     }

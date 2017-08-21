@@ -15,7 +15,7 @@ namespace MU\FilesModule\Form\Handler\File;
 use MU\FilesModule\Form\Handler\File\Base\AbstractEditHandler;
 
 /**
- * This handler class handles the page events of the Form called by the mUFilesModule_file_edit() function.
+ * This handler class handles the page events of editing forms.
  * It aims on the file object type.
  */
 class EditHandler extends AbstractEditHandler
