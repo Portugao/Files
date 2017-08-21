@@ -238,7 +238,7 @@ abstract class AbstractInstallerListener implements EventSubscriberInterface
     public function moduleRemoved(ModuleStateEvent $event)
     {
         $module = $event->getModule();
-        if (null === $module) {
+        if (null === $module || $module->getName() === 'MUFilesModule') {
             return;
         }
     
