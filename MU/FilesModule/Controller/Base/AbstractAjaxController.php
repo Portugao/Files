@@ -117,6 +117,75 @@ abstract class AbstractAjaxController extends AbstractController
     }
     
     /**
+     * Searches for entities for auto completion usage.
+     *
+     * @param Request $request Current request instance
+     *
+     * @return JsonResponse
+     */
+    public function getItemListAutoCompletionAction(Request $request)
+    {
+        if (!$this->hasPermission('MUFilesModule::Ajax', '::', ACCESS_EDIT)) {
+            return true;
+        }
+        
+        $objectType = $request->query->getAlnum('ot', 'collection');
+        $controllerHelper = $this->get('mu_files_module.controller_helper');
+        $contextArgs = ['controller' => 'ajax', 'action' => 'getItemListAutoCompletion'];
+        if (!in_array($objectType, $controllerHelper->getObjectTypes('controllerAction', $contextArgs))) {
+            $objectType = $controllerHelper->getDefaultObjectType('controllerAction', $contextArgs);
+        }
+        
+        $repository = $this->get('mu_files_module.entity_factory')->getRepository($objectType);
+        $fragment = $request->query->get('fragment', '');
+        $exclude = $request->query->get('exclude', '');
+        $exclude = !empty($exclude) ? explode(',', str_replace(', ', ',', $exclude)) : [];
+        
+        // parameter for used sorting field
+        $sort = $request->query->get('sort', '');
+        if (empty($sort) || !in_array($sort, $repository->getAllowedSortingFields())) {
+            $sort = $repository->getDefaultSortingField();
+            $request->query->set('sort', $sort);
+            // set default sorting in route parameters (e.g. for the pager)
+            $routeParams = $request->attributes->get('_route_params');
+            $routeParams['sort'] = $sort;
+            $request->attributes->set('_route_params', $routeParams);
+        }
+        $sortParam = $sort . ' asc';
+        
+        $currentPage = 1;
+        $resultsPerPage = 20;
+        
+        // get objects from database
+        list($entities, $objectCount) = $repository->selectSearch($fragment, $exclude, $sortParam, $currentPage, $resultsPerPage);
+        
+        $resultItems = [];
+        
+        if ((is_array($entities) || is_object($entities)) && count($entities) > 0) {
+            $entityDisplayHelper = $this->get('mu_files_module.entity_display_helper');
+            $descriptionFieldName = $entityDisplayHelper->getDescriptionFieldName($objectType);
+            foreach ($entities as $item) {
+                $itemTitle = $entityDisplayHelper->getFormattedTitle($item);
+                $itemDescription = isset($item[$descriptionFieldName]) && !empty($item[$descriptionFieldName]) ? $item[$descriptionFieldName] : '';//$this->__('No description yet.')
+                if (!empty($itemDescription)) {
+                    $itemDescription = substr($itemDescription, 0, 50) . '&hellip;';
+                }
+        
+                $resultItem = [
+                    'id' => $item->getKey(),
+                    'title' => $itemTitle,
+                    'description' => $itemDescription,
+                    'image' => ''
+                ];
+        
+                $resultItems[] = $resultItem;
+            }
+        }
+        
+        return new JsonResponse($resultItems);
+    }
+    
+    /**
      * Changes a given flag (boolean field) by switching between true and false.
      *
      * @param Request $request Current request instance

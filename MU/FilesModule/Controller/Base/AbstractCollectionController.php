@@ -25,6 +25,7 @@ use Zikula\Bundle\HookBundle\Category\UiHooksCategory;
 use Zikula\Component\SortableColumns\Column;
 use Zikula\Component\SortableColumns\SortableColumns;
 use Zikula\Core\Controller\AbstractController;
+use Zikula\Core\Response\PlainResponse;
 use Zikula\Core\RouteUrl;
 use MU\FilesModule\Entity\CollectionEntity;
 use MU\FilesModule\Helper\FeatureActivationHelper;
@@ -550,5 +551,39 @@ abstract class AbstractCollectionController extends AbstractController
         }
         
         return $this->redirectToRoute('mufilesmodule_collection_' . ($isAdmin ? 'admin' : '') . 'index');
+    }
+
+    /**
+     * This method cares for a redirect within an inline frame.
+     *
+     * @param string  $idPrefix    Prefix for inline window element identifier
+     * @param string  $commandName Name of action to be performed (create or edit)
+     * @param integer $id          Identifier of created collection (used for activating auto completion after closing the modal window)
+     *
+     * @return PlainResponse Output
+     */
+    public function handleInlineRedirectAction($idPrefix, $commandName, $id = 0)
+    {
+        if (empty($idPrefix)) {
+            return false;
+        }
+        
+        $searchTerm = '';
+        if (!empty($id)) {
+            $repository = $this->get('mu_files_module.entity_factory')->getRepository('collection');
+            $collection = $repository->selectById($id);
+            if (null !== $collection) {
+                $searchTerm = $collection->getWorkflowState();
+            }
+        }
+        
+        $templateParameters = [
+            'itemId' => $id,
+            'searchTerm' => $searchTerm,
+            'idPrefix' => $idPrefix,
+            'commandName' => $commandName
+        ];
+        
+        return new PlainResponse($this->get('twig')->render('@MUFilesModule/Collection/inlineRedirectHandler.html.twig', $templateParameters));
     }
 }

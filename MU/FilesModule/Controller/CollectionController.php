@@ -67,7 +67,7 @@ class CollectionController extends AbstractCollectionController
      * @inheritDoc
      *
      * @Route("/admin/collections/view/{sort}/{sortdir}/{pos}/{num}.{_format}",
-     *        requirements = {"sortdir" = "asc|desc|ASC|DESC", "pos" = "\d+", "num" = "\d+", "_format" = "html|csv"},
+     *        requirements = {"sortdir" = "asc|desc|ASC|DESC", "pos" = "\d+", "num" = "\d+", "_format" = "html|csv|rss|atom"},
      *        defaults = {"sort" = "", "sortdir" = "asc", "pos" = 1, "num" = 10, "_format" = "html"},
      *        methods = {"GET"}
      * )
@@ -92,7 +92,7 @@ class CollectionController extends AbstractCollectionController
      * @inheritDoc
      *
      * @Route("/collections/view/{sort}/{sortdir}/{pos}/{num}.{_format}",
-     *        requirements = {"sortdir" = "asc|desc|ASC|DESC", "pos" = "\d+", "num" = "\d+", "_format" = "html|csv"},
+     *        requirements = {"sortdir" = "asc|desc|ASC|DESC", "pos" = "\d+", "num" = "\d+", "_format" = "html|csv|rss|atom"},
      *        defaults = {"sort" = "", "sortdir" = "asc", "pos" = 1, "num" = 10, "_format" = "html"},
      *        methods = {"GET"}
      * )
@@ -287,6 +287,26 @@ class CollectionController extends AbstractCollectionController
     public function handleSelectedEntriesAction(Request $request)
     {
         return parent::handleSelectedEntriesAction($request);
+    }
+
+    /**
+     * This method cares for a redirect within an inline frame.
+     *
+     * @Route("/collection/handleInlineRedirect/{idPrefix}/{commandName}/{id}",
+     *        requirements = {"id" = "\d+"},
+     *        defaults = {"commandName" = "", "id" = 0},
+     *        methods = {"GET"}
+     * )
+     *
+     * @param string  $idPrefix    Prefix for inline window element identifier
+     * @param string  $commandName Name of action to be performed (create or edit)
+     * @param integer $id          Identifier of created collection (used for activating auto completion after closing the modal window)
+     *
+     * @return PlainResponse Output
+     */
+    public function handleInlineRedirectAction($idPrefix, $commandName, $id = 0)
+    {
+        return parent::handleInlineRedirectAction($idPrefix, $commandName, $id);
     }
 
     // feel free to add your own controller methods here
