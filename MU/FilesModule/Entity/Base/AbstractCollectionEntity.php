@@ -118,6 +118,7 @@ abstract class AbstractCollectionEntity extends EntityAccess
      *      joinColumns={@ORM\JoinColumn(name="parentid", referencedColumnName="id" )},
      *      inverseJoinColumns={@ORM\JoinColumn(name="id", referencedColumnName="id" )}
      * )
+     * @ORM\OrderBy({"name" = "ASC"})
      * @var \MU\FilesModule\Entity\CollectionEntity[] $collections
      */
     protected $collections = null;
@@ -127,6 +128,7 @@ abstract class AbstractCollectionEntity extends EntityAccess
      *
      * @ORM\OneToMany(targetEntity="MU\FilesModule\Entity\FileEntity", mappedBy="aliascollection")
      * @ORM\JoinTable(name="mu_files_aliascollectionalilasfiles")
+     * @ORM\OrderBy({"title" = "ASC"})
      * @var \MU\FilesModule\Entity\FileEntity[] $alilasfiles
      */
     protected $alilasfiles = null;
