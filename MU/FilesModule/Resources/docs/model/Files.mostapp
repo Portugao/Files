@@ -12,8 +12,8 @@ application "Files" {
 		generateModerationBlock true
 		generateNewsletterPlugin false
 		generateModerationPanel true
-		generateRssTemplates false
-		generateAtomTemplates false
+		generateRssTemplates true
+		generateAtomTemplates true
 		generateXmlTemplates false
 		generateJsonTemplates false
 		generateKmlTemplates false
@@ -87,12 +87,14 @@ application "Files" {
             sourceField "parentid"
             target "collection"
             targetAlias "collections"
+        orderBy "name"
         },
         one2many bidirectional {
             source "collection"
             sourceAlias "aliascollection"
             target "file"
             targetAlias "alilasfiles"
+        orderBy "title"
         }
     }
     variables {
@@ -102,6 +104,9 @@ application "Files" {
                     value "pdf, doc, docx, odt"
                 }
             ,
+                textVar "maxSize" {
+                    value "200k"
+                },
                 boolVar "onlyParent",
                 boolVar "specialCollectionMenue"
             }
