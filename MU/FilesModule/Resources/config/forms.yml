@@ -23,8 +23,8 @@ services:
         tags:
             - { name: form.type }
     
-    mu_files_module.form.handler.collection:
-        class: MU\FilesModule\Form\Handler\Collection\EditHandler
+    mu_files_module.form.handler.common:
+        abstract: true
         arguments:
             - "@kernel"
             - "@translator.default"
@@ -44,8 +44,11 @@ services:
             - "@mu_files_module.feature_activation_helper"
         calls:
             - [setLockingApi, ["@?zikula_pagelock_module.api.locking"]]
-        tags:
-            - { name: form.type }
+    
+    
+    mu_files_module.form.handler.collection:
+        class: MU\FilesModule\Form\Handler\Collection\EditHandler
+        parent: mu_files_module.form.handler.common
     
     mu_files_module.form.type.collection:
         class: MU\FilesModule\Form\Type\CollectionType
@@ -61,27 +64,7 @@ services:
     
     mu_files_module.form.handler.file:
         class: MU\FilesModule\Form\Handler\File\EditHandler
-        arguments:
-            - "@kernel"
-            - "@translator.default"
-            - "@form.factory"
-            - "@request_stack"
-            - "@router"
-            - "@logger"
-            - "@zikula_permissions_module.api.permission"
-            - "@zikula_extensions_module.api.variable"
-            - "@zikula_users_module.current_user"
-            - "@zikula_groups_module.group_application_repository"
-            - "@mu_files_module.entity_factory"
-            - "@mu_files_module.controller_helper"
-            - "@mu_files_module.model_helper"
-            - "@mu_files_module.workflow_helper"
-            - "@mu_files_module.hook_helper"
-            - "@mu_files_module.feature_activation_helper"
-        calls:
-            - [setLockingApi, ["@?zikula_pagelock_module.api.locking"]]
-        tags:
-            - { name: form.type }
+        parent: mu_files_module.form.handler.common
     
     mu_files_module.form.type.file:
         class: MU\FilesModule\Form\Type\FileType
