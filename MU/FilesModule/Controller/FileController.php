@@ -309,6 +309,7 @@ class FileController extends AbstractFileController
         return parent::handleInlineRedirectAction($idPrefix, $commandName, $id);
     }
     
+
     /**
      * @inheritDoc
      *
@@ -325,7 +326,7 @@ class FileController extends AbstractFileController
      */
     public function giveFileAction(Request $request)
     {
-        return parent::giveFile($request);
+    	return parent::giveFile($request);
     }
 
     // feel free to add your own controller methods here
