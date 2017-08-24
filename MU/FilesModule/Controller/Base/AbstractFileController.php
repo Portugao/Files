@@ -30,6 +30,9 @@ use Zikula\Core\RouteUrl;
 use MU\FilesModule\Entity\FileEntity;
 use MU\FilesModule\Helper\FeatureActivationHelper;
 
+use LogUtil;
+use ModUtil;
+
 /**
  * File controller base class.
  */
@@ -549,48 +552,44 @@ abstract class AbstractFileController extends AbstractController
      *
      * @return PlainResponse Output
      */
-    public function handleInlineRedirectAction($idPrefix, $commandName, $id = 0)
-    {
-        if (empty($idPrefix)) {
-            return false;
-        }
-        
-        $searchTerm = '';
-        if (!empty($id)) {
-            $repository = $this->get('mu_files_module.entity_factory')->getRepository('file');
-            $file = $repository->selectById($id);
-            if (null !== $file) {
-                $searchTerm = $file->getWorkflowState();
-            }
-        }
-        
-        $templateParameters = [
-            'itemId' => $id,
-            'searchTerm' => $searchTerm,
-            'idPrefix' => $idPrefix,
-            'commandName' => $commandName
-        ];
-        
-        return new PlainResponse($this->get('twig')->render('@MUFilesModule/File/inlineRedirectHandler.html.twig', $templateParameters));
-    }
-}
-
-public function giveFile(Request $request)
-{
-	// we get the id of the relevant file
-	//$id = $request->query->getDigits('id' , 0);
-	$id = 1;
-	$factoryHelper = $this->get('mu_files_module.entity_factory');
-	$viewHelper = $this->get('mu_files_module.view_helper');
-	// get file repository and get file
-	$repository = $factoryHelper->getRepository('file');
-
-	$file = $repository->selectById($id);
-	// return error if no permissions for the file or the collection of the file or a special file (this file) of an collection
-	if (!SecurityUtil::checkPermission($this->name . ':' . 'File' . ':', $id . '::', ACCESS_COMMENT) || !SecurityUtil::checkPermission($this->name. ':' . 'Collection' . ':', $file['aliascollection']['id'] . '::', ACCESS_COMMENT) || !SecurityUtil::checkPermission($this->name. ':' . 'Collection' . ':File', $file['aliascollection']['id'] . ':.*:', ACCESS_COMMENT)) {
-		$url = \ModUtil::url($this->name, 'user', 'view');
-		return \LogUtil::registerPermissionError($url);
-	} else {
+    public function handleInlineRedirectAction($idPrefix, $commandName, $id = 0) {
+		if (empty ( $idPrefix )) {
+			return false;
+		}
+		
+		$searchTerm = '';
+		if (! empty ( $id )) {
+			$repository = $this->get ( 'mu_files_module.entity_factory' )->getRepository ( 'file' );
+			$file = $repository->selectById ( $id );
+			if (null !== $file) {
+				$searchTerm = $file->getWorkflowState ();
+			}
+		}
+		
+		$templateParameters = [ 
+				'itemId' => $id,
+				'searchTerm' => $searchTerm,
+				'idPrefix' => $idPrefix,
+				'commandName' => $commandName 
+		];
+		
+		return new PlainResponse ( $this->get ( 'twig' )->render ( '@MUFilesModule/File/inlineRedirectHandler.html.twig', $templateParameters ) );
+	}
+	public function giveFile(Request $request) {
+		// we get the id of the relevant file
+		// $id = $request->query->getDigits('id' , 0);
+		$id = 1;
+		$factoryHelper = $this->get ( 'mu_files_module.entity_factory' );
+		$viewHelper = $this->get ( 'mu_files_module.view_helper' );
+		// get file repository and get file
+		$repository = $factoryHelper->getRepository ( 'file' );
+		
+		$file = $repository->selectById ( $id );
+		// return error if no permissions for the file or the collection of the file or a special file (this file) of an collection
+		if (! SecurityUtil::checkPermission ( $this->name . ':' . 'File' . ':', $id . '::', ACCESS_COMMENT ) || ! SecurityUtil::checkPermission ( $this->name . ':' . 'Collection' . ':', $file ['aliascollection'] ['id'] . '::', ACCESS_COMMENT ) || ! SecurityUtil::checkPermission ( $this->name . ':' . 'Collection' . ':File', $file ['aliascollection'] ['id'] . ':.*:', ACCESS_COMMENT )) {
+			$url = \ModUtil::url ( $this->name, 'user', 'view');
+		    return \LogUtil::registerPermissionError($url);
+	    } else {
 		 
 		$extension = $file['uploadFileMeta']['extension'];
 		$mime = $viewHelper->getMimeType($extension);
@@ -611,4 +610,5 @@ public function giveFile(Request $request)
 		readfile('userdata/MUFiles/files/uploadfile/' . $file['uploadFile']);
 		exit();
 	}
+}
 }
