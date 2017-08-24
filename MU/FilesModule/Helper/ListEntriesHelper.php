@@ -13,6 +13,9 @@
 namespace MU\FilesModule\Helper;
 
 use MU\FilesModule\Helper\Base\AbstractListEntriesHelper;
+use MU\FilesModule\Entity\Factory\EntityFactory;
+use Zikula\Common\Translator\TranslatorInterface;
+use Zikula_Request_Http;
 
 /**
  * Helper implementation class for list field entries related methods.
@@ -20,7 +23,33 @@ use MU\FilesModule\Helper\Base\AbstractListEntriesHelper;
 class ListEntriesHelper extends AbstractListEntriesHelper
 {
 	/**
-	 * Retrieve the base path for given object type and upload field combination.
+	 * @var EntityFactory
+	 */
+	protected $factory;
+	
+	/**
+	 * ListEntriesHelper constructor.
+	 *
+	 * @param TranslatorInterface $translator Translator service instance
+	 * @param EntityFactory $factory EntityFactory servide instance
+	 */
+    public function __construct(TranslatorInterface $translator, EntityFactory $factory)
+    {
+        $this->setTranslator($translator);
+        $this->factory = $factory;
+    }
+    
+	/**
+	 * 
+	 * @param EntityFactory $factory EntityFactory service instance
+	 */	
+	public function setFactory($factory)
+	{
+		$this->factory = $factory;
+	}
+	
+	/**
+	 * Retrieve a special collection menu
 	 *
 	 * @param integer $collectionId
 	 *        	id of collection
@@ -30,12 +59,15 @@ class ListEntriesHelper extends AbstractListEntriesHelper
 	 * @return mixed Output.
 	 * @throws Exception if invalid object type is given.
 	 */
-	public function getCollectionMenue($collectionId = 0, $fileId = 0) {
+	public function getCollectionMenue($collectionId = 0, $fileId = 0)
+	{
 		// we get the objectType
-		$request = new Zikula_Request_Http();
-		$objectType = $request->query->filter('ot', 'collection', FILTER_SANITIZE_STRING);
+		$request = new \Zikula_Request_Http();
+		$objectType = $request->query->get('ot', 'collection', FILTER_SANITIZE_STRING);
 		// we get a collection repository
-		$collectionRepository = MUFiles_Util_Model::getCollectionsRepository();
+		$objectType = 'collection';
+		$collectionRepository = $this->factory->getRepository('collection');
+
 	
 		// we get the current collection we want to edit
 		if ($collectionId > 0) {
@@ -44,11 +76,12 @@ class ListEntriesHelper extends AbstractListEntriesHelper
 		// we get the current file we want to edit
 		if ($fileId > 0) {
 			// we get a file repository
-			$fileRepository = MUFiles_Util_Model::getFilesRepository();
+			$fileRepository = $this->factory->getRepository('file');
+			//$fileRepository = MUFiles_Util_Model::getFilesRepository();
 			$currentFile = $fileRepository->selectById($fileId);
+		} else {
+			$currentFile = 0;
 		}
-	
-		$dom = ZLanguage::getModuleDomain('MUFiles');
 	
 		// initial
 		$name = '';
@@ -59,44 +92,36 @@ class ListEntriesHelper extends AbstractListEntriesHelper
 		$where = '';
 		// where clause to get the collections without parent
 		$where = 'tbl.id != \'' . $currentCollection ['id'] . '\'';
-		$where .= ' AND ';
-		$where .= 'tbl.parent IS NULL';
-	
-		// initial
-		$selectionArgs = array ();
-		// nessecary args
-		$selectionArgs = array (
-				'ot' => 'collection',
-				'where' => $where,
-				'orderBy' => 'name'
-		);
+		//$where .= ' AND ';
+		//$where .= 'tbl.collection IS NULL';
 	
 		// initial
 		$collections = '';
 		// we get all collections without parent
-		$collections = ModUtil::apiFunc ( 'MUFiles', 'selection', 'getEntities', $selectionArgs );
+		$collections = $collectionRepository->selectWhere($where);
+		//ModUtil::apiFunc ( 'MUFiles', 'selection', 'getEntities', $selectionArgs );
 		// if count collections gt 0 we set html tags
 		if (count ( $collections ) > 0) {
-			$menue = '<h3 class="collections z-panel-header z-panel-indicator z-pointer">' . __('Collections', $dom) . '</h3>' . "\n";
+			$menue = '<div role="tabpanel" class="tab-pane fade" id="tabCollection" aria-labelledby="collectionTab">';
 			$menue .= '<fieldset class="form-control">' . "\n";
 			$menue .= '<div class="z-formrow">' . "\n";
-			$menue .= '<label for="parent">' . __('Collections', $dom) . '</label>' . "\n";
+			$menue .= '<label for="parent">' . __('Collections') . '</label>' . "\n";
 			if (($collectionId > 0 && $fileId == 0) || ($collectionId == 0 && $fileId == 0 && $objectType == 'collection')) {
-				$menue .= '<select id="parent" name="parent" class="z-form-dropdownlist  z-form-relationlist collection validation-passed">' . "\n";
+				$menue .= '<select id="mufilesmodule_collection_collection" name="mufilesmodule_collection[collection]">' . "\n";
 			}
 			if (($collectionId == 0 && $fileId > 0) || ($collectionId == 0 && $fileId == 0 && $objectType == 'file')) {
 				$menue .= '<select id="aliascollection" name="aliascollection" class="z-form-dropdownlist  z-form-relationlist collection validation-passed">' . "\n";
 			}
 			$menue .= '<option value=""></option>';
 		}
-	
+		
 		$thereIsSelectedOption = 0;
-	
+		
 		// for each collection we set an option tag
 		foreach ( $collections as $collection ) {
 			$thisCollection = $collectionRepository->selectById ($collection['id'] );
 			if (is_object($currentCollection)) {
-				if ($currentCollection['parent']['id'] === $thisCollection['id']) {
+				if ($currentCollection['collection']['id'] === $thisCollection['id']) {
 					$selected = ' selected=selected';
 					$thereIsSelectedOption = 1;
 				} else {
@@ -122,9 +147,66 @@ class ListEntriesHelper extends AbstractListEntriesHelper
 			$menue = str_replace('<option value=""></option>', '<option selected=selected value=""></option>', $menue);
 		}
 		if (count ( $collections ) > 0) {
-			$menue .= '</select>' . "\n" . '</div>' . "\n" . '</fieldset>' . "\n";
+			$menue .= '</select>' . "\n" . '</div>' . "\n" . '</fieldset>' . "\n" . "</div>";
 		}
 	
+		return $menue;
+	}
+	
+	/*
+	 *
+	 */
+	private function getParentPath($collectionId, $currentCollection = 0, $currentFile = 0, $menue, $name, $collectionRepository) 
+	{
+		$collectionRepository = $this->factory->getRepository('collection');
+		$where2 = 'tbl.collection = \'' . $collectionId . '\'';
+	
+		$selectionArgs2 = array (
+				'ot' => 'collection',
+				'where' => $where2,
+				'orderBy' => 'name'
+		);
+	
+		$childrenCollections = '';
+		//$childrenCollections = ModUtil::apiFunc ( 'MUFiles', 'selection', 'getEntities', $selectionArgs2 );
+		$childrenCollections = $collectionRepository->selectWhere($where2);
+		//LogUtil::registerError(count($childrenCollections));
+	
+		if (count ( $childrenCollections ) > 0 && is_array ( $childrenCollections )) {
+			foreach ( $childrenCollections as $childrenCollection ) {
+				// $name = self::getParentPath($childrenCollection['id'], $collectionName);
+				$thisChildrenCollection = $collectionRepository->selectById ( $childrenCollection ['id'] );
+				// if this collection is the parent of the current collection we set selected=selected
+				if (is_object($currentCollection)) {
+					if ($childrenCollection ['id'] === $currentCollection ['collection']['id']) {
+						$selected = ' selected=selected';
+					} else {
+						$selected = '';
+					}
+				} else {
+					if (is_object($currentFile)) {
+						if ($childrenCollection ['id'] === $currentFile ['aliascollection']['id']) {
+							$selected = ' selected=selected';
+						} else {
+							$selected = '';
+						}
+					}
+				}
+				$menueName = $name . ' : ' . $thisChildrenCollection ['name'];
+				if ($currentCollection['id'] != $thisChildrenCollection['id']) {
+					$menue .= '<option value="' . $childrenCollection['id'] . '"' . $selected . '>' . $menueName . '</option>';
+				} else {
+					// nothing to do
+				}
+				if ($thisChildrenCollection['parent'] != NULL) {
+					$menue = self::getParentPath ( $thisChildrenCollection['id'], $currentCollection, $currentFile, $menue, $menueName, $collectionRepository );
+				} else {
+					// nothing to do
+				}
+			}
+		} else {
+			//return $menue;
+		}
 		return $menue;
 	}
     // feel free to add your own convenience methods here

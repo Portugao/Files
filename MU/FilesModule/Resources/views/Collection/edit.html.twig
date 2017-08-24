@@ -52,11 +52,23 @@
                         {{ form_row(form.inFrontend) }}
                     </fieldset>
                 </div>
-                
+                {% set menu = getModVar('MUFilesModule', 'specialCollectionMenue') %}
+                {% if menu == 1 %}
+                    <select>
+                        {{ mufilesmodule_specialMenu(collection.id, 0) }}
+                    </select>
+                    <div class="hidden">
+                        {{ include(
+                        '@MUFilesModule/Collection/includeSelectOne.html.twig',
+                        {group: 'collection', alias: 'collection', aliasReverse: 'collections', mandatory: false, idPrefix: 'filesCollection_Collection', linkingItem: collection, tabs: true, displayMode: 'choices'}
+                ) }}
+                    </div>
+                {% else %}
                 {{ include(
                     '@MUFilesModule/Collection/includeSelectOne.html.twig',
                     {group: 'collection', alias: 'collection', aliasReverse: 'collections', mandatory: false, idPrefix: 'filesCollection_Collection', linkingItem: collection, tabs: true, displayMode: 'choices'}
                 ) }}
+                {% endif %}
                 {% if featureActivationHelper.isEnabled(constant('MU\\FilesModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'collection') %}
                     {{ include('@MUFilesModule/Helper/includeCategoriesEdit.html.twig', {obj: collection, tabs: true}) }}
                 {% endif %}

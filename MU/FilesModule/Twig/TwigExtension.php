@@ -19,5 +19,22 @@ use MU\FilesModule\Twig\Base\AbstractTwigExtension;
  */
 class TwigExtension extends AbstractTwigExtension
 {
-    // feel free to add your own Twig extension methods here
+    /**
+     * Returns a list of custom Twig functions.
+     *
+     * @return \Twig_SimpleFunction[]
+     */
+    public function getFunctions()
+    {
+    	$functions = parent::getFunctions();
+        $functions[] = new \Twig_SimpleFunction('mufilesmodule_specialMenu', [$this, 'getSpecialMenu']);
+        return $functions;
+    }
+    /**
+     * @return output
+     */
+    public function getSpecialMenu($collectionId, $fileId)
+    {
+    	return $this->listHelper->getCollectionMenue($collectionId, $fileId);
+    }
 }

@@ -54,10 +54,23 @@
                     </fieldset>
                 </div>
                 
+                {% set menu = getModVar('MUFilesModule', 'specialCollectionMenue') %}
+                {% if menu == 1 %}
+                <div role="tabpanel" class="tab-pane fade" id="tabCollection" aria-labelledby="collectionTab">
+                    {{ mufilesmodule_specialMenu(collection.id, 0)|raw }}
+                </div>
+                    <div class="hidden">
+                        {{ include(
+                            '@MUFilesModule/Collection/Admin/includeSelectOne.html.twig',
+                            {group: 'collection', alias: 'collection', aliasReverse: 'collections', mandatory: false, idPrefix: 'filesCollection_Collection', linkingItem: collection, tabs: true, displayMode: 'choices'}
+                        ) }}
+                    </div>
+                {% else %}
                 {{ include(
                     '@MUFilesModule/Collection/Admin/includeSelectOne.html.twig',
                     {group: 'collection', alias: 'collection', aliasReverse: 'collections', mandatory: false, idPrefix: 'filesCollection_Collection', linkingItem: collection, tabs: true, displayMode: 'choices'}
                 ) }}
+                {% endif %}
                 {% if featureActivationHelper.isEnabled(constant('MU\\FilesModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'collection') %}
                     {{ include('@MUFilesModule/Helper/includeCategoriesEdit.html.twig', {obj: collection, tabs: true}) }}
                 {% endif %}

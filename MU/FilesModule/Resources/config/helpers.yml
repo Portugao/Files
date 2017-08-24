@@ -58,6 +58,7 @@ services:
         class: MU\FilesModule\Helper\ListEntriesHelper
         arguments:
             - "@translator.default"
+            - "@mu_files_module.entity_factory"
     
     mu_files_module.model_helper:
         class: MU\FilesModule\Helper\ModelHelper
