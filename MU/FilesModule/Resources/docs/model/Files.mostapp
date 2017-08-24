@@ -23,7 +23,7 @@ application "Files" {
         separateAdminTemplates true
         generatePoweredByBacklinksIntoFooterTemplates false
 	generateTests false
-	markFiles ""
+	markFiles "Form/Type/FileType.php,\r\nHelper/ControllerHelper.php,\r\nHelper/ViewHelper.php,\r\nResources/config/forms.yml,\r\nResources/views/Collection/display.html.twig\r\nResources/views/Collection/view.html.twig,\r\nResources/views/File/display.html.twig"
     }
 
 			entities {
@@ -98,7 +98,7 @@ application "Files" {
         }
     }
     variables {
-        varContainer "GeneralSsettings" {
+        varContainer "GeneralSettings" {
             vars {
                 textVar "allowedExtensions" {
                     value "pdf, doc, docx, odt"
