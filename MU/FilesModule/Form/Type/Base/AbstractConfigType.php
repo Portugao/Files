@@ -78,7 +78,7 @@ abstract class AbstractConfigType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $this->addGeneralSsettingsFields($builder, $options);
+        $this->addGeneralSettingsFields($builder, $options);
         $this->addModerationFields($builder, $options);
         $this->addListViewsFields($builder, $options);
         $this->addIntegrationFields($builder, $options);
@@ -103,12 +103,12 @@ abstract class AbstractConfigType extends AbstractType
     }
 
     /**
-     * Adds fields for general ssettings fields.
+     * Adds fields for general settings fields.
      *
      * @param FormBuilderInterface $builder The form builder
      * @param array                $options The options
      */
-    public function addGeneralSsettingsFields(FormBuilderInterface $builder, array $options)
+    public function addGeneralSettingsFields(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('allowedExtensions', TextType::class, [

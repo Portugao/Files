@@ -195,7 +195,7 @@ function mUFilesSelectRelatedItem(objectType, idPrefix, selectedListItem)
 function mUFilesSelectHookItem(objectType, idPrefix, selectedListItem)
 {
     mUFilesResetRelatedItemForm(idPrefix);
-    mUFilesAttachHookObject(jQuery(idPrefix + 'AddLink'), selectedListItem.id);
+    mUFilesAttachHookObject(jQuery('#' + idPrefix + 'AddLink'), selectedListItem.id);
 }
 
 /**

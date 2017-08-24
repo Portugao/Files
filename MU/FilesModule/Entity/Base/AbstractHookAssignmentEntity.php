@@ -47,14 +47,12 @@ abstract class AbstractHookAssignmentEntity extends EntityAccess
     protected $subscriberOwner = '';
     
     /**
-     * @ORM\Column(type="integer")
-     * @Assert\Type(type="integer")
+     * @ORM\Column(length=255)
      * @Assert\NotBlank()
-     * @Assert\NotEqualTo(value=0)
-     * @Assert\LessThan(value=100000000000)
-     * @var integer $subscriberAreaId
+     * @Assert\Length(min="0", max="255")
+     * @var string $subscriberAreaId
      */
-    protected $subscriberAreaId = 0;
+    protected $subscriberAreaId = '';
     
     /**
      * @ORM\Column(type="integer")
@@ -150,7 +148,7 @@ abstract class AbstractHookAssignmentEntity extends EntityAccess
     /**
      * Returns the subscriber area id.
      *
-     * @return integer
+     * @return string
      */
     public function getSubscriberAreaId()
     {
@@ -160,14 +158,14 @@ abstract class AbstractHookAssignmentEntity extends EntityAccess
     /**
      * Sets the subscriber area id.
      *
-     * @param integer $subscriberAreaId
+     * @param string $subscriberAreaId
      *
      * @return void
      */
     public function setSubscriberAreaId($subscriberAreaId)
     {
-        if (intval($this->subscriberAreaId) !== intval($subscriberAreaId)) {
-            $this->subscriberAreaId = intval($subscriberAreaId);
+        if ($this->subscriberAreaId !== $subscriberAreaId) {
+            $this->subscriberAreaId = isset($subscriberAreaId) ? $subscriberAreaId : '';
         }
     }
     

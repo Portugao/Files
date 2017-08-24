@@ -253,7 +253,7 @@ abstract class AbstractAjaxController extends AbstractController
         }
         
         $subscriberOwner = $request->request->get('owner', '');
-        $subscriberAreaId = $request->request->getInt('areaId', 0);
+        $subscriberAreaId = $request->request->get('areaId', '');
         $subscriberObjectId = $request->request->getInt('objectId', 0);
         $subscriberUrl = $request->request->get('url', '');
         $assignedEntity = $request->request->get('assignedEntity', '');
