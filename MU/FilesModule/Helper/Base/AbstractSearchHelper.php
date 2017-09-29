@@ -163,23 +163,21 @@ abstract class AbstractSearchHelper implements SearchableInterface
     
         // retrieve list of activated object types
         $searchTypes = $this->getSearchTypes();
+        $entitiesWithDisplayAction = ['collection', 'file'];
     
         foreach ($searchTypes as $searchTypeCode => $typeInfo) {
-            $objectType = $typeInfo['value'];
             $isActivated = false;
-            if ($this->request->isMethod('GET')) {
-                $isActivated = $this->request->query->get('active_' . $searchTypeCode, false);
-            } elseif ($this->request->isMethod('POST')) {
-                $searchSettings = $this->request->request->get('zikulasearchmodule_search', []);
-                $moduleActivationInfo = $searchSettings['modules'];
-                if (isset($moduleActivationInfo['MUFilesModule'])) {
-                    $moduleActivationInfo = $moduleActivationInfo['MUFilesModule'];
-                    $isActivated = isset($moduleActivationInfo['active_' . $searchTypeCode]);
-                }
+            $searchSettings = $this->request->query->get('zikulasearchmodule_search', []);
+            $moduleActivationInfo = $searchSettings['modules'];
+            if (isset($moduleActivationInfo['MUFilesModule'])) {
+                $moduleActivationInfo = $moduleActivationInfo['MUFilesModule'];
+                $isActivated = isset($moduleActivationInfo['active_' . $searchTypeCode]);
             }
             if (!$isActivated) {
                 continue;
             }
+    
+            $objectType = $typeInfo['value'];
             $whereArray = [];
             $languageField = null;
             switch ($objectType) {
@@ -219,13 +217,9 @@ abstract class AbstractSearchHelper implements SearchableInterface
             }
     
             $descriptionFieldName = $this->entityDisplayHelper->getDescriptionFieldName($objectType);
-    
-            $entitiesWithDisplayAction = ['collection', 'file'];
+            $hasDisplayAction = in_array($objectType, $entitiesWithDisplayAction);
     
             foreach ($entities as $entity) {
-                $urlArgs = $entity->createUrlArgs();
-                $hasDisplayAction = in_array($objectType, $entitiesWithDisplayAction);
-    
                 // perform permission check
                 if (!$this->permissionApi->hasPermission('MUFilesModule:' . ucfirst($objectType) . ':', $entity->getKey() . '::', ACCESS_OVERVIEW)) {
                     continue;
@@ -242,10 +236,13 @@ abstract class AbstractSearchHelper implements SearchableInterface
                 $description = !empty($descriptionFieldName) ? $entity[$descriptionFieldName] : '';
                 $created = isset($entity['createdDate']) ? $entity['createdDate'] : null;
     
-                $urlArgs['_locale'] = (null !== $languageField && !empty($entity[$languageField])) ? $entity[$languageField] : $this->request->getLocale();
-    
                 $formattedTitle = $this->entityDisplayHelper->getFormattedTitle($entity);
-                $displayUrl = $hasDisplayAction ? new RouteUrl('mufilesmodule_' . strtolower($objectType) . '_display', $urlArgs) : '';
+                $displayUrl = '';
+                if ($hasDisplayAction) {
+                    $urlArgs = $entity->createUrlArgs();
+                    $urlArgs['_locale'] = (null !== $languageField && !empty($entity[$languageField])) ? $entity[$languageField] : $this->request->getLocale();
+                    $displayUrl = new RouteUrl('mufilesmodule_' . strtolower($objectType) . '_display', $urlArgs);
+                }
     
                 $result = new SearchResultEntity();
                 $result->setTitle($formattedTitle)
