@@ -17,9 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Zikula\Bundle\HookBundle\Category\FormAwareCategory;
 use Zikula\Bundle\HookBundle\Category\UiHooksCategory;
 use Zikula\Component\SortableColumns\Column;
@@ -37,7 +34,6 @@ abstract class AbstractCollectionController extends AbstractController
 {
     /**
      * This is the default action handling the main admin area called without defining arguments.
-     * @Cache(expires="+7 days", public=true)
      *
      * @param Request $request Current request instance
      *
@@ -52,7 +48,6 @@ abstract class AbstractCollectionController extends AbstractController
     
     /**
      * This is the default action handling the main area called without defining arguments.
-     * @Cache(expires="+7 days", public=true)
      *
      * @param Request $request Current request instance
      *
@@ -84,7 +79,6 @@ abstract class AbstractCollectionController extends AbstractController
     }
     /**
      * This action provides an item list overview in the admin area.
-     * @Cache(expires="+2 hours", public=false)
      *
      * @param Request $request Current request instance
      * @param string $sort         Sorting field
@@ -103,7 +97,6 @@ abstract class AbstractCollectionController extends AbstractController
     
     /**
      * This action provides an item list overview.
-     * @Cache(expires="+2 hours", public=false)
      *
      * @param Request $request Current request instance
      * @param string $sort         Sorting field
@@ -169,8 +162,6 @@ abstract class AbstractCollectionController extends AbstractController
     }
     /**
      * This action provides a item detail view in the admin area.
-     * @ParamConverter("collection", class="MUFilesModule:CollectionEntity", options = {"repository_method" = "selectById", "mapping": {"id": "id"}, "map_method_signature" = true})
-     * @Cache(lastModified="collection.getUpdatedDate()", ETag="'Collection' ~ collection.getid() ~ collection.getUpdatedDate().format('U')")
      *
      * @param Request $request Current request instance
      * @param CollectionEntity $collection Treated collection instance
@@ -187,8 +178,6 @@ abstract class AbstractCollectionController extends AbstractController
     
     /**
      * This action provides a item detail view.
-     * @ParamConverter("collection", class="MUFilesModule:CollectionEntity", options = {"repository_method" = "selectById", "mapping": {"id": "id"}, "map_method_signature" = true})
-     * @Cache(lastModified="collection.getUpdatedDate()", ETag="'Collection' ~ collection.getid() ~ collection.getUpdatedDate().format('U')")
      *
      * @param Request $request Current request instance
      * @param CollectionEntity $collection Treated collection instance
@@ -242,7 +231,6 @@ abstract class AbstractCollectionController extends AbstractController
     }
     /**
      * This action provides a handling of edit requests in the admin area.
-     * @Cache(lastModified="collection.getUpdatedDate()", ETag="'Collection' ~ collection.getid() ~ collection.getUpdatedDate().format('U')")
      *
      * @param Request $request Current request instance
      *
@@ -259,7 +247,6 @@ abstract class AbstractCollectionController extends AbstractController
     
     /**
      * This action provides a handling of edit requests.
-     * @Cache(lastModified="collection.getUpdatedDate()", ETag="'Collection' ~ collection.getid() ~ collection.getUpdatedDate().format('U')")
      *
      * @param Request $request Current request instance
      *
@@ -306,8 +293,6 @@ abstract class AbstractCollectionController extends AbstractController
     }
     /**
      * This action provides a handling of simple delete requests in the admin area.
-     * @ParamConverter("collection", class="MUFilesModule:CollectionEntity", options = {"repository_method" = "selectById", "mapping": {"id": "id"}, "map_method_signature" = true})
-     * @Cache(lastModified="collection.getUpdatedDate()", ETag="'Collection' ~ collection.getid() ~ collection.getUpdatedDate().format('U')")
      *
      * @param Request $request Current request instance
      * @param CollectionEntity $collection Treated collection instance
@@ -325,8 +310,6 @@ abstract class AbstractCollectionController extends AbstractController
     
     /**
      * This action provides a handling of simple delete requests.
-     * @ParamConverter("collection", class="MUFilesModule:CollectionEntity", options = {"repository_method" = "selectById", "mapping": {"id": "id"}, "map_method_signature" = true})
-     * @Cache(lastModified="collection.getUpdatedDate()", ETag="'Collection' ~ collection.getid() ~ collection.getUpdatedDate().format('U')")
      *
      * @param Request $request Current request instance
      * @param CollectionEntity $collection Treated collection instance
@@ -568,17 +551,20 @@ abstract class AbstractCollectionController extends AbstractController
             return false;
         }
         
+        $formattedTitle = '';
         $searchTerm = '';
         if (!empty($id)) {
             $repository = $this->get('mu_files_module.entity_factory')->getRepository('collection');
             $collection = $repository->selectById($id);
             if (null !== $collection) {
-                $searchTerm = $collection->getWorkflowState();
+                $formattedTitle = $this->get('mu_files_module.entity_display_helper')->getFormattedTitle($collection);
+                $searchTerm = $collection->getName();
             }
         }
         
         $templateParameters = [
             'itemId' => $id,
+            'formattedTitle' => $formattedTitle,
             'searchTerm' => $searchTerm,
             'idPrefix' => $idPrefix,
             'commandName' => $commandName

@@ -275,8 +275,8 @@ abstract class AbstractAjaxController extends AbstractController
         $assignment->setUpdatedDate(new \DateTime());
         
         $entityManager = $this->get('mu_files_module.entity_factory')->getObjectManager();
-        $qb = $entityManager->persist($assignment);
-        $qb = $entityManager->flush();
+        $entityManager->persist($assignment);
+        $entityManager->flush();
         
         // return response
         return new JsonResponse([
