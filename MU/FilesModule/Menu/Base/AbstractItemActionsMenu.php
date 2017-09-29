@@ -119,7 +119,7 @@ class AbstractItemActionsMenu implements ContainerAwareInterface
             $relatedComponent = 'MUFilesModule:Collection:';
             $relatedInstance = $entity->getKey() . '::';
             if ($isOwner || $permissionApi->hasPermission($relatedComponent, $relatedInstance, ACCESS_COMMENT)) {
-                $title = $this->__('Create collection');
+                $title = $this->__('Create collections');
                 $menu->addChild($title, [
                     'route' => 'mufilesmodule_collection_' . $routeArea . 'edit',
                     'routeParameters' => ['collection' => $entity->getKey()]
@@ -130,7 +130,7 @@ class AbstractItemActionsMenu implements ContainerAwareInterface
             $relatedComponent = 'MUFilesModule:File:';
             $relatedInstance = $entity->getKey() . '::';
             if ($isOwner || $permissionApi->hasPermission($relatedComponent, $relatedInstance, ACCESS_COMMENT)) {
-                $title = $this->__('Create file');
+                $title = $this->__('Create alilasfiles');
                 $menu->addChild($title, [
                     'route' => 'mufilesmodule_file_' . $routeArea . 'edit',
                     'routeParameters' => ['aliascollection' => $entity->getKey()]
