@@ -156,15 +156,24 @@ abstract class AbstractCollectionUiHooksProvider implements HookProviderInterfac
         if (null === $url || !is_object($url)) {
             return;
         }
+        $url = $url->toArray();
+
+        $entityManager = $this->entityFactory->getObjectManager();
 
         // update url information for assignments of updated data object
-        $qb = $this->entityFactory->getObjectManager()->createQueryBuilder();
-        $qb->update($this->getHookAssignmentEntity(), 'tbl')
-           ->set('tbl.subscriberUrl', $url->toArray());
+        $qb = $entityManager->createQueryBuilder();
+        $qb->select('tbl')
+           ->from($this->getHookAssignmentEntity(), 'tbl');
         $qb = $this->addContextFilters($qb, $hook);
 
         $query = $qb->getQuery();
-        $query->execute();
+        $assignments = $query->getResult();
+
+        foreach ($assignments as $assignment) {
+            $assignment->setSubscriberUrl($url);
+        }
+
+        $entityManager->flush();
     }
 
     /**
