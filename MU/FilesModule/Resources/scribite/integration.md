@@ -1,8 +1,8 @@
 # SCRIBITE INTEGRATION
 
 It is easy to include MUFilesModule in your [Scribite editors](https://github.com/zikula-modules/Scribite/).
-MUFilesModule contains already the a popup for selecting collections and other items.
-Please note that Scribite 5.0+ is required for this.
+MUFilesModule contains already a popup for selecting collections and other items.
+Please note that Scribite 6.0+ is required for this.
 
-To activate the popup for the editor of your choice (currently supported: CKEditor, TinyMCE)
+To activate the popup for the editor of your choice (currently supported: CKEditor, Quill, Summernote, TinyMCE)
 you only need to add the plugin to the list of extra plugins in the editor configuration.

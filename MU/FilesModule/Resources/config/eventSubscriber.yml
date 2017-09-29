@@ -74,6 +74,8 @@ services:
     mu_files_module.thirdparty_listener:
         class: MU\FilesModule\Listener\ThirdPartyListener
         arguments:
+            - "@filesystem"
+            - "@request_stack"
             - "@mu_files_module.workflow_helper"
         tags:
             - { name: kernel.event_subscriber }

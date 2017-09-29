@@ -10,13 +10,16 @@
 {% set hasEditPermission = hasPermission('MUFilesModule:Collection:', '::', 'ACCESS_COMMENT') %}
 {% if context != 'display' %}
     <h3>{{ __('Assigned collections') }}</h3>
+    {{ pageAddAsset('stylesheet', zasset('@MUFilesModule:css/style.css')) }}
+    {{ pageAddAsset('stylesheet', asset('jquery-ui/themes/base/jquery-ui.min.css')) }}
+    {{ pageAddAsset('stylesheet', asset('bootstrap-jqueryui/bootstrap-jqueryui.min.css')) }}
+    {{ pageAddAsset('javascript', asset('jquery-ui/jquery-ui.min.js')) }}
+    {{ pageAddAsset('javascript', asset('bootstrap-jqueryui/bootstrap-jqueryui.min.js')) }}
+    {{ pageAddAsset('javascript', zasset('@MUFilesModule:js/MUFilesModule.js'), 99) }}
     {% if context == 'hookDisplayView' and hasEditPermission %}
         {% set entityNameTranslated = __('collection') %}
-        {{ pageAddAsset('stylesheet', asset('jquery-ui/themes/base/jquery-ui.min.css')) }}
-        {{ pageAddAsset('stylesheet', asset('bootstrap-jqueryui/bootstrap-jqueryui.min.css')) }}
-        {{ pageAddAsset('javascript', asset('jquery-ui/jquery-ui.min.js')) }}
-        {{ pageAddAsset('javascript', asset('bootstrap-jqueryui/bootstrap-jqueryui.min.js')) }}
         {{ pageAddAsset('javascript', zasset('@MUFilesModule:js/MUFilesModule.HookAssignment.js'), 99) }}
+        {{ pageAddAsset('javascript', zasset('@MUFilesModule:js/MUFilesModule.InlineEditing.js'), 99) }}
         {{ pageAddAsset('javascript', zasset('@MUFilesModule:js/MUFilesModule.AutoCompletion.js'), 99) }}
     {% endif %}
 {% endif %}
@@ -55,39 +58,37 @@
 </ul>
 {% endif %}
 {% if context == 'hookDisplayView' and hasEditPermission %}
-    {% set withImage = false %}
     {% set idPrefix = 'hookAssignmentCollection' %}
     {% set addLinkText = __f('Attach %name%', {'%name%': entityNameTranslated}) %}
     <div id="{{ idPrefix }}LiveSearch" class="mufilesmodule-add-hook-assignment">
         <a id="{{ idPrefix }}AddLink" href="javascript:void(0);" title="{{ addLinkText|e('html_attr') }}" class="attach-mufilesmodule-object hidden" data-owner="{{ subscriberOwner|e('html_attr') }}" data-area-id="{{ subscriberAreaId|e('html_attr') }}" data-object-id="{{ subscriberObjectId|e('html_attr') }}" data-url="{{ subscriberUrl|e('html_attr') }}" data-assigned-entity="collection"><i class="fa fa-link"></i> {{ addLinkText }}</a>
-        <div id="{{ idPrefix }}AddFields" class="mufilesmodule-autocomplete{{ withImage ? '-with-image' : '' }}">
+        <div id="{{ idPrefix }}AddFields" class="mufilesmodule-autocomplete">
             <label for="{{ idPrefix }}Selector">{{ __f('Find %name%', {'%name%': entityNameTranslated}) }}</label>
             <br />
             <i class="fa fa-search" title="{{ __f('Search %name%', {'%name%': entityNameTranslated})|e('html_attr') }}"></i>
-            <input type="hidden" name="{{ idPrefix }}" id="{{ idPrefix }}" value="" />
+            <input type="hidden" name="{{ idPrefix }}" id="{{ idPrefix }}" value="{% for assignment in assignments %}{% if not loop.first %},{% endif %}{{ assignment.getAssignedId() }}{% endfor %}" />
             <input type="hidden" name="{{ idPrefix }}Multiple" id="{{ idPrefix }}Multiple" value="0" />
-            <input type="hidden" name="{{ idPrefix }}Mode" id="{{ idPrefix }}Mode" value="0" />
-            <input type="hidden" name="{{ idPrefix }}ExcludedIds" id="{{ idPrefix }}ExcludedIds" value="{% for assignment in assignments %}{% if not loop.first %},{% endif %}{{ assignment.getAssignedId() }}{% endfor %}" />
             <input type="text" id="{{ idPrefix }}Selector" name="{{ idPrefix }}Selector" autocomplete="off" />
             <input type="button" id="{{ idPrefix }}SelectorDoCancel" name="{{ idPrefix }}SelectorDoCancel" value="{{ __('Cancel') }}" class="btn btn-default mufilesmodule-inline-button" />
-            <a id="{{ idPrefix }}SelectorDoNew" href="{{ path('mufilesmodule_collection_' ~ routeArea ~ 'edit') }}" title="{{ __f('Create new %name%', {'%name%': entityNameTranslated}) }}" class="btn btn-default mufilesmodule-inline-button">{{ __('Create') }}</a>
+            <a id="{{ idPrefix }}SelectorDoNew" href="{{ path('mufilesmodule_collection_' ~ routeArea ~ 'edit') }}" title="{{ __f('Create new %name%', {'%name%': entityNameTranslated}) }}" class="btn btn-default mufilesmodule-inline-button"><i class="fa fa-plus"></i> {{ __('Create') }}</a>
             <noscript><p>{{ __('This function requires JavaScript activated!') }}</p></noscript>
         </div>
     </div>
     {% set assignmentInitScript %}
         <script type="text/javascript">
         /* <![CDATA[ */
-            var relationHandler = new Array();
-            var newItem = {
-                ot: 'collection',
+            var mUFilesInlineEditHandlers = [];
+            var mUFilesEditHandler = {
+                alias: '{{ idPrefix }}',
                 prefix: '{{ idPrefix }}SelectorDoNew',
                 moduleName: 'MUFilesModule',
-                acInstance: null,
+                objectType: 'collection',
+                inputType: 'autocomplete',
                 windowInstanceId: null
             };
-            relationHandler.push(newItem);
+            mUFilesInlineEditHandlers.push(mUFilesEditHandler);
 
-            mUFilesInitRelationItemsForm('collection', '{{ idPrefix }}', true);
+            mUFilesInitRelationHandling('collection', '{{ idPrefix }}', '{{ idPrefix }}SelectorDoNew', true, 'autocomplete', '{{ path('mufilesmodule_collection_' ~ routeArea ~ 'edit') }}');
         /* ]]> */
         </script>
     {% endset %}

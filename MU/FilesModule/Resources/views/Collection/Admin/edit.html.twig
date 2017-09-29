@@ -6,6 +6,7 @@
     {{ parent() }}
     {{ pageAddAsset('javascript', zasset('@MUFilesModule:js/MUFilesModule.Validation.js'), 98) }}
     {{ pageAddAsset('javascript', zasset('@MUFilesModule:js/MUFilesModule.EditFunctions.js'), 99) }}
+    {{ pageAddAsset('javascript', zasset('@MUFilesModule:js/MUFilesModule.InlineEditing.js'), 99) }}
     {{ pageAddAsset('javascript', zasset('@MUFilesModule:js/MUFilesModule.AutoCompletion.js'), 99) }}
 {% endblock %}
 {% block title mode == 'create' ? __('Create collection') : __('Edit collection') %}
@@ -54,23 +55,10 @@
                     </fieldset>
                 </div>
                 
-                {% set menu = getModVar('MUFilesModule', 'specialCollectionMenue') %}
-                {% if menu == 1 %}
-                <div role="tabpanel" class="tab-pane fade" id="tabCollection" aria-labelledby="collectionTab">
-                    {{ mufilesmodule_specialMenu(collection.id, 0)|raw }}
-                </div>
-                    <div class="hidden">
-                        {{ include(
-                            '@MUFilesModule/Collection/Admin/includeSelectOne.html.twig',
-                            {group: 'collection', alias: 'collection', aliasReverse: 'collections', mandatory: false, idPrefix: 'filesCollection_Collection', linkingItem: collection, tabs: true, displayMode: 'choices'}
-                        ) }}
-                    </div>
-                {% else %}
                 {{ include(
                     '@MUFilesModule/Collection/Admin/includeSelectOne.html.twig',
-                    {group: 'collection', alias: 'collection', aliasReverse: 'collections', mandatory: false, idPrefix: 'filesCollection_Collection', linkingItem: collection, tabs: true, displayMode: 'choices'}
+                    {group: 'collection', heading: __('Collection'), alias: 'collection', mandatory: false, idPrefix: 'filesCollection_Collection', linkingItem: collection, tabs: true, displayMode: 'choices'}
                 ) }}
-                {% endif %}
                 {% if featureActivationHelper.isEnabled(constant('MU\\FilesModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'collection') %}
                     {{ include('@MUFilesModule/Helper/includeCategoriesEdit.html.twig', {obj: collection, tabs: true}) }}
                 {% endif %}
@@ -99,13 +87,6 @@
                     </div>
                 {% endif %}
                 
-                {# include return control #}
-                {% if mode == 'create' %}
-                    <fieldset>
-                        <legend>{{ __('Return control') }}</legend>
-                        {{ form_row(form.repeatCreation) }}
-                    </fieldset>
-                {% endif %}
             </div>
         </div>
         
@@ -114,6 +95,9 @@
             <div class="col-sm-offset-3 col-sm-9">
                 {% for action in actions %}
                     {{ form_widget(attribute(form, action.id)) }}
+                    {% if mode == 'create' and action.id == 'submit' %}
+                        {{ form_widget(attribute(form, 'submitrepeat')) }}
+                    {% endif %}
                 {% endfor %}
                 {{ form_widget(form.reset) }}
                 {{ form_widget(form.cancel) }}
@@ -121,24 +105,17 @@
         </div>
         {{ form_end(form) }}
         {% set hookId = mode != 'create' ? collection.id : null %}
-        {% set hooks = notifyDisplayHooks(eventName='mufilesmodule.ui_hooks.collections.form_edit', id=hookId) %}
-        {% if hooks is iterable and hooks|length > 0 %}
-            <h3>{{ __('Hooks') }}</h3>
-            {% for providerArea, hook in hooks if providerArea != 'provider.scribite.ui_hooks.editor' %}
-                <h4>{{ providerArea }}</h4>
-                {{ hook }}
-            {% endfor %}
-        {% endif %}
+        {{ notifyDisplayHooks(eventName='mufilesmodule.ui_hooks.collections.form_edit', id=hookId) }}
         
     </div>
 {% endblock %}
 {% block footer %}
     {{ parent() }}
-    {% set editImage = '<span class="fa fa-pencil-square-o"></span>' %}
-    {% set removeImage = '<span class="fa fa-trash-o"></span>' %}
     {% set formInitScript %}
         <script type="text/javascript">
         /* <![CDATA[ */
+            var mUFilesInlineEditHandlers = [];
+            var mUFilesEditHandler = null;
             
             ( function($) {
                 $(document).ready(function() {

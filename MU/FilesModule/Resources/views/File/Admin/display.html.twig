@@ -76,9 +76,5 @@
 </div>
 {% endblock %}
 {% block display_hooks %}
-    {% set hooks = notifyDisplayHooks(eventName='mufilesmodule.ui_hooks.files.display_view', id=file.getKey(), urlObject=currentUrlObject) %}
-    {% for providerArea, hook in hooks if providerArea != 'provider.scribite.ui_hooks.editor' %}
-        <h4>{{ providerArea }}</h4>
-        {{ hook }}
-    {% endfor %}
+    {{ notifyDisplayHooks(eventName='mufilesmodule.ui_hooks.files.display_view', id=file.getKey(), urlObject=currentUrlObject) }}
 {% endblock %}

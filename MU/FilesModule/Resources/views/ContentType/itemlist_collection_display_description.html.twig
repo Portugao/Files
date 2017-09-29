@@ -5,7 +5,7 @@
         {% if collection.description %}
             <dd>{{ collection.description|striptags|truncate(200, true, '&hellip;') }}</dd>
         {% endif %}
-        <dd><a href="{{ path('mufilesmodule_collection_display', {'id': collection.getId()}) }}">{{ __('Read more') }}</a>
+        <dd><a href="{{ path('mufilesmodule_collection_display', {'id': collection.getId()}) }}" title="{{ __('Read more')|e('html_attr') }}">{{ __('Read more') }}</a>
         </dd>
     {% else %}
         <dt>{{ __('No entries found.') }}</dt>

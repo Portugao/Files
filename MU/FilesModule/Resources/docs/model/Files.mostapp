@@ -23,7 +23,7 @@ application "Files" {
         separateAdminTemplates true
         generatePoweredByBacklinksIntoFooterTemplates false
 	generateTests false
-	markFiles "Form/Type/FileType.php,\r\nHelper/ControllerHelper.php,\r\nHelper/ViewHelper.php,\r\nResources/config/forms.yml,\r\nResources/views/Collection/display.html.twig\r\nResources/views/Collection/view.html.twig,\r\nResources/views/File/display.html.twig"
+	markFiles "Controller/Base/AbstractFileController.php,\r\nForm/Type/FileType.php,\r\nHelper/ControllerHelper.php,\r\nHelper/ViewHelper.php,\r\nResources/config/forms.yml,\r\nResources/config/helpers.yml,\r\nResources/views/Collection/display.html.twig,\r\nResources/views/Collection/edit.html.twig,\r\nResources/views/Collection/view.html.twig,\r\nResources/views/File/display.html.twig,\r\nResources/views/Files/edit.html.twig,"
     }
 
 			entities {

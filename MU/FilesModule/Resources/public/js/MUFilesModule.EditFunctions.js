@@ -92,12 +92,25 @@ function mUFilesInitEditForm(mode, entityId)
         }
     });
     editForm.find('button[type=submit]').bind('click keypress', function (event) {
-        triggerValidation = !jQuery(this).attr('formnovalidate');
+        triggerValidation = !jQuery(this).prop('formnovalidate');
     });
     editForm.submit(mUFilesHandleFormSubmit);
 
     if (mode != 'create') {
         mUFilesTriggerFormValidation();
+    }
+}
+
+/**
+ * Initialises a relation field section with autocompletion and optional edit capabilities.
+ */
+function mUFilesInitRelationHandling(objectType, alias, idPrefix, includeEditing, inputType, createUrl)
+{
+    if (inputType == 'autocomplete') {
+        mUFilesInitAutoCompletion(objectType, idPrefix, includeEditing);
+    }
+    if (includeEditing) {
+        mUFilesInitInlineEditingButtons(objectType, alias, idPrefix, inputType, createUrl);
     }
 }
 
