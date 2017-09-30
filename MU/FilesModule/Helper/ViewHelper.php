@@ -22,7 +22,7 @@ class ViewHelper extends AbstractViewHelper
    /**
      *
      */
-    public static function getMimeTyp($extension)
+    public static function getMimeType($extension)
     {
         switch ($extension)
         {
