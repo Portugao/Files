@@ -19,6 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Zikula\Core\Doctrine\EntityAccess;
 use MU\FilesModule\Traits\StandardFieldsTrait;
 use MU\FilesModule\Validator\Constraints as FilesAssert;
+use MU\FilesModule\Validator\Constraints as SizeAssert;
 
 /**
  * Entity class that defines the entity structure and behaviours.
@@ -88,9 +89,9 @@ abstract class AbstractFileEntity extends EntityAccess
      * @Assert\NotBlank()
      * @Assert\Length(min="0", max="255")
      * @Assert\File(
-     *    maxSize = "200k",
      *    mimeTypes = {"application/*"}
      * )
+     * @SizeAssert\FileSize(entityName="file", fileSize="")
      * @var string $uploadFile
      */
     protected $uploadFile = null;

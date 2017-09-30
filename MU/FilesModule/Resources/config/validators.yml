@@ -7,3 +7,12 @@ services:
             - "@mu_files_module.listentries_helper"
         tags:
             - { name: validator.constraint_validator, alias: mu_files_module.validator.list_entry.validator }
+            
+    mu_files_module.validator.file_size.validator:
+        class: MU\FilesModule\Validator\Constraints\FileSizeValidator
+        arguments:
+            - "@translator.default"
+            - "@zikula_extensions_module.api.variable"
+            - "@mu_files_module.upload_helper"
+        tags:
+            - { name: validator.constraint_validator, alias: mu_files_module.validator.file_size.validator }
