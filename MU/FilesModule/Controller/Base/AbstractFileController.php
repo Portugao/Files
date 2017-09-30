@@ -28,10 +28,10 @@ use Zikula\Core\Controller\AbstractController;
 use Zikula\Core\Response\PlainResponse;
 use Zikula\Core\RouteUrl;
 use MU\FilesModule\Entity\FileEntity;
-use MU\FilesModule\Helper\FeatureActivationHelper;
 
 use LogUtil;
 use ModUtil;
+use SecurityUtil;
 
 /**
  * File controller base class.
@@ -559,7 +559,7 @@ abstract class AbstractFileController extends AbstractController
 		
 		$searchTerm = '';
 		if (! empty ( $id )) {
-			$repository = $this->get ( 'mu_files_module.entity_factory' )->getRepository ( 'file' );
+			$repository = $this->get ( 'mu_files_module.entity_factory' )->getRepository ('file');
 			$file = $repository->selectById ( $id );
 			if (null !== $file) {
 				$searchTerm = $file->getWorkflowState ();
@@ -573,20 +573,21 @@ abstract class AbstractFileController extends AbstractController
 				'commandName' => $commandName 
 		];
 		
-		return new PlainResponse ( $this->get ( 'twig' )->render ( '@MUFilesModule/File/inlineRedirectHandler.html.twig', $templateParameters ) );
+		return new PlainResponse ( $this->get ( 'twig' )->render ('@MUFilesModule/File/inlineRedirectHandler.html.twig', $templateParameters ) );
 	}
+	
 	public function giveFile(Request $request) {
 		// we get the id of the relevant file
-		// $id = $request->query->getDigits('id' , 0);
-		$id = 1;
-		$factoryHelper = $this->get ( 'mu_files_module.entity_factory' );
-		$viewHelper = $this->get ( 'mu_files_module.view_helper' );
+		$id = $request->query->getInt('fileId', 0);
+
+		$factoryHelper = $this->get ('mu_files_module.entity_factory');
+		$viewHelper = $this->get ('mu_files_module.view_helper');
 		// get file repository and get file
-		$repository = $factoryHelper->getRepository ( 'file' );
+		$repository = $factoryHelper->getRepository('file');
 		
-		$file = $repository->selectById ( $id );
+		$file = $repository->selectById($id);
 		// return error if no permissions for the file or the collection of the file or a special file (this file) of an collection
-		if (! SecurityUtil::checkPermission ( $this->name . ':' . 'File' . ':', $id . '::', ACCESS_COMMENT ) || ! SecurityUtil::checkPermission ( $this->name . ':' . 'Collection' . ':', $file ['aliascollection'] ['id'] . '::', ACCESS_COMMENT ) || ! SecurityUtil::checkPermission ( $this->name . ':' . 'Collection' . ':File', $file ['aliascollection'] ['id'] . ':.*:', ACCESS_COMMENT )) {
+		if (!SecurityUtil::checkPermission ( $this->name . ':' . 'File' . ':', $id . '::', ACCESS_COMMENT ) || ! SecurityUtil::checkPermission ( $this->name . ':' . 'Collection' . ':', $file ['aliascollection'] ['id'] . '::', ACCESS_COMMENT ) || ! SecurityUtil::checkPermission ( $this->name . ':' . 'Collection' . ':File', $file ['aliascollection'] ['id'] . ':.*:', ACCESS_COMMENT )) {
 			$url = \ModUtil::url ( $this->name, 'user', 'view');
 		    return \LogUtil::registerPermissionError($url);
 	    } else {
@@ -597,18 +598,18 @@ abstract class AbstractFileController extends AbstractController
 		// we build the header
 		header('Content-Description: File Transfer');
 		header('Content-Type: ' . $mime);
-		header('Content-Disposition: attachment; filename=' . $file['uploadFileMeta']['originalName']);
+		header('Content-Disposition: attachment; filename=' . $file['uploadFile']);
 		header('Content-Transfer-Encoding: binary');
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header('Pragma: public');
-		header('Content-Length: ' . filesize("userdata/MUFiles/files/uploadfile/" . $file['uploadFile']));
+		header('Content-Length: ' . filesize("userdata/MUFilesModule/files/uploadfile/" . $file['uploadFile']));
 		// we clean the output buffer
 		ob_clean();
 		flush();
 		// we read the file and give it out
-		readfile('userdata/MUFiles/files/uploadfile/' . $file['uploadFile']);
+		readfile('userdata/MUFilesModule/files/uploadfile/' . $file['uploadFile']);
 		exit();
-	}
+	    }
 }
 }

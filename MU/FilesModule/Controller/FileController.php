@@ -24,6 +24,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Zikula\ThemeModule\Engine\Annotation\Theme;
 use MU\FilesModule\Entity\FileEntity;
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Zikula\Core\Response\PlainResponse;
+
 /**
  * File controller class providing navigation and interaction functionality.
  */
@@ -328,8 +331,8 @@ class FileController extends AbstractFileController
     /**
      * @inheritDoc
      *
-     * @Route("/givefile/{id}",
-     *        requirements = {"id" = "\d+"},
+     * @Route("/givefile/{fileId}",
+     *        requirements = {"fileId" = "\d+"},
      *        methods = {"GET"}
      * )
      *

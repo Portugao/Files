@@ -15,6 +15,10 @@ namespace MU\FilesModule\Entity;
 use MU\FilesModule\Entity\Base\AbstractFileEntity as BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
+use MU\FilesModule\Validator\Constraints as SizeAssert;
+
 /**
  * Entity class that defines the entity structure and behaviours.
  *
@@ -28,5 +32,5 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class FileEntity extends BaseEntity
 {
-    // feel free to add your own methods here
+	// feel free to add your own methods here
 }
