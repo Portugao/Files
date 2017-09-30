@@ -64,7 +64,7 @@ abstract class AbstractFilesModuleInstaller extends AbstractExtensionInstaller
         }
     
         // set up all our vars with initial values
-        $this->setVar('allowedExtensions', 'pdf, doc, docx, odt');
+        $this->setVar('allowedExtensions', 'pdf,doc,docx,odt');
         $this->setVar('maxSize', '200k');
         $this->setVar('onlyParent', false);
         $this->setVar('specialCollectionMenue', false);
