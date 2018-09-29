@@ -6,19 +6,19 @@
         - 'hookDisplayEdit': list of collections assigned using an UI hook (edit template)
         - 'hookDisplayDelete': list of collections assigned using an UI hook (delete template)
 #}
-{% set hasAdminPermission = hasPermission('MUFilesModule:Collection:', '::', 'ACCESS_COMMENT') %}
-{% set hasEditPermission = hasPermission('MUFilesModule:Collection:', '::', 'ACCESS_COMMENT') %}
+{% set hasAdminPermission = permissionHelper.hasComponentPermission('collection', constant('ACCESS_COMMENT')) %}
+{% set hasEditPermission = permissionHelper.hasComponentPermission('collection', constant('ACCESS_COMMENT')) %}
 {% if context != 'display' %}
-    <h3>{{ __('Assigned collections') }}</h3>
+    <h3>{{ __('Assigned collections', 'mufilesmodule') }}</h3>
     {{ pageAddAsset('stylesheet', zasset('@MUFilesModule:css/style.css')) }}
+    {{ pageAddAsset('stylesheet', zasset('@MUFilesModule:css/custom.css'), 120) }}
     {{ pageAddAsset('stylesheet', asset('jquery-ui/themes/base/jquery-ui.min.css')) }}
-    {{ pageAddAsset('stylesheet', asset('bootstrap-jqueryui/bootstrap-jqueryui.min.css')) }}
     {{ pageAddAsset('javascript', asset('jquery-ui/jquery-ui.min.js')) }}
-    {{ pageAddAsset('javascript', asset('bootstrap-jqueryui/bootstrap-jqueryui.min.js')) }}
     {{ pageAddAsset('javascript', zasset('@MUFilesModule:js/MUFilesModule.js'), 99) }}
     {% if context == 'hookDisplayView' and hasEditPermission %}
-        {% set entityNameTranslated = __('collection') %}
+        {% set entityNameTranslated = __('collection', 'mufilesmodule') %}
         {{ pageAddAsset('javascript', zasset('@MUFilesModule:js/MUFilesModule.HookAssignment.js'), 99) }}
+        {{ pageAddAsset('javascript', zasset('@MUFilesModule:js/MUFilesModule.EditFunctions.js'), 99) }}
         {{ pageAddAsset('javascript', zasset('@MUFilesModule:js/MUFilesModule.InlineEditing.js'), 99) }}
         {{ pageAddAsset('javascript', zasset('@MUFilesModule:js/MUFilesModule.AutoCompletion.js'), 99) }}
     {% endif %}
@@ -29,7 +29,7 @@
 {% if items|default and items|length > 0 %}
 <ul class="list-group mufilesmodule-related-item-list collection">
 {% for item in items %}
-    {% if hasAdminPermission or item.workflowState == 'approved' %}
+    {% if hasAdminPermission or (item.workflowState == 'approved' and permissionHelper.mayRead(item)) %}
     <li class="list-group-item">
 <h4 class="list-group-item-heading">
 {% spaceless %}
@@ -39,7 +39,7 @@
     {{ item|mufilesmodule_formattedTitle }}
 {% if not noLink %}
     </a>
-    <a id="collectionItem{{ item.getKey() }}Display" href="{{ path('mufilesmodule_collection_' ~ routeArea ~ 'display', {'id': item.getId(), raw: 1}) }}" title="{{ __('Open quick view window') }}" class="mufiles-inline-window hidden" data-modal-title="{{ item|mufilesmodule_formattedTitle|e('html_attr') }}"><span class="fa fa-id-card-o"></span></a>
+    <a id="collectionItem{{ item.getKey() }}Display" href="{{ path('mufilesmodule_collection_' ~ routeArea ~ 'display', {'id': item.getId(), raw: 1}) }}" title="{{ __('Open quick view window') }}" class="mufiles-inline-window hidden" data-modal-title="{{ item|mufilesmodule_formattedTitle|e('html_attr') }}"><i class="fa fa-id-card-o"></i></a>
 {% endif %}
 {% endspaceless %}
 </h4>
@@ -49,7 +49,7 @@
         {% set assignmentId = assignment.getId() %}
     {% endfor %}
     <p class="list-group-item-text">
-        <a href="javascript:void(0);" title="{{ __f('Detach this %name%', {'%name%': entityNameTranslated})|e('html_attr') }}" class="detach-mufilesmodule-object hidden" data-assignment-id="{{ assignmentId|e('html_attr') }}"><i class="fa fa-chain-broken"></i> {{ __f('Detach %name%', {'%name%': entityNameTranslated}) }}</a>
+        <a href="javascript:void(0);" title="{{ __f('Detach this %name%', {'%name%': entityNameTranslated}, 'mufilesmodule')|e('html_attr') }}" class="detach-mufilesmodule-object hidden" data-assignment-id="{{ assignmentId|e('html_attr') }}"><i class="fa fa-chain-broken"></i> {{ __f('Detach %name%', {'%name%': entityNameTranslated}, 'mufilesmodule') }}</a>
     </p>
 {% endif %}
     </li>
@@ -59,23 +59,23 @@
 {% endif %}
 {% if context == 'hookDisplayView' and hasEditPermission %}
     {% set idPrefix = 'hookAssignmentCollection' %}
-    {% set addLinkText = __f('Attach %name%', {'%name%': entityNameTranslated}) %}
+    {% set addLinkText = __f('Attach %name%', {'%name%': entityNameTranslated}, 'mufilesmodule') %}
     <div id="{{ idPrefix }}LiveSearch" class="mufilesmodule-add-hook-assignment">
         <a id="{{ idPrefix }}AddLink" href="javascript:void(0);" title="{{ addLinkText|e('html_attr') }}" class="attach-mufilesmodule-object hidden" data-owner="{{ subscriberOwner|e('html_attr') }}" data-area-id="{{ subscriberAreaId|e('html_attr') }}" data-object-id="{{ subscriberObjectId|e('html_attr') }}" data-url="{{ subscriberUrl|e('html_attr') }}" data-assigned-entity="collection"><i class="fa fa-link"></i> {{ addLinkText }}</a>
         <div id="{{ idPrefix }}AddFields" class="mufilesmodule-autocomplete">
-            <label for="{{ idPrefix }}Selector">{{ __f('Find %name%', {'%name%': entityNameTranslated}) }}</label>
+            <label for="{{ idPrefix }}Selector">{{ __f('Find %name%', {'%name%': entityNameTranslated}, 'mufilesmodule') }}</label>
             <br />
-            <i class="fa fa-search" title="{{ __f('Search %name%', {'%name%': entityNameTranslated})|e('html_attr') }}"></i>
+            <i class="fa fa-search" title="{{ __f('Search %name%', {'%name%': entityNameTranslated}, 'mufilesmodule')|e('html_attr') }}"></i>
             <input type="hidden" name="{{ idPrefix }}" id="{{ idPrefix }}" value="{% for assignment in assignments %}{% if not loop.first %},{% endif %}{{ assignment.getAssignedId() }}{% endfor %}" />
             <input type="hidden" name="{{ idPrefix }}Multiple" id="{{ idPrefix }}Multiple" value="0" />
             <input type="text" id="{{ idPrefix }}Selector" name="{{ idPrefix }}Selector" autocomplete="off" />
-            <input type="button" id="{{ idPrefix }}SelectorDoCancel" name="{{ idPrefix }}SelectorDoCancel" value="{{ __('Cancel') }}" class="btn btn-default mufilesmodule-inline-button" />
-            <a id="{{ idPrefix }}SelectorDoNew" href="{{ path('mufilesmodule_collection_' ~ routeArea ~ 'edit') }}" title="{{ __f('Create new %name%', {'%name%': entityNameTranslated}) }}" class="btn btn-default mufilesmodule-inline-button"><i class="fa fa-plus"></i> {{ __('Create') }}</a>
+            <input type="button" id="{{ idPrefix }}SelectorDoCancel" name="{{ idPrefix }}SelectorDoCancel" value="{{ __('Cancel', 'mufilesmodule') }}" class="btn btn-default mufilesmodule-inline-button" />
+            <a id="{{ idPrefix }}SelectorDoNew" href="{{ path('mufilesmodule_collection_' ~ routeArea ~ 'edit') }}" title="{{ __f('Create new %name%', {'%name%': entityNameTranslated}, 'mufilesmodule') }}" class="btn btn-default mufilesmodule-inline-button"><i class="fa fa-plus"></i> {{ __('Create', 'mufilesmodule') }}</a>
             <noscript><p>{{ __('This function requires JavaScript activated!') }}</p></noscript>
         </div>
     </div>
     {% set assignmentInitScript %}
-        <script type="text/javascript">
+        <script>
         /* <![CDATA[ */
             var mUFilesInlineEditHandlers = [];
             var mUFilesEditHandler = {

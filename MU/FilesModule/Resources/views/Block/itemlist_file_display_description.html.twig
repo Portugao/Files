@@ -1,0 +1,13 @@
+{# Purpose of this template: Display files within an external context #}
+<dl>
+    {% for file in items %}
+        <dt>{{ file|mufilesmodule_formattedTitle }}</dt>
+        {% if file.description %}
+            <dd>{{ file.description|striptags|truncate(200, true, '&hellip;') }}</dd>
+        {% endif %}
+        <dd><a href="{{ path('mufilesmodule_file_display', {'id': file.getId()}) }}" title="{{ __('Read more')|e('html_attr') }}">{{ __('Read more') }}</a>
+        </dd>
+    {% else %}
+        <dt>{{ __('No entries found.') }}</dt>
+    {% endfor %}
+</dl>

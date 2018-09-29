@@ -5,10 +5,10 @@
 {% block title %}
     {% set templateTitle = collection|mufilesmodule_formattedTitle|default(__('Collection')) %}
     {{ templateTitle|notifyFilters('mufilesmodule.filter_hooks.collections.filter')|safeHtml }}{% if routeArea == 'admin' %} <small>({{ collection.workflowState|mufilesmodule_objectState(false)|lower }})</small>{% endif %}
-    {% set itemActions = knp_menu_get('MUFilesModule:ItemActionsMenu:menu', [], {entity: collection, area: routeArea, context: 'display'}) %}
+    {% set itemActions = knp_menu_get('mUFilesMenuItemActions', [], {entity: collection, area: routeArea, context: 'display'}) %}
     <div class="dropdown">
-        <a id="itemActions{{ collection.getKey() }}DropDownToggle" role="button" data-toggle="dropdown" data-target="#" href="javascript:void(0);" class="hidden dropdown-toggle"><i class="fa fa-tasks"></i> {{ __('Actions') }} <span class="caret"></span></a>
-        {{ knp_menu_render(itemActions, {template: 'ZikulaMenuModule:Override:actions.html.twig'}) }}
+        <a id="itemActions{{ collection.getKey() }}DropDownToggleStart" role="button" data-toggle="dropdown" href="javascript:void(0);" class="hidden dropdown-toggle"><i class="fa fa-tasks"></i> {{ __('Actions') }} <span class="caret"></span></a>
+        {{ knp_menu_render(itemActions, {template: 'ZikulaMenuModule:Override:bootstrap_fontawesome.html.twig'}) }}
     </div>
 {% endblock %}
 {% block admin_page_icon 'eye' %}
@@ -35,22 +35,20 @@
             <dt>{{ __('Parentid') }}</dt>
             <dd>{{ collection.parentid }}</dd>
         {% endif %}
-        {% if collection.inFrontend is not empty %}
-            <dt>{{ __('In frontend') }}</dt>
-            <dd>{% set itemId = collection.getKey() %}
-            <a id="toggleInFrontend{{ itemId }}" href="javascript:void(0);" class="mufiles-ajax-toggle hidden" data-object-type="collection" data-field-name="inFrontend" data-item-id="{{ itemId }}">
-                <i class="fa fa-check{% if not collection.inFrontend %} hidden{% endif %}" id="yesInFrontend{{ itemId }}" title="{{ __('This setting is enabled. Click here to disable it.') }}"></i>
-                <i class="fa fa-times{% if collection.inFrontend %} hidden{% endif %}" id="noInFrontend{{ itemId }}" title="{{ __('This setting is disabled. Click here to enable it.') }}"></i>
-            </a>
-            <noscript><div id="noscriptInFrontend{{ itemId }}">
-                {% if collection.inFrontend %}
-                    <i class="fa fa-check" title="{{ __('Yes') }}"></i>
-                {% else %}
-                    <i class="fa fa-times" title="{{ __('No') }}"></i>
-                {% endif %}
-            </div></noscript>
-            </dd>
-        {% endif %}
+        <dt>{{ __('In frontend') }}</dt>
+        <dd>{% set itemId = collection.getKey() %}
+        <a id="toggleInFrontend{{ itemId }}" href="javascript:void(0);" class="mufiles-ajax-toggle hidden" data-object-type="collection" data-field-name="inFrontend" data-item-id="{{ itemId }}">
+            <i class="fa fa-check text-success{% if not collection.inFrontend %} hidden{% endif %}" id="yesInFrontend{{ itemId }}" title="{{ __('This setting is enabled. Click here to disable it.') }}"></i>
+            <i class="fa fa-times text-danger{% if collection.inFrontend %} hidden{% endif %}" id="noInFrontend{{ itemId }}" title="{{ __('This setting is disabled. Click here to enable it.') }}"></i>
+        </a>
+        <noscript><div id="noscriptInFrontend{{ itemId }}">
+            {% if collection.inFrontend %}
+                <i class="fa fa-check text-success" title="{{ __('Yes') }}"></i>
+            {% else %}
+                <i class="fa fa-times text-danger" title="{{ __('No') }}"></i>
+            {% endif %}
+        </div></noscript>
+        </dd>
         {% if collection.collection|default %}
             <dt>{{ __('Collection') }}</dt>
             <dd>
@@ -58,7 +56,7 @@
                   <a href="{{ path('mufilesmodule_collection_' ~ routeArea ~ 'display', {'id': collection.collection.getId()}) }}">{% spaceless %}
                     {{ collection.collection|mufilesmodule_formattedTitle }}
                   {% endspaceless %}</a>
-                  <a id="collectionItem{{ collection.collection.getKey() }}Display" href="{{ path('mufilesmodule_collection_' ~ routeArea ~ 'display', {'id': collection.collection.getId(), raw: 1}) }}" title="{{ __('Open quick view window')|e('html_attr') }}" class="mufiles-inline-window hidden" data-modal-title="{{ collection.collection|mufilesmodule_formattedTitle|e('html_attr') }}"><span class="fa fa-id-card-o"></span></a>
+                  <a id="collectionItem{{ collection.collection.getKey() }}Display" href="{{ path('mufilesmodule_collection_' ~ routeArea ~ 'display', {'id': collection.collection.getId(), raw: 1}) }}" title="{{ __('Open quick view window')|e('html_attr') }}" class="mufiles-inline-window hidden" data-modal-title="{{ collection.collection|mufilesmodule_formattedTitle|e('html_attr') }}"><i class="fa fa-id-card-o"></i></a>
               {% else %}
                   {{ collection.collection|mufilesmodule_formattedTitle }}
               {% endif %}
@@ -105,17 +103,17 @@
         ) }}
     {% endif %}
     
-    {% set mayManage = hasPermission('MUFilesModule:Collection:', '::', 'ACCESS_COMMENT') %}
+    {% set mayManage = permissionHelper.hasComponentPermission('collection', constant('ACCESS_COMMENT')) %}
     {% if mayManage %}
         <p class="managelink">
             {% set createTitle = __('Create collection') %}
-            <a href="{{ path('mufilesmodule_collection_' ~ routeArea ~ 'edit', {collection: collection.getKey()}) }}" title="{{ createTitle|e('html_attr') }}" class="fa fa-plus">{{ createTitle }}</a>
+            <a href="{{ path('mufilesmodule_collection_' ~ routeArea ~ 'edit', {collection: collection.getKey()}) }}" title="{{ createTitle|e('html_attr') }}"><i class="fa fa-plus"></i> {{ createTitle }}</a>
         </p>
     {% endif %}
     {% if routeArea == 'admin' %}
-        <h4>{{ __('Files') }}</h4>
+        <h4>{{ __('Alilasfiles') }}</h4>
     {% else %}
-        <h3>{{ __('Files') }}</h3>
+        <h3>{{ __('Alilasfiles') }}</h3>
     {% endif %}
     
     {% if collection.alilasfiles|default %}
@@ -125,14 +123,21 @@
         ) }}
     {% endif %}
     
-    {% set mayManage = hasPermission('MUFilesModule:File:', '::', 'ACCESS_COMMENT') %}
+    {% set mayManage = permissionHelper.hasComponentPermission('file', constant('ACCESS_COMMENT')) %}
     {% if mayManage %}
         <p class="managelink">
             {% set createTitle = __('Create file') %}
-            <a href="{{ path('mufilesmodule_file_' ~ routeArea ~ 'edit', {aliascollection: collection.getKey()}) }}" title="{{ createTitle|e('html_attr') }}" class="fa fa-plus">{{ createTitle }}</a>
+            <a href="{{ path('mufilesmodule_file_' ~ routeArea ~ 'edit', {aliascollection: collection.getKey()}) }}" title="{{ createTitle|e('html_attr') }}"><i class="fa fa-plus"></i> {{ createTitle }}</a>
         </p>
     {% endif %}
 {% endblock %}
 {% block display_hooks %}
-    {{ notifyDisplayHooks(eventName='mufilesmodule.ui_hooks.collections.display_view', id=collection.getKey(), urlObject=currentUrlObject) }}
+    {% if collection.supportsHookSubscribers() %}
+        {% set hooks = notifyDisplayHooks(eventName='mufilesmodule.ui_hooks.collections.display_view', id=collection.getKey(), urlObject=currentUrlObject, outputAsArray=true) %}
+        {% if hooks is iterable and hooks|length > 0 %}
+            {% for area, hook in hooks %}
+                <div class="z-displayhook" data-area="{{ area|e('html_attr') }}">{{ hook|raw }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
 {% endblock %}

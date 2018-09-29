@@ -1,4 +1,4 @@
-workflow:
+framework:
     workflows:
         mufilesmodule_standard:
             type: state_machine
@@ -13,20 +13,30 @@ workflow:
                 - initial
                 - waiting
                 - approved
+                - trashed
                 - deleted
             transitions:
-                updatewaiting:
-                    from: waiting
-                    to: waiting
-                submit:
-                    from: initial
-                    to: waiting
-                approve:
-                    from: [initial, waiting]
-                    to: approved
-                updateapproved:
-                    from: approved
-                    to: approved
-                delete:
-                    from: [waiting, approved]
-                    to: deleted
+                - name: update
+                  from: waiting
+                  to: waiting
+                - name: submit
+                  from: initial
+                  to: waiting
+                - name: approve
+                  from: [initial, waiting]
+                  to: approved
+                - name: update
+                  from: approved
+                  to: approved
+                - name: trash
+                  from: waiting
+                  to: trashed
+                - name: recover
+                  from: trashed
+                  to: waiting
+                - name: delete
+                  from: [waiting, approved, trashed]
+                  to: deleted
+                - name: trash
+                  from: approved
+                  to: trashed

@@ -3,8 +3,7 @@
 /**
  * Helper function to create new modal form dialog instances.
  */
-function mUFilesCreateInlineEditingWindowInstance(containerElem)
-{
+function mUFilesCreateInlineEditingWindowInstance(containerElem) {
     var newWindowId;
 
     // define the new window instance
@@ -38,8 +37,7 @@ function mUFilesCreateInlineEditingWindowInstance(containerElem)
 /**
  * Observe a link for opening an inline window.
  */
-function mUFilesInitInlineEditingWindow(objectType, idPrefix, containerId, inputType)
-{
+function mUFilesInitInlineEditingWindow(objectType, idPrefix, containerId, inputType) {
     var found, newEditHandler;
 
     // whether the handler has been found
@@ -84,8 +82,7 @@ function mUFilesInitInlineEditingWindow(objectType, idPrefix, containerId, input
 /**
  * Creates a link for editing an existing item using inline editing.
  */
-function mUFilesCreateInlineEditLink(objectType, idPrefix, elemPrefix, itemId)
-{
+function mUFilesCreateInlineEditLink(objectType, idPrefix, elemPrefix, itemId) {
     var editHref, editLink;
 
     editHref = jQuery('#' + idPrefix + 'SelectorDoNew').attr('href') + '&id=' + itemId;
@@ -103,8 +100,7 @@ function mUFilesCreateInlineEditLink(objectType, idPrefix, elemPrefix, itemId)
 /**
  * Initialises behaviour for an inline editing link.
  */
-function mUFilesInitInlineEditLink(objectType, idPrefix, elemPrefix, itemId, inputType)
-{
+function mUFilesInitInlineEditLink(objectType, idPrefix, elemPrefix, itemId, inputType) {
     jQuery('#' + elemPrefix + 'Edit').click(function (event) {
         event.preventDefault();
         mUFilesInitInlineEditingWindow(objectType, idPrefix, idPrefix + 'Reference_' + itemId + 'Edit');
@@ -114,8 +110,7 @@ function mUFilesInitInlineEditLink(objectType, idPrefix, elemPrefix, itemId, inp
 /**
  * Returns the input field reference for a given context
  */
-function mUFilesDetermineInputReference(objectType, alias, idPrefix, inputType, targetWindow)
-{
+function mUFilesDetermineInputReference(objectType, alias, idPrefix, inputType, targetWindow) {
     var inputPrefix, inputIdentifier, inputField;
 
     // determine reference to input element
@@ -130,11 +125,7 @@ function mUFilesDetermineInputReference(objectType, alias, idPrefix, inputType, 
     } else if (inputType === 'checkbox' || inputType === 'radio') {
         // points to the containing div element in this case
         inputIdentifier = inputPrefix + '_' + alias;
-        if (targetWindow.jQuery('#' + inputIdentifier + '_0').length > 0) {
-            inputField = targetWindow.jQuery('#' + inputIdentifier + '_0').parent().parent();
-        } else if (targetWindow.jQuery('#' + inputIdentifier + '_placeholder').length > 0) {
-            inputField = targetWindow.jQuery('#' + inputIdentifier + '_placeholder').parent().parent();
-        }
+        inputField = targetWindow.jQuery('#' + alias + 'InlineEditingContainer').find('.form-group').first().find('div').first();
     }
 
     return {
@@ -147,8 +138,7 @@ function mUFilesDetermineInputReference(objectType, alias, idPrefix, inputType, 
 /**
  * Initialises inline editing capability for a certain form section.
  */
-function mUFilesInitInlineEditingButtons(objectType, alias, idPrefix, inputType, createUrl)
-{
+function mUFilesInitInlineEditingButtons(objectType, alias, idPrefix, inputType, createUrl) {
     var inputReference, createButtonId, createButton, itemIds, itemIdsArr;
 
     inputReference = mUFilesDetermineInputReference(objectType, alias, idPrefix, inputType, window);
@@ -236,8 +226,7 @@ function mUFilesInitInlineEditingButtons(objectType, alias, idPrefix, inputType,
 /**
  * Closes an iframe from the document displayed in it.
  */
-function mUFilesCloseWindowFromInside(idPrefix, itemId, formattedTitle, searchTerm)
-{
+function mUFilesCloseWindowFromInside(idPrefix, itemId, formattedTitle, searchTerm) {
     // if there is no parent window do nothing
     if (window.parent === '') {
         return;
@@ -274,7 +263,7 @@ function mUFilesCloseWindowFromInside(idPrefix, itemId, formattedTitle, searchTe
                 if (searchTerm != '') {
                     inputReference.field.autocomplete('option', 'autoFocus', true);
                     inputReference.field.autocomplete('search', searchTerm);
-                    window.setTimeout(function() {
+                    window.setTimeout(function () {
                         var suggestions = inputReference.field.autocomplete('widget')[0].children;
                         if (suggestions.length === 1) {
                             window.parent.jQuery(suggestions[0]).click();

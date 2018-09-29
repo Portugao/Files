@@ -9,5 +9,4 @@ services:
             - "@mu_files_module.workflow_helper"
             - "@mu_files_module.listentries_helper"
         public: false
-        tags:
-            - { name: twig.extension }
+        tags: ['twig.extension']

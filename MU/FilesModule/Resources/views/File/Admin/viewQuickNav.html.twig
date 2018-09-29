@@ -1,5 +1,5 @@
 {# purpose of this template: files view filter form #}
-{% if hasPermission('MUFilesModule:File:', '::', 'ACCESS_EDIT') %}
+{% if permissionHelper.hasComponentPermission('file', constant('ACCESS_EDIT')) %}
     {% form_theme quickNavForm with [
         'bootstrap_3_layout.html.twig'
     ] %}

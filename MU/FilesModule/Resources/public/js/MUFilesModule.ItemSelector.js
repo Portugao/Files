@@ -7,8 +7,7 @@ mUFilesModule.itemSelector.items = {};
 mUFilesModule.itemSelector.baseId = 0;
 mUFilesModule.itemSelector.selectedId = 0;
 
-mUFilesModule.itemSelector.onLoad = function (baseId, selectedId)
-{
+mUFilesModule.itemSelector.onLoad = function (baseId, selectedId) {
     mUFilesModule.itemSelector.baseId = baseId;
     mUFilesModule.itemSelector.selectedId = selectedId;
 
@@ -26,15 +25,13 @@ mUFilesModule.itemSelector.onLoad = function (baseId, selectedId)
     mUFilesModule.itemSelector.getItemList();
 };
 
-mUFilesModule.itemSelector.onParamChanged = function ()
-{
+mUFilesModule.itemSelector.onParamChanged = function () {
     jQuery('#ajaxIndicator').removeClass('hidden');
 
     mUFilesModule.itemSelector.getItemList();
 };
 
-mUFilesModule.itemSelector.getItemList = function ()
-{
+mUFilesModule.itemSelector.getItemList = function () {
     var baseId;
     var params;
 
@@ -51,7 +48,7 @@ mUFilesModule.itemSelector.getItemList = function ()
         params[catidsMain] = jQuery('#' + baseId + '_catidsMain').val();
     }
 
-    jQuery.getJSON(Routing.generate('mufilesmodule_ajax_getitemlistfinder'), params, function( data ) {
+    jQuery.getJSON(Routing.generate('mufilesmodule_ajax_getitemlistfinder'), params, function (data) {
         var baseId;
 
         baseId = mUFilesModule.itemSelector.baseId;
@@ -62,8 +59,7 @@ mUFilesModule.itemSelector.getItemList = function ()
     });
 };
 
-mUFilesModule.itemSelector.updateItemDropdownEntries = function ()
-{
+mUFilesModule.itemSelector.updateItemDropdownEntries = function () {
     var baseId, itemSelector, items, i, item;
 
     baseId = mUFilesModule.itemSelector.baseId;
@@ -81,8 +77,7 @@ mUFilesModule.itemSelector.updateItemDropdownEntries = function ()
     }
 };
 
-mUFilesModule.itemSelector.updatePreview = function ()
-{
+mUFilesModule.itemSelector.updatePreview = function () {
     var baseId, items, selectedElement, i;
 
     baseId = mUFilesModule.itemSelector.baseId;
@@ -111,8 +106,7 @@ mUFilesModule.itemSelector.updatePreview = function ()
     }
 };
 
-mUFilesModule.itemSelector.onItemChanged = function ()
-{
+mUFilesModule.itemSelector.onItemChanged = function () {
     var baseId, itemSelector, preview;
 
     baseId = mUFilesModule.itemSelector.baseId;
@@ -123,7 +117,7 @@ mUFilesModule.itemSelector.onItemChanged = function ()
     mUFilesModule.itemSelector.selectedId = jQuery('#' + baseId + 'Id').val();
 };
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     var infoElem;
 
     infoElem = jQuery('#itemSelectorInfo');

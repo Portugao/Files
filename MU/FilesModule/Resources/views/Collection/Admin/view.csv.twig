@@ -1,12 +1,11 @@
 {# purpose of this template: collections view csv view #}
-{% spaceless %}"{{ __('Name') }}";"{{ __('Description') }}";"{{ __('Parentid') }}";"{{ __('In frontend') }}";"{{ __('Workflow state') }}"
-;"{{ __('Collection') }}"
+{% spaceless %}"{{ __('Name') }}";"{{ __('Description') }}";"{{ __('Parentid') }}";"{{ __('In frontend') }}";"{{ __('Workflow state') }}";"{{ __('Collection') }}"
 ;"{{ __('Collections') }}";"{{ __('Alilasfiles') }}"
 {% endspaceless %}
 {% for collection in items %}
+
 {% spaceless %}
-    "{{ collection.name }}";"{{ collection.description|safeHtml }}";"{{ collection.parentid }}";"{% if not collection.inFrontend %}0{% else %}1{% endif %}";"{{ collection.workflowState|mufilesmodule_objectState(false)|lower }}"
-    ;"{% if collection.collection|default %}{{ collection.collection|mufilesmodule_formattedTitle }}{% endif %}"
+    "{{ collection.name }}";"{{ collection.description|safeHtml }}";"{{ collection.parentid }}";"{% if not collection.inFrontend %}0{% else %}1{% endif %}";"{{ collection.workflowState|mufilesmodule_objectState(false)|lower }}";"{% if collection.collection|default %}{{ collection.collection|mufilesmodule_formattedTitle }}{% endif %}"
     ;"
     {% if collection.collections|default %}
         {% for relatedItem in collection.collections %}

@@ -57,6 +57,7 @@ services:
             - "@request_stack"
             - "@mu_files_module.entity_factory"
             - "@twig"
+            - "@mu_files_module.image_helper"
         tags:
             - { name: zikula.hook_provider, areaName: 'provider.mufilesmodule.ui_hooks.collections' }
 
@@ -76,6 +77,7 @@ services:
             - "@request_stack"
             - "@mu_files_module.entity_factory"
             - "@twig"
+            - "@mu_files_module.image_helper"
         tags:
             - { name: zikula.hook_provider, areaName: 'provider.mufilesmodule.ui_hooks.files' }
 

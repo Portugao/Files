@@ -3,8 +3,7 @@
 /**
  * Toggles the fields of an auto completion field.
  */
-function mUFilesToggleAutoCompletionFields(idPrefix)
-{
+function mUFilesToggleAutoCompletionFields(idPrefix) {
     // if we don't have a toggle link do nothing
     if (jQuery('#' + idPrefix + 'AddLink').length < 1) {
         return;
@@ -20,8 +19,7 @@ function mUFilesToggleAutoCompletionFields(idPrefix)
 /**
  * Resets an auto completion field.
  */
-function mUFilesResetAutoCompletion(idPrefix)
-{
+function mUFilesResetAutoCompletion(idPrefix) {
     // hide the sub form
     mUFilesToggleAutoCompletionFields(idPrefix);
 
@@ -32,14 +30,13 @@ function mUFilesResetAutoCompletion(idPrefix)
 /**
  * Removes a related item from the list of selected ones.
  */
-function mUFilesRemoveRelatedItem(idPrefix, removeId)
-{
+function mUFilesRemoveRelatedItem(idPrefix, removeId) {
     var itemIds, itemIdsArr;
 
     itemIds = jQuery('#' + idPrefix).val();
     itemIdsArr = itemIds.split(',');
 
-    itemIdsArr = jQuery.grep(itemIdsArr, function(value) {
+    itemIdsArr = jQuery.grep(itemIdsArr, function (value) {
         return value != removeId;
     });
 
@@ -52,8 +49,7 @@ function mUFilesRemoveRelatedItem(idPrefix, removeId)
 /**
  * Adds an item to the current selection which has been chosen by auto completion.
  */
-function mUFilesSelectResultItem(objectType, idPrefix, selectedListItem, includeEditing)
-{
+function mUFilesSelectResultItem(objectType, idPrefix, selectedListItem, includeEditing) {
     var newItemId, newTitle, elemPrefix, li, itemIds;
 
     itemIds = jQuery('#' + idPrefix).val();
@@ -72,7 +68,7 @@ function mUFilesSelectResultItem(objectType, idPrefix, selectedListItem, include
 
     li = jQuery('<li />', {
         id: elemPrefix,
-        text: newTitle
+        text: newTitle + ' '
     });
     if (true === includeEditing) {
         li.append(mUFilesCreateInlineEditLink(objectType, idPrefix, elemPrefix, newItemId));
@@ -81,10 +77,10 @@ function mUFilesSelectResultItem(objectType, idPrefix, selectedListItem, include
     li.append(
         jQuery('<a />', {
             id: elemPrefix + 'Remove',
-            href: 'javascript:mUFilesRemoveRelatedItem(\'' + idPrefix + '\', ' + newItemId + ');',
-            text: 'remove'
+            href: 'javascript:mUFilesRemoveRelatedItem(\'' + idPrefix + '\', ' + newItemId + ');'
         }).append(
             jQuery('<span />', { class: 'fa fa-trash-o' })
+                .append(' ' + Translator.__('remove'))
         )
     );
 
@@ -112,8 +108,7 @@ function mUFilesSelectResultItem(objectType, idPrefix, selectedListItem, include
 /**
  * Adds a hook assignment item to selection which has been chosen by auto completion.
  */
-function mUFilesSelectHookItem(objectType, idPrefix, selectedListItem)
-{
+function mUFilesSelectHookItem(objectType, idPrefix, selectedListItem) {
     mUFilesResetAutoCompletion(idPrefix);
     mUFilesAttachHookObject(jQuery('#' + idPrefix + 'AddLink'), selectedListItem.id);
 }
@@ -121,9 +116,13 @@ function mUFilesSelectHookItem(objectType, idPrefix, selectedListItem)
 /**
  * Initialises auto completion for a relation field.
  */
-function mUFilesInitAutoCompletion(objectType, idPrefix, includeEditing)
-{
+function mUFilesInitAutoCompletion(objectType, alias, idPrefix, includeEditing) {
     var acOptions, acDataSet, acUrl, isHookAttacher;
+
+    isHookAttacher = idPrefix.startsWith('hookAssignment');
+    if (isHookAttacher) {
+        idPrefix = alias;
+    }
 
     // update identifier of hidden field for easier usage in JS
     jQuery('#' + idPrefix + 'Multiple').prev().attr('id', idPrefix);
@@ -141,8 +140,6 @@ function mUFilesInitAutoCompletion(objectType, idPrefix, includeEditing)
     // clear values and ensure starting state
     mUFilesResetAutoCompletion(idPrefix);
 
-
-    isHookAttacher = idPrefix.startsWith('hookAssignment');
     jQuery.each(mUFilesInlineEditHandlers, function (key, editHandler) {
         if (editHandler.prefix !== (idPrefix + 'SelectorDoNew') || editHandler.inputType !== 'autocomplete') {
             return;
@@ -150,7 +147,7 @@ function mUFilesInitAutoCompletion(objectType, idPrefix, includeEditing)
 
         jQuery('#' + idPrefix + 'Selector').autocomplete({
             minLength: 1,
-            open: function(event, ui) {
+            open: function (event, ui) {
                 jQuery(this).autocomplete('widget').css({
                     width: (jQuery(this).outerWidth() + 'px')
                 });
@@ -166,11 +163,11 @@ function mUFilesInitAutoCompletion(objectType, idPrefix, includeEditing)
                     acUrlArgs.exclude = jQuery('#' + idPrefix).val();
                 }
 
-                jQuery.getJSON(Routing.generate(editHandler.moduleName.toLowerCase() + '_ajax_getitemlistautocompletion', acUrlArgs), function(data) {
+                jQuery.getJSON(Routing.generate(editHandler.moduleName.toLowerCase() + '_ajax_getitemlistautocompletion', acUrlArgs), function (data) {
                     response(data);
                 });
             },
-            response: function(event, ui) {
+            response: function (event, ui) {
                 jQuery('#' + idPrefix + 'LiveSearch .empty-message').remove();
                 if (ui.content.length === 0) {
                     jQuery('#' + idPrefix + 'LiveSearch').append(
@@ -178,12 +175,12 @@ function mUFilesInitAutoCompletion(objectType, idPrefix, includeEditing)
                     );
                 }
             },
-            focus: function(event, ui) {
+            focus: function (event, ui) {
                 jQuery('#' + idPrefix + 'Selector').val(ui.item.title);
 
                 return false;
             },
-            select: function(event, ui) {
+            select: function (event, ui) {
                 if (true === isHookAttacher) {
                     mUFilesSelectHookItem(objectType, idPrefix, ui.item);
                 } else {
@@ -193,7 +190,7 @@ function mUFilesInitAutoCompletion(objectType, idPrefix, includeEditing)
                 return false;
             }
         })
-        .autocomplete('instance')._renderItem = function(ul, item) {
+        .autocomplete('instance')._renderItem = function (ul, item) {
             return jQuery('<div />', { class: 'suggestion' })
                 .append('<div class="media"><div class="media-left"><a href="javascript:void(0)">' + item.image + '</a></div><div class="media-body"><p class="media-heading">' + item.title + '</p>' + item.description + '</div></div>')
                 .appendTo(ul);

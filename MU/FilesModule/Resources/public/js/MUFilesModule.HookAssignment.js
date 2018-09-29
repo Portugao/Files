@@ -3,8 +3,7 @@
 /**
  * Adds a hook assignment for a certain object.
  */
-function mUFilesAttachHookObject(attachLink, entityId)
-{
+function mUFilesAttachHookObject(attachLink, entityId) {
     jQuery.ajax({
         method: 'POST',
         url: Routing.generate('mufilesmodule_ajax_attachhookobject'),
@@ -16,7 +15,7 @@ function mUFilesAttachHookObject(attachLink, entityId)
             assignedEntity: attachLink.data('assigned-entity'),
             assignedId: entityId
         },
-        success: function(data) {
+        success: function (data) {
             window.location.reload();
         }
     });
@@ -25,21 +24,20 @@ function mUFilesAttachHookObject(attachLink, entityId)
 /**
  * Removes a hook assignment for a certain object.
  */
-function mUFilesDetachHookObject()
-{
+function mUFilesDetachHookObject() {
     jQuery.ajax({
         method: 'POST',
         url: Routing.generate('mufilesmodule_ajax_detachhookobject'),
         data: {
             id: jQuery(this).data('assignment-id')
         },
-        success: function(data) {
+        success: function (data) {
             window.location.reload();
         }
     });
 }
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     jQuery('.detach-mufilesmodule-object')
         .click(mUFilesDetachHookObject)
         .removeClass('hidden');

@@ -7,8 +7,7 @@ var currentMUFilesModuleInput = null;
  * Returns the attributes used for the popup window. 
  * @return {String}
  */
-function getMUFilesModulePopupAttributes()
-{
+function getMUFilesModulePopupAttributes() {
     var pWidth, pHeight;
 
     pWidth = screen.width * 0.75;
@@ -20,8 +19,7 @@ function getMUFilesModulePopupAttributes()
 /**
  * Open a popup window with the finder triggered by an editor button.
  */
-function MUFilesModuleFinderOpenPopup(editor, editorName)
-{
+function MUFilesModuleFinderOpenPopup(editor, editorName) {
     var popupUrl;
 
     // Save editor for access in selector window
@@ -41,8 +39,7 @@ var mUFilesModule = {};
 
 mUFilesModule.finder = {};
 
-mUFilesModule.finder.onLoad = function (baseId, selectedId)
-{
+mUFilesModule.finder.onLoad = function (baseId, selectedId) {
     if (jQuery('#mUFilesModuleSelectorForm').length < 1) {
         return;
     }
@@ -57,13 +54,11 @@ mUFilesModule.finder.onLoad = function (baseId, selectedId)
     });
 };
 
-mUFilesModule.finder.onParamChanged = function ()
-{
+mUFilesModule.finder.onParamChanged = function () {
     jQuery('#mUFilesModuleSelectorForm').submit();
 };
 
-mUFilesModule.finder.handleCancel = function (event)
-{
+mUFilesModule.finder.handleCancel = function (event) {
     var editor;
 
     event.preventDefault();
@@ -82,8 +77,7 @@ mUFilesModule.finder.handleCancel = function (event)
 };
 
 
-function mUFilesGetPasteSnippet(mode, itemId)
-{
+function mUFilesGetPasteSnippet(mode, itemId) {
     var quoteFinder;
     var itemPath;
     var itemUrl;
@@ -117,8 +111,7 @@ function mUFilesGetPasteSnippet(mode, itemId)
 
 
 // User clicks on "select item" button
-mUFilesModule.finder.selectItem = function (itemId)
-{
+mUFilesModule.finder.selectItem = function (itemId) {
     var editor, html;
 
     html = mUFilesGetPasteSnippet('html', itemId);
@@ -144,12 +137,11 @@ mUFilesModule.finder.selectItem = function (itemId)
     mUFilesClosePopup();
 };
 
-function mUFilesClosePopup()
-{
+function mUFilesClosePopup() {
     window.opener.focus();
     window.close();
 }
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     mUFilesModule.finder.onLoad();
 });

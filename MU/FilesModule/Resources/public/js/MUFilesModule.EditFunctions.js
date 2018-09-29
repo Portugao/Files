@@ -3,8 +3,7 @@
 /**
  * Resets the value of an upload / file input field.
  */
-function mUFilesResetUploadField(fieldName)
-{
+function mUFilesResetUploadField(fieldName) {
     jQuery('#' + fieldName).attr('type', 'input');
     jQuery('#' + fieldName).attr('type', 'file');
 }
@@ -12,8 +11,7 @@ function mUFilesResetUploadField(fieldName)
 /**
  * Initialises the reset button for a certain upload input.
  */
-function mUFilesInitUploadField(fieldName)
-{
+function mUFilesInitUploadField(fieldName) {
     jQuery('#' + fieldName + 'ResetVal').click(function (event) {
         event.preventDefault();
         mUFilesResetUploadField(fieldName);
@@ -26,8 +24,7 @@ var editForm;
 var formButtons;
 var triggerValidation = true;
 
-function mUFilesTriggerFormValidation()
-{
+function mUFilesTriggerFormValidation() {
     mUFilesExecuteCustomValidationConstraints(editedObjectType, editedEntityId);
 
     if (!editForm.get(0).checkValidity()) {
@@ -37,7 +34,7 @@ function mUFilesTriggerFormValidation()
     }
 }
 
-function mUFilesHandleFormSubmit (event) {
+function mUFilesHandleFormSubmit(event) {
     if (triggerValidation) {
         mUFilesTriggerFormValidation();
         if (!editForm.get(0).checkValidity()) {
@@ -57,8 +54,7 @@ function mUFilesHandleFormSubmit (event) {
 /**
  * Initialises an entity edit form.
  */
-function mUFilesInitEditForm(mode, entityId)
-{
+function mUFilesInitEditForm(mode, entityId) {
     if (jQuery('.mufiles-edit-form').length < 1) {
         return;
     }
@@ -86,13 +82,15 @@ function mUFilesInitEditForm(mode, entityId)
     });
 
     formButtons = editForm.find('.form-buttons input');
-    editForm.find('.btn-danger').first().bind('click keypress', function (event) {
-        if (!window.confirm(Translator.__('Do you really want to delete this entry?'))) {
-            event.preventDefault();
-        }
-    });
+    if (editForm.find('.btn-danger').length > 0) {
+        editForm.find('.btn-danger').first().bind('click keypress', function (event) {
+            if (!window.confirm(Translator.__('Do you really want to delete this entry?'))) {
+                event.preventDefault();
+            }
+        });
+    }
     editForm.find('button[type=submit]').bind('click keypress', function (event) {
-        triggerValidation = !jQuery(this).prop('formnovalidate');
+        triggerValidation = !jQuery(this).attr('formnovalidate');
     });
     editForm.submit(mUFilesHandleFormSubmit);
 
@@ -104,10 +102,9 @@ function mUFilesInitEditForm(mode, entityId)
 /**
  * Initialises a relation field section with autocompletion and optional edit capabilities.
  */
-function mUFilesInitRelationHandling(objectType, alias, idPrefix, includeEditing, inputType, createUrl)
-{
+function mUFilesInitRelationHandling(objectType, alias, idPrefix, includeEditing, inputType, createUrl) {
     if (inputType == 'autocomplete') {
-        mUFilesInitAutoCompletion(objectType, idPrefix, includeEditing);
+        mUFilesInitAutoCompletion(objectType, alias, idPrefix, includeEditing);
     }
     if (includeEditing) {
         mUFilesInitInlineEditingButtons(objectType, alias, idPrefix, inputType, createUrl);

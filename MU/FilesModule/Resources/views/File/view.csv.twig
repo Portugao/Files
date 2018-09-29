@@ -1,10 +1,9 @@
 {# purpose of this template: files view csv view #}
-{% spaceless %}"{{ __('Title') }}";"{{ __('Description') }}";"{{ __('Upload file') }}";"{{ __('Workflow state') }}"
-;"{{ __('Aliascollection') }}"
+{% spaceless %}"{{ __('Title') }}";"{{ __('Description') }}";"{{ __('Upload file') }}";"{{ __('Workflow state') }}";"{{ __('Aliascollection') }}"
 {% endspaceless %}
 {% for file in items %}
+
 {% spaceless %}
-    "{{ file.title }}";"{{ file.description|safeHtml }}";"{{ file.uploadFile }}";"{{ file.workflowState|mufilesmodule_objectState(false)|lower }}"
-    ;"{% if file.aliascollection|default %}{{ file.aliascollection|mufilesmodule_formattedTitle }}{% endif %}"
+    "{{ file.title }}";"{{ file.description|safeHtml }}";"{{ file.uploadFile }}";"{{ file.workflowState|mufilesmodule_objectState(false)|lower }}";"{% if file.aliascollection|default %}{{ file.aliascollection|mufilesmodule_formattedTitle }}{% endif %}"
 {% endspaceless %}
 {% endfor %}

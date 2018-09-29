@@ -3,11 +3,11 @@
 <html xml:lang="{{ app.request.locale }}" lang="{{ app.request.locale }}" dir="auto">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <script type="text/javascript" src="{{ asset('jquery/jquery.min.js') }}"></script>
-        <script type="text/javascript" src="{{ zasset('@MUFilesModule:js/MUFilesModule.InlineEditing.js') }}"></script>
+        <script src="{{ asset('jquery/jquery.min.js') }}"></script>
+        <script src="{{ zasset('@MUFilesModule:js/MUFilesModule.InlineEditing.js') }}"></script>
     </head>
     <body>
-        <script type="text/javascript">
+        <script>
         /* <![CDATA[ */
             // close window from parent document
             ( function($) {

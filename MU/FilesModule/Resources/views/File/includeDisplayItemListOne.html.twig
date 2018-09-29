@@ -1,6 +1,6 @@
 {# purpose of this template: inclusion template for display of related files or hook assignments #}
-{% set hasAdminPermission = hasPermission('MUFilesModule:File:', '::', 'ACCESS_COMMENT') %}
-{% set hasEditPermission = hasPermission('MUFilesModule:File:', '::', 'ACCESS_COMMENT') %}
+{% set hasAdminPermission = permissionHelper.hasComponentPermission('file', constant('ACCESS_COMMENT')) %}
+{% set hasEditPermission = permissionHelper.hasComponentPermission('file', constant('ACCESS_COMMENT')) %}
 {% if noLink is not defined %}
     {% set noLink = false %}
 {% endif %}
@@ -12,7 +12,7 @@
     {{ item|mufilesmodule_formattedTitle }}
 {% if not noLink %}
     </a>
-    <a id="fileItem{{ item.getKey() }}Display" href="{{ path('mufilesmodule_file_' ~ routeArea ~ 'display', {'id': item.getId(), raw: 1}) }}" title="{{ __('Open quick view window') }}" class="mufiles-inline-window hidden" data-modal-title="{{ item|mufilesmodule_formattedTitle|e('html_attr') }}"><span class="fa fa-id-card-o"></span></a>
+    <a id="fileItem{{ item.getKey() }}Display" href="{{ path('mufilesmodule_file_' ~ routeArea ~ 'display', {'id': item.getId(), raw: 1}) }}" title="{{ __('Open quick view window') }}" class="mufiles-inline-window hidden" data-modal-title="{{ item|mufilesmodule_formattedTitle|e('html_attr') }}"><i class="fa fa-id-card-o"></i></a>
 {% endif %}
 {% endspaceless %}
 </h4>

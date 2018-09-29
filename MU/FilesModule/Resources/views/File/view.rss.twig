@@ -12,42 +12,36 @@
         <title>{{ __('Latest files') }}</title>
         <link>{{ app.request.schemeAndHttpHost ~ app.request.basePath }}</link>
         <atom:link href="{{ app.request.schemeAndHttpHost ~ app.request.basePath ~ app.request.pathInfo }}" rel="self" type="application/rss+xml" />
-        <description>{{ __('A direct feed showing the list of files') }} - {{ getModVar('ZConfig', 'slogan') }}</description>
+        <description>{{ __('A direct feed showing the list of files') }} - {{ getSystemVar('slogan') }}</description>
         <language>{{ app.request.locale }}</language>
         {# commented out as imagepath is not defined and we can't know whether this logo exists or not
         <image>
-            <title>{{ getModVar('ZConfig', 'sitename') }}</title>
+            <title>{{ getSystemVar('sitename') }}</title>
             <url>{{ app.request.schemeAndHttpHost ~ app.request.basePath }}{{ imagepath }}/logo.jpg</url>
             <link>{{ app.request.schemeAndHttpHost ~ app.request.basePath }}</link>
         </image>
         #}
         <docs>http://blogs.law.harvard.edu/tech/rss</docs>
         <copyright>Copyright (c) {{ 'now'|date('Y') }}, {{ app.request.schemeAndHttpHost }}</copyright>
-        <webMaster>{{ pageGetVar('adminmail) }}</webMaster>
+        <webMaster>{{ getSystemVar('adminmail') }}</webMaster>
 {% for file in items %}
-    {{ block('entry') }}
+    <item>
+        <title><![CDATA[{{ file|mufilesmodule_formattedTitle|notifyFilters('mufilesmodule.filterhook.files')|safeHtml }}]]></title>
+        <link>{{ url('mufilesmodule_file_' ~ routeArea ~ 'display', {'id': file.getId()}) }}</link>
+        <guid>{{ url('mufilesmodule_file_' ~ routeArea ~ 'display', {'id': file.getId()}) }}</guid>
+        {% if file.createdBy|default and file.createdBy.getUid() > 0 %}
+            {% set creatorAttributes = file.createdBy.getAttributes() %}
+            <author>{{ file.createdBy.getEmail() }} ({{ creatorAttributes.get('realname')|default(creatorAttributes.get('name'))|default(file.createdBy.getUname()) }})</author>
+        {% endif %}
+        <description>
+            <![CDATA[
+            {{ file.description|replace({'<br>': '<br />'}) }}
+            ]]>
+        </description>
+        {% if file.createdDate|default %}
+            <pubDate>{{ file.createdDate|date('r') }}</pubDate>
+        {% endif %}
+    </item>
 {% endfor %}
     </channel>
 </rss>
-{% block entry %}
-    <item>
-        {{ block('entry_content') }}
-    </item>
-{% endblock %}
-{% block entry_content %}
-    <title><![CDATA[{% if file.updatedDate|default %}{{ file.updatedDate|localizeddate('medium', 'short') }} - {% endif %}{{ file|mufilesmodule_formattedTitle|notifyFilters('mufilesmodule.filterhook.files')|safeHtml }}]]></title>
-    <link>{{ url('mufilesmodule_file_' ~ routeArea ~ 'display', {'id': file.getId()}) }}</link>
-    <guid>{{ url('mufilesmodule_file_' ~ routeArea ~ 'display', {'id': file.getId()}) }}</guid>
-    {% if file.createdBy|default and file.createdBy.getUid() > 0 %}
-        {% set creatorAttributes = file.createdBy.getAttributes() %}
-        <author>{{ file.createdBy.getEmail() }} ({{ creatorAttributes.get('realname')|default(creatorAttributes.get('name'))|default(file.createdBy.getUname()) }})</author>
-    {% endif %}
-    <description>
-        <![CDATA[
-        {{ file.description|replace({'<br>': '<br />'}) }}
-        ]]>
-    </description>
-    {% if file.createdDate|default %}
-        <pubDate>{{ file.createdDate|date('r') }}</pubDate>
-    {% endif %}
-{% endblock %}

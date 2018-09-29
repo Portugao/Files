@@ -12,43 +12,37 @@
         <title>{{ __('Latest collections') }}</title>
         <link>{{ app.request.schemeAndHttpHost ~ app.request.basePath }}</link>
         <atom:link href="{{ app.request.schemeAndHttpHost ~ app.request.basePath ~ app.request.pathInfo }}" rel="self" type="application/rss+xml" />
-        <description>{{ __('A direct feed showing the list of collections') }} - {{ getModVar('ZConfig', 'slogan') }}</description>
+        <description>{{ __('A direct feed showing the list of collections') }} - {{ getSystemVar('slogan') }}</description>
         <language>{{ app.request.locale }}</language>
         {# commented out as imagepath is not defined and we can't know whether this logo exists or not
         <image>
-            <title>{{ getModVar('ZConfig', 'sitename') }}</title>
+            <title>{{ getSystemVar('sitename') }}</title>
             <url>{{ app.request.schemeAndHttpHost ~ app.request.basePath }}{{ imagepath }}/logo.jpg</url>
             <link>{{ app.request.schemeAndHttpHost ~ app.request.basePath }}</link>
         </image>
         #}
         <docs>http://blogs.law.harvard.edu/tech/rss</docs>
         <copyright>Copyright (c) {{ 'now'|date('Y') }}, {{ app.request.schemeAndHttpHost }}</copyright>
-        <webMaster>{{ pageGetVar('adminmail) }}</webMaster>
+        <webMaster>{{ getSystemVar('adminmail') }}</webMaster>
 {% for collection in items %}
-    {{ block('entry') }}
+    <item>
+        <title><![CDATA[{{ collection|mufilesmodule_formattedTitle|notifyFilters('mufilesmodule.filterhook.collections')|safeHtml }}]]></title>
+        <link>{{ url('mufilesmodule_collection_' ~ routeArea ~ 'display', {'id': collection.getId()}) }}</link>
+        <guid>{{ url('mufilesmodule_collection_' ~ routeArea ~ 'display', {'id': collection.getId()}) }}</guid>
+        {% if collection.createdBy|default and collection.createdBy.getUid() > 0 %}
+            {% set creatorAttributes = collection.createdBy.getAttributes() %}
+            <author>{{ collection.createdBy.getEmail() }} ({{ creatorAttributes.get('realname')|default(creatorAttributes.get('name'))|default(collection.createdBy.getUname()) }})</author>
+        {% endif %}
+        <category><![CDATA[{{ __('Categories') }}: {% for catMapping in collection.categories %}{{ catMapping.category.display_name[app.request.locale]|default(catMapping.category.name) }}{% if not loop.last %}, {% endif %}{% endfor %}]]></category>
+        <description>
+            <![CDATA[
+            {{ collection.description|replace({'<br>': '<br />'}) }}
+            ]]>
+        </description>
+        {% if collection.createdDate|default %}
+            <pubDate>{{ collection.createdDate|date('r') }}</pubDate>
+        {% endif %}
+    </item>
 {% endfor %}
     </channel>
 </rss>
-{% block entry %}
-    <item>
-        {{ block('entry_content') }}
-    </item>
-{% endblock %}
-{% block entry_content %}
-    <title><![CDATA[{% if collection.updatedDate|default %}{{ collection.updatedDate|localizeddate('medium', 'short') }} - {% endif %}{{ collection|mufilesmodule_formattedTitle|notifyFilters('mufilesmodule.filterhook.collections')|safeHtml }}]]></title>
-    <link>{{ url('mufilesmodule_collection_' ~ routeArea ~ 'display', {'id': collection.getId()}) }}</link>
-    <guid>{{ url('mufilesmodule_collection_' ~ routeArea ~ 'display', {'id': collection.getId()}) }}</guid>
-    {% if collection.createdBy|default and collection.createdBy.getUid() > 0 %}
-        {% set creatorAttributes = collection.createdBy.getAttributes() %}
-        <author>{{ collection.createdBy.getEmail() }} ({{ creatorAttributes.get('realname')|default(creatorAttributes.get('name'))|default(collection.createdBy.getUname()) }})</author>
-    {% endif %}
-    <category><![CDATA[{{ __('Categories') }}: {% for catMapping in collection.categories %}{{ catMapping.category.display_name[app.request.locale]|default(catMapping.category.name) }}{% if not loop.last %}, {% endif %}{% endfor %}]]></category>
-    <description>
-        <![CDATA[
-        {{ collection.description|replace({'<br>': '<br />'}) }}
-        ]]>
-    </description>
-    {% if collection.createdDate|default %}
-        <pubDate>{{ collection.createdDate|date('r') }}</pubDate>
-    {% endif %}
-{% endblock %}
