@@ -43,7 +43,6 @@ class FileController extends AbstractFileController
      *
      * @param Request $request Current request instance
      *
-     * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
@@ -62,7 +61,6 @@ class FileController extends AbstractFileController
      *
      * @param Request $request Current request instance
      *
-     * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
@@ -87,7 +85,6 @@ class FileController extends AbstractFileController
      * @param int    $pos          Current pager position
      * @param int    $num          Amount of entries to display
      *
-     * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
@@ -112,7 +109,6 @@ class FileController extends AbstractFileController
      * @param int    $pos          Current pager position
      * @param int    $num          Amount of entries to display
      *
-     * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
@@ -135,7 +131,6 @@ class FileController extends AbstractFileController
      * @param Request $request Current request instance
      * @param FileEntity $file Treated file instance
      *
-     * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown by param converter if file to be displayed isn't found
@@ -159,7 +154,6 @@ class FileController extends AbstractFileController
      * @param Request $request Current request instance
      * @param FileEntity $file Treated file instance
      *
-     * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown by param converter if file to be displayed isn't found
@@ -181,7 +175,6 @@ class FileController extends AbstractFileController
      *
      * @param Request $request Current request instance
      *
-     * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown by form handler if file to be edited isn't found
@@ -204,7 +197,6 @@ class FileController extends AbstractFileController
      *
      * @param Request $request Current request instance
      *
-     * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown by form handler if file to be edited isn't found
@@ -229,7 +221,6 @@ class FileController extends AbstractFileController
      * @param Request $request Current request instance
      * @param FileEntity $file Treated file instance
      *
-     * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown by param converter if file to be deleted isn't found
@@ -254,7 +245,6 @@ class FileController extends AbstractFileController
      * @param Request $request Current request instance
      * @param FileEntity $file Treated file instance
      *
-     * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown by param converter if file to be deleted isn't found
@@ -338,7 +328,6 @@ class FileController extends AbstractFileController
      *
      * @param Request $request Current request instance
      *
-     * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */

@@ -39,7 +39,7 @@ class ControllerHelper extends AbstractControllerHelper
             throw new \Exception($this->__('Error! Invalid object type received.'));
         }
     
-        $request = $this->request;
+        $request = $this->requestStack->getCurrentRequest();
         $repository = $this->entityFactory->getRepository($objectType);
     
         // parameter for used sorting field

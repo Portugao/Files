@@ -183,7 +183,6 @@ abstract class AbstractCollectionController extends AbstractController
      * @param Request $request Current request instance
      * @param integer $id Identifier of treated collection instance
      *
-     * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if collection to be displayed isn't found
@@ -204,7 +203,6 @@ abstract class AbstractCollectionController extends AbstractController
      * @param Request $request Current request instance
      * @param integer $id Identifier of treated collection instance
      *
-     * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if collection to be displayed isn't found
@@ -262,7 +260,6 @@ abstract class AbstractCollectionController extends AbstractController
      *
      * @param Request $request Current request instance
      *
-     * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws RuntimeException      Thrown if another critical error occurs (e.g. workflow actions not available)
@@ -277,7 +274,6 @@ abstract class AbstractCollectionController extends AbstractController
      *
      * @param Request $request Current request instance
      *
-     * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws RuntimeException      Thrown if another critical error occurs (e.g. workflow actions not available)
@@ -326,7 +322,6 @@ abstract class AbstractCollectionController extends AbstractController
      * @param Request $request Current request instance
      * @param integer $id Identifier of treated collection instance
      *
-     * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if collection to be deleted isn't found
@@ -343,7 +338,6 @@ abstract class AbstractCollectionController extends AbstractController
      * @param Request $request Current request instance
      * @param integer $id Identifier of treated collection instance
      *
-     * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if collection to be deleted isn't found
