@@ -14,6 +14,7 @@ services:
         class: MU\FilesModule\Helper\CollectionFilterHelper
         arguments:
             - "@request_stack"
+            - "@mu_files_module.permission_helper"
             - "@zikula_users_module.current_user"
             - "@mu_files_module.category_helper"
             - "@=service('zikula_extensions_module.api.variable').get('MUFilesModule', 'showOnlyOwnEntries', false)"
@@ -28,6 +29,7 @@ services:
             - "@zikula_extensions_module.api.variable"
             - "@mu_files_module.entity_factory"
             - "@mu_files_module.collection_filter_helper"
+            - "@mu_files_module.permission_helper"
             - "@mu_files_module.model_helper"
             - "@mu_files_module.image_helper"
             - "@mu_files_module.feature_activation_helper"
@@ -69,7 +71,6 @@ services:
         arguments:
             - "@kernel"
             - "@translator.default"
-            - "@session"
             - "@router"
             - "@request_stack"
             - "@zikula_extensions_module.api.variable"
@@ -78,17 +79,26 @@ services:
             - "@zikula_groups_module.group_repository"
             - "@mu_files_module.entity_display_helper"
             - "@mu_files_module.workflow_helper"
+            
+    mu_files_module.permission_helper:
+        class: MU\FilesModule\Helper\PermissionHelper
+        arguments:
+            - "@service_container"
+            - "@request_stack"
+            - "@zikula_permissions_module.api.permission"
+            - "@zikula_users_module.current_user"
+            - "@zikula_users_module.user_repository"
     
     mu_files_module.search_helper:
         class: MU\FilesModule\Helper\SearchHelper
         arguments:
             - "@translator.default"
-            - "@zikula_permissions_module.api.permission"
             - "@session"
             - "@request_stack"
             - "@mu_files_module.entity_factory"
             - "@mu_files_module.controller_helper"
             - "@mu_files_module.entity_display_helper"
+            - "@mu_files_module.permission_helper"
             - "@mu_files_module.feature_activation_helper"
             - "@mu_files_module.category_helper"
         tags:
@@ -111,10 +121,10 @@ services:
             - "@twig"
             - "@twig.loader"
             - "@request_stack"
-            - "@zikula_permissions_module.api.permission"
             - "@zikula_extensions_module.api.variable"
             - "@zikula_core.common.theme.pagevars"
             - "@mu_files_module.controller_helper"
+            - "@mu_files_module.permission_helper"
     
     mu_files_module.workflow_helper:
         class: MU\FilesModule\Helper\WorkflowHelper
@@ -122,7 +132,7 @@ services:
             - "@translator.default"
             - "@workflow.registry"
             - "@logger"
-            - "@zikula_permissions_module.api.permission"
             - "@zikula_users_module.current_user"
             - "@mu_files_module.entity_factory"
             - "@mu_files_module.listentries_helper"
+            - "@mu_files_module.permission_helper"

@@ -2,12 +2,12 @@
 {% set baseTemplate = app.request.query.getBoolean('raw', false) ? 'raw' : 'base' %}
 {% extends 'MUFilesModule::' ~ baseTemplate ~ '.html.twig' %}
 
-{% block header %}
+{#% block header %}
     {{ parent() }}
     {{ pageAddAsset('javascript', zasset('@MUFilesModule:js/MUFilesModule.Validation.js'), 98) }}
     {{ pageAddAsset('javascript', zasset('@MUFilesModule:js/MUFilesModule.EditFunctions.js'), 99) }}
     {{ pageAddAsset('javascript', zasset('@MUFilesModule:js/MUFilesModule.AutoCompletion.js'), 99) }}
-{% endblock %}
+{% endblock %#}
 {% block title mode == 'create' ? __('Create collection') : __('Edit collection') %}
 {% block content %}
     <div class="mufilesmodule-collection mufilesmodule-edit">
@@ -97,13 +97,6 @@
                     </div>
                 {% endif %}
                 
-                {# include return control #}
-                {% if mode == 'create' %}
-                    <fieldset>
-                        <legend>{{ __('Return control') }}</legend>
-                        {{ form_row(form.repeatCreation) }}
-                    </fieldset>
-                {% endif %}
             </div>
         </div>
         
