@@ -17,9 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Zikula\Bundle\HookBundle\Category\FormAwareCategory;
 use Zikula\Bundle\HookBundle\Category\UiHooksCategory;
 use Zikula\Component\SortableColumns\Column;
@@ -28,10 +25,6 @@ use Zikula\Core\Controller\AbstractController;
 use Zikula\Core\Response\PlainResponse;
 use Zikula\Core\RouteUrl;
 use MU\FilesModule\Entity\FileEntity;
-
-use LogUtil;
-use ModUtil;
-use SecurityUtil;
 
 /**
  * File controller base class.
@@ -44,7 +37,6 @@ abstract class AbstractFileController extends AbstractController
      *
      * @param Request $request Current request instance
      *
-     * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
@@ -59,7 +51,6 @@ abstract class AbstractFileController extends AbstractController
      *
      * @param Request $request Current request instance
      *
-     * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
@@ -95,7 +86,6 @@ abstract class AbstractFileController extends AbstractController
      * @param int    $pos          Current pager position
      * @param int    $num          Amount of entries to display
      *
-     * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
@@ -114,7 +104,6 @@ abstract class AbstractFileController extends AbstractController
      * @param int    $pos          Current pager position
      * @param int    $num          Amount of entries to display
      *
-     * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
@@ -172,7 +161,6 @@ abstract class AbstractFileController extends AbstractController
      * @param Request $request Current request instance
      * @param FileEntity $file Treated file instance
      *
-     * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown by param converter if file to be displayed isn't found
@@ -190,7 +178,6 @@ abstract class AbstractFileController extends AbstractController
      * @param Request $request Current request instance
      * @param FileEntity $file Treated file instance
      *
-     * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown by param converter if file to be displayed isn't found
@@ -236,7 +223,6 @@ abstract class AbstractFileController extends AbstractController
      *
      * @param Request $request Current request instance
      *
-     * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown by form handler if file to be edited isn't found
@@ -253,7 +239,6 @@ abstract class AbstractFileController extends AbstractController
      *
      * @param Request $request Current request instance
      *
-     * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown by form handler if file to be edited isn't found
@@ -302,7 +287,6 @@ abstract class AbstractFileController extends AbstractController
      * @param Request $request Current request instance
      * @param FileEntity $file Treated file instance
      *
-     * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown by param converter if file to be deleted isn't found
@@ -321,7 +305,6 @@ abstract class AbstractFileController extends AbstractController
      * @param Request $request Current request instance
      * @param FileEntity $file Treated file instance
      *
-     * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown by param converter if file to be deleted isn't found
@@ -576,20 +559,32 @@ abstract class AbstractFileController extends AbstractController
 		return new PlainResponse ( $this->get ( 'twig' )->render ('@MUFilesModule/File/inlineRedirectHandler.html.twig', $templateParameters ) );
 	}
 	
+	/**
+	 * 
+     * @param Request $request Current request instance
+	 */
 	public function giveFile(Request $request) {
 		// we get the id of the relevant file
-		$id = $request->query->getInt('fileId', 0);
+		$id = $request->query->get('fileId');
+		
+		// parameter specifying which type of objects we are treating
+		$objectType = 'file';
+		$permLevel = ACCESS_READ;
 
 		$factoryHelper = $this->get ('mu_files_module.entity_factory');
 		$viewHelper = $this->get ('mu_files_module.view_helper');
+		//$permissionHelper = $this->get('mu_files_module.permission_helper');
 		// get file repository and get file
 		$repository = $factoryHelper->getRepository('file');
 		
-		$file = $repository->selectById($id);
+		$file = $repository->selectById(3);
 		// return error if no permissions for the file or the collection of the file or a special file (this file) of an collection
-		if (!SecurityUtil::checkPermission ( $this->name . ':' . 'File' . ':', $id . '::', ACCESS_COMMENT ) || ! SecurityUtil::checkPermission ( $this->name . ':' . 'Collection' . ':', $file ['aliascollection'] ['id'] . '::', ACCESS_COMMENT ) || ! SecurityUtil::checkPermission ( $this->name . ':' . 'Collection' . ':File', $file ['aliascollection'] ['id'] . ':.*:', ACCESS_COMMENT )) {
-			$url = \ModUtil::url ( $this->name, 'user', 'view');
-		    return \LogUtil::registerPermissionError($url);
+
+		if (!$this->hasPermission('MUFilesModule:' . ucfirst($objectType) . ':', '::', $permLevel)) {
+		    // redirect to the list of posts
+		    $redirectRoute = 'mufilesmodule_file_view';
+		    return $this->redirectToRoute($redirectRoute);
+		    //return \LogUtil::registerPermissionError($url);
 	    } else {
 		 
 		$extension = $file['uploadFileMeta']['extension'];
@@ -603,12 +598,13 @@ abstract class AbstractFileController extends AbstractController
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header('Pragma: public');
-		header('Content-Length: ' . filesize("userdata/MUFilesModule/files/uploadfile/" . $file['uploadFile']));
+		die('T');
+		header('Content-Length: ' . filesize("/web/uploads/MUFilesModule/files/uploadfile/" . $file['uploadFile']));
 		// we clean the output buffer
 		ob_clean();
 		flush();
 		// we read the file and give it out
-		readfile('userdata/MUFilesModule/files/uploadfile/' . $file['uploadFile']);
+		readfile('/web/uploads/MUFilesModule/files/uploadfile/' . $file['uploadFile']);
 		exit();
 	    }
 }
