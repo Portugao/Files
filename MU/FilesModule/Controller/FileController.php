@@ -333,7 +333,56 @@ class FileController extends AbstractFileController
      */
     public function giveFileAction(Request $request)
     {
-    	return parent::giveFile($request);
+    	return self::giveFile($request);
+    }
+    
+    /**
+     *
+     * @param Request $request Current request instance
+     */
+    public function giveFile(Request $request) {
+        // we get the id of the relevant file
+        $id = $request->query->get('fileId');
+        $id = 3;
+        
+        // parameter specifying which type of objects we are treating
+        $objectType = 'file';
+        $permLevel = ACCESS_READ;
+        
+        $factoryHelper = $this->get ('mu_files_module.entity_factory');
+        $viewHelper = $this->get ('mu_files_module.view_helper');
+        $uploadHelper = $this->get('mu_files_module.upload_helper');
+        //$permissionHelper = $this->get('mu_files_module.permission_helper');
+        // get upload path
+        $uploadPath = $uploadHelper->getFileBaseFolder($objectType, 'uploadfile');
+        // get file repository and get file
+        $repository = $factoryHelper->getRepository('file');
+        
+        $file = $repository->selectById($id);
+        // return error if no permissions for the file or the collection of the file or a special file (this file) of an collection
+        
+        if (!$this->hasPermission('MUFilesModule:' . ucfirst($objectType) . ':', '::', $permLevel)) {
+            // redirect to the list of posts
+            $redirectRoute = 'mufilesmodule_file_view';
+            return $this->redirectToRoute($redirectRoute);
+            //return \LogUtil::registerPermissionError($url);
+        } else {
+            
+            $extension = $file['uploadFileMeta']['extension'];
+            $mime = $viewHelper->getMimeType($extension);
+            
+            // we build the header
+            header('Content-Description: File Transfer');
+            header('Content-Type: ' . $mime);
+            header('Content-Disposition: attachment; filename=' . $file['uploadFileFileName']);
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($uploadPath . $file['uploadFileFileName']));
+            // we read the file and give it out
+            readfile($uploadPath . $file['uploadFileFileName']);
+            exit();
+        }
     }
 
     // feel free to add your own controller methods here

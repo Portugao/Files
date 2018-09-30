@@ -81,7 +81,7 @@ abstract class AbstractFileEntity extends EntityAccess
      * @ORM\Column(type="text", length=2000)
      * @Assert\NotNull()
      * @Assert\Length(min="0", max="2000")
-     * @var text $description
+     * @var string $description
      */
     protected $description = '';
     
@@ -292,7 +292,7 @@ abstract class AbstractFileEntity extends EntityAccess
     /**
      * Returns the description.
      *
-     * @return text
+     * @return string
      */
     public function getDescription()
     {
@@ -302,7 +302,7 @@ abstract class AbstractFileEntity extends EntityAccess
     /**
      * Sets the description.
      *
-     * @param text $description
+     * @param string $description
      *
      * @return void
      */
