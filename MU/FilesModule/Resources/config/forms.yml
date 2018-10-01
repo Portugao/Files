@@ -106,7 +106,7 @@ services:
         class: MU\FilesModule\Form\Type\ConfigType
         arguments:
             - "@translator.default"
-            - "@=service('zikula_extensions_module.api.variable').getAll('MUFilesModule')"
+            - "@mu_files_module.listentries_helper"
             - "@zikula_groups_module.group_repository"
         tags:
             - { name: form.type }

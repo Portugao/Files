@@ -17,11 +17,21 @@
             {{ form_row(form.description) }}
             {{ form_row(form.uploadFile) }}
         </fieldset>
-        
+        {% set specialMenu = getModVar('MUFilesModule', 'specialCollectionMenue') %}
+        {% if specialMenu == false %}
         {{ include(
             '@MUFilesModule/Collection/includeSelectOne.html.twig',
             {group: 'file', heading: __('Aliascollection'), alias: 'aliascollection', mandatory: false, idPrefix: 'filesFile_Aliascollection', linkingItem: file, displayMode: 'choices'}
         ) }}
+        {% else %}
+        <div class="hidden">
+         {{ include(
+            '@MUFilesModule/Collection/includeSelectOne.html.twig',
+            {group: 'file', heading: __('Aliascollection'), alias: 'aliascollection', mandatory: false, idPrefix: 'filesFile_Aliascollection', linkingItem: file, displayMode: 'choices'}
+        ) }}
+        </div>
+            {{ mufilesmodule_specialMenu('fileId', file.id)|raw }}
+        {% endif %}
         {% if mode != 'create' %}
             {{ include('@MUFilesModule/Helper/includeStandardFieldsEdit.html.twig', {obj: file}) }}
         {% endif %}

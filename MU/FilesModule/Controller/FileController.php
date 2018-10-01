@@ -342,8 +342,8 @@ class FileController extends AbstractFileController
      */
     public function giveFile(Request $request) {
         // we get the id of the relevant file
-        $id = $request->query->get('fileId');
-        $id = 3;
+        $attributes = $request->attributes;
+        $id = $attributes->get('fileId');
         
         // parameter specifying which type of objects we are treating
         $objectType = 'file';

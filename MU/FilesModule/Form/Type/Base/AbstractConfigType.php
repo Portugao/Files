@@ -123,7 +123,7 @@ abstract class AbstractConfigType extends AbstractType
                 'class' => '',
                 'title' => $this->__('The only parent option')
             ],
-            'required' => true,
+            'required' => false,
         ]);
         
         $builder->add('specialCollectionMenue', CheckboxType::class, [
@@ -132,7 +132,7 @@ abstract class AbstractConfigType extends AbstractType
                 'class' => '',
                 'title' => $this->__('The special collection menue option')
             ],
-            'required' => true,
+            'required' => false,
         ]);
     }
 

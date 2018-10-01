@@ -15,7 +15,7 @@ namespace MU\FilesModule\Helper;
 use MU\FilesModule\Helper\Base\AbstractListEntriesHelper;
 use MU\FilesModule\Entity\Factory\EntityFactory;
 use Zikula\Common\Translator\TranslatorInterface;
-use Zikula_Request_Http;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Helper implementation class for list field entries related methods.
@@ -25,18 +25,25 @@ class ListEntriesHelper extends AbstractListEntriesHelper
 	/**
 	 * @var EntityFactory
 	 */
-	protected $factory;
+	protected $factory;	
+	
+	/**
+	 * @var $request;
+	 */
+	protected $request;
 	
 	/**
 	 * ListEntriesHelper constructor.
 	 *
 	 * @param TranslatorInterface $translator Translator service instance
 	 * @param EntityFactory $factory EntityFactory servide instance
+	 * @param RequestStack  $request RequestStack service instance
 	 */
-    public function __construct(TranslatorInterface $translator, EntityFactory $factory)
+    public function __construct(TranslatorInterface $translator, EntityFactory $factory, RequestStack $request)
     {
         $this->setTranslator($translator);
         $this->factory = $factory;
+        $this->request = $request;
     }
     
 	/**
@@ -46,6 +53,15 @@ class ListEntriesHelper extends AbstractListEntriesHelper
 	public function setFactory($factory)
 	{
 		$this->factory = $factory;
+	}
+	
+	/**
+	 *
+	 * @param RequestStack $request RequestStack service instance
+	 */
+	public function setRequest($request)
+	{
+	    $this->request = $request;
 	}
 	
 	/**
@@ -62,11 +78,13 @@ class ListEntriesHelper extends AbstractListEntriesHelper
 	public function getCollectionMenue($collectionId = 0, $fileId = 0)
 	{
 		// we get the objectType
-		$request = new \Zikula_Request_Http();
-		$objectType = $request->query->get('ot', 'collection', FILTER_SANITIZE_STRING);
+		$objectType = $this->request->getCurrentRequest()->query->get('ot', 'collection', FILTER_SANITIZE_STRING);
 		// we get a collection repository
 		$objectType = 'collection';
 		$collectionRepository = $this->factory->getRepository('collection');
+		
+		$currentCollection = 0;
+		$currentFile = 0;
 
 	
 		// we get the current collection we want to edit
@@ -79,8 +97,6 @@ class ListEntriesHelper extends AbstractListEntriesHelper
 			$fileRepository = $this->factory->getRepository('file');
 			//$fileRepository = MUFiles_Util_Model::getFilesRepository();
 			$currentFile = $fileRepository->selectById($fileId);
-		} else {
-			$currentFile = 0;
 		}
 	
 		// initial
@@ -91,9 +107,11 @@ class ListEntriesHelper extends AbstractListEntriesHelper
 		// initial
 		$where = '';
 		// where clause to get the collections without parent
-		$where = 'tbl.id != \'' . $currentCollection ['id'] . '\'';
-		//$where .= ' AND ';
-		//$where .= 'tbl.collection IS NULL';
+		if (isset($currentCollection)) {
+		    $where = 'tbl.id != \'' . $currentCollection ['id'] . '\'';
+		}
+		$where .= ' AND ';
+		$where .= 'tbl.collection IS NULL';
 	
 		// initial
 		$collections = '';
@@ -102,10 +120,10 @@ class ListEntriesHelper extends AbstractListEntriesHelper
 		//ModUtil::apiFunc ( 'MUFiles', 'selection', 'getEntities', $selectionArgs );
 		// if count collections gt 0 we set html tags
 		if (count ( $collections ) > 0) {
-			$menue = '<div role="tabpanel" class="tab-pane fade" id="tabCollection" aria-labelledby="collectionTab">';
+			$menue = '<div role="tabpanel" class="tab-pane" id="tabCollection" aria-labelledby="collectionTab">';
 			$menue .= '<fieldset class="form-control">' . "\n";
 			$menue .= '<div class="z-formrow">' . "\n";
-			$menue .= '<label for="parent">' . __('Collections') . '</label>' . "\n";
+			$menue .= '<label for="parent">' . $this->__('Collections') . '</label>' . "\n";
 			if (($collectionId > 0 && $fileId == 0) || ($collectionId == 0 && $fileId == 0 && $objectType == 'collection')) {
 				$menue .= '<select id="mufilesmodule_collection_collection" name="mufilesmodule_collection[collection]">' . "\n";
 			}
@@ -116,11 +134,12 @@ class ListEntriesHelper extends AbstractListEntriesHelper
 		}
 		
 		$thereIsSelectedOption = 0;
+		$selected = '';
 		
 		// for each collection we set an option tag
 		foreach ( $collections as $collection ) {
 			$thisCollection = $collectionRepository->selectById ($collection['id'] );
-			if (is_object($currentCollection)) {
+			if (isset($currentCollection)) {
 				if ($currentCollection['collection']['id'] === $thisCollection['id']) {
 					$selected = ' selected=selected';
 					$thereIsSelectedOption = 1;
@@ -166,6 +185,8 @@ class ListEntriesHelper extends AbstractListEntriesHelper
 				'where' => $where2,
 				'orderBy' => 'name'
 		);
+		
+
 	
 		$childrenCollections = '';
 		//$childrenCollections = ModUtil::apiFunc ( 'MUFiles', 'selection', 'getEntities', $selectionArgs2 );
@@ -174,14 +195,13 @@ class ListEntriesHelper extends AbstractListEntriesHelper
 	
 		if (count ( $childrenCollections ) > 0 && is_array ( $childrenCollections )) {
 			foreach ( $childrenCollections as $childrenCollection ) {
+			    $selected = '';
 				// $name = self::getParentPath($childrenCollection['id'], $collectionName);
 				$thisChildrenCollection = $collectionRepository->selectById ( $childrenCollection ['id'] );
 				// if this collection is the parent of the current collection we set selected=selected
 				if (is_object($currentCollection)) {
 					if ($childrenCollection ['id'] === $currentCollection ['collection']['id']) {
 						$selected = ' selected=selected';
-					} else {
-						$selected = '';
 					}
 				} else {
 					if (is_object($currentFile)) {

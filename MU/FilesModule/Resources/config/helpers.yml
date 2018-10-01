@@ -60,6 +60,7 @@ services:
         arguments:
             - "@translator.default"
             - "@mu_files_module.entity_factory"
+            - "@request_stack"
     
     mu_files_module.model_helper:
         class: MU\FilesModule\Helper\ModelHelper
