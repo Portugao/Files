@@ -5,10 +5,10 @@
 {% block title %}
     {% set templateTitle = collection|mufilesmodule_formattedTitle|default(__('Collection')) %}
     {{ templateTitle|notifyFilters('mufilesmodule.filter_hooks.collections.filter')|safeHtml }}{% if routeArea == 'admin' %} <small>({{ collection.workflowState|mufilesmodule_objectState(false)|lower }})</small>{% endif %}
-    {% set itemActions = knp_menu_get('MUFilesModule:ItemActionsMenu:menu', [], {entity: collection, area: routeArea, context: 'display'}) %}
+    {% set itemActions = knp_menu_get('mUFilesMenuItemActions', [], {entity: collection, area: routeArea, context: 'display'}) %}
     <div class="dropdown">
-        <a id="itemActions{{ collection.getKey() }}DropDownToggle" role="button" data-toggle="dropdown" data-target="#" href="javascript:void(0);" class="hidden dropdown-toggle"><i class="fa fa-tasks"></i> {{ __('Actions') }} <span class="caret"></span></a>
-        {{ knp_menu_render(itemActions, {template: 'ZikulaMenuModule:Override:actions.html.twig'}) }}
+        <a id="itemActions{{ collection.getKey() }}DropDownToggleStart" role="button" data-toggle="dropdown" href="javascript:void(0);" class="hidden dropdown-toggle"><i class="fa fa-tasks"></i> {{ __('Actions') }} <span class="caret"></span></a>
+        {{ knp_menu_render(itemActions, {template: 'ZikulaMenuModule:Override:bootstrap_fontawesome.html.twig'}) }}
     </div>
 {% endblock %}
 {% block content %}
