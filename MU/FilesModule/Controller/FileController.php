@@ -348,11 +348,10 @@ class FileController extends AbstractFileController
         // parameter specifying which type of objects we are treating
         $objectType = 'file';
         $permLevel = ACCESS_READ;
-        
+        // get some helpers
         $factoryHelper = $this->get ('mu_files_module.entity_factory');
         $viewHelper = $this->get ('mu_files_module.view_helper');
         $uploadHelper = $this->get('mu_files_module.upload_helper');
-        //$permissionHelper = $this->get('mu_files_module.permission_helper');
         // get upload path
         $uploadPath = $uploadHelper->getFileBaseFolder($objectType, 'uploadfile');
         // get file repository and get file
@@ -365,7 +364,6 @@ class FileController extends AbstractFileController
             // redirect to the list of posts
             $redirectRoute = 'mufilesmodule_file_view';
             return $this->redirectToRoute($redirectRoute);
-            //return \LogUtil::registerPermissionError($url);
         } else {
             
             $extension = $file['uploadFileMeta']['extension'];
