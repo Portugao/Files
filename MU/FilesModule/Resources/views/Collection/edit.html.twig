@@ -10,6 +10,7 @@
 {% endblock %#}
 {% block title mode == 'create' ? __('Create collection') : __('Edit collection') %}
 {% block content %}
+    {% set menu = getModVar('MUFilesModule', 'specialCollectionMenue') %}
     <div class="mufilesmodule-collection mufilesmodule-edit">
         {% form_theme form with [
             '@MUFilesModule/Form/bootstrap_3.html.twig',
@@ -21,9 +22,11 @@
                 <li role="presentation" class="active">
                     <a id="fieldsTab" href="#tabFields" title="{{ __('Fields') }}" role="tab" data-toggle="tab">{{ __('Fields') }}</a>
                 </li>
+                {% if menu == 0 %}
                 <li role="presentation">
                     <a id="collectionTab" href="#tabCollection" title="{{ __('Collection') }}" role="tab" data-toggle="tab">{{ __('Collection') }}</a>
                 </li>
+                {% endif %}
                 {% if featureActivationHelper.isEnabled(constant('MU\\FilesModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'collection') %}
                     <li role="presentation">
                         <a id="categoriesTab" href="#tabCategories" title="{{ __('Categories') }}" role="tab" data-toggle="tab">{{ __('Categories') }}</a>
@@ -52,7 +55,6 @@
                         {{ form_row(form.inFrontend) }}
                     </fieldset>
                 </div>
-                {% set menu = getModVar('MUFilesModule', 'specialCollectionMenue') %}
                 {% if menu == 1 %}
                     <select>
                         {{ mufilesmodule_specialMenu(collection.id, 0) }}
