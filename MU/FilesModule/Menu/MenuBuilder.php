@@ -14,10 +14,48 @@ namespace MU\FilesModule\Menu;
 
 use MU\FilesModule\Menu\Base\AbstractMenuBuilder;
 
+use Knp\Menu\ItemInterface;
+use Zikula\UsersModule\Constant as UsersConstant;
+use MU\FilesModule\Entity\CollectionEntity;
+
 /**
  * Menu builder implementation class.
  */
 class MenuBuilder extends AbstractMenuBuilder
 {
+    /**
+     * Builds the item actions menu.
+     *
+     * @param array $options List of additional options
+     *
+     * @return ItemInterface The assembled menu
+     */
+    public function createItemActionsMenu(array $options = []) {
+        $entity = $options['entity'];
+        $routeArea = $options['area'];
+        $context = $options['context'];
+        
+        $menu = parent::createItemActionsMenu($options);
+        
+        $menu->removeChild('Create alilasfiles');
+        
+        $currentUserId = $this->currentUserApi->isLoggedIn() ? $this->currentUserApi->get('uid') : UsersConstant::USER_ID_ANONYMOUS;
+        
+        if ($entity instanceof CollectionEntity) {
+            $routePrefix = 'mufilesmodule_collection_';
+            $isOwner = $currentUserId > 0 && null !== $entity->getCreatedBy() && $currentUserId == $entity->getCreatedBy()->getUid();
+            if ($isOwner || $this->permissionHelper->hasComponentPermission('file', ACCESS_COMMENT)) {
+                $title = $this->__('Create files for this collection', 'mufilesmodule');
+                $menu->addChild($title, [
+                    'route' => 'mufilesmodule_file_' . $routeArea . 'edit',
+                    'routeParameters' => ['aliascollection' => $entity->getKey()]
+                ]);
+                $menu[$title]->setLinkAttribute('title', $title);
+                $menu[$title]->setAttribute('icon', 'fa fa-plus');
+            }
+        }
+        
+        return $menu;
+    }
     // feel free to add own extensions here
 }
