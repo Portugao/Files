@@ -20,7 +20,8 @@ application "Files" targets ZK20  {
         separateAdminTemplates true
         generatePoweredByBacklinksIntoFooterTemplates false
 	generateTests false
-	markFiles "Controller/Base/AbstractFileController.php,\r\nController/FileController.php,\r\nForm/Type/FileType.php,\r\nHelper/ControllerHelper.php,\r\nHelper/ListEntriesHelper.php,\r\nHelper/ViewHelper.php,\r\nResources/config/forms.yml,\r\nResources/config/helpers.yml,\r\nResources/config/validators.yml,\r\nResources/views/Collection/display.html.twig,\r\nResources/views/Collection/edit.html.twig,\r\nResources/views/Collection/view.html.twig,\r\nResources/views/File/display.html.twig,\r\nResources/views/Files/edit.html.twig"
+	skipFiles "Helper/ControllerHelper.php,\r\nHelper/ListEntriesHelper.php,\r\nHelper/ViewHelper.php,\r\nTwig/twigExtension.php"
+    markFiles "Controller/Base/AbstractFileController.php,\r\nController/FileController.php,\r\nForm/Type/FileType.php,\r\nResources/config/forms.yml,\r\nResources/config/helpers.yml,\r\nResources/config/validators.yml,\r\nResources/views/Collection/display.html.twig,\r\nResources/views/Collection/edit.html.twig,\r\nResources/views/Collection/view.html.twig,\r\nResources/views/File/display.html.twig,\r\nResources/views/Files/edit.html.twig"
     
 
 			entities {
@@ -107,8 +108,13 @@ application "Files" targets ZK20  {
                     documentation "For example 4096 (bytes), 200k (kilobytes) or 2M ( megabytes)."
                     defaultValue "200k"
                 },
-                boolean  "onlyParent",
+                boolean  "onlyParent" {
+                    mandatory false
+                },
                 boolean "specialCollectionMenue"
+            {
+                    mandatory false
+                }
             }
         }
     }

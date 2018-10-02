@@ -81,7 +81,7 @@ abstract class AbstractFileEntity extends EntityAccess
      * @ORM\Column(type="text", length=2000)
      * @Assert\NotNull()
      * @Assert\Length(min="0", max="2000")
-     * @var string $description
+     * @var text $description
      */
     protected $description = '';
     
@@ -292,7 +292,7 @@ abstract class AbstractFileEntity extends EntityAccess
     /**
      * Returns the description.
      *
-     * @return string
+     * @return text
      */
     public function getDescription()
     {
@@ -302,7 +302,7 @@ abstract class AbstractFileEntity extends EntityAccess
     /**
      * Sets the description.
      *
-     * @param string $description
+     * @param text $description
      *
      * @return void
      */
@@ -345,11 +345,11 @@ abstract class AbstractFileEntity extends EntityAccess
     /**
      * Sets the upload file.
      *
-     * @param File $uploadFile
+     * @param File|null $uploadFile
      *
      * @return void
      */
-    public function setUploadFile(File $uploadFile)
+    public function setUploadFile($uploadFile)
     {
         if (null === $this->uploadFile && null === $uploadFile) {
             return;

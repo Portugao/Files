@@ -52,14 +52,14 @@ abstract class AbstractAppSettings
     protected $maxSize = '200k';
     
     /**
-     * @Assert\IsTrue(message="This option is mandatory.")
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      * @var boolean $onlyParent
      */
     protected $onlyParent = false;
     
     /**
-     * @Assert\IsTrue(message="This option is mandatory.")
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      * @var boolean $specialCollectionMenue
      */
