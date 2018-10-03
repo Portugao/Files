@@ -45,7 +45,7 @@ class MenuBuilder extends AbstractMenuBuilder
             $routePrefix = 'mufilesmodule_collection_';
             $isOwner = $currentUserId > 0 && null !== $entity->getCreatedBy() && $currentUserId == $entity->getCreatedBy()->getUid();
             if ($isOwner || $this->permissionHelper->hasComponentPermission('file', ACCESS_COMMENT)) {
-                $title = $this->__('Create files for this collection', 'mufilesmodule');
+                $title = $this->__('Create file for this collection', 'mufilesmodule');
                 $menu->addChild($title, [
                     'route' => 'mufilesmodule_file_' . $routeArea . 'edit',
                     'routeParameters' => ['aliascollection' => $entity->getKey()]
