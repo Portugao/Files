@@ -120,15 +120,15 @@ class ListEntriesHelper extends AbstractListEntriesHelper
 		//ModUtil::apiFunc ( 'MUFiles', 'selection', 'getEntities', $selectionArgs );
 		// if count collections gt 0 we set html tags
 		if (count ( $collections ) > 0) {
-			$menue = '<div role="tabpanel" class="tab-pane" id="tabCollection" aria-labelledby="collectionTab">';
-			$menue .= '<fieldset class="form-control">' . "\n";
-			$menue .= '<div class="z-formrow">' . "\n";
-			$menue .= '<label for="parent">' . $this->__('Collections') . '</label>' . "\n";
+			//$menue = '<div role="tabpanel" class="tab-pane" id="tabCollection" aria-labelledby="collectionTab">';
+			$menue = '<fieldset>' . "\n";
+			$menue .= '<div class="form-group">' . "\n";
+			$menue .= '<label class="col-sm-3 control-label" for="parent">' . $this->__('Collections') . '</label>' . "\n";
 			if (($collectionId > 0 && $fileId == 0) || ($collectionId == 0 && $fileId == 0 && $objectType == 'collection')) {
-				$menue .= '<select id="mufilesmodule_collection_collection" name="mufilesmodule_collection[collection]">' . "\n";
+				$menue .= '<div class="col-sm-9"><select class="form-control user-success" id="mufilesmodule_file_aliascollectionn" name="mufilesmodule_collection[collection]">' . "\n";
 			}
 			if (($collectionId == 0 && $fileId > 0) || ($collectionId == 0 && $fileId == 0 && $objectType == 'file')) {
-				$menue .= '<select id="aliascollection" name="aliascollection" class="z-form-dropdownlist  z-form-relationlist collection validation-passed">' . "\n";
+				$menue .= '<div class="col-sm-9"><select class="form-control user-success" id="mufilesmodule_file_aliascollection" name="mufilesmodule_file[aliascollection]">' . "\n";
 			}
 			$menue .= '<option value=""></option>';
 		}
@@ -166,7 +166,8 @@ class ListEntriesHelper extends AbstractListEntriesHelper
 			$menue = str_replace('<option value=""></option>', '<option selected=selected value=""></option>', $menue);
 		}
 		if (count ( $collections ) > 0) {
-			$menue .= '</select>' . "\n" . '</div>' . "\n" . '</fieldset>' . "\n" . "</div>";
+			//$menue .= '</select>' . "\n" . '</div>' . "\n" . '</fieldset>' . "\n" . "</div>";
+			$menue .= '</select></div>' . "\n" . '</div>' . "\n" . '</fieldset>';
 		}
 	
 		return $menue;
