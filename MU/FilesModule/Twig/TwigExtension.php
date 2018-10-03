@@ -31,7 +31,7 @@ class TwigExtension extends AbstractTwigExtension
         return $functions;
     }
     /**
-     * 
+     *
      * @param integer $collectionId
      * @param integer $fileId
      * @return mixed|string
