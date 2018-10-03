@@ -19,5 +19,50 @@ use MU\FilesModule\Helper\Base\AbstractUploadHelper;
  */
 class UploadHelper extends AbstractUploadHelper
 {
+    /**
+     * Determines the allowed file extensions for a given object type.
+     *
+     * @param string $objectType Currently treated entity type
+     * @param string $fieldName  Name of upload field
+     * @param string $extension  Input file extension
+     *
+     * @return array the list of allowed file extensions
+     */
+    protected function isAllowedFileExtension($objectType, $fieldName, $extension)
+    {
+        // determine the allowed extensions
+        $allowedExtensions = array();
+        switch ($objectType) {
+            case 'file':
+                $allowedExtensions = explode(',', $this->moduleVars['allowedExtensions']);
+                break;
+        }
+        
+        if (count($allowedExtensions) > 0) {
+            if (!in_array($extension, $allowedExtensions)) {
+                return false;
+            }
+        }
+        
+        if (in_array($extension, $this->forbiddenFileTypes)) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Creates all required upload folders for this application.
+     *
+     * @return Boolean Whether everything went okay or not
+     */
+    public function checkAndCreateAllUploadFolders()
+    {
+        $result = true;
+        
+        $result &= $this->checkAndCreateUploadFolder('file', 'uploadFile', $this->moduleVars['allowedExtensions']);
+        
+        return $result;
+    }
     // feel free to add your own convenience methods here
 }
