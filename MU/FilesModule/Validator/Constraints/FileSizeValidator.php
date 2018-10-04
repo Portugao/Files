@@ -14,10 +14,54 @@ namespace MU\FilesModule\Validator\Constraints;
 
 use MU\FilesModule\Validator\Constraints\Base\AbstractFileSizeValidator;
 
+use Symfony\Component\Validator\Constraint;
+
+
 /**
  * File size validator.
  */
 class FileSizeValidator extends AbstractFileSizeValidator
 {
-    // here you can customise the validator
+    /**
+     * @inheritDoc
+     */
+    public function validate($value, Constraint $constraint)
+    {
+        if (null === $value) {
+            return;
+        }
+        
+        $pos = strrpos($value, '/');
+        $filePath = substr($value, 0, $pos);
+        $fileName = substr($value, $pos + 1);
+        
+        // we get the in the setting set max size for uploads
+        $maxSize = $this->variableApi->get('MUFilesModule', 'maxSize');
+        // we get the meta datas for the current file
+        $metaData = $this->uploadHelper->readMetaDataForFile($fileName, $value);
+        $currentSize = $metaData['size'];
+        // we calculate the amount of bytes
+        $posk = strrpos($maxSize, 'k');
+        if ($posk != false) {
+            $kilobytes = str_replace('k', '', $maxSize);
+            $maxSizeBytes = $kilobytes * 1024;
+            $currentSize = $currentSize / 1024;
+            $currentSize = number_format($currentSize, 2) . ' ' . $this->__('KB');
+        }
+        $posk = strrpos($maxSize, 'M');
+        if ($posk != false) {
+            $maxSizeBytes = $maxSize * 1024 * 1024;
+            $currentSize = $currentSize / 1024 / 1024;
+            $currentSize = number_format($currentSize, 2) . ' ' . $this->__('MB');
+        }
+        
+        if ($metaData['size'] > $maxSizeBytes) {
+            $this->context->buildViolation(
+                $this->__f('The size of your uploaded file is "%thisSize%". Allowed is only a size of "%allowedSize%"!', [
+                    '%thisSize%' => $currentSize,
+                    '%allowedSize%' => $maxSize
+                ])
+                )->addViolation();
+        }
+    }
 }
