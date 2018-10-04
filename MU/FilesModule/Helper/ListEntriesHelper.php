@@ -72,8 +72,7 @@ class ListEntriesHelper extends AbstractListEntriesHelper
 	 * @param integer $fileId
 	 *        	id of file.
 	 *
-	 * @return mixed Output.
-	 * @throws Exception if invalid object type is given.
+	 * @return string $menue.
 	 */
 	public function getCollectionMenue($collectionId = 0, $fileId = 0)
 	{
@@ -117,15 +116,13 @@ class ListEntriesHelper extends AbstractListEntriesHelper
 		$collections = '';
 		// we get all collections without parent
 		$collections = $collectionRepository->selectWhere($where);
-		//ModUtil::apiFunc ( 'MUFiles', 'selection', 'getEntities', $selectionArgs );
 		// if count collections gt 0 we set html tags
 		if (count ( $collections ) > 0) {
-			//$menue = '<div role="tabpanel" class="tab-pane" id="tabCollection" aria-labelledby="collectionTab">';
 			$menue = '<fieldset>' . "\n";
 			$menue .= '<div class="form-group">' . "\n";
 			$menue .= '<label class="col-sm-3 control-label" for="parent">' . $this->__('Collections') . '</label>' . "\n";
 			if (($collectionId > 0 && $fileId == 0) || ($collectionId == 0 && $fileId == 0 && $objectType == 'collection')) {
-				$menue .= '<div class="col-sm-9"><select class="form-control user-success" id="mufilesmodule_file_aliascollectionn" name="mufilesmodule_collection[collection]">' . "\n";
+				$menue .= '<div class="col-sm-9"><select class="form-control user-success" id="mufilesmodule_collection_collection" name="mufilesmodule_collection[collection]">' . "\n";
 			}
 			if (($collectionId == 0 && $fileId > 0) || ($collectionId == 0 && $fileId == 0 && $objectType == 'file')) {
 				$menue .= '<div class="col-sm-9"><select class="form-control user-success" id="mufilesmodule_file_aliascollection" name="mufilesmodule_file[aliascollection]">' . "\n";
@@ -159,7 +156,7 @@ class ListEntriesHelper extends AbstractListEntriesHelper
 			$name = $thisCollection ['name'];
 			$menue .= '<option value="' . $thisCollection ['id'] . '"' . $selected . '>' . $name . '</option>' . "\n";
 				
-			$menue = self::getParentPath ( $thisCollection ['id'], $currentCollection, $currentFile, $menue, $name, $collectionRepository );
+			$menue = self::getParentPath($thisCollection ['id'], $currentCollection, $currentFile, $menue, $name, $collectionRepository );
 			$name = '';
 		}
 		if ($thereIsSelectedOption == 0) {
@@ -180,19 +177,9 @@ class ListEntriesHelper extends AbstractListEntriesHelper
 	{
 		$collectionRepository = $this->factory->getRepository('collection');
 		$where2 = 'tbl.collection = \'' . $collectionId . '\'';
-	
-		$selectionArgs2 = array (
-				'ot' => 'collection',
-				'where' => $where2,
-				'orderBy' => 'name'
-		);
-		
-
-	
+			
 		$childrenCollections = '';
-		//$childrenCollections = ModUtil::apiFunc ( 'MUFiles', 'selection', 'getEntities', $selectionArgs2 );
 		$childrenCollections = $collectionRepository->selectWhere($where2);
-		//LogUtil::registerError(count($childrenCollections));
 	
 		if (count ( $childrenCollections ) > 0 && is_array ( $childrenCollections )) {
 			foreach ( $childrenCollections as $childrenCollection ) {
