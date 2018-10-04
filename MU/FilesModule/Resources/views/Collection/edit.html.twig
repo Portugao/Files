@@ -57,7 +57,7 @@
                 </div>
                 {% if menu == 1 %}
                     <select>
-                        {{ mufilesmodule_specialMenu(collection.id, 0) }}
+                        {{ mufilesmodule_specialMenu(collection.id, 0)|raw }}
                     </select>
                     <div class="hidden">
                         {{ include(
