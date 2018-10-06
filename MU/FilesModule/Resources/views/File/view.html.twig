@@ -24,7 +24,7 @@
                 {% endif %}
                 <col id="cTitle" />
                 <col id="cDescription" />
-                <col id="cUploadFile" />
+                {#<col id="cUploadFile" />#}
                 <col id="cAliascollection" />
             </colgroup>
             <thead>
@@ -46,9 +46,9 @@
                 <th id="hDescription" scope="col" class="text-left">
                     <a href="{{ sort.description.url }}" title="{{ __f('Sort by %s', {'%s': 'description'}) }}" class="{{ sort.description.class }}">{{ __('Description') }}</a>
                 </th>
-                <th id="hUploadFile" scope="col" class="text-left">
+                {#<th id="hUploadFile" scope="col" class="text-left">
                     <a href="{{ sort.uploadFile.url }}" title="{{ __f('Sort by %s', {'%s': 'upload file'}) }}" class="{{ sort.uploadFile.class }}">{{ __('Upload file') }}</a>
-                </th>
+                </th>#}
                 <th id="hAliascollection" scope="col" class="text-left">
                     <a href="{{ sort.aliascollection.url }}" title="{{ __f('Sort by %s', {'%s': 'aliascollection'}) }}" class="{{ sort.aliascollection.class }}">{{ __('Aliascollection') }}</a>
                 </th>
@@ -79,7 +79,7 @@
                 <td headers="hDescription" class="text-left">
                     {{ file.description|striptags|truncate(50) }}
                 </td>
-                <td headers="hUploadFile" class="text-left">
+                {#<td headers="hUploadFile" class="text-left">
                     {% if file.uploadFileMeta|default %}
                     <a href="{{ file.uploadFileUrl }}" title="{{ file|mufilesmodule_formattedTitle|e('html_attr') }}"{% if file.uploadFileMeta.isImage %} class="image-link"{% endif %}>
                     {% if file.uploadFileMeta.isImage %}
@@ -90,7 +90,7 @@
                     {% endif %}
                     </a>
                     {% endif %}
-                </td>
+                </td>#}
                 <td headers="hAliascollection" class="text-left">
                     {% if file.aliascollection|default %}
                         <a href="{{ path('mufilesmodule_collection_' ~ routeArea ~ 'display', {'id': file.aliascollection.getId()}) }}">{% spaceless %}
@@ -104,7 +104,7 @@
             </tr>
         {% else %}
             <tr class="z-{{ routeArea == 'admin' ? 'admin' : 'data' }}tableempty">
-                <td class="text-left" colspan="{% if routeArea == 'admin' %}7{% else %}6{% endif %}">
+                <td class="text-left" colspan="{% if routeArea == 'admin' %}7{% else %}5{% endif %}">
             {{ __('No files found.') }}
               </td>
             </tr>

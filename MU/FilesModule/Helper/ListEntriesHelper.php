@@ -79,13 +79,12 @@ class ListEntriesHelper extends AbstractListEntriesHelper
 		// we get the objectType
 		$objectType = $this->request->getCurrentRequest()->query->get('ot', 'collection', FILTER_SANITIZE_STRING);
 		// we get a collection repository
-		$objectType = 'collection';
+		//$objectType = 'collection';
 		$collectionRepository = $this->factory->getRepository('collection');
 		
 		$currentCollection = 0;
 		$currentFile = 0;
 
-	
 		// we get the current collection we want to edit
 		if ($collectionId > 0) {
 			$currentCollection = $collectionRepository->selectById($collectionId);
@@ -108,14 +107,17 @@ class ListEntriesHelper extends AbstractListEntriesHelper
 		// where clause to get the collections without parent
 		if (isset($currentCollection)) {
 		    $where = 'tbl.id != \'' . $currentCollection ['id'] . '\'';
+		    $where .= ' AND ';
+		    $where .= 'tbl.collection IS NULL';
+		} else {
+		    $where = 'tbl.collection IS NULL';
 		}
-		$where .= ' AND ';
-		$where .= 'tbl.collection IS NULL';
 	
 		// initial
 		$collections = '';
 		// we get all collections without parent
 		$collections = $collectionRepository->selectWhere($where);
+
 		// if count collections gt 0 we set html tags
 		if (count ( $collections ) > 0) {
 			$menue = '<fieldset>' . "\n";
@@ -135,7 +137,7 @@ class ListEntriesHelper extends AbstractListEntriesHelper
 		
 		// for each collection we set an option tag
 		foreach ( $collections as $collection ) {
-			$thisCollection = $collectionRepository->selectById ($collection['id'] );
+			$thisCollection = $collectionRepository->selectById($collection['id'] );
 			if (isset($currentCollection)) {
 				if ($currentCollection['collection']['id'] === $thisCollection['id']) {
 					$selected = ' selected=selected';

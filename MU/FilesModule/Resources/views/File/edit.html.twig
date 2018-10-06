@@ -30,7 +30,7 @@
             {group: 'file', heading: __('Aliascollection'), alias: 'aliascollection', mandatory: false, idPrefix: 'filesFile_Aliascollection', linkingItem: file, displayMode: 'choices'}
         ) }}
         </div>
-            {{ mufilesmodule_specialMenu('fileId', file.id)|raw }}
+            {{ mufilesmodule_specialMenu(0, file.id)|raw }}
         {% endif %}
         {% if mode != 'create' %}
             {{ include('@MUFilesModule/Helper/includeStandardFieldsEdit.html.twig', {obj: file}) }}
