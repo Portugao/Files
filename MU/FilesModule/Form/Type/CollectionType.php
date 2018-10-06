@@ -14,10 +14,115 @@ namespace MU\FilesModule\Form\Type;
 
 use MU\FilesModule\Form\Type\Base\AbstractCollectionType;
 
+use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\FormBuilderInterface;
+
+use Zikula\Common\Translator\TranslatorInterface;
+use MU\FilesModule\Entity\Factory\EntityFactory;
+use MU\FilesModule\Helper\CollectionFilterHelper;
+use MU\FilesModule\Helper\EntityDisplayHelper;
+use MU\FilesModule\Helper\FeatureActivationHelper;
+use MU\FilesModule\Helper\ListEntriesHelper;
+use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
+
 /**
  * Collection editing form type implementation class.
  */
 class CollectionType extends AbstractCollectionType
 {
+    /**
+     * @var VariableApiInterface
+     */
+    protected $variableApi;
+    
+    /**
+     * CollectionType constructor.
+     *
+     * @param TranslatorInterface $translator    Translator service instance
+     * @param EntityFactory $entityFactory EntityFactory service instance
+     * @param CollectionFilterHelper $collectionFilterHelper CollectionFilterHelper service instance
+     * @param EntityDisplayHelper $entityDisplayHelper EntityDisplayHelper service instance
+     * @param ListEntriesHelper $listHelper ListEntriesHelper service instance
+     * @param FeatureActivationHelper $featureActivationHelper FeatureActivationHelper service instance
+     * @param VariableApiInterface $variableApi      VariableApi service instance
+     */
+    public function __construct(
+        TranslatorInterface $translator,
+        EntityFactory $entityFactory,
+        CollectionFilterHelper $collectionFilterHelper,
+        EntityDisplayHelper $entityDisplayHelper,
+        ListEntriesHelper $listHelper,
+        FeatureActivationHelper $featureActivationHelper,
+        VariableApiInterface $variableApi
+        
+        ) {
+            $this->setTranslator($translator);
+            $this->entityFactory = $entityFactory;
+            $this->collectionFilterHelper = $collectionFilterHelper;
+            $this->entityDisplayHelper = $entityDisplayHelper;
+            $this->listHelper = $listHelper;
+            $this->featureActivationHelper = $featureActivationHelper;
+            $this->variableApi = $variableApi;
+    }
+    
+    
+    /**
+     * Adds fields for incoming relationships.
+     *
+     * @param FormBuilderInterface $builder The form builder
+     * @param array                $options The options
+     */
+    public function addIncomingRelationshipFields(FormBuilderInterface $builder, array $options = [])
+    {
+        $specialMenu = $this->variableApi->get('MUFilesModule', 'specialCollectionMenu');
+        if ($specialMenu == 1) {
+
+        $queryBuilder = function(EntityRepository $er) {
+            // select without joins
+            return $er->getListQueryBuilder('', '', false);
+        };
+        $entityDisplayHelper = $this->entityDisplayHelper;
+        $choiceLabelClosure = function ($entity) use ($entityDisplayHelper) {
+            return $entityDisplayHelper->getFormattedTitle($entity);
+        };
+        $builder->add('collection', 'Symfony\Bridge\Doctrine\Form\Type\EntityType', [
+            'class' => 'MUFilesModule:CollectionEntity',
+            'choice_label' => $choiceLabelClosure,
+            'multiple' => false,
+            'expanded' => false,
+            'query_builder' => $queryBuilder,
+            'placeholder' => $this->__('Please choose an option.'),
+            'required' => false,
+            'label' => $this->__('Collection'),
+            'attr' => [
+                'title' => $this->__('Choose the collection.'),
+                'disabled' => 'disabled'
+            ]
+        ]);
+        } else {
+            $queryBuilder = function(EntityRepository $er) {
+                // select without joins
+                return $er->getListQueryBuilder('', '', false);
+            };
+            $entityDisplayHelper = $this->entityDisplayHelper;
+            $choiceLabelClosure = function ($entity) use ($entityDisplayHelper) {
+                return $entityDisplayHelper->getFormattedTitle($entity);
+            };
+            $builder->add('collection', 'Symfony\Bridge\Doctrine\Form\Type\EntityType', [
+                'class' => 'MUFilesModule:CollectionEntity',
+                'choice_label' => $choiceLabelClosure,
+                'multiple' => false,
+                'expanded' => false,
+                'query_builder' => $queryBuilder,
+                'placeholder' => $this->__('Please choose an option.'),
+                'required' => false,
+                'label' => $this->__('Collection'),
+                'attr' => [
+                    'title' => $this->__('Choose the collection.'),
+                    'disabled' => 'disabled'
+                ]
+            ]);
+        }
+    }
     // feel free to extend the collection editing form type class here
 }

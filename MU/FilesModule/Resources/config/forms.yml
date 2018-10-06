@@ -59,6 +59,7 @@ services:
             - "@mu_files_module.entity_display_helper"
             - "@mu_files_module.listentries_helper"
             - "@mu_files_module.feature_activation_helper"
+            - "@zikula_extensions_module.api.variable"
         tags:
             - { name: form.type }
     
