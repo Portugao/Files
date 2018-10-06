@@ -76,7 +76,6 @@ class CollectionType extends AbstractCollectionType
     {
         $specialMenu = $this->variableApi->get('MUFilesModule', 'specialCollectionMenu');
         if ($specialMenu == 1) {
-
         $queryBuilder = function(EntityRepository $er) {
             // select without joins
             return $er->getListQueryBuilder('', '', false);
@@ -118,8 +117,7 @@ class CollectionType extends AbstractCollectionType
                 'required' => false,
                 'label' => $this->__('Collection'),
                 'attr' => [
-                    'title' => $this->__('Choose the collection.'),
-                    'disabled' => 'disabled'
+                    'title' => $this->__('Choose the collection.')
                 ]
             ]);
         }

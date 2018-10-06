@@ -12,9 +12,9 @@
 
 namespace MU\FilesModule\Form\Type;
 
+use Doctrine\ORM\EntityRepository;
 use MU\FilesModule\Form\Type\Base\AbstractFileType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\HttpFoundation\File\File;
 use Zikula\Common\Translator\TranslatorInterface;
 use MU\FilesModule\Entity\Factory\EntityFactory;
 use MU\FilesModule\Form\Type\Field\UploadType;
@@ -29,6 +29,11 @@ use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
  */
 class FileType extends AbstractFileType
 {
+    /**
+     * @var VariableApiInterface
+     */
+    protected $variableApi;
+    
 	/**
 	 * FileType constructor.
 	 *
@@ -79,5 +84,62 @@ class FileType extends AbstractFileType
             'allowed_extensions' => $this->variableApi->get('MUFilesModule', 'allowedExtensions'),
             'allowed_size' => $this->variableApi->get('MUFilesModule', 'maxSize')
         ]);
+    }
+    
+    /**
+     * Adds fields for incoming relationships.
+     *
+     * @param FormBuilderInterface $builder The form builder
+     * @param array                $options The options
+     */
+    public function addIncomingRelationshipFields(FormBuilderInterface $builder, array $options = [])
+    {
+        $specialMenu = $this->variableApi->get('MUFilesModule', 'specialCollectionMenu');
+        if ($specialMenu == 1) {
+        $queryBuilder = function(EntityRepository $er) {
+            // select without joins
+            return $er->getListQueryBuilder('', '', false);
+        };
+        $entityDisplayHelper = $this->entityDisplayHelper;
+        $choiceLabelClosure = function ($entity) use ($entityDisplayHelper) {
+            return $entityDisplayHelper->getFormattedTitle($entity);
+        };
+        $builder->add('aliascollection', 'Symfony\Bridge\Doctrine\Form\Type\EntityType', [
+            'class' => 'MUFilesModule:CollectionEntity',
+            'choice_label' => $choiceLabelClosure,
+            'multiple' => false,
+            'expanded' => false,
+            'query_builder' => $queryBuilder,
+            'placeholder' => $this->__('Please choose an option.'),
+            'required' => false,
+            'label' => $this->__('Aliascollection'),
+            'attr' => [
+                'title' => $this->__('Choose the aliascollection.'),
+                'disabled' => 'disabled'
+            ]
+        ]);
+        } else {
+            $queryBuilder = function(EntityRepository $er) {
+                // select without joins
+                return $er->getListQueryBuilder('', '', false);
+            };
+            $entityDisplayHelper = $this->entityDisplayHelper;
+            $choiceLabelClosure = function ($entity) use ($entityDisplayHelper) {
+                return $entityDisplayHelper->getFormattedTitle($entity);
+            };
+            $builder->add('aliascollection', 'Symfony\Bridge\Doctrine\Form\Type\EntityType', [
+                'class' => 'MUFilesModule:CollectionEntity',
+                'choice_label' => $choiceLabelClosure,
+                'multiple' => false,
+                'expanded' => false,
+                'query_builder' => $queryBuilder,
+                'placeholder' => $this->__('Please choose an option.'),
+                'required' => false,
+                'label' => $this->__('Aliascollection'),
+                'attr' => [
+                    'title' => $this->__('Choose the aliascollection.')
+                ]
+            ]);
+        }
     }
 }

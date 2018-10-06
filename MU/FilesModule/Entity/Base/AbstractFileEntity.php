@@ -114,7 +114,7 @@ abstract class AbstractFileEntity extends EntityAccess
      * Upload file file object.
      *
      * @Assert\File(
-     *    maxSize = "100k",
+     *    maxSize = "100M",
      *    mimeTypes = {"application/*"}
      * )
      * @var File $uploadFile
